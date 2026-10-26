@@ -1,6 +1,6 @@
 # G4 · Chứng minh đầy đủ (đề tài A: In-Context Gibbs)
 
-> Trạng thái: **bản G4, đã qua một lượt tự rà soát phản biện ([SELF_REVIEW_MATH.md](SELF_REVIEW_MATH.md)), chờ kiểm duyệt độc lập**. Thay cho [THEORY_DRAFT.md](../G3/THEORY_DRAFT.md). Mỗi kết quả có: giả định, phát biểu, chứng minh, và trỏ tới kiểm chứng số trong [RQ1_REPORT.md](RQ1_REPORT.md). Những chỗ khác với bản nháp G3 được đánh dấu **[đổi so với G3]** và ghi lý do.
+> Trạng thái: **bản G4, đã qua một lượt tự rà soát phản biện ([SELF_REVIEW_MATH.md](SELF_REVIEW_MATH.md)), chờ kiểm duyệt độc lập**. §7 thêm ở G6 (T7, 26/10/2026), có kiểm chứng số trong `code/g6_t7_naive_theory.py` và `code/tests/test_t7_naive_theory.py`. Thay cho [THEORY_DRAFT.md](../G3/THEORY_DRAFT.md). Mỗi kết quả có: giả định, phát biểu, chứng minh, và trỏ tới kiểm chứng số trong [RQ1_REPORT.md](RQ1_REPORT.md). Những chỗ khác với bản nháp G3 được đánh dấu **[đổi so với G3]** và ghi lý do.
 >
 > Quy ước theo [07_LY_THUYET_VA_CHUNG_MINH.md](../../research-handbook/07_LY_THUYET_VA_CHUNG_MINH.md): mỗi giả định được dùng ở đâu thì ghi ở đó; kết quả nào chỉ có bằng chứng số thì gọi là *quan sát*, không gọi là định lý.
 
@@ -163,6 +163,91 @@ thì với khối $B$ cỡ $m$ (theo D1 của METHOD_SPEC, khối gồm cả m�
 | G4-2 | Chọn quy nạp hay chuyển nạp cho thực nghiệm chính (chi phí so với độ chính xác) — quyết ở G5, dựa trên tập phát triển | Bài phải nói rõ bộ dự đoán nào được dùng và nó hội tụ về đâu |
 | G4-3 | Liu et al. (2014): đã đọc bản arXiv, cập nhật Nhận xét 4.2. Còn lại: đối chiếu bản Biometrika in chính thức (số định lý có thể khác bản arXiv) và đọc lại Hệ quả 3.1 của Mitrophanov (2005) ở bản PDF | Rủi ro trích sai số định lý khi viết |
 | G4-4 | Chặn chặt hơn cho cập nhật khối, hoặc giữ dạng quan sát | Mệnh đề 4(b) chỉ là chặn đủ |
+| G6-T7a | Đối chiếu trích dẫn cho chặn hối tiếc AUC dạng $\lambda=1$ (lý thuyết xếp hạng hai phần) trước khi viết bài; Mệnh đề 5(c) đã tự chứng minh | Rủi ro thiếu trích dẫn |
+| G6-T7b | Kiểm duyệt độc lập §7 (cùng lượt với §1–5) | Chưa qua kiểm duyệt độc lập |
+
+## 7. Mệnh đề 5, Mệnh đề 6 và Quan sát 6(b): khi nào bộ ngây thơ đã đủ, và Gibbs lấy lại được gì **[mới, G6 T7, 26/10/2026]**
+
+**Đính chính giả thuyết cũ.** Giao thức G5 (Mục 0, nhận xét cuối) và [PILOT_RQ4_REPORT](pilot/PILOT_RQ4_REPORT.md) §4 viết rằng Gibbs có chỗ giúp ở PLL và LLP vì ở đó "bộ ngây thơ không nhất quán". **Điều này sai với cơ chế sinh nhãn của giao thức.** Với ứng viên sai độc lập (PLL) và túi chia ngẫu nhiên (LLP), mục tiêu của bộ ngây thơ vẫn là hàm affine tăng của posterior thật, nên ở mức quần thể nó nhất quán về xếp hạng như ở PU-SCAR (Mệnh đề 5). Khác biệt thật nằm ở **lượng thông tin bộ ngây thơ bỏ đi** (Mệnh đề 6, Quan sát 6(b)). Trong các bối cảnh của giao thức, chỉ PU-SAR có bộ ngây thơ không nhất quán ở mức quần thể.
+
+**Thiết lập.** *TFM ngây thơ* là TFM điều kiện hoá trên các cặp $(x_i,\tilde w_i)$, với $\tilde w_i$ là *nhãn ngây thơ* sinh từ quan sát yếu, đúng như trong các script thí điểm:
+- PU-SCAR: $\tilde w=s$. Nhãn nhiễu: $\tilde w=w$. SSL: chỉ dùng phần có nhãn, $\tilde w=y$ trên phần đó.
+- PLL: $\tilde w_i$ chọn đều trong $S_i$. LLP: $\tilde w_{B}$ là một hoán vị ngẫu nhiên khớp số đếm của túi.
+
+Đặt $\eta_k(x)=p(y=k\mid x)$ và $\tilde\eta_k(x)=P(\tilde w=k\mid x)$ — *mục tiêu ngây thơ*, tức hàm mà một bộ học từng điểm nhất quán, huấn luyện trên $(x,\tilde w)$, tiến tới. Mục này phát biểu ở mức quần thể; nó không khẳng định TFM hội tụ tới $\tilde\eta$.
+
+**(B1) — cơ chế không phụ thuộc mẫu.** $P(\tilde w=k\mid x,y)=M_{y,k}$ không phụ thuộc $x$.
+**(B2) — cột đều ngoài đường chéo.** Với mỗi lớp $k$, mọi phần tử ngoài đường chéo của cột $k$ của $M$ bằng nhau, $M_{y,k}=b_k$ ($y\ne k$), và $\lambda_k:=M_{k,k}-b_k>0$.
+
+**Mệnh đề 5.** (a) Dưới (B1)–(B2), $\tilde\eta_k(x)=b_k+\lambda_k\,\eta_k(x)$ với mọi $k$.
+(b) Do đó, với mỗi lớp $k$, thứ tự theo $\tilde\eta_k$ trùng thứ tự theo $\eta_k$: AUC một-chọi-phần-còn-lại của $\tilde\eta_k$ bằng của $\eta_k$, tức đạt tối ưu. Nếu thêm $b_k\equiv b$ và $\lambda_k\equiv\lambda$, thì $\arg\max_k\tilde\eta_k=\arg\max_k\eta_k$: bộ phân loại argmax của mục tiêu ngây thơ là bộ phân loại Bayes.
+(c) *(nhị phân)* Với $p=P(y=1)\in(0,1)$ và mọi hàm điểm $s$:
+$$\mathrm{AUC}(\eta)-\mathrm{AUC}(s)\;\le\;\frac{\mathbb E\,|s(X)-\tilde\eta(X)|}{\lambda\,p(1-p)},\qquad \tilde\eta=b+\lambda\eta .$$
+Tức là hối tiếc AUC của bộ ngây thơ bị chặn bởi sai số ước lượng mục tiêu của chính nó, khuếch đại $1/\lambda$ lần.
+
+**Các cơ chế của giao thức** (kiểm bằng Monte Carlo theo đúng thủ tục sinh nhãn của thí điểm, `g6_t7_naive_theory.py`, kết quả ở [`pilot/g6_t7_naive_theory.txt`](pilot/g6_t7_naive_theory.txt)):
+
+| Bối cảnh | $b$ | $\lambda$ | Giá trị ở các mức của giao thức |
+|---|---|---|---|
+| PU-SCAR | $0$ | $c$ | 0,1; 0,3 |
+| Nhiễu phụ thuộc lớp (nhị phân; $\rho_{01}=P(w{=}1\mid y{=}0)$, $\rho_{10}=P(w{=}0\mid y{=}1)$) | $\rho_{01}$ | $1-\rho_{01}-\rho_{10}$ | thí điểm $T$: $\rho_{01}=r/2$, $\rho_{10}=r$ ⇒ $1-1{,}5r$ = 0,7; 0,4 |
+| SSL, nhãn thiếu hoàn toàn ngẫu nhiên (MCAR) theo từng lớp với cùng tỉ lệ | $0$ | $1$ | luật của phần có nhãn trùng luật quần thể; nếu tỉ lệ khác nhau giữa các lớp (do làm tròn), $p(y{=}1\mid x,\text{có nhãn})$ vẫn là hàm tăng ngặt (không affine) của $\eta$, nên (b) vẫn đúng cho nhị phân |
+| PLL, mỗi lớp sai vào tập độc lập với xác suất $q$ | $\frac{1-a}{C-1}$ | $a-b=\frac{(1-(1-q)^C)/q-1}{C-1}$, với $a=\frac{1-(1-q)^C}{Cq}$ | $C=4$: 0,51 ($q=0{,}3$); 0,21 ($q=0{,}6$). $C=7$, $q=0{,}6$: 0,11 |
+| LLP, túi ngẫu nhiên cỡ $k$ | $\frac{(k-1)\pi}{k}$ | $\frac1k$ (quần thể); $\frac1k-\frac{k-1}{k(n-1)}$ (quần thể hữu hạn $n$ điểm) | 0,125; 0,0625; (0,031 ở túi 32) |
+| **PU-SAR** | — | **(B1) sai**: $P(s{=}1\mid x)=e(x)\,\eta(x)$ | thứ tự bị $e(x)$ bóp méo |
+
+Với LLP, "không phụ thuộc mẫu" hiểu như sau: khi túi chia ngẫu nhiên, các thành viên khác của túi độc lập với $(x_i,y_i)$, nên $P(\tilde w_i=1\mid x_i,y_i)=\big(y_i+(k-1)\pi\big)/k$. Nếu túi được tạo theo độ gần của feature (như LLP-Bench), (B1) sai và bộ ngây thơ không còn nhất quán.
+
+*Chứng minh.* (a) $\tilde\eta_k(x)=\sum_yP(y\mid x)M_{y,k}=M_{k,k}\eta_k+b_k(1-\eta_k)=b_k+\lambda_k\eta_k$. Các hệ số trong bảng: PU-SCAR và nhiễu, đọc trực tiếp từ $M$. SSL: $P(\text{có nhãn}\mid x,y)$ là hằng số, nên $p(y\mid x,\text{có nhãn})=\eta(x)$. PLL: với $y$ cố định, $|S|=1+B$, $B\sim\mathrm{Bin}(C-1,q)$, và mỗi ứng viên được chọn với xác suất $1/|S|$; do đó $a=M_{y,y}=\mathbb E[1/(1+B)]=\frac{1-(1-q)^C}{Cq}$ (đẳng thức $\mathbb E[1/(1+B)]=\frac{1-(1-q)^{m+1}}{(m+1)q}$ với $B\sim\mathrm{Bin}(m,q)$). Theo tính đối xứng giữa các lớp sai, các phần tử ngoài đường chéo bằng nhau và bằng $(1-a)/(C-1)$. Vì $1+B\le C$, ta có $a\ge1/C$, dấu bằng chỉ khi $q=1$; do đó $\lambda=(Ca-1)/(C-1)>0$ khi $q<1$. LLP: với hoán vị ngẫu nhiên khớp số đếm, $P(\tilde w_i=1\mid\text{túi})=c/k$; lấy kỳ vọng theo các thành viên khác khi biết $y_i$: $\big(y_i+(k-1)\pi\big)/k$, hoặc $\big(y_i+(k-1)\tfrac{N_+-y_i}{n-1}\big)/k$ khi túi lấy không hoàn lại từ $n$ điểm có $N_+$ dương.
+(b) Hàm $t\mapsto b_k+\lambda_kt$ tăng ngặt, nên giữ thứ tự và hoà. Khi các hệ số chung cho mọi lớp, cùng một hàm tăng ngặt tác động lên mọi lớp, nên argmax được giữ.
+(c) Lấy $(X,Y),(X',Y')$ độc lập cùng phân phối, và đặt $h_s(X,X')=\mathbb 1[s(X)>s(X')]+\tfrac12\mathbb 1[s(X)=s(X')]$. Vì $P(Y{=}1,Y'{=}0\mid X,X')=\eta(X)(1-\eta(X'))$, ta có $p(1-p)\,\mathrm{AUC}(s)=\mathbb E[\eta(X)(1-\eta(X'))\,h_s(X,X')]$. Đối xứng hoá theo $X\leftrightarrow X'$, dùng $h_s(X,X')+h_s(X',X)=1$ và $\eta(X)(1-\eta(X'))-\eta(X')(1-\eta(X))=\eta(X)-\eta(X')$:
+$$p(1-p)\,\mathrm{AUC}(s)=\tfrac12\,\mathbb E\big[\eta(X')(1-\eta(X))+(\eta(X)-\eta(X'))\,h_s(X,X')\big].$$
+Trừ hai vế cho $s=\eta$ và $s$ bất kỳ, với $\Delta=\eta(X)-\eta(X')$:
+$$p(1-p)\,[\mathrm{AUC}(\eta)-\mathrm{AUC}(s)]=\tfrac12\,\mathbb E\Big[|\Delta|\big(\mathbb 1[s\text{ đảo thứ tự cặp}]+\tfrac12\mathbb 1[s\text{ hoà},\,\Delta\ne0]\big)\Big]\ \ge0 .$$
+Đặt $t=(s-b)/\lambda$; $t$ có cùng thứ tự với $s$ nên $\mathrm{AUC}(t)=\mathrm{AUC}(s)$, và $t-\eta=(s-\tilde\eta)/\lambda$. Nếu $\Delta>0$ mà $t(X)\le t(X')$ thì $\Delta\le(\eta(X)-t(X))+(t(X')-\eta(X'))\le|\eta(X)-t(X)|+|\eta(X')-t(X')|$; trường hợp $\Delta<0$ tương tự. Vậy vế phải $\le\tfrac12\mathbb E\big[|\eta(X)-t(X)|+|\eta(X')-t(X')|\big]=\mathbb E|s(X)-\tilde\eta(X)|/\lambda$. $\square$
+
+Bất đẳng thức (c) với $\lambda=1$ là dạng quen thuộc trong lý thuyết xếp hạng hai phần; chứng minh trên tự đủ. Trích dẫn chính xác để ở việc mở G6-T7a. Kiểm chứng: `test_auc_regret_bound_never_violated` (2.000 bài toán rời rạc ngẫu nhiên, tính chính xác, có hoà; chặn luôn đúng, khe nhỏ nhất 0,017).
+
+**Mệnh đề 6 (thông tin Fisher; bất đẳng thức xử lý dữ liệu).** Cho mô hình tham số $\eta_\theta$ và quan sát $O$ có luật $p_\theta(O)$ trên tập hữu hạn (hoặc với các điều kiện chính quy cho phép đạo hàm dưới dấu tích phân). Nếu $\tilde w$ sinh từ $O$ qua một nhân $R(\tilde w\mid O)$ **không phụ thuộc** $\theta$, thì
+$$I_{\tilde w}(\theta)\le I_O(\theta),$$
+dấu bằng xảy ra khi và chỉ khi điểm số (score) $\partial_\theta\log p_\theta(O)$ đo được theo $\sigma(\tilde w)$ hầu chắc chắn.
+*Chứng minh.* $p_\theta(\tilde w)=\sum_Op_\theta(O)R(\tilde w\mid O)$, nên $\partial_\theta p_\theta(\tilde w)=\sum_Op_\theta(O)R(\tilde w\mid O)\,\partial_\theta\log p_\theta(O)$. Chia cho $p_\theta(\tilde w)$: $\partial_\theta\log p_\theta(\tilde w)=\mathbb E_\theta[\partial_\theta\log p_\theta(O)\mid\tilde w]$. Khi đó $I_{\tilde w}=\mathbb E\big[(\mathbb E[\text{score}_O\mid\tilde w])^2\big]\le\mathbb E[\text{score}_O^2]=I_O$ theo bất đẳng thức Jensen cho kỳ vọng có điều kiện; dấu bằng khi và chỉ khi $\mathrm{Var}(\text{score}_O\mid\tilde w)=0$ h.c.c. $\square$ (Trường hợp vô hướng; với $\theta$ nhiều chiều, bất đẳng thức theo thứ tự Loewner, chứng minh y hệt.) Kiểm chứng: `test_fisher_data_processing_inequality_random_models`.
+
+Áp dụng, với $\theta$ là tham số của $p(y\mid x)$ và luật của $x$ không phụ thuộc $\theta$:
+- **PU-SCAR, nhãn nhiễu:** $\tilde w=O$, dấu bằng. Bộ ngây thơ dùng **toàn bộ** thông tin trong quan sát. Khác biệt giữa Gibbs và bộ ngây thơ chỉ có thể đến từ thiên hướng quy nạp của bộ học và từ hiệu chỉnh (mục tiêu ngây thơ $\tilde\eta\neq\eta$), không đến từ thông tin.
+- **SSL (MCAR):** phần không nhãn chỉ góp $p(x)$, không phụ thuộc $\theta$ khi prior tách được (Định lý 1(c)), nên $I_{\text{có nhãn}}=I_{\text{đầy đủ}}$. Khi $x$ mang thông tin về cơ chế sinh (prior SCM của TabPFN), phần không nhãn có thể giúp, nhưng đó là thông tin qua prior, không qua $\ell$.
+- **PLL:** $\tilde w$ là một lần chọn ngẫu nhiên từ $S$. Bất đẳng thức đúng, và ngặt trong mọi trường hợp đã tính (bảng dưới).
+
+**Quan sát 6(b) — LLP (số liệu, không phải định lý).** Với LLP, $\sum_{i\in B}\tilde w_i=c_B$, nên dữ liệu ngây thơ *đồng thời* của một túi không mất thông tin (thứ tự trong túi là nhiễu thuần). Mất mát đến từ việc bộ ngây thơ coi các cặp $(x_i,\tilde w_i)$ là độc lập, tức tối đa hoá hợp lý từng điểm (composite likelihood). Ngay cả khi biết đúng kênh $\tilde\eta=(\eta_\theta+(k-1)\pi)/k$, thông tin Godambe $H^2/J$ của hợp lý từng điểm chỉ bằng khoảng $0{,}27/k$ thông tin của số đếm túi (bảng dưới, $k\cdot$tỉ số $\approx$ 0,24–0,29 với $k=2..32$). Còn chính thông tin của số đếm túi bằng khoảng $(1{,}5\text{–}1{,}7)/k$ lần thông tin của nhãn sạch.
+
+*Số liệu (mô hình logistic một tham số, $\eta=\sigma(\theta x)$, $\theta=2$, $x\sim\mathcal N(0,I)$; thông tin mỗi mẫu).* Nhãn sạch: 0,0607 (nhị phân); PLL 0,10–0,14.
+
+| LLP, $k$ | đầy đủ (số đếm túi) / sạch | ngây thơ / đầy đủ | | PLL ($C$, $q$) | đầy đủ ($S$) / sạch | ngây thơ / đầy đủ |
+|---|---|---|---|---|---|---|
+| 2 | 0,734 | 0,134 | | (3; 0,3) | 0,66 | 0,258 |
+| 4 | 0,425 | 0,060 | | (3; 0,6) | 0,35 | 0,100 |
+| 8 | 0,202 | 0,033 | | (4; 0,3) | 0,62 | 0,236 |
+| 16 | 0,098 | 0,017 | | (4; 0,6) | 0,31 | 0,083 |
+| 32 | 0,047 | 0,009 | | (7; 0,6) | 0,18 | 0,057 |
+
+PU-SCAR và nhãn nhiễu: tỉ số ngây thơ / đầy đủ = 1 ở mọi mức (Mệnh đề 6).
+
+**Hệ quả cho bài (thay cho nhận xét cũ ở giao thức Mục 0).** Nhãn yếu chia làm ba loại:
+1. **Bộ ngây thơ dùng chính quan sát** (PU-SCAR, nhiễu phụ thuộc lớp, SSL-MCAR): không còn thông tin để Gibbs lấy lại. Không kỳ vọng Gibbs cải thiện AUC, ngoài hiệu ứng mẫu hữu hạn và thiên hướng quy nạp; ở mức quần thể, khác biệt chỉ nằm ở hiệu chỉnh xác suất.
+2. **Bộ ngây thơ làm thô quan sát** (PLL: chọn một ứng viên; LLP: bỏ cấu trúc túi): bộ ngây thơ vẫn nhất quán về xếp hạng ở mức quần thể, nhưng kém hiệu quả về thông tin. Gibbs dùng hợp lý đầy đủ ($\ell_i(k)=\mathbb 1[k\in S_i]$, ràng buộc số đếm), nên có chỗ để giúp. Chỗ đó lớn dần khi việc làm thô nặng hơn ($q$ lớn, $k$ lớn), miễn là chuỗi còn trộn tốt.
+3. **Cơ chế phụ thuộc mẫu** (PU-SAR; LLP với túi theo feature): bộ ngây thơ không nhất quán. Gibbs nhất quán khi biết cơ chế quan sát (Định lý 1), nhưng phải học được nó (PU-SAR: propensity đã biết 8/12 ô, tự học 3/12 ô, [G6_T1_SAREM_REPORT](../G6/G6_T1_SAREM_REPORT.md)).
+
+**Đối chiếu với tập phát triển (hậu kiểm, không phải bằng chứng xác nhận).** Chênh lệch Gibbs ấm − TFM ngây thơ, trung bình trên 6 dataset (PLL: 3), 3 seed:
+
+| Loại | Bối cảnh, metric | Mức nhẹ | Mức nặng |
+|---|---|---|---|
+| 1 | PU-SCAR, AUC | +0,000 ($c$ = 0,3) | +0,018 ($c$ = 0,1) |
+| 1 | Nhiễu, AUC | +0,001 ($r$ = 0,2) | −0,021 ($r$ = 0,4) |
+| 1 | SSL, AUC | −0,004 (20% nhãn) | −0,008 (5% nhãn) |
+| 2 | PLL, accuracy | +0,042 ($q$ = 0,3) | +0,285 ($q$ = 0,6) |
+| 2 | LLP, AUC | +0,135 ($k$ = 8) | +0,234 ($k$ = 16); +0,143 ($k$ = 32, kiểm tra áp lực) |
+
+Mẫu hình khớp với cách phân loại: gần 0 ở loại 1, lớn và tăng theo mức làm thô ở loại 2 (theo dataset: PLL tăng từ $q$ = 0,3 lên 0,6 ở 3/3 dataset; LLP tăng từ túi 8 lên 16 ở 4/6 — blood-transfusion và credit-g giảm nhẹ). Riêng LLP túi 32, chênh lệch giảm lại; điều này khớp với rủi ro trộn chậm (METHOD_SPEC, rủi ro 3) chứ không mâu thuẫn với Quan sát 6(b). Dự đoán tương ứng được ghi trước như phân tích thăm dò cho tập đánh giá (giao thức Mục 11, deviation 6).
 
 ## Tài liệu
 - Besag, J. (1974). Spatial interaction and the statistical analysis of lattice systems. *JRSS-B* 36(2):192–236. (bổ đề Brook)
@@ -174,3 +259,4 @@ thì với khối $B$ cỡ $m$ (theo D1 của METHOD_SPEC, khối gồm cả m�
 - Liu, J., Gelman, A., Hill, J., Su, Y.-S. & Kropko, J. (2014). On the stationary distribution of iterative imputations. *Biometrika* 101(1):155–173.
 - Müller, S., Hollmann, N., Pineda Arango, S., Grabocka, J. & Hutter, F. (2022). Transformers can do Bayesian inference. *ICLR*.
 - Elkan, C. & Noto, K. (2008). Learning classifiers from only positive and unlabeled data. *KDD*.
+- Godambe, V. P. (1960). An optimum property of regular maximum likelihood estimation. *Ann. Math. Statist.* 31(4):1208–1211. (thông tin Godambe của hàm ước lượng)

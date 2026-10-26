@@ -1,0 +1,31 @@
+== (1) Luật affine của nhãn ngây thơ (Monte Carlo theo đúng thủ tục thí điểm) ==
+PLL C=4 q=0.3: a lý thuyết 0.6333 | MC đường chéo 0.6331; b lý thuyết 0.1222 | MC ngoài chéo 0.1223; độ dốc a−b = 0.5110
+PLL C=4 q=0.6: a lý thuyết 0.4060 | MC đường chéo 0.4039; b lý thuyết 0.1980 | MC ngoài chéo 0.1987; độ dốc a−b = 0.2080
+PLL C=7 q=0.6: a lý thuyết 0.2377 | MC đường chéo 0.2384; b lý thuyết 0.1270 | MC ngoài chéo 0.1269; độ dốc a−b = 0.1107
+PLL C=3 q=0.6: a lý thuyết 0.5200 | MC đường chéo 0.5197; b lý thuyết 0.2400 | MC ngoài chéo 0.2402; độ dốc a−b = 0.2800
+LLP k=8: P(w̃=1|y=1) lý thuyết 0.4358 | MC 0.4363;  P(w̃=1|y=0) 0.3115 | 0.3112; độ dốc 0.1244 (= 1/k − (k−1)/(k(n−1)))
+LLP k=16: P(w̃=1|y=1) lý thuyết 0.3968 | MC 0.3941;  P(w̃=1|y=0) 0.3350 | 0.3365; độ dốc 0.0618 (= 1/k − (k−1)/(k(n−1)))
+LLP k=32: P(w̃=1|y=1) lý thuyết 0.3765 | MC 0.3756;  P(w̃=1|y=0) 0.3459 | 0.3464; độ dốc 0.0305 (= 1/k − (k−1)/(k(n−1)))
+
+== (2) Chặn hối tiếc AUC: max(hối tiếc − chặn) phải ≤ 0 ==
+max(hối tiếc − chặn) = -1.688e-02
+
+== (3) Thông tin Fisher mỗi mẫu (mô hình logistic một tham số, θ = 2, x ~ N(0, I)) ==
+nhãn sạch: 0.0607
+PU-SCAR c=0.1: quan sát đầy đủ 0.0031 = ngây thơ 0.0031 (tỉ số 1); so với nhãn sạch 0.051
+PU-SCAR c=0.3: quan sát đầy đủ 0.0099 = ngây thơ 0.0099 (tỉ số 1); so với nhãn sạch 0.163
+nhiễu r=0.2: quan sát đầy đủ 0.0176 = ngây thơ (tỉ số 1); so với nhãn sạch 0.290
+nhiễu r=0.4: quan sát đầy đủ 0.0049 = ngây thơ (tỉ số 1); so với nhãn sạch 0.081
+LLP (mỗi mẫu): k | đầy đủ (số đếm túi) | ngây thơ Godambe | tỉ số ngây thơ/đầy đủ | k·tỉ số
+   2 | 0.0445 (0.734 sạch) | 0.00595 | 0.134 | 0.27   [nếu coi các cặp độc lập (H): 0.00757, tỉ số 0.170]
+   4 | 0.0258 (0.425 sạch) | 0.00156 | 0.060 | 0.24   [nếu coi các cặp độc lập (H): 0.00172, tỉ số 0.067]
+   8 | 0.0122 (0.202 sạch) | 0.00041 | 0.033 | 0.27   [nếu coi các cặp độc lập (H): 0.00042, tỉ số 0.035]
+  16 | 0.0059 (0.098 sạch) | 0.00010 | 0.017 | 0.28   [nếu coi các cặp độc lập (H): 0.00011, tỉ số 0.018]
+  32 | 0.0029 (0.047 sạch) | 0.00003 | 0.009 | 0.29   [nếu coi các cặp độc lập (H): 0.00003, tỉ số 0.009]
+PLL (mỗi mẫu): C q | sạch | đầy đủ (tập S) | ngây thơ | tỉ số ngây thơ/đầy đủ
+  3 0.3 | 0.1007 | 0.0665 | 0.0172 | 0.258
+  3 0.6 | 0.1009 | 0.0358 | 0.0036 | 0.100
+  4 0.3 | 0.1261 | 0.0776 | 0.0183 | 0.236
+  4 0.6 | 0.1262 | 0.0389 | 0.0032 | 0.083
+  7 0.3 | 0.1411 | 0.0658 | 0.0115 | 0.174
+  7 0.6 | 0.1407 | 0.0253 | 0.0014 | 0.057

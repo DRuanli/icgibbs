@@ -54,6 +54,8 @@ Kho không có tệp LICENSE: chỉ dùng để chạy tái hiện và đối ch
 | 26/10/2026 | T1 chạy Kaggle: tái hiện SAR-EM (Mushroom đạt; Breast Cancer lệch, đang kiểm), SAR-EM trên tập phát triển, Gibbs ở PU-SAR mức 0,1 | Xong — [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md). **Phát hiện:** khi có SAR-EM, Gibbs chỉ đạt 3/12 ô ở PU-SAR |
 | 26/10/2026 | Quyết định (thầy giao Claude chọn): PU-SAR thành bối cảnh phụ; đối thủ chính xét cả bản mặc định lẫn bản tune; thêm RC, CC cho PLL tổng hợp; GLWS dùng E-step chính xác | Đã ghi ở giao thức Mục 11, RESEARCH_PLAN §9, CLAIM #6 |
 | 26/10/2026 | T3: cài DLLP (MLP, tuyến tính), LLP-VAT, EasyLLP, GLWS cho LLP; PRODEN, GLWS/ILL, RC, CC cho PLL; nnPU, uPU có tune; SAR-E (`icgibbs/baselines_ext.py`, 16 test mới). Sửa lỗi ghép nhầm `else` trong `kaggle_g4_pilot.py` (không ảnh hưởng kết quả G6 lượt 1 vì lượt đó chạy với `--only`) | Code xong; chờ lượt 2 trên Kaggle (`g6_code_v2.zip`, `run_g6_round2.sh`) |
+| 26/10/2026 | Smoke test lượt 2 (dry-run mọi phương pháp mới); sửa phần tóm tắt của `kaggle_g4_rq4_pilot.py` khi chỉ chạy baseline; commit `3a900c1` | Xong; `g6_code_v2.zip` đã gửi thầy |
+| 26/10/2026 | T7 (phần 1): Mệnh đề 5 (mục tiêu ngây thơ affine ⇒ nhất quán về xếp hạng; chặn hối tiếc AUC), Mệnh đề 6 (bất đẳng thức xử lý dữ liệu cho thông tin Fisher), Quan sát 6(b) (LLP: hợp lý từng điểm ≈ 0,27/k hiệu quả). **Đính chính:** bộ ngây thơ ở PLL, LLP cũng nhất quán về xếp hạng. Thêm phân tích thăm dò D1–D3 (giao thức §11) | Xong — [PROOFS §7](../G4/PROOFS.md), `g6_t7_naive_theory.py`, 10 test. Còn: G4-1, G4-3, G4-4, G6-T7a, kiểm duyệt độc lập |
 | — | T4: chọn đối thủ chính và kiểm lại phạm vi LLP, PLL (`g6_select_comparators.py`) | Sau lượt 2 |
 
 ## 5. Cần thầy làm hoặc xác nhận

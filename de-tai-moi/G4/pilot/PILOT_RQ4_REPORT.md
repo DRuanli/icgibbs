@@ -92,6 +92,7 @@ Tiêu chí (hàm `summarize` của script, viết trước khi chạy; cùng ng�
 2. **Nhãn nhiễu phụ thuộc lớp và SSL: TFM ngây thơ đã gần trần về AUC.** Ở nhiễu r = 0,2, naive cách oracle chưa tới 0,02 AUC ở 5/6 dataset. Điều này khớp một lập luận giống Elkan–Noto cho PU-SCAR: với ma trận nhiễu phụ thuộc lớp, $p(w{=}1\mid x)=\rho_{01}+(1-\rho_{10}-\rho_{01})\,p(y{=}1\mid x)$ là hàm affine tăng khi $\rho_{10}+\rho_{01}<1$, nên xếp hạng của TFM ngây thơ trùng xếp hạng Bayes. Ở SSL, TFM chỉ trên phần có nhãn đạt hoặc vượt cả hai baseline peer-review ở 9/12 ô.
 3. **Ở mức yếu nặng, Gibbs làm hỏng log loss** (nhiễu r = 0,4: 0,74–1,04 so với naive 0,55–0,56 ở diabetes, credit-g, ilpd; SSL 0,05 cũng vậy) — cùng hiện tượng khuếch đại sai số đã thấy ở LLP túi 32 (lượt v2). SEM và hard-EM còn tệ hơn, nên vấn đề nằm ở vòng lặp tự gán nhãn chứ không riêng Gibbs.
 4. **Bức tranh chung sau RQ2 và RQ4:** In-Context Gibbs giúp khi nhãn yếu ở dạng **tập, tổng hoặc phụ thuộc mẫu** (PLL, LLP túi nhỏ, PU-SAR), nơi bộ ngây thơ không nhất quán; không giúp về AUC khi xếp hạng ngây thơ đã đúng (PU-SCAR, nhiễu phụ thuộc lớp) hoặc khi phần có nhãn đã đủ (SSL). Đề xuất viết thành một mệnh đề ở G6 và dùng làm phần giải thích giới hạn trong bài.
+   > **Đính chính (G6 T7, 26/10/2026):** cụm "nơi bộ ngây thơ không nhất quán" sai với PLL và LLP. Với cơ chế sinh nhãn ở đây (ứng viên sai độc lập; túi ngẫu nhiên), TFM ngây thơ vẫn nhất quán về xếp hạng; Gibbs giúp vì dùng thông tin mà bộ ngây thơ bỏ đi. Xem [PROOFS §7](../PROOFS.md).
 
 ## 5. Quyết định
 
