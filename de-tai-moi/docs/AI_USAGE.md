@@ -8,4 +8,4 @@ AI (Claude của Anthropic) **không phải tác giả**. Bảng dưới ghi cá
 | G3 | Soạn kế hoạch, câu hỏi nghiên cứu, giả thuyết, ma trận khẳng định | Duyệt và đóng băng |
 | G4 | Viết thư viện `icgibbs`, kiểm thử, chứng minh, kiểm chứng số RQ1, script thí điểm, phân tích kết quả thí điểm | Chạy thí điểm trên Kaggle; quyết định Q1, Q2, R3; duyệt cổng |
 | G5 | Soạn giao thức, dataset card, biên bản tự rà soát, script xác minh dữ liệu | Chạy xác minh trên Kaggle; quyết định F3, F8; duyệt và đóng băng |
-| G6 | Tra code chính thức của baseline, kế hoạch cài đặt | (đang làm) |
+| G6 | Tra code chính thức của baseline, kế hoạch cài đặt; bọc SAR-EM, random search, script tái hiện | Chạy trên Kaggle; xác nhận số công bố trên hình gốc (đang làm) |

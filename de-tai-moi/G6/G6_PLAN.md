@@ -45,5 +45,12 @@ Kho không có tệp LICENSE: chỉ dùng để chạy tái hiện và đối ch
 - Đạt: số tái hiện cách số công bố **≤ 1 điểm %** (accuracy hoặc AUC), hoặc nằm trong **1 độ lệch chuẩn** mà bài công bố — lấy ngưỡng rộng hơn.
 - Không đạt: ghi chênh lệch và xếp loại — (a) có nguyên nhân rõ (khác phiên bản thư viện, khác tiền xử lý đã ghi trong bài); (b) chưa rõ nguyên nhân. Baseline loại (b) vẫn được dùng, nhưng bài phải ghi rõ.
 
-## 4. Cần thầy quyết
-- **Kho git:** sổ tay (08) và tiêu chí "chạy được từ clone sạch" cần một kho git. Đề xuất: khởi tạo một kho riêng tư (ví dụ trên GitHub của thầy) chứa `de-tai-moi/`; lần commit đầu chứa đúng các file có mã băm trong [G5/FREEZE_RECORD](../G5/FREEZE_RECORD.md).
+## 4. Tiến độ
+| Ngày | Việc | Trạng thái |
+|---|---|---|
+| 26/10/2026 | T1 SAR-EM: bọc code chính thức (`icgibbs/baselines_sar.py`), random search 20 cấu hình trên nhãn yếu (`icgibbs/tuning.py`), kiểm thử tổng hợp (`tests/test_baselines_g6.py`, 29/29 test qua), script tái hiện số công bố (`g6_reproduce_sarem.py`) | Code xong; chờ chạy Kaggle (`g6_code_v1.zip`) |
+| 26/10/2026 | T2: không gian tune của mọi baseline ghi trước | Xong: [docs/tuning_spaces.md](../docs/tuning_spaces.md) |
+| 26/10/2026 | Kho git riêng tư khởi tạo; commit đóng băng `c4da1f4` | Chờ thầy tạo kho trống trên GitHub để đẩy lên |
+
+## 5. Cần thầy quyết
+- **Kho git:** thầy đồng ý (26/10/2026). Kho cục bộ đã có (commit đóng băng `c4da1f4`). Phiên làm việc này không có quyền tạo kho mới trên GitHub, nên thầy tạo một kho **trống, riêng tư** (ví dụ `DRuanli/icgibbs`, không thêm README) rồi báo em để đẩy lên.

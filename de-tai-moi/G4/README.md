@@ -18,10 +18,43 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | `code/kaggle_g4_rq4_pilot.py` | Thí điểm RQ4 (SSL, nhãn nhiễu, PLL) trên tập phát triển — **thầy chạy** |
 | `code/g5_verify_datasets.py` | Kiểm tra danh sách dataset đánh giá dự kiến của G5 (chỉ đọc dữ liệu) — **thầy chạy** |
 | `code/kaggle_g4_manyclass_pilot.py` | Thí điểm PLL > 10 lớp trên tập phát triển (TabPFN v2 bọc ECOC so với TabICL v2), chọn backend cho RQ5 — **thầy chạy** |
+| `code/g6_reproduce_sarem.py` | G6 (T1): tái hiện số công bố của SAR-EM bằng code chính thức — **thầy chạy** |
+| `code/icgibbs/baselines_sar.py`, `code/icgibbs/tuning.py` | G6: SAR-EM (bọc code chính thức) và random search 20 cấu hình trên nhãn yếu |
 | `code/g5_verify_pll_real.py` | Xác minh chỉ đọc bộ PLL thật cho RQ5 (Lost, MSRCv2, BirdSong, …) — **thầy chạy** |
 | [pilot/PILOT_RQ4_REPORT.md](pilot/PILOT_RQ4_REPORT.md) | Kết quả thí điểm RQ4 (cuối, lượt v4 + v5) và quyết định phạm vi |
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
+
+## G6 lượt 1 trên Kaggle — dùng `g6_code_v1.zip` (26/10/2026)
+
+Mục đích: G6 việc T1 (SAR-EM, GATE_REVIEW_G5 Phát hiện 4). Gồm ba phần, tổng khoảng 1,5 giờ:
+(a) tái hiện số công bố của SAR-EM bằng code chính thức (CPU, tải dữ liệu UCI);
+(b) SAR-EM, bản mặc định và bản tune, trên 6 dataset phát triển, PU-SAR ở mức 0,1 và 0,3 (CPU);
+(c) In-Context Gibbs và các baseline cũ ở PU-SAR mức 0,1 trên tập phát triển — trước đây mới có mức 0,3 (GPU, khoảng 40 phút).
+
+1. Tải `g6_code_v1.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *GPU T4, Internet: On, Add data `icgibbs-g4`, Secrets: tích `TABPFN_TOKEN`*.
+2. Ô 1:
+```python
+!pip install -q tabpfn==9.2.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g6_code_v1/code/g6_reproduce_sarem.py", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2 — (a) và (b), chạy trên CPU:
+```python
+%cd /kaggle/working/run_g6
+!python g6_reproduce_sarem.py --repo /kaggle/working/SAR-PU --out /kaggle/working/g6_sarem_reproduction.csv 2>&1 | grep -v "saved to" | tee /kaggle/working/g6_sarem_reproduction_log.txt
+!python kaggle_g4_pilot.py --backend tabpfn_v2 --settings pu_sar --levels "pu_sar=0.1,0.3" --only sar_em,sar_em_tuned --out /kaggle/working/g6_sarem_dev.csv 2>&1 | tee /kaggle/working/g6_sarem_dev_log.txt
+```
+4. Ô 3 — (c), dùng GPU:
+```python
+!python kaggle_g4_pilot.py --backend tabpfn_v2 --settings pu_sar --levels "pu_sar=0.1" --only naive,oracle,nnpu,upu,gibbs_warm,sem_warm,hard_em_warm,gibbs_known_warm --out /kaggle/working/g6_pusar01_dev.csv 2>&1 | tee /kaggle/working/g6_pusar01_dev_log.txt
+```
+5. Gửi lại các file `g6_*.csv`, `g6_*_log.txt`, `g6_*_preds.jsonl` trong /kaggle/working (không cần thư mục `SAR-PU/`).
 
 ## Việc F7 — xác minh bộ PLL thật (notebook CPU, khoảng 5 phút)
 

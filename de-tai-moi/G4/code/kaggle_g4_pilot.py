@@ -199,6 +199,8 @@ def run_cell(args, backend, did, setting, level, seed, data, writer, fh, done):
               f"LL={row['logloss']:.4f} {row['seconds']:.1f}s", flush=True)
 
     def todo(method):
+        if args.only and method not in args.only:
+            return False
         return (backend, str(did), setting, str(level), str(seed), method) not in done
 
     # ---- In-Context Gibbs (+ SEM từ cùng chuỗi) ----
@@ -248,6 +250,26 @@ def run_cell(args, backend, did, setting, level, seed, data, writer, fh, done):
                 t0 = time.time()
                 m = NNPU(prior=float(ytr.mean()), nn_correction=nn, epochs=args.epochs, seed=seed).fit(Mtr, s)
                 emit(meth, m.predict_proba(Mte)[:, 1], t0, 0)
+    if setting == "pu_sar" and (todo("sar_em") or todo("sar_em_tuned")):
+        # G6 (T1): SAR-EM, code chính thức của Bekker et al. (gói sarpu). Cùng thông tin phụ với Gibbs (quy tắc
+        # công bằng B2): thuộc tính propensity là z, nối vào cuối ma trận feature đã chuẩn hoá.
+        from sklearn.preprocessing import StandardScaler
+        from icgibbs.baselines_sar import SAREM, fit_sar_em_tuned
+        sc = StandardScaler().fit(Mtr)
+        z_raw_tr = np.nan_to_num(Xtr[:, 0].astype(float))
+        z_te = (np.nan_to_num(Xte[:, 0].astype(float)) - z_raw_tr.mean()) / (z_raw_tr.std() + 1e-8)
+        Atr = np.column_stack([sc.transform(Mtr), z])
+        Ate = np.column_stack([sc.transform(Mte), z_te])
+        pcol = [Atr.shape[1] - 1]
+        if todo("sar_em"):
+            t0 = time.time()
+            m = SAREM(seed=seed).fit(Atr, s, pcol)
+            emit("sar_em", m.predict_proba(Ate)[:, 1], t0, 0, f"its={m.info_['nb_iterations']}")
+        if todo("sar_em_tuned"):
+            t0 = time.time()
+            m = fit_sar_em_tuned(Atr, s, pcol, n_configs=20, seed=seed)
+            emit("sar_em_tuned", m.predict_proba(Ate)[:, 1], t0, 0,
+                 f"C_f={m.tune_.best['C_f']:.4g};C_e={m.tune_.best['C_e']:.4g};val_weak_loss={m.tune_.best_score:.4f}")
     else:
         if todo("dllp"):
             t0 = time.time()
@@ -339,13 +361,16 @@ def summarize(path, prev=None):
     df = df[df.status == "ok"]
     print("\n================ TÓM TẮT (AUC, trung bình theo seed) ================")
     verdict = {}
-    for setting, peer in (("pu_scar", ["nnpu", "upu"]), ("pu_sar", ["nnpu", "upu"]), ("llp", ["dllp", "dllp_linear"])):
+    for setting, peer in (("pu_scar", ["nnpu", "upu"]), ("pu_sar", ["nnpu", "upu", "sar_em", "sar_em_tuned"]),
+                          ("llp", ["dllp", "dllp_linear"])):
         d = df[df.setting == setting]
         if d.empty:
             continue
         t = d.groupby(["dataset", "level", "method"]).auc.mean().unstack("method")
         print(f"\n--- {setting} ---\n{t.round(4).to_string()}")
         per_ds = d.groupby(["dataset", "method"]).auc.mean().unstack("method")
+        if "gibbs" not in per_ds or "naive" not in per_ds:      # lượt chỉ chạy một phần phương pháp (--only)
+            continue
         best_peer = per_ds[[p for p in peer if p in per_ds]].max(axis=1)
         win = (per_ds["gibbs"] > best_peer) & (per_ds["gibbs"] > per_ds["naive"])
         verdict[setting] = int(win.sum())
@@ -398,9 +423,15 @@ def main():
     ap.add_argument("--prev", default=None, help="CSV của lượt trước: các chuỗi tốn GPU (gibbs, sem, gibbs_known, hard_em) "
                     "đã có ở đó thì không chạy lại; phương pháp rẻ được chạy lại để có thêm metric và dự đoán")
     ap.add_argument("--preds", default="auto", help="file .jsonl lưu dự đoán test ('auto' = cạnh --out; '' = không lưu)")
+    ap.add_argument("--only", default="", help="chỉ chạy các phương pháp này (danh sách cách nhau bởi dấu phẩy)")
+    ap.add_argument("--levels", default="", help='ghi đè mức, ví dụ "pu_sar=0.1,0.3;llp=8,16"')
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--out", default="g4_pilot.csv")
     args = ap.parse_args()
+    args.only = {m.strip() for m in args.only.split(",") if m.strip()}
+    for part in [p for p in args.levels.split(";") if p.strip()]:
+        k, v = part.split("=")
+        LEVELS[k.strip()] = [type(LEVELS[k.strip()][0])(x) for x in v.split(",")]
     if args.dry_run:
         args.backend, args.sweeps, args.burn_in, args.n_use, args.em_iters, args.epochs = "dry", 6, 2, 3, 3, 30
 
