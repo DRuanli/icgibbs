@@ -1,8 +1,8 @@
 # Bản ghi đóng băng G5 — 26/10/2026
 
-Dự án chưa dùng git, nên bản đóng băng được định danh bằng SHA-256 của từng file tại thời điểm thầy duyệt [GATE_REVIEW_G5](GATE_REVIEW_G5.md). Kiểm tra lại: `sha256sum <file>` từ thư mục `de-tai-moi/`. Nếu sau này chuyển sang git, commit đầu tiên phải chứa đúng các file có mã băm dưới đây.
+Bản đóng băng được định danh bằng SHA-256 của từng file tại thời điểm thầy duyệt [GATE_REVIEW_G5](GATE_REVIEW_G5.md), và bằng **commit `c4da1f4`** của kho git (commit đầu tiên, khởi tạo 26/10/2026; mọi file trong bảng dưới khớp mã băm ở commit đó). Kiểm tra lại: `sha256sum <file>` từ thư mục `de-tai-moi/`. Kiểm thay đổi sau đóng băng: `git diff c4da1f4 -- de-tai-moi/G5/EXPERIMENT_PROTOCOL.md` — mọi khác biệt phải nằm trong Mục 11.
 
-File này không tự chứa mã băm của chính nó. `RESEARCH_PLAN.md` và `CLAIM_EVIDENCE_MATRIX.md` là tài liệu sống (thay đổi ghi ở §9 và cột trạng thái); mã băm dưới đây là trạng thái của chúng lúc đóng băng.
+Sau khi đóng băng, giao thức chỉ được thay đổi bằng cách thêm dòng vào Mục 11 (Deviations); vì vậy mã băm hiện tại của `EXPERIMENT_PROTOCOL.md` sẽ khác mã băm dưới đây, và mọi khác biệt phải nằm trong Mục 11. File này không tự chứa mã băm của chính nó. `RESEARCH_PLAN.md` và `CLAIM_EVIDENCE_MATRIX.md` là tài liệu sống (thay đổi ghi ở §9 và cột trạng thái); mã băm dưới đây là trạng thái của chúng lúc đóng băng.
 
 ## Giao thức và tài liệu đi kèm
 | File | Byte | SHA-256 |

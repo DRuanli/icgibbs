@@ -3,7 +3,7 @@
 > **ĐÃ ĐÓNG BĂNG 26/10/2026** sau khi thầy duyệt [GATE_REVIEW_G5](GATE_REVIEW_G5.md); mọi việc ở Mục 12 đã xong. Dataset card: [DATASET_CARDS](DATASET_CARDS.md). Mã băm của bản đóng băng: [FREEZE_RECORD](FREEZE_RECORD.md). **Từ nay mọi thay đổi ghi ở Mục 11**, kèm lý do và việc kết quả liên quan có phải gắn nhãn exploratory hay không.
 > Nguồn quyết định: [RESEARCH_PLAN](../G3/RESEARCH_PLAN.md) (đã đóng băng, kèm §9), [GATE_REVIEW_G4](../G4/GATE_REVIEW_G4.md) §3c–3d, [PILOT_V2_REPORT](../G4/pilot/PILOT_V2_REPORT.md). Quy tắc chung: [06_THIET_KE_THUC_NGHIEM](../../research-handbook/06_THIET_KE_THUC_NGHIEM.md).
 
-Đề tài: *In-Context Gibbs: học từ nhãn yếu bằng tabular foundation model, không huấn luyện lại* · Ngày đóng băng: **26/10/2026** · Commit: dự án chưa dùng git; bản đóng băng được định danh bằng SHA-256 trong [FREEZE_RECORD](FREEZE_RECORD.md)
+Đề tài: *In-Context Gibbs: học từ nhãn yếu bằng tabular foundation model, không huấn luyện lại* · Ngày đóng băng: **26/10/2026** · Commit: `c4da1f4` (kho git riêng tư của đề tài; SHA-256 từng file trong [FREEZE_RECORD](FREEZE_RECORD.md))
 
 ## 0. Phạm vi khẳng định sau G4
 
@@ -231,7 +231,7 @@ Người kiểm duyệt: thầy (người hướng dẫn đề tài; không so�
 ## 11. Deviations (ghi sau khi đóng băng)
 | Ngày | Thay đổi | Lý do | Kết quả liên quan được gắn nhãn exploratory? |
 |---|---|---|---|
-| | | | |
+| 26/10/2026 | Sửa thông tin trích dẫn ở bảng Mục 4: LLP-VAT là **ACML 2020** (Tsai & Lin), không phải ECML-PKDD 2020; DLLP là **ICDM Workshops 2017** (Ardehaly & Culotta) | Phát hiện khi kiểm code chính thức đầu G6 (README của kho LLP-VAT); chỉ sửa trích dẫn, không đổi thiết kế | Không (chưa có kết quả nào trên tập đánh giá) |
 
 ## 12. Việc phải xong trước khi đóng băng (đã xong hết, trừ F5 thuộc G6)
 | # | Việc | Ai | Ghi chú |
