@@ -50,6 +50,13 @@ code/
 | 4a | `metrics.py` (metric chính và phụ: PR-AUC, ECE, khớp tiên nghiệm; R4), `io.py` (CSV chạy tiếp được, dự đoán, mã băm nhãn yếu và cấu hình, phiên bản code; R7) — 5 test | Xong 26/10/2026 |
 | 4b | `methods.py` (đúng cấu hình đã chốt và tên phương pháp như thí điểm; mỗi phương pháp có khung bắt lỗi riêng), `run_g7.py` (hai phần `tfm`/`baselines`, chia mảnh, chạy tiếp, mặc định tập phát triển; tập đánh giá cần `--split eval --eval-ok`) — 3 test (chặn tập đánh giá; chạy đầu-cuối với TFM giả; chạy tiếp không thêm dòng) và chạy thử đầu-cuối mọi bối cảnh, mọi loại phương pháp trên dữ liệu tổng hợp | Xong 26/10/2026 |
 | 4c | Phần `rhat` (R5): 2 chuỗi Gibbs ấm cùng điểm khởi động, khác seed; split-R̂ (Vehtari et al. 2021) trên chỉ báo nhãn từng mẫu sau burn-in — trung vị, phân vị 90, tỉ lệ R̂ > 1,1, R̂ toàn cục (`icgibbs/g7/rhat.py`, 3 test). **Quy tắc ghi trước:** 3 dataset nhỏ nhất theo n của mỗi nhóm — tập đánh giá: dresses-sales, cylinder-bands, credit-approval; balance-scale, eucalyptus, analcatdata_dmft | Xong 26/10/2026 |
-| 4d | Các phần còn lại: `rq5` (PLL thật, TabICL v2, 10 lần chia 90/10; LLP-Bench), `ablation` (giao thức Mục 7) | Chưa |
+| 4d | Bối cảnh `pll_real` (RQ5, PLL thật): đọc .npz của việc F7, đối chiếu SHA-256 tệp gốc với DATASET_CARDS, 10 lần chia 90/10 không phân tầng, số lớp Q lấy từ tập ứng viên, nhãn ngây thơ như thí điểm many-class; chỉ chạy với `--split eval --eval-ok` (1 test với dữ liệu giả). Cờ `--mh-check` cho PROOFS G4-5 | Xong 26/10/2026 |
+| 4e | Còn lại: LLP-Bench (RQ5, kiểm tra áp lực), phần `ablation` (giao thức Mục 7; các điểm cần định rõ ở Mục 4 dưới đây) | Chưa |
 | 5 | Chạy tổng duyệt toàn bộ trên **tập phát triển** (phần `tfm` trên GPU, phần `baselines` trên CPU), so với kết quả thí điểm để thấy sai khác do R1–R3 | Chưa — G6 lượt 5 |
 | 6 | Người kiểm duyệt chạy từ clone sạch (T8) | Chưa |
+
+## 4. Điểm của giao thức Mục 7 (ablation) cần định rõ trước G7
+Ghi lại khi thiết kế phần `ablation`; quyết trước khi chạy tập đánh giá và ghi ở giao thức Mục 11.
+1. **"3 dataset, 1 mức"** (số khối K, số vòng quét) và **"3 dataset nhỏ"** (khối có sửa MH) chưa nói dataset và mức nào. Đề xuất: dùng cùng quy tắc với R̂ — 3 dataset nhỏ nhất theo n của mỗi nhóm; mức chính đầu tiên của bối cảnh (LLP túi 8; PLL q = 0,3).
+2. **Cỡ dữ liệu n_train ∈ {500, 1.000, 2.000, 4.000} trên "3 dataset lớn nhất":** với chia 70/30, chỉ satimage (train 4.501) và first-order-theorem-proving (4.282) có đủ 4.000 hàng train; dataset nhị phân lớn nhất (phoneme) chỉ có 3.782. Đề xuất: lấy 3 dataset đa lớp lớn nhất (satimage, first-order-theorem-proving, optdigits) cho PLL, mức n_train cuối là min(4.000, toàn bộ train), và ghi rõ trong bảng.
+3. **Prior của η (PU-SAR):** N(0, 1), N(0, 2²), N(0, 4²) — `PUSAR(prior_scale=...)` đã hỗ trợ; PU-SAR giờ là bối cảnh phụ nên ablation này cũng là phụ.

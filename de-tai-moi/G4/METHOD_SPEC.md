@@ -53,7 +53,7 @@ Dự đoán chuyển nạp:          đưa X_* vào chuỗi như mẫu tự do (
 | block, K khối | $K$ | Không (Mệnh đề 4b) | **mặc định thực nghiệm** |
 | block + MH | $K$ + số nhãn đổi | Có (Mệnh đề 4a) | phân tích độ nhạy |
 | swap | $\approx n$ | Có (Định lý 1b) | kiểm chứng LLP |
-| bag-block, K nhóm | $K$ | Không | **mặc định LLP** |
+| bag-block, K nhóm | $K$ | Không — chưa có chặn khác rỗng, chưa đo sai lệch (PROOFS G4-5, kiểm duyệt độc lập 26/10/2026) | **mặc định LLP** |
 | bag-block + MH | $K$ + số nhãn đổi | Có | phân tích độ nhạy |
 
 Với cấu hình thí điểm (T = 30, K = 10, S = 10): 300 forward với `n_estimators=1` + 10 forward với ensemble mặc định. Theo số đo G2 trên T4 (TabPFN v2, $n\le2000$): khoảng 0,14–0,26 s mỗi forward khối ⇒ 45–80 s mỗi lần chạy.
@@ -89,7 +89,7 @@ Với cấu hình thí điểm (T = 30, K = 10, S = 10): 300 forward với `n_es
 - RQ3: log loss (PU-SCAR: bản khớp tiên nghiệm).
 
 ## 6c. Phạm vi áp dụng (sau thí điểm, 25/10/2026)
-- **Chế độ được khẳng định:** LLP với túi ≤ 16; PU-SAR. Trong chế độ này chuỗi hội tụ trong 30 vòng quét (ba cách khởi tạo cho cùng kết quả ở túi 8).
+- **Chế độ được khẳng định:** LLP với túi ≤ 16; PU-SAR. *(Cập nhật 26/10/2026: sau G6 lượt 2 chỉ còn LLP túi 8 là khẳng định chính, PU-SAR thành bối cảnh phụ — giao thức §11.)* Trong chế độ này chuỗi hội tụ trong 30 vòng quét (ba cách khởi tạo cho cùng kết quả ở túi 8).
 - **Kiểm tra áp lực, báo cáo như giới hạn:** LLP túi 32 — đa mode, trộn chậm, phụ thuộc khởi tạo; phù hợp với Định lý 2 ($\tau$ lớn khuếch đại sai số của TFM).
 - **Kết quả phụ:** PU-SCAR — TFM ngây thơ + Elkan–Noto với c đã biết gần tối ưu; Gibbs không cải thiện đo được (chờ thầy xác nhận ở G5).
 

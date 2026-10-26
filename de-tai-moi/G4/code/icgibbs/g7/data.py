@@ -123,6 +123,21 @@ def table_sha256(X_tfm: np.ndarray, y: np.ndarray) -> str:
     return h.hexdigest()
 
 
+def load_real_pll(path: str, name: str, expected_sha256: str | None = None):
+    """Bản .npz do g5_verify_pll_real.py lưu (việc F7): X (M×d), S (M×Q, tập ứng viên), y (nhãn đúng), sha256 của
+    tệp gốc. Số lớp Q lấy từ S (Lost có 2 lớp không bao giờ là nhãn đúng). Trả (Table, S)."""
+    import pandas as pd
+    z = np.load(path, allow_pickle=False)
+    sha = str(z["sha256"])
+    if expected_sha256 and sha != expected_sha256:
+        raise ValueError(f"{name}: SHA-256 của tệp gốc {sha[:12]} khác DATASET_CARDS {expected_sha256[:12]}")
+    X = pd.DataFrame(np.asarray(z["X"], np.float64), columns=[f"f{i}" for i in range(z["X"].shape[1])])
+    S = np.asarray(z["S"]).astype(bool)
+    y = np.asarray(z["y"]).astype(int)
+    t = Table(0, name, None, sha, X, y, list(range(S.shape[1])), len(y), 0, 0)
+    return t, S
+
+
 def load_openml(did: int, binary: bool | None = None) -> Table:
     from sklearn.datasets import fetch_openml
     b = fetch_openml(data_id=did, as_frame=True, parser="auto")

@@ -20,11 +20,34 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | `code/kaggle_g4_manyclass_pilot.py` | Thí điểm PLL > 10 lớp trên tập phát triển (TabPFN v2 bọc ECOC so với TabICL v2), chọn backend cho RQ5 — **thầy chạy** |
 | `code/g6_reproduce_sarem.py` | G6 (T1): tái hiện số công bố của SAR-EM bằng code chính thức — **thầy chạy** |
 | `code/icgibbs/baselines_sar.py`, `code/icgibbs/tuning.py` | G6: SAR-EM (bọc code chính thức) và random search 20 cấu hình trên nhãn yếu |
-| `code/icgibbs/baselines_ext.py`, `code/run_g6_round2.sh`, `code/run_g6_round3.sh`, `code/run_g6_round4.sh`, `code/icgibbs/baselines_secondary.py`, `code/g6_select_comparators.py` | G6 (T3–T4): các baseline peer-review còn lại, các lượt chạy trên tập phát triển, chọn đối thủ chính |
+| `code/icgibbs/baselines_ext.py`, `code/run_g6_round2.sh`, `code/run_g6_round3.sh`, `code/run_g6_round4.sh`, `code/run_g6_round5.sh`, `code/icgibbs/baselines_secondary.py`, `code/run_g7.py`, `code/icgibbs/g7/`, `code/compare_g7_dev.py`, `code/g6_select_comparators.py` | G6 (T3–T4): các baseline peer-review còn lại, các lượt chạy trên tập phát triển, chọn đối thủ chính |
 | `code/g5_verify_pll_real.py` | Xác minh chỉ đọc bộ PLL thật cho RQ5 (Lost, MSRCv2, BirdSong, …) — **thầy chạy** |
 | [pilot/PILOT_RQ4_REPORT.md](pilot/PILOT_RQ4_REPORT.md) | Kết quả thí điểm RQ4 (cuối, lượt v4 + v5) và quyết định phạm vi |
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
+
+## G6 lượt 5 trên Kaggle — dùng `g6_code_v5.zip` (GPU; chạy độc lập với lượt 4)
+
+Mục đích: (1) **tổng duyệt bộ chạy G7** (`run_g7.py`) trên **tập phát triển** cho hai bối cảnh chính — LLP túi 8, PLL q = 0,3 và 0,6 — rồi so với kết quả thí điểm cùng ô; (2) **PROOFS G4-5**: Gibbs bag-block có sửa MH (chính xác) so với bản xấp xỉ đang dùng, ở LLP túi 8, kèm tỉ lệ chấp nhận MH; (3) chẩn đoán R̂ từ 2 chuỗi. Không chạm tập đánh giá. GPU khoảng 2,5–3 giờ; phần baseline chạy CPU song song.
+
+1. Tải `g6_code_v5.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *GPU T4, Internet: On, Add data `icgibbs-g4`, Secrets: tích `TABPFN_TOKEN`*. Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+!pip install -q tabpfn==9.2.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g6_code_v5/code/run_g6_round5.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6e", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6e", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6e
+!bash run_g6_round5.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r5_master_log.txt
+```
+4. Gửi lại các file `g6r5_*` trong /kaggle/working (csv, log, preds).
 
 ## G6 lượt 4 trên Kaggle — dùng `g6_code_v4.zip` (26/10/2026)
 

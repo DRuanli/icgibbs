@@ -70,7 +70,7 @@ def weak_model(cell: Cell, known_eta: bool = False):
         return SSL(w.y_obs, cell.n_classes)
     if w.setting == "noisy":
         return NoisyLabel(w.w, 2, T=w.T)
-    if w.setting == "pll":
+    if w.setting in ("pll", "pll_real"):
         return PartialLabel(w.S)
     raise ValueError(w.setting)
 
@@ -83,7 +83,7 @@ def naive_labels(cell: Cell):
         return np.where(lab, w.y_obs, 0), lab
     if w.setting == "noisy":
         return w.w, None
-    if w.setting == "pll":
+    if w.setting in ("pll", "pll_real"):
         return w.naive_pll, None
     raise ValueError(w.setting)
 
@@ -106,14 +106,15 @@ def warm_start(cell: Cell, cond, known_eta: bool = False):
 # =====================================================================================================
 # Phần TFM (GPU): TFM ngây thơ, chuỗi Gibbs ấm (→ gibbs_warm và sem_warm), hard-EM ấm, propensity đã biết, CL + TFM
 # =====================================================================================================
-def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guard=None):
+def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guard=None, mh_check=False):
     """todo(method) → bool; emit(method, Out, seconds); guard(method, fn) bọc lỗi riêng cho từng phương pháp.
     Gọi theo đúng thứ tự của script thí điểm."""
     guard = guard or (lambda m, fn: fn())
     w = cell.weak
     if todo("naive"):
         guard("naive", lambda: _naive(cell, cond_final, emit))
-    need_warm = any(todo(m) for m in ("gibbs_warm", "sem_warm", "hard_em_warm")) or \
+    mh_on = mh_check and todo("gibbs_warm_mh")          # G4-5: chỉ chạy khi bật --mh-check
+    need_warm = any(todo(m) for m in ("gibbs_warm", "sem_warm", "hard_em_warm")) or mh_on or \
         (w.setting == "noisy" and todo("cl_tfm"))
     state = {}
     if need_warm:
@@ -126,6 +127,8 @@ def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guar
             return
     if todo("gibbs_warm") or todo("sem_warm"):
         guard("gibbs_warm", lambda: _gibbs(cell, cond, cond_final, emit, monitor, state))
+    if mh_on:
+        guard("gibbs_warm_mh", lambda: _gibbs(cell, cond, cond_final, emit, monitor, state, mh=True))
     if todo("hard_em_warm"):
         guard("hard_em_warm", lambda: _hard_em(cell, cond, cond_final, emit, state))
     if w.setting == "pu_sar" and todo("gibbs_known_warm"):
@@ -165,14 +168,22 @@ def _naive(cell, cond_final, emit):
     emit("naive", Out(P, 1), time.time() - t0)
 
 
-def _gibbs(cell, cond, cond_final, emit, monitor, state):
+def _gibbs(cell, cond, cond_final, emit, monitor, state, mh=False):
     from ..sampler import InContextGibbs
     w = cell.weak
     t1 = time.time()
     cond.n_calls = 0
     g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
                        burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed, init=state["P0"],
-                       monitor=monitor).run(cell.Xtr)
+                       monitor=monitor, mh_correct=mh).run(cell.Xtr)
+    if mh:                                                # G4-5: khối có sửa MH (chính xác), kèm tỉ lệ chấp nhận
+        acc = "/".join(f"{a:.3f}" for a in g.trace_.accept)
+        cond_final.n_calls = 0
+        P = g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=GIBBS["n_use"])
+        emit("gibbs_warm_mh", Out(P, state["calls"] + cond.n_calls + cond_final.n_calls,
+                                  f"accept={acc};flips=" + "/".join(f"{f:.3f}" for f in g.trace_.flips)),
+             state["t"] + time.time() - t1)
+        return
     calls = cond.n_calls
     flips = "/".join(f"{f:.3f}" for f in g.trace_.flips)
     mon = "" if not g.trace_.monitor else ";monitor=" + "/".join(f"{m:.3f}" for m in g.trace_.monitor)
@@ -346,6 +357,8 @@ def baselines_for(setting: str) -> dict:
         return dict(BASELINES["pu"])
     if setting == "pu_sar":
         return {**BASELINES["pu"], **BASELINES["pu_sar_only"]}
+    if setting == "pll_real":
+        return dict(BASELINES["pll"])
     return dict(BASELINES[setting])
 
 
@@ -356,4 +369,5 @@ TFM_METHODS = {
     "ssl": ["naive", "gibbs_warm", "sem_warm", "hard_em_warm"],
     "noisy": ["naive", "gibbs_warm", "sem_warm", "hard_em_warm", "cl_tfm"],
     "pll": ["naive", "gibbs_warm", "sem_warm", "hard_em_warm"],
+    "pll_real": ["naive", "gibbs_warm", "sem_warm", "hard_em_warm"],
 }

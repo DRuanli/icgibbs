@@ -20,6 +20,13 @@ S1_EXCLUDE = {40966, 1497, 11, 40975}
 RHAT_EVAL = {"binary": [23381, 6332, 29], "multiclass": [11, 188, 469]}
 RHAT_DEV = {"binary": [1510, 1480, 1464], "multiclass": [54, 23, 36]}
 
+# RQ5 — PLL thật (G5/DATASET_CARDS Mục D): tên → (mã số dùng cho seed, SHA-256 của tệp gốc trên trang PALM)
+REAL_PLL = {
+    "Lost": (1, "ce4c1e0d5ad117e1b48f9f83805cba46f2a955ca5bdf75e578026ae4f6c7a960"),
+    "MSRCv2": (2, "8734cbd7b2f96623bfa8a0ea037daa4111fbce3954f077bf6c53d23dfb5e7a3c"),
+    "BirdSong": (3, "8c0c9b1828e523b6bd499242a94a360a55326c326fe31b788138b3537bc1c33f"),
+}
+
 DEV_BINARY = {31: "credit-g", 37: "diabetes", 1464: "blood-transfusion-service-center",
               1462: "banknote-authentication", 1480: "ilpd", 1510: "wdbc"}
 DEV_MULTICLASS = {54: "vehicle", 36: "segment", 23: "cmc"}

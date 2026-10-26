@@ -78,9 +78,9 @@ Bài: PU-SCAR ($n = 10$, 8 mẫu tự do, 256 trạng thái) với Gibbs một m
 | hoán đổi | 0,1 | 0,035 | 0,012 | 0,026 | 0,064 | 0,19 | 1,7 | 2,6× |
 | hoán đổi | 1,0 | 0,305 | 0,090 | 0,206 | 0,48 | 1,08 | 21 | 2,5× |
 
-- Chặn $\tau\bar\varepsilon$ đúng ở **30/30** cấu hình; chặt hơn chặn Mitrophanov khoảng 3 lần; dạng theo $\varepsilon$ của TFM lỏng thêm 10–40 lần.
+- Chặn $\tau\bar\varepsilon$ đúng ở **30/30** cấu hình; chặt hơn chặn Mitrophanov khoảng 3 lần; dạng theo $\varepsilon$ của TFM lỏng thêm 15–44 lần (tính từ bảng; bản trước ghi 10–40 — sửa sau kiểm duyệt độc lập 26/10/2026).
 - Hệ quả (iv) cho dự đoán đúng ở 30/30 cấu hình. Các bất đẳng thức trung gian (ii), (iii) đúng ở mọi trạng thái.
-- TV thật tăng tuyến tính theo sai số (bậc đúng như chặn dưới của Liu et al. 2014).
+- TV thật tăng tuyến tính theo sai số. (Bản trước viết "bậc đúng như chặn dưới của Liu et al. 2014"; phép so đó không trực tiếp vì hai định nghĩa sai số khác nhau — xem PROOFS Nhận xét 4.2.)
 
 **E4 — $q$ = PFN nhỏ huấn luyện trên đúng prior ô** (`cell_pfn.py`; các ảnh chụp ở các bước huấn luyện khác nhau cho các mức sai số khác nhau):
 

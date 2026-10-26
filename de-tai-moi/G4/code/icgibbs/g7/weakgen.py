@@ -36,6 +36,15 @@ class WeakData:
     meta: dict = field(default_factory=dict)
 
 
+def real_pll_weak(S_tr: np.ndarray, seed: int, code: int) -> WeakData:
+    """PLL thật: tập ứng viên có sẵn; nhãn ngây thơ = một ứng viên chọn đều, dãy ngẫu nhiên như thí điểm many-class
+    (default_rng(1000·seed + mã + 11))."""
+    rng = np.random.default_rng(1000 * seed + code + 11)
+    S = np.asarray(S_tr).astype(bool)
+    pseudo = np.array([rng.choice(np.flatnonzero(s)) for s in S])
+    return WeakData("pll_real", 0.0, S.shape[1], S=S, naive_pll=pseudo, extra=f"avg_candidates={S.sum(1).mean():.2f}")
+
+
 def weak_rng(seed: int, did: int, setting: str):
     return np.random.default_rng(1000 * seed + did + OFFSET[setting])
 

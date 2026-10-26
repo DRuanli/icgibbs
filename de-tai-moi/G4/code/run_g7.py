@@ -22,14 +22,15 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from icgibbs.g7.data import Preprocessor, Table, canonical_table, encode_tfm, load_openml, table_sha256  # noqa: E402
+from icgibbs.g7.data import (Preprocessor, Table, canonical_table, encode_tfm, load_openml,  # noqa: E402
+                             load_real_pll, table_sha256)
 from icgibbs.g7.io import ResultWriter, code_version, config_hash, weak_hash  # noqa: E402
 from icgibbs.g7.methods import GIBBS, TFM_METHODS, Cell, baselines_for, run_tfm_methods  # noqa: E402
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
-from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, RHAT_DEV,  # noqa: E402
-                                 RHAT_EVAL)
-from icgibbs.g7.splits import split_sha256, stratified_split  # noqa: E402
-from icgibbs.g7.weakgen import make_weak, weak_rng  # noqa: E402
+from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL,  # noqa: E402
+                                 RHAT_DEV, RHAT_EVAL)
+from icgibbs.g7.splits import random_split, split_sha256, stratified_split  # noqa: E402
+from icgibbs.g7.weakgen import make_weak, real_pll_weak, weak_rng  # noqa: E402
 
 LEVELS = {"llp": [8, 16, 32], "pu_sar": [0.1, 0.3], "pu_scar": [0.1, 0.3], "ssl": [0.05, 0.2], "noisy": [0.2, 0.4],
           "pll": [0.3, 0.6]}
@@ -95,6 +96,9 @@ def main(argv=None):
     ap.add_argument("--gibbs_est", type=int, default=1)
     ap.add_argument("--final_est", type=lambda v: None if v == "default" else int(v), default=None)
     ap.add_argument("--no-oracle", action="store_true")
+    ap.add_argument("--mh-check", action="store_true", help="thêm gibbs_warm_mh: khối có sửa MH (PROOFS G4-5)")
+    ap.add_argument("--rq5_dir", default="", help="thư mục chứa Lost.npz, MSRCv2.npz, BirdSong.npz (việc F7)")
+    ap.add_argument("--rq5_seeds", default="0,1,2,3,4,5,6,7,8,9", help="PLL thật: 10 lần chia 90/10 (giao thức §1.4)")
     ap.add_argument("--out", required=True)
     ap.add_argument("--preds", default="auto")
     a = ap.parse_args(argv)
@@ -120,6 +124,27 @@ def main(argv=None):
     cfg = config_hash(dict(GIBBS=GIBBS, backend=a.backend, gibbs_est=a.gibbs_est, final_est=a.final_est))
     print(f"run_g7 · part={a.part} · split={a.split} · backend={a.backend} · code={code} · config={cfg}", flush=True)
 
+    if "pll_real" in settings:                               # RQ5: PLL thật (không phụ thuộc --split)
+        if not a.rq5_dir:
+            ap.error("pll_real cần --rq5_dir")
+        if a.split != "eval" or not a.eval_ok:
+            ap.error("PLL thật thuộc tập đánh giá (RQ5): cần --split eval --eval-ok")
+        rseeds = [int(x) for x in a.rq5_seeds.split(",")]
+        for name, (code_id, sha) in REAL_PLL.items():
+            path = os.path.join(a.rq5_dir, f"{name}.npz")
+            if not os.path.exists(path):
+                print(f"[thiếu] {path}", flush=True)
+                continue
+            t, S = load_real_pll(path, name, sha)
+            t.did = code_id
+            X_all = t.X.to_numpy(np.float64)
+            sha_t = table_sha256(X_all, t.y)
+            print(f"\n=== RQ5 {name}: n={len(t.y)}, d={X_all.shape[1]}, Q={S.shape[1]}", flush=True)
+            for seed in rseeds:
+                itr, ite = random_split(len(t.y), seed, 0.1)
+                wd = real_pll_weak(S[itr], seed, code_id)
+                run_cell(a, writer, t, X_all, sha_t, "pll_real", 0.0, seed, only, code, cfg, split=(itr, ite), weak=wd)
+        settings = [x for x in settings if x != "pll_real"]
     jobs = [(did, nm, True) for did, (nm, _) in binary_ids.items() if any(s in BINARY_SETTINGS for s in settings)] + \
            [(did, nm, False) for did, (nm, _) in multi_ids.items() if "pll" in settings]
     cell_no = -1
@@ -151,14 +176,15 @@ def main(argv=None):
     return 0
 
 
-def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg):
+def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, split=None, weak=None):
     from icgibbs.conditional import SklearnTFMConditional
-    did, C = t.did, t.n_classes
-    itr, ite = stratified_split(t.y, seed)
+    did = t.did
+    C = weak.n_classes if weak is not None else t.n_classes
+    itr, ite = split if split is not None else stratified_split(t.y, seed)
     prep = Preprocessor().fit(t.X.iloc[itr])
     Mtr, Mte = prep.transform(t.X.iloc[itr]), prep.transform(t.X.iloc[ite])
     Xtr, Xte, ytr, yte = X_all[itr], X_all[ite], t.y[itr], t.y[ite]
-    wd = make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
+    wd = weak if weak is not None else make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
     cell = Cell(did, t.name, setting, level, seed, C, Xtr, Xte, Mtr, Mte, wd, prior=float(ytr.mean()) if C == 2 else None)
     base = dict(backend=a.backend if a.part in ("tfm", "rhat") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
                 level=level, seed=seed, part=a.part, n_train=len(itr), n_test=len(ite), d=X_all.shape[1], n_classes=C,
@@ -218,8 +244,8 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg):
                 emit("oracle", Out(fin.predict_proba(Xtr, ytr, Xte), 1), time.time() - t0)
             attempt("oracle", _oracle)
         monitor = lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr))   # chẩn đoán, không vào thuật toán
-        if any(todo(m) for m in TFM_METHODS[setting]):
-            run_tfm_methods(cell, cond, fin, todo, emit, monitor=monitor, guard=attempt)
+        if any(todo(m) for m in TFM_METHODS[setting]) or (a.mh_check and todo("gibbs_warm_mh")):
+            run_tfm_methods(cell, cond, fin, todo, emit, monitor=monitor, guard=attempt, mh_check=a.mh_check)
     else:
         for m, fn in baselines_for(setting).items():
             if todo(m):
