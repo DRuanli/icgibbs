@@ -134,6 +134,20 @@ def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guar
         guard("cl_tfm", lambda: _cl_tfm(cell, cond_final, emit, state))
 
 
+def run_rhat(cell, cond, seeds=(0, 1000)):
+    """Hai chuỗi Gibbs ấm cùng điểm khởi động, khác seed lấy mẫu; split-R̂ trên trạng thái nhãn sau burn-in."""
+    from ..sampler import InContextGibbs
+    from .rhat import label_rhat
+    P0, _ = warm_start(cell, cond)
+    chains = []
+    for s in seeds:
+        g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
+                           burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed + s,
+                           init=P0).run(cell.Xtr)
+        chains.append(g.samples_)
+    return label_rhat(*chains)
+
+
 def _naive(cell, cond_final, emit):
     from ..baselines import naive_tfm_llp, naive_tfm_pu
     w = cell.weak

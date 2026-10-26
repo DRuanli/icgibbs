@@ -32,3 +32,11 @@ def test_end_to_end_dry_and_resume(tmp_path):
 def test_methods_never_receive_clean_train_labels():
     from icgibbs.g7.methods import Cell
     assert not {"y", "ytr", "y_train", "y_true"} & set(Cell.__dataclass_fields__)
+
+
+def test_rhat_part_dry(tmp_path):
+    out = str(tmp_path / "rh.csv")
+    assert run_g7.main(["--part", "rhat", "--backend", "dry", "--source", "synthetic", "--datasets", "31",
+                        "--settings", "llp", "--levels", "llp=8", "--seeds", "0", "--out", out]) == 0
+    rows = list(csv.DictReader(open(out)))
+    assert len(rows) == 1 and rows[0]["status"] == "ok" and "rhat_median=" in rows[0]["extra"]

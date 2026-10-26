@@ -26,7 +26,8 @@ from icgibbs.g7.data import Preprocessor, Table, canonical_table, encode_tfm, lo
 from icgibbs.g7.io import ResultWriter, code_version, config_hash, weak_hash  # noqa: E402
 from icgibbs.g7.methods import GIBBS, TFM_METHODS, Cell, baselines_for, run_tfm_methods  # noqa: E402
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
-from icgibbs.g7.registry import DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS  # noqa: E402
+from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, RHAT_DEV,  # noqa: E402
+                                 RHAT_EVAL)
 from icgibbs.g7.splits import split_sha256, stratified_split  # noqa: E402
 from icgibbs.g7.weakgen import make_weak, weak_rng  # noqa: E402
 
@@ -80,7 +81,7 @@ def parse_levels(spec: str):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--part", choices=["tfm", "baselines"], required=True)
+    ap.add_argument("--part", choices=["tfm", "baselines", "rhat"], required=True)
     ap.add_argument("--split", choices=["dev", "eval"], default="dev")
     ap.add_argument("--eval-ok", action="store_true", help="xác nhận chạy trên tập đánh giá (chỉ từ G7)")
     ap.add_argument("--source", choices=["openml", "synthetic"], default="openml")
@@ -106,6 +107,9 @@ def main(argv=None):
     si, sn = (int(v) for v in a.shard.split("/"))
     binary_ids = dict(EVAL_BINARY if a.split == "eval" else {k: (v, None) for k, v in DEV_BINARY.items()})
     multi_ids = dict(EVAL_MULTICLASS if a.split == "eval" else {k: (v, None) for k, v in DEV_MULTICLASS.items()})
+    if a.part == "rhat" and a.datasets == "all":            # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
+        rs = RHAT_EVAL if a.split == "eval" else RHAT_DEV
+        a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
     if a.datasets != "all":
         want = {int(x) for x in a.datasets.split(",")}
         binary_ids = {k: v for k, v in binary_ids.items() if k in want}
@@ -156,7 +160,7 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg):
     Xtr, Xte, ytr, yte = X_all[itr], X_all[ite], t.y[itr], t.y[ite]
     wd = make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
     cell = Cell(did, t.name, setting, level, seed, C, Xtr, Xte, Mtr, Mte, wd, prior=float(ytr.mean()) if C == 2 else None)
-    base = dict(backend=a.backend if a.part == "tfm" else "cpu", dataset_id=did, dataset=t.name, setting=setting,
+    base = dict(backend=a.backend if a.part in ("tfm", "rhat") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
                 level=level, seed=seed, part=a.part, n_train=len(itr), n_test=len(ite), d=X_all.shape[1], n_classes=C,
                 pos_rate=round(float(ytr.mean()), 4) if C == 2 else "", n_duplicates_removed=t.n_duplicates_removed,
                 sha256_table=sha_t, sha256_split=split_sha256(itr, ite), weak_hash=weak_hash(wd), code=code,
@@ -192,6 +196,18 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg):
             print(f"[lỗi] {did} {setting} {level} s{seed} {m}: {e!r}", flush=True)
             writer.write(dict(base, method=m, status=f"error: {e!r}"[:200]))
 
+    if a.part == "rhat":
+        if todo("rhat"):
+            def _rh():
+                t0 = time.time()
+                from icgibbs.g7.methods import run_rhat
+                cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
+                st = run_rhat(cell, cond)
+                writer.write(dict(base, method="rhat", seconds=round(time.time() - t0, 2), status="ok",
+                                  extra=";".join(f"{k}={v:.4f}" if isinstance(v, float) else f"{k}={v}" for k, v in st.items())))
+                print(f"  {t.name[:22]:>22s} {setting:7s} {str(level):>4s} s{seed} rhat {st}", flush=True)
+            attempt("rhat", _rh)
+        return
     if a.part == "tfm":
         cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
         fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)

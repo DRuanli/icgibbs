@@ -49,6 +49,7 @@ code/
 | 3 | T5: `g6_dataset_hashes.py` — mã băm (X_tfm, y) và 3 lần chia của mọi dataset, dùng đúng `data.py` | Code xong; chạy ở G6 lượt 4 (cần Internet tới OpenML) |
 | 4a | `metrics.py` (metric chính và phụ: PR-AUC, ECE, khớp tiên nghiệm; R4), `io.py` (CSV chạy tiếp được, dự đoán, mã băm nhãn yếu và cấu hình, phiên bản code; R7) — 5 test | Xong 26/10/2026 |
 | 4b | `methods.py` (đúng cấu hình đã chốt và tên phương pháp như thí điểm; mỗi phương pháp có khung bắt lỗi riêng), `run_g7.py` (hai phần `tfm`/`baselines`, chia mảnh, chạy tiếp, mặc định tập phát triển; tập đánh giá cần `--split eval --eval-ok`) — 3 test (chặn tập đánh giá; chạy đầu-cuối với TFM giả; chạy tiếp không thêm dòng) và chạy thử đầu-cuối mọi bối cảnh, mọi loại phương pháp trên dữ liệu tổng hợp | Xong 26/10/2026 |
-| 4c | Các phần còn lại của bảng ở Mục 2: `rq5` (PLL thật, TabICL v2, 10 lần chia 90/10; LLP-Bench), `ablation` (giao thức Mục 7), `rhat` (2 chuỗi, R5) | Chưa |
+| 4c | Phần `rhat` (R5): 2 chuỗi Gibbs ấm cùng điểm khởi động, khác seed; split-R̂ (Vehtari et al. 2021) trên chỉ báo nhãn từng mẫu sau burn-in — trung vị, phân vị 90, tỉ lệ R̂ > 1,1, R̂ toàn cục (`icgibbs/g7/rhat.py`, 3 test). **Quy tắc ghi trước:** 3 dataset nhỏ nhất theo n của mỗi nhóm — tập đánh giá: dresses-sales, cylinder-bands, credit-approval; balance-scale, eucalyptus, analcatdata_dmft | Xong 26/10/2026 |
+| 4d | Các phần còn lại: `rq5` (PLL thật, TabICL v2, 10 lần chia 90/10; LLP-Bench), `ablation` (giao thức Mục 7) | Chưa |
 | 5 | Chạy tổng duyệt toàn bộ trên **tập phát triển** (phần `tfm` trên GPU, phần `baselines` trên CPU), so với kết quả thí điểm để thấy sai khác do R1–R3 | Chưa — G6 lượt 5 |
 | 6 | Người kiểm duyệt chạy từ clone sạch (T8) | Chưa |

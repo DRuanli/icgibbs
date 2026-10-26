@@ -15,6 +15,11 @@ EVAL_MULTICLASS = {
 # Phân tích độ nhạy S1 (giao thức Mục 1.5): loại các bộ có cấu trúc nhóm/chuỗi hoặc bài toán xác định
 S1_EXCLUDE = {40966, 1497, 11, 40975}
 
+# Chẩn đoán R̂ (giao thức Mục 5: "2 chuỗi trên mẫu con 3 dataset"): quy tắc ghi trước — 3 dataset nhỏ nhất theo n
+# (DATASET_CARDS) của mỗi nhóm
+RHAT_EVAL = {"binary": [23381, 6332, 29], "multiclass": [11, 188, 469]}
+RHAT_DEV = {"binary": [1510, 1480, 1464], "multiclass": [54, 23, 36]}
+
 DEV_BINARY = {31: "credit-g", 37: "diabetes", 1464: "blood-transfusion-service-center",
               1462: "banknote-authentication", 1480: "ilpd", 1510: "wdbc"}
 DEV_MULTICLASS = {54: "vehicle", 36: "segment", 23: "cmc"}
