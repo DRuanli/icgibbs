@@ -141,3 +141,54 @@ def test_nnpu_tuned_runs():
     s = ((y == 1) & (rng.uniform(size=500) < 0.3)).astype(int)
     m = fit_nnpu(X, s, prior=float(y.mean()), seed=0, tune=True, n_configs=3)
     assert len(m.tune_.trials) == 3
+
+
+def test_proden_optimizer_choice_and_default_is_official_sgd():
+    from icgibbs.baselines_ext import PLLNet, PLL_SPACES, PLL_DEFAULTS
+    assert PLLNet("proden").optimizer == "sgd" and PLLNet("rc").optimizer == "adam"
+    assert "optimizer" not in PLL_DEFAULTS["proden"] and set(PLL_SPACES["proden"]["optimizer"].values) == {"sgd", "adam"}
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(300, 4)); y = (X[:, 0] > 0).astype(int) + (X[:, 1] > 0).astype(int)
+    S = rng.uniform(size=(300, 3)) < 0.3; S[np.arange(300), y] = True
+    for opt in ("sgd", "adam"):
+        m = PLLNet("proden", optimizer=opt, epochs=30, seed=0).fit(X, S)
+        assert np.isfinite(m.predict_proba(X)).all()
+    with pytest.raises(ValueError):
+        PLLNet("proden", optimizer="rmsprop", epochs=1).fit(X, S)
+
+
+def test_label_spreading_default_matches_pilot_config():
+    """Cấu hình mặc định của bản tune trùng bản label spreading đã chạy trong thí điểm (kNN, k = 7, α = 0,2)."""
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.semi_supervised import LabelSpreading
+    from icgibbs.baselines_ext import fit_ssl
+    rng = np.random.default_rng(0)
+    X = rng.normal(size=(300, 5)); y = (X[:, 0] + 0.5 * rng.normal(size=300) > 0).astype(int)
+    y_obs = np.where(rng.uniform(size=300) < 0.1, y, -1)
+    ours = fit_ssl("label_spreading", X[:200], y_obs[:200], tune=False).predict_proba(X[200:])
+    sc = StandardScaler().fit(X[:200])
+    ref = LabelSpreading(kernel="knn", n_neighbors=7, alpha=0.2, max_iter=100).fit(sc.transform(X[:200]), y_obs[:200])
+    with np.errstate(invalid="ignore", divide="ignore"):
+        R = ref.predict_proba(sc.transform(X[200:]))
+    ok = np.isfinite(R).all(1)
+    assert np.allclose(ours[ok], R[ok], atol=1e-6)
+
+
+def test_ssl_and_forward_tuning_run_and_choose_from_space():
+    from icgibbs.baselines_ext import fit_ssl, fit_forward, forward_val_loss
+    rng = np.random.default_rng(1)
+    X = rng.normal(size=(400, 4)); y = (X[:, 0] > 0).astype(int)
+    y_obs = np.where(rng.uniform(size=400) < 0.2, y, -1)
+    for name in ("label_spreading", "self_training"):
+        m = fit_ssl(name, X, y_obs, seed=0, tune=True, n_configs=5)
+        P = m.predict_proba(X)
+        assert P.shape == (400, 2) and np.allclose(P.sum(1), 1) and np.isfinite(m.tune_.best_score)
+    T = np.array([[0.9, 0.1], [0.2, 0.8]])
+    w = np.array([rng.choice(2, p=T[k]) for k in y])
+    m = fit_forward(X, w, T, seed=0, tune=True, n_configs=3)
+    assert np.isfinite(forward_val_loss(m, X, w, T)) and roc_auc(y, m.predict_proba(X)[:, 1]) > 0.8
+
+
+def roc_auc(y, s):
+    from sklearn.metrics import roc_auc_score
+    return roc_auc_score(y, s)

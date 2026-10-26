@@ -56,10 +56,11 @@ Kho không có tệp LICENSE: chỉ dùng để chạy tái hiện và đối ch
 | 26/10/2026 | T3: cài DLLP (MLP, tuyến tính), LLP-VAT, EasyLLP, GLWS cho LLP; PRODEN, GLWS/ILL, RC, CC cho PLL; nnPU, uPU có tune; SAR-E (`icgibbs/baselines_ext.py`, 16 test mới). Sửa lỗi ghép nhầm `else` trong `kaggle_g4_pilot.py` (không ảnh hưởng kết quả G6 lượt 1 vì lượt đó chạy với `--only`) | Code xong; chờ lượt 2 trên Kaggle (`g6_code_v2.zip`, `run_g6_round2.sh`) |
 | 26/10/2026 | Smoke test lượt 2 (dry-run mọi phương pháp mới); sửa phần tóm tắt của `kaggle_g4_rq4_pilot.py` khi chỉ chạy baseline; commit `3a900c1` | Xong; `g6_code_v2.zip` đã gửi thầy |
 | 26/10/2026 | T7 (phần 1): Mệnh đề 5 (mục tiêu ngây thơ affine ⇒ nhất quán về xếp hạng; chặn hối tiếc AUC), Mệnh đề 6 (bất đẳng thức xử lý dữ liệu cho thông tin Fisher), Quan sát 6(b) (LLP: hợp lý từng điểm ≈ 0,27/k hiệu quả). **Đính chính:** bộ ngây thơ ở PLL, LLP cũng nhất quán về xếp hạng. Thêm phân tích thăm dò D1–D3 (giao thức §11) | Xong — [PROOFS §7](../G4/PROOFS.md), `g6_t7_naive_theory.py`, 10 test. Còn: G4-1, G4-3, G4-4, G6-T7a, kiểm duyệt độc lập |
-| — | T4: chọn đối thủ chính và kiểm lại phạm vi LLP, PLL (`g6_select_comparators.py`) | Sau lượt 2 |
+| 26/10/2026 | G6 lượt 2 trên Kaggle (CPU, 2 giờ): 684/684 dòng, cùng dữ liệu với Gibbs/naive. T4: đối thủ chính LLP — DLLP tuyến tính; PLL — GLWS/ILL tune (tạm thời); PU — nnPU. Kiểm phạm vi: PLL 6/6; LLP 7/12 (túi 8: 5/6, túi 16: 2/6). SAR-EM Breast Cancer: giả thuyết 1 bị bác, xếp loại (b) | Xong — [G6_ROUND2_REPORT](G6_ROUND2_REPORT.md), [docs/primary_comparators.md](../docs/primary_comparators.md) |
+| 26/10/2026 | **Thầy quyết: LLP chính chỉ còn túi 8** (giao thức §11, deviation 7). PRODEN tune thêm Adam; thêm bản tune cho label spreading, self-training, forward correction (deviation 8) | Code xong, smoke test qua; chờ lượt 3 trên Kaggle (`g6_code_v3.zip`, `run_g6_round3.sh`, CPU khoảng 1 giờ) |
 
 ## 5. Cần thầy làm hoặc xác nhận
-- **Kho git:** xong — `github.com/DRuanli/icgibbs` (riêng tư), đẩy lên ngày 26/10/2026.
-- **Phạm vi PU-SAR** và **quy tắc chọn đối thủ chính:** đã quyết ngày 26/10/2026 (thầy giao Claude chọn) — PU-SAR thành bối cảnh phụ; ứng viên đối thủ chính gồm cả bản mặc định lẫn bản tune. Ghi ở giao thức Mục 11.
-- **Chạy G6 lượt 2 trên Kaggle (CPU):** hướng dẫn ở [G4/README](../G4/README.md), mục "G6 lượt 2".
-- **Hình 1 của bài SAR-EM:** nhờ thầy nhìn hình để xác nhận cách gán cột (giả thuyết 2 ở [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md) Mục 2).
+- **Chạy G6 lượt 3 trên Kaggle (CPU, khoảng 1 giờ):** hướng dẫn ở [G4/README](../G4/README.md), mục "G6 lượt 3". Sau lượt này chốt đối thủ chính của PLL, nhãn nhiễu, SSL.
+- **Kiểm duyệt độc lập phần lý thuyết** (PROOFS §1–5 và §7): chọn người kiểm hoặc một phiên kiểm duyệt riêng.
+- Không bắt buộc: Hình 1 của bài SAR-EM (giả thuyết 2); không còn ảnh hưởng tới quyết định nào.
+- Đã xong: kho git; phạm vi PU-SAR và quy tắc chọn đối thủ chính (26/10); phạm vi LLP — chỉ túi 8 (26/10).

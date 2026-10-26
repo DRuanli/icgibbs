@@ -20,11 +20,31 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | `code/kaggle_g4_manyclass_pilot.py` | Thí điểm PLL > 10 lớp trên tập phát triển (TabPFN v2 bọc ECOC so với TabICL v2), chọn backend cho RQ5 — **thầy chạy** |
 | `code/g6_reproduce_sarem.py` | G6 (T1): tái hiện số công bố của SAR-EM bằng code chính thức — **thầy chạy** |
 | `code/icgibbs/baselines_sar.py`, `code/icgibbs/tuning.py` | G6: SAR-EM (bọc code chính thức) và random search 20 cấu hình trên nhãn yếu |
-| `code/icgibbs/baselines_ext.py`, `code/run_g6_round2.sh`, `code/g6_select_comparators.py` | G6 (T3–T4): các baseline peer-review còn lại, lượt chạy trên tập phát triển, chọn đối thủ chính |
+| `code/icgibbs/baselines_ext.py`, `code/run_g6_round2.sh`, `code/run_g6_round3.sh`, `code/g6_select_comparators.py` | G6 (T3–T4): các baseline peer-review còn lại, các lượt chạy trên tập phát triển, chọn đối thủ chính |
 | `code/g5_verify_pll_real.py` | Xác minh chỉ đọc bộ PLL thật cho RQ5 (Lost, MSRCv2, BirdSong, …) — **thầy chạy** |
 | [pilot/PILOT_RQ4_REPORT.md](pilot/PILOT_RQ4_REPORT.md) | Kết quả thí điểm RQ4 (cuối, lượt v4 + v5) và quyết định phạm vi |
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
+
+## G6 lượt 3 trên Kaggle — dùng `g6_code_v3.zip` (26/10/2026)
+
+Mục đích: (1) chạy lại PRODEN tune với không gian có thêm Adam; (2) bản tune của label spreading, self-training, forward correction cho hai bối cảnh phụ (SSL, nhãn nhiễu). Sau lượt này chốt đối thủ chính của PLL, nhãn nhiễu, SSL. **Chỉ cần CPU**, khoảng 1 giờ.
+
+1. Tải `g6_code_v3.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *Accelerator: None (CPU), Internet: On, Add data `icgibbs-g4`*. Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+import os, glob, shutil
+src = glob.glob("/kaggle/input/**/g6_code_v3/code/run_g6_round3.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6c", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6c", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6c
+!bash run_g6_round3.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r3_master_log.txt
+```
+4. Gửi lại các file `g6r3_*` trong /kaggle/working (csv, log, preds); không cần thư mục `PRODEN/`.
 
 ## G6 lượt 2 trên Kaggle — dùng `g6_code_v2.zip` (26/10/2026)
 

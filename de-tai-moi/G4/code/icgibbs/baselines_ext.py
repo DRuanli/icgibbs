@@ -291,9 +291,11 @@ class PLLNet:
     """method ∈ {proden, glws, rc, cc}."""
 
     def __init__(self, method: str = "proden", lr: float = 1e-3, weight_decay: float = 1e-5, hidden=(128, 128),
-                 epochs: int = 200, batch_size: int = 128, seed: int = 0):
+                 epochs: int = 200, batch_size: int = 128, seed: int = 0, optimizer: str | None = None):
         self.method, self.lr, self.wd, self.hidden, self.epochs = method, lr, weight_decay, tuple(hidden), epochs
         self.bs, self.seed = batch_size, seed
+        # PRODEN: SGD momentum 0,9 như kho chính thức (mặc định); không gian tune có thêm Adam (G6 lượt 2, mục 5)
+        self.optimizer = optimizer or ("sgd" if method == "proden" else "adam")
 
     def fit(self, X, S):
         torch = _torch()
@@ -308,9 +310,12 @@ class PLLNet:
         self.net = _mlp(X.shape[1], C, self.hidden).to(dev)
         if self.method == "proden":
             partial_loss, self.source_ = _proden_partial_loss()
+        if self.optimizer == "sgd":
             opt = torch.optim.SGD(self.net.parameters(), lr=self.lr, weight_decay=self.wd, momentum=0.9)
-        else:
+        elif self.optimizer == "adam":
             opt = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.wd)
+        else:
+            raise ValueError(self.optimizer)
         n = len(S)
         for _ in range(self.epochs):
             for b in np.array_split(rng.permutation(n), max(1, n // self.bs)):
@@ -364,6 +369,9 @@ _PLL_SPACE = {"lr": LogUniform(1e-4, 1e-2), "weight_decay": LogUniform(1e-6, 1e-
               "hidden": Choice([(), (64,), (128, 128)]), "epochs": Choice([100, 200, 400]), "batch_size": Choice([128])}
 PLL_SPACES = {k: dict(_PLL_SPACE) for k in PLL_DEFAULTS}
 PLL_SPACES["glws"] = dict(_PLL_SPACE, hidden=Choice([(64,), (128,), (128, 128)]))
+# G6 lượt 2 (26/10/2026): SGD với lr ≤ 1e-2 làm PRODEN chưa hội tụ trên dữ liệu bảng nhỏ (bản Adam cũ của dự án mạnh hơn)
+# → thêm bộ tối ưu vào không gian tune; cấu hình mặc định giữ SGD như kho chính thức. Ghi ở docs/tuning_spaces.md.
+PLL_SPACES["proden"] = dict(_PLL_SPACE, optimizer=Choice(["sgd", "adam"]))
 
 
 def fit_pll(name: str, X, S, seed: int = 0, tune: bool = False, n_configs: int = 20):
@@ -424,3 +432,123 @@ def fit_sar_e(X, s, e):
     f, _ = pu_learn_sar_e(np.asarray(X, float), np.asarray(s, int), np.clip(np.asarray(e, float), 1e-3, 1),
                           classification_model=_lr_pu(1.0, 0))
     return f
+
+
+# =====================================================================================================
+# SSL và nhãn nhiễu phụ thuộc lớp (bối cảnh phụ): bản tune 20 cấu hình của label spreading, self-training,
+# forward correction — không gian và loss validation đã ghi trước ở docs/tuning_spaces.md (G6, lượt 3)
+# =====================================================================================================
+class LabelSpreadingSSL:
+    """Label spreading (Zhou et al., NIPS 2003) trên feature đã chuẩn hoá. Điểm test không nhận được nhãn lan
+    truyền (hàng 0/0) được gán tiên nghiệm lớp của phần có nhãn, như bản chạy trong thí điểm (lượt v5)."""
+
+    def __init__(self, kernel="knn", n_neighbors=7, gamma=1.0, alpha=0.2, max_iter=100):
+        self.kernel, self.k, self.gamma, self.alpha, self.max_iter = kernel, n_neighbors, gamma, alpha, max_iter
+
+    def fit(self, X, y_obs, n_classes=None):
+        from sklearn.semi_supervised import LabelSpreading
+        y_obs = np.asarray(y_obs)
+        C = n_classes or int(y_obs.max()) + 1
+        self.prior_ = np.bincount(y_obs[y_obs >= 0], minlength=C) / max(1, int((y_obs >= 0).sum()))
+        self.std = _Std().fit(X)
+        self.m = LabelSpreading(kernel=self.kernel, n_neighbors=self.k, gamma=self.gamma, alpha=self.alpha,
+                                max_iter=self.max_iter).fit(self.std(X), y_obs)
+        self.classes_ = self.m.classes_
+        return self
+
+    def predict_proba(self, X):
+        C = len(self.prior_)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            Pm = self.m.predict_proba(self.std(X))
+        P = np.zeros((len(Pm), C))
+        P[:, self.classes_] = Pm
+        bad = ~np.isfinite(P).all(1) | (np.nan_to_num(P).sum(1) <= 0)
+        self.fallback_rows_ = int(bad.sum())
+        return np.where(bad[:, None], self.prior_[None, :], np.nan_to_num(P))
+
+
+class SelfTrainingSSL:
+    """Self-training (Yarowsky 1995) với hồi quy logistic, như bản của scikit-learn."""
+
+    def __init__(self, C=1.0, threshold=0.75):
+        self.C, self.threshold = C, threshold
+
+    def fit(self, X, y_obs, n_classes=None):
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.semi_supervised import SelfTrainingClassifier
+        y_obs = np.asarray(y_obs)
+        self.n_classes = n_classes or int(y_obs.max()) + 1
+        self.std = _Std().fit(X)
+        self.m = SelfTrainingClassifier(LogisticRegression(C=self.C, max_iter=2000),
+                                        threshold=self.threshold).fit(self.std(X), y_obs)
+        return self
+
+    def predict_proba(self, X):
+        Pm = self.m.predict_proba(self.std(X))
+        P = np.zeros((len(Pm), self.n_classes))
+        P[:, self.m.classes_] = Pm
+        return P
+
+
+def _ssl_val_logloss(model, X, y_obs):
+    lab = np.asarray(y_obs) >= 0
+    if not lab.any():
+        return np.inf
+    P = np.clip(model.predict_proba(X[lab]), 1e-12, 1)
+    return float(-np.mean(np.log(P[np.arange(lab.sum()), np.asarray(y_obs)[lab]])))
+
+
+SSL_DEFAULTS = {"label_spreading": dict(kernel="knn", n_neighbors=7, gamma=1.0, alpha=0.2),
+                "self_training": dict(C=1.0, threshold=0.75)}
+SSL_SPACES = {
+    "label_spreading": {"kernel": Choice(["knn", "rbf"]), "n_neighbors": Choice([3, 5, 7, 11, 15, 21]),
+                        "gamma": LogUniform(1e-3, 10.0), "alpha": Choice([0.1, 0.2, 0.5, 0.8])},
+    "self_training": {"C": LogUniform(1e-3, 1e3), "threshold": Choice([0.6, 0.75, 0.9, 0.95])},
+}
+_SSL_CLS = {"label_spreading": LabelSpreadingSSL, "self_training": SelfTrainingSSL}
+
+
+def fit_ssl(name: str, X, y_obs, seed: int = 0, tune: bool = False, n_configs: int = 20, n_classes=None):
+    """Chọn cấu hình theo log loss trên phần CÓ NHÃN của 20% validation (tách phân tầng theo nhãn quan sát, kể cả -1)."""
+    y_obs = np.asarray(y_obs)
+    C = n_classes or int(y_obs.max()) + 1
+    if not tune:
+        return _SSL_CLS[name](**SSL_DEFAULTS[name]).fit(X, y_obs, C)
+    itr, iva = weak_validation_split(len(y_obs), seed, 0.2, stratify=y_obs)
+
+    def score(cfg):
+        if (y_obs[itr] >= 0).sum() < 2 or len(np.unique(y_obs[itr][y_obs[itr] >= 0])) < 2:
+            raise ValueError("phần train của validation thiếu nhãn")
+        return _ssl_val_logloss(_SSL_CLS[name](**cfg).fit(X[itr], y_obs[itr], C), X[iva], y_obs[iva])
+
+    res = random_search(score, SSL_SPACES[name], n=n_configs, seed=seed, default=SSL_DEFAULTS[name])
+    m = _SSL_CLS[name](**res.best).fit(X, y_obs, C)
+    m.tune_ = res
+    return m
+
+
+FORWARD_DEFAULT = dict(lr=1e-3, weight_decay=0.0, hidden=(100,), epochs=200)      # "như nnPU" (tuning_spaces)
+FORWARD_SPACE = {"lr": LogUniform(1e-4, 1e-2), "weight_decay": LogUniform(1e-6, 1e-2),
+                 "hidden": Choice([(64,), (128,), (128, 128)]), "epochs": Choice([100, 200, 400])}
+
+
+def forward_val_loss(model, X, w, T):
+    """Log loss đã hiệu chỉnh tiến trên nhãn nhiễu: −log (p(x)ᵀ T)[w]."""
+    Q = np.clip(model.predict_proba(X) @ np.asarray(T, float), 1e-12, 1)
+    return float(-np.mean(np.log(Q[np.arange(len(w)), np.asarray(w)])))
+
+
+def fit_forward(X, w, T, seed: int = 0, tune: bool = False, n_configs: int = 20):
+    from .baselines import ForwardCorrection
+    w = np.asarray(w)
+    if not tune:
+        return ForwardCorrection(T, seed=seed, **FORWARD_DEFAULT).fit(X, w)
+    itr, iva = weak_validation_split(len(w), seed, 0.2, stratify=w)
+
+    def score(cfg):
+        return forward_val_loss(ForwardCorrection(T, seed=seed, **cfg).fit(X[itr], w[itr]), X[iva], w[iva], T)
+
+    res = random_search(score, FORWARD_SPACE, n=n_configs, seed=seed, default=FORWARD_DEFAULT)
+    m = ForwardCorrection(T, seed=seed, **res.best).fit(X, w)
+    m.tune_ = res
+    return m

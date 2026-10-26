@@ -21,7 +21,8 @@ Kết quả Kaggle lượt `g6_code_v1`: `G4/pilot/g6_sarem_reproduction.csv`, `
 - Mushroom đạt tiêu chí. Breast Cancer lệch ở SAR-EM (AUC cao hơn công bố, MSE cao hơn). **Naive (cũng là code gốc) lệch cùng chiều về MSE ở cả hai dataset**, nên nguyên nhân nhiều khả năng nằm ở thiết lập dữ liệu và gán nhãn, không ở SAR-EM. Hai giả thuyết:
   1. Tập thuộc tính của bộ phân loại: bài không nói rõ; notebook gốc ghi `0-<d>`, cận trên tính cả thuộc tính propensity đầu tiên.
   2. Cách gán cột trong Hình 1. Đây là dot plot; bản trích chữ chỉ cho thấy số đầu tiên nằm cạnh nhãn "Naive", và đó là căn cứ để em đọc thứ tự (Naive, SAR-EM, KM2, TIcE, Sup.).
-- **Xếp loại tạm thời:** (a) có nguyên nhân khả dĩ, đang kiểm. Script đã có `--cls_mode orig|orig_plus1|all` để kiểm giả thuyết 1 ở lượt Kaggle tới. Cần thầy nhìn Hình 1 của bài để xác nhận giả thuyết 2.
+- **Cập nhật sau G6 lượt 2:** giả thuyết 1 bị bác (đổi tập thuộc tính không tái hiện được cả bốn số; MSE của f gần như không đổi) — xem [G6_ROUND2_REPORT](G6_ROUND2_REPORT.md) Mục 4. **Xếp loại cuối: (b)**, đã khoanh vùng ngoài thuật toán SAR-EM.
+- **Xếp loại tạm thời (cũ):** (a) có nguyên nhân khả dĩ, đang kiểm. Script đã có `--cls_mode orig|orig_plus1|all` để kiểm giả thuyết 1 ở lượt Kaggle tới. Cần thầy nhìn Hình 1 của bài để xác nhận giả thuyết 2.
 
 ## 3. PU-SAR trên tập phát triển — có thêm SAR-EM (ROC AUC, trung bình 3 seed)
 

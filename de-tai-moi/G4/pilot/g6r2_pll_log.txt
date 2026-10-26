@@ -1,0 +1,190 @@
+##### g6r2_pll_0.log
+                   vehicle pll    0.3 s0 proden_def     AUC=0.81499 ACC=0.5472 LL=1.1061 16.8s
+                   vehicle pll    0.3 s0 proden_tun     AUC=0.92756 ACC=0.7638 LL=0.5960 25.4s
+                   vehicle pll    0.3 s0 glwspll_def    AUC=0.93166 ACC=0.8150 LL=0.9307 2.5s
+                   vehicle pll    0.3 s0 glwspll_tun    AUC=0.93025 ACC=0.7874 LL=0.6819 34.0s
+                   vehicle pll    0.3 s0 rc_def         AUC=0.86223 ACC=0.6614 LL=0.9047 0.9s
+                   vehicle pll    0.3 s0 rc_tun         AUC=0.92351 ACC=0.7598 LL=0.6578 26.2s
+                   vehicle pll    0.3 s0 cc_def         AUC=0.86252 ACC=0.6614 LL=0.9031 1.0s
+                   vehicle pll    0.3 s0 cc_tun         AUC=0.93406 ACC=0.7953 LL=0.6629 26.8s
+                   vehicle pll    0.6 s1 proden_def     AUC=0.75422 ACC=0.4921 LL=1.2594 1.9s
+                   vehicle pll    0.6 s1 proden_tun     AUC=0.92934 ACC=0.7441 LL=0.5656 31.6s
+                   vehicle pll    0.6 s1 glwspll_def    AUC=0.9293 ACC=0.7795 LL=1.2914 2.5s
+                   vehicle pll    0.6 s1 glwspll_tun    AUC=0.93414 ACC=0.7520 LL=0.5623 46.4s
+                   vehicle pll    0.6 s1 rc_def         AUC=0.86847 ACC=0.6063 LL=0.8834 0.9s
+                   vehicle pll    0.6 s1 rc_tun         AUC=0.93292 ACC=0.7677 LL=0.5668 33.5s
+                   vehicle pll    0.6 s1 cc_def         AUC=0.86909 ACC=0.6063 LL=0.8792 0.9s
+                   vehicle pll    0.6 s1 cc_tun         AUC=0.9346 ACC=0.7795 LL=0.5553 32.3s
+                   segment pll    0.3 s2 proden_def     AUC=0.98771 ACC=0.8918 LL=0.3884 5.4s
+                   segment pll    0.3 s2 proden_tun     AUC=0.99471 ACC=0.9235 LL=0.1943 89.6s
+                   segment pll    0.3 s2 glwspll_def    AUC=0.99742 ACC=0.9596 LL=0.2159 7.2s
+                   segment pll    0.3 s2 glwspll_tun    AUC=0.99808 ACC=0.9639 LL=0.1129 142.4s
+                   segment pll    0.3 s2 rc_def         AUC=0.98877 ACC=0.8990 LL=0.3228 2.6s
+                   segment pll    0.3 s2 rc_tun         AUC=0.99778 ACC=0.9625 LL=0.1153 105.3s
+                   segment pll    0.3 s2 cc_def         AUC=0.98874 ACC=0.9004 LL=0.3222 2.7s
+                   segment pll    0.3 s2 cc_tun         AUC=0.99785 ACC=0.9610 LL=0.1167 104.2s
+                       cmc pll    0.3 s0 proden_def     AUC=0.68535 ACC=0.5045 LL=0.9738 3.4s
+                       cmc pll    0.3 s0 proden_tun     AUC=0.66408 ACC=0.4819 LL=1.0141 42.3s
+                       cmc pll    0.3 s0 glwspll_def    AUC=0.66394 ACC=0.4774 LL=2.3832 4.7s
+                       cmc pll    0.3 s0 glwspll_tun    AUC=0.69892 ACC=0.4977 LL=0.9521 77.8s
+                       cmc pll    0.3 s0 rc_def         AUC=0.68799 ACC=0.4842 LL=0.9728 2.2s
+                       cmc pll    0.3 s0 rc_tun         AUC=0.67783 ACC=0.4955 LL=0.9851 52.1s
+                       cmc pll    0.3 s0 cc_def         AUC=0.68805 ACC=0.4864 LL=0.9728 2.0s
+                       cmc pll    0.3 s0 cc_tun         AUC=0.67823 ACC=0.4955 LL=0.9847 48.6s
+                       cmc pll    0.6 s1 proden_def     AUC=0.64422 ACC=0.4525 LL=1.0203 3.5s
+                       cmc pll    0.6 s1 proden_tun     AUC=0.6576 ACC=0.4728 LL=1.0520 55.5s
+                       cmc pll    0.6 s1 glwspll_def    AUC=0.62657 ACC=0.4570 LL=3.6114 4.9s
+                       cmc pll    0.6 s1 glwspll_tun    AUC=0.67775 ACC=0.5475 LL=1.1170 84.4s
+                       cmc pll    0.6 s1 rc_def         AUC=0.65552 ACC=0.4683 LL=1.0429 1.8s
+                       cmc pll    0.6 s1 rc_tun         AUC=0.65552 ACC=0.4683 LL=1.0429 63.7s
+                       cmc pll    0.6 s1 cc_def         AUC=0.65582 ACC=0.4683 LL=1.0437 1.7s
+                       cmc pll    0.6 s1 cc_tun         AUC=0.65582 ACC=0.4683 LL=1.0437 60.9s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         cc_def  cc_tun  glwspll_def  glwspll_tun  proden_def  proden_tun  rc_def  rc_tun
+dataset level                                                                                  
+cmc     0.3    0.4864  0.4955       0.4774       0.4977      0.5045      0.4819  0.4842  0.4955
+        0.6    0.4683  0.4683       0.4570       0.5475      0.4525      0.4728  0.4683  0.4683
+segment 0.3    0.9004  0.9610       0.9596       0.9639      0.8918      0.9235  0.8990  0.9625
+vehicle 0.3    0.6614  0.7953       0.8150       0.7874      0.5472      0.7638  0.6614  0.7598
+        0.6    0.6063  0.7795       0.7795       0.7520      0.4921      0.7441  0.6063  0.7677
+##### g6r2_pll_1.log
+                   vehicle pll    0.3 s1 proden_def     AUC=0.83894 ACC=0.5787 LL=1.0465 16.8s
+                   vehicle pll    0.3 s1 proden_tun     AUC=0.9498 ACC=0.7953 LL=0.4090 31.4s
+                   vehicle pll    0.3 s1 glwspll_def    AUC=0.95394 ACC=0.8071 LL=0.6699 2.4s
+                   vehicle pll    0.3 s1 glwspll_tun    AUC=0.95186 ACC=0.7874 LL=0.4232 46.1s
+                   vehicle pll    0.3 s1 rc_def         AUC=0.89233 ACC=0.7008 LL=0.8188 0.9s
+                   vehicle pll    0.3 s1 rc_tun         AUC=0.96082 ACC=0.8228 LL=0.3785 34.4s
+                   vehicle pll    0.3 s1 cc_def         AUC=0.89262 ACC=0.7008 LL=0.8179 0.9s
+                   vehicle pll    0.3 s1 cc_tun         AUC=0.96115 ACC=0.8268 LL=0.3768 34.9s
+                   vehicle pll    0.6 s2 proden_def     AUC=0.74003 ACC=0.4488 LL=1.2665 1.8s
+                   vehicle pll    0.6 s2 proden_tun     AUC=0.86846 ACC=0.6220 LL=0.9102 29.7s
+                   vehicle pll    0.6 s2 glwspll_def    AUC=0.92006 ACC=0.7638 LL=1.2457 2.5s
+                   vehicle pll    0.6 s2 glwspll_tun    AUC=0.9279 ACC=0.7480 LL=0.5536 42.5s
+                   vehicle pll    0.6 s2 rc_def         AUC=0.82991 ACC=0.5787 LL=1.0334 1.0s
+                   vehicle pll    0.6 s2 rc_tun         AUC=0.94224 ACC=0.7795 LL=0.5152 35.8s
+                   vehicle pll    0.6 s2 cc_def         AUC=0.83539 ACC=0.5787 LL=1.0219 0.9s
+                   vehicle pll    0.6 s2 cc_tun         AUC=0.92392 ACC=0.7441 LL=0.6114 31.3s
+                   segment pll    0.6 s0 proden_def     AUC=0.93929 ACC=0.5339 LL=1.1899 5.3s
+                   segment pll    0.6 s0 proden_tun     AUC=0.99045 ACC=0.9408 LL=0.2886 82.3s
+                   segment pll    0.6 s0 glwspll_def    AUC=0.99404 ACC=0.9495 LL=0.4023 7.4s
+                   segment pll    0.6 s0 glwspll_tun    AUC=0.99427 ACC=0.9581 LL=0.2585 109.4s
+                   segment pll    0.6 s0 rc_def         AUC=0.98246 ACC=0.8903 LL=0.3802 2.7s
+                   segment pll    0.6 s0 rc_tun         AUC=0.99256 ACC=0.9250 LL=0.2683 89.1s
+                   segment pll    0.6 s0 cc_def         AUC=0.98238 ACC=0.8932 LL=0.3777 2.8s
+                   segment pll    0.6 s0 cc_tun         AUC=0.9936 ACC=0.9452 LL=0.2490 85.3s
+                       cmc pll    0.3 s1 proden_def     AUC=0.65312 ACC=0.4796 LL=1.0058 3.4s
+                       cmc pll    0.3 s1 proden_tun     AUC=0.67757 ACC=0.5136 LL=1.0097 57.6s
+                       cmc pll    0.3 s1 glwspll_def    AUC=0.64852 ACC=0.5023 LL=2.4304 4.6s
+                       cmc pll    0.3 s1 glwspll_tun    AUC=0.68228 ACC=0.5158 LL=1.0071 93.1s
+                       cmc pll    0.3 s1 rc_def         AUC=0.66645 ACC=0.4683 LL=1.0047 2.1s
+                       cmc pll    0.3 s1 rc_tun         AUC=0.68082 ACC=0.5272 LL=1.0695 73.0s
+                       cmc pll    0.3 s1 cc_def         AUC=0.66649 ACC=0.4661 LL=1.0047 1.8s
+                       cmc pll    0.3 s1 cc_tun         AUC=0.68073 ACC=0.5294 LL=1.0703 65.7s
+                       cmc pll    0.6 s2 proden_def     AUC=0.59641 ACC=0.4366 LL=1.0507 3.4s
+                       cmc pll    0.6 s2 proden_tun     AUC=0.63243 ACC=0.4457 LL=1.1209 55.1s
+                       cmc pll    0.6 s2 glwspll_def    AUC=0.62765 ACC=0.4615 LL=3.4805 4.8s
+                       cmc pll    0.6 s2 glwspll_tun    AUC=0.64148 ACC=0.4728 LL=1.1413 78.7s
+                       cmc pll    0.6 s2 rc_def         AUC=0.64438 ACC=0.4661 LL=1.0527 1.7s
+                       cmc pll    0.6 s2 rc_tun         AUC=0.64836 ACC=0.4638 LL=1.1670 61.2s
+                       cmc pll    0.6 s2 cc_def         AUC=0.64507 ACC=0.4615 LL=1.0521 1.9s
+                       cmc pll    0.6 s2 cc_tun         AUC=0.64221 ACC=0.4728 LL=1.1430 60.0s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         cc_def  cc_tun  glwspll_def  glwspll_tun  proden_def  proden_tun  rc_def  rc_tun
+dataset level                                                                                  
+cmc     0.3    0.4661  0.5294       0.5023       0.5158      0.4796      0.5136  0.4683  0.5272
+        0.6    0.4615  0.4728       0.4615       0.4728      0.4366      0.4457  0.4661  0.4638
+segment 0.6    0.8932  0.9452       0.9495       0.9582      0.5339      0.9408  0.8903  0.9250
+vehicle 0.3    0.7008  0.8268       0.8071       0.7874      0.5787      0.7953  0.7008  0.8228
+        0.6    0.5787  0.7441       0.7638       0.7480      0.4488      0.6220  0.5787  0.7795
+##### g6r2_pll_2.log
+                   vehicle pll    0.3 s2 proden_def     AUC=0.83282 ACC=0.5866 LL=1.0703 16.8s
+                   vehicle pll    0.3 s2 proden_tun     AUC=0.91389 ACC=0.7008 LL=0.6379 27.5s
+                   vehicle pll    0.3 s2 glwspll_def    AUC=0.94544 ACC=0.7913 LL=0.7264 2.5s
+                   vehicle pll    0.3 s2 glwspll_tun    AUC=0.95409 ACC=0.8189 LL=0.4685 44.1s
+                   vehicle pll    0.3 s2 rc_def         AUC=0.86612 ACC=0.6220 LL=0.9226 0.9s
+                   vehicle pll    0.3 s2 rc_tun         AUC=0.9576 ACC=0.8110 LL=0.4159 36.6s
+                   vehicle pll    0.3 s2 cc_def         AUC=0.86693 ACC=0.6220 LL=0.9203 0.9s
+                   vehicle pll    0.3 s2 cc_tun         AUC=0.95754 ACC=0.8189 LL=0.4206 35.8s
+                   segment pll    0.3 s0 proden_def     AUC=0.98232 ACC=0.8773 LL=0.4271 5.6s
+                   segment pll    0.3 s0 proden_tun     AUC=0.9962 ACC=0.9625 LL=0.1416 82.2s
+                   segment pll    0.3 s0 glwspll_def    AUC=0.99778 ACC=0.9827 LL=0.1459 7.2s
+                   segment pll    0.3 s0 glwspll_tun    AUC=0.99653 ACC=0.9668 LL=0.1396 110.1s
+                   segment pll    0.3 s0 rc_def         AUC=0.9852 ACC=0.8990 LL=0.3528 2.8s
+                   segment pll    0.3 s0 rc_tun         AUC=0.99619 ACC=0.9769 LL=0.1192 87.8s
+                   segment pll    0.3 s0 cc_def         AUC=0.98522 ACC=0.9004 LL=0.3521 2.7s
+                   segment pll    0.3 s0 cc_tun         AUC=0.99704 ACC=0.9625 LL=0.1273 84.5s
+                   segment pll    0.6 s1 proden_def     AUC=0.95024 ACC=0.5931 LL=1.1412 5.2s
+                   segment pll    0.6 s1 proden_tun     AUC=0.99366 ACC=0.9408 LL=0.2522 96.5s
+                   segment pll    0.6 s1 glwspll_def    AUC=0.99458 ACC=0.9524 LL=0.3315 7.4s
+                   segment pll    0.6 s1 glwspll_tun    AUC=0.99456 ACC=0.9495 LL=0.2336 157.0s
+                   segment pll    0.6 s1 rc_def         AUC=0.98514 ACC=0.9062 LL=0.3729 3.1s
+                   segment pll    0.6 s1 rc_tun         AUC=0.99465 ACC=0.9480 LL=0.2193 136.3s
+                   segment pll    0.6 s1 cc_def         AUC=0.98519 ACC=0.9091 LL=0.3705 2.8s
+                   segment pll    0.6 s1 cc_tun         AUC=0.99504 ACC=0.9480 LL=0.2119 115.3s
+                       cmc pll    0.3 s2 proden_def     AUC=0.65147 ACC=0.4909 LL=1.0111 3.4s
+                       cmc pll    0.3 s2 proden_tun     AUC=0.68541 ACC=0.5226 LL=1.0153 58.1s
+                       cmc pll    0.3 s2 glwspll_def    AUC=0.62244 ACC=0.4434 LL=2.6745 4.6s
+                       cmc pll    0.3 s2 glwspll_tun    AUC=0.69184 ACC=0.5272 LL=1.0434 77.0s
+                       cmc pll    0.3 s2 rc_def         AUC=0.67268 ACC=0.4955 LL=0.9990 1.8s
+                       cmc pll    0.3 s2 rc_tun         AUC=0.68795 ACC=0.5249 LL=1.0474 55.5s
+                       cmc pll    0.3 s2 cc_def         AUC=0.6727 ACC=0.4955 LL=0.9990 1.2s
+                       cmc pll    0.3 s2 cc_tun         AUC=0.68853 ACC=0.5136 LL=1.0447 39.2s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         cc_def  cc_tun  glwspll_def  glwspll_tun  proden_def  proden_tun  rc_def  rc_tun
+dataset level                                                                                  
+cmc     0.3    0.4955  0.5136       0.4434       0.5272      0.4910      0.5226  0.4955  0.5249
+segment 0.3    0.9004  0.9625       0.9827       0.9668      0.8773      0.9625  0.8990  0.9769
+        0.6    0.9091  0.9480       0.9524       0.9495      0.5931      0.9408  0.9062  0.9480
+vehicle 0.3    0.6220  0.8189       0.7913       0.8189      0.5866      0.7008  0.6220  0.8110
+##### g6r2_pll_3.log
+                   vehicle pll    0.6 s0 proden_def     AUC=0.76569 ACC=0.4646 LL=1.2528 16.7s
+                   vehicle pll    0.6 s0 proden_tun     AUC=0.90739 ACC=0.7244 LL=0.6611 25.5s
+                   vehicle pll    0.6 s0 glwspll_def    AUC=0.91437 ACC=0.7559 LL=1.2202 2.5s
+                   vehicle pll    0.6 s0 glwspll_tun    AUC=0.90655 ACC=0.7362 LL=0.7044 35.6s
+                   vehicle pll    0.6 s0 rc_def         AUC=0.85589 ACC=0.6850 LL=0.9469 0.9s
+                   vehicle pll    0.6 s0 rc_tun         AUC=0.89582 ACC=0.7244 LL=0.7614 27.8s
+                   vehicle pll    0.6 s0 cc_def         AUC=0.85849 ACC=0.6850 LL=0.9376 0.9s
+                   vehicle pll    0.6 s0 cc_tun         AUC=0.89601 ACC=0.7244 LL=0.7593 27.5s
+                   segment pll    0.3 s1 proden_def     AUC=0.98644 ACC=0.8889 LL=0.4136 5.6s
+                   segment pll    0.3 s1 proden_tun     AUC=0.99628 ACC=0.9567 LL=0.1785 97.6s
+                   segment pll    0.3 s1 glwspll_def    AUC=0.99786 ACC=0.9711 LL=0.1815 7.6s
+                   segment pll    0.3 s1 glwspll_tun    AUC=0.99823 ACC=0.9654 LL=0.1247 143.6s
+                   segment pll    0.3 s1 rc_def         AUC=0.98462 ACC=0.9105 LL=0.3599 2.6s
+                   segment pll    0.3 s1 rc_tun         AUC=0.99786 ACC=0.9639 LL=0.1220 118.8s
+                   segment pll    0.3 s1 cc_def         AUC=0.98458 ACC=0.9120 LL=0.3599 2.7s
+                   segment pll    0.3 s1 cc_tun         AUC=0.99784 ACC=0.9639 LL=0.1229 112.5s
+                   segment pll    0.6 s2 proden_def     AUC=0.95638 ACC=0.5642 LL=1.1105 5.3s
+                   segment pll    0.6 s2 proden_tun     AUC=0.99061 ACC=0.9105 LL=0.2928 89.8s
+                   segment pll    0.6 s2 glwspll_def    AUC=0.99697 ACC=0.9524 LL=0.2452 7.2s
+                   segment pll    0.6 s2 glwspll_tun    AUC=0.99763 ACC=0.9524 LL=0.1509 148.8s
+                   segment pll    0.6 s2 rc_def         AUC=0.98783 ACC=0.8932 LL=0.3449 2.8s
+                   segment pll    0.6 s2 rc_tun         AUC=0.99752 ACC=0.9538 LL=0.1421 107.5s
+                   segment pll    0.6 s2 cc_def         AUC=0.98765 ACC=0.8947 LL=0.3426 2.7s
+                   segment pll    0.6 s2 cc_tun         AUC=0.99771 ACC=0.9495 LL=0.1414 102.6s
+                       cmc pll    0.6 s0 proden_def     AUC=0.64399 ACC=0.4819 LL=1.0172 3.4s
+                       cmc pll    0.6 s0 proden_tun     AUC=0.65984 ACC=0.4683 LL=1.0002 44.3s
+                       cmc pll    0.6 s0 glwspll_def    AUC=0.6631 ACC=0.5023 LL=2.6699 4.7s
+                       cmc pll    0.6 s0 glwspll_tun    AUC=0.66959 ACC=0.4638 LL=0.9810 61.5s
+                       cmc pll    0.6 s0 rc_def         AUC=0.66061 ACC=0.4683 LL=1.0223 1.7s
+                       cmc pll    0.6 s0 rc_tun         AUC=0.66092 ACC=0.4638 LL=1.0193 47.9s
+                       cmc pll    0.6 s0 cc_def         AUC=0.66066 ACC=0.4661 LL=1.0232 1.7s
+                       cmc pll    0.6 s0 cc_tun         AUC=0.66082 ACC=0.4615 LL=1.0208 32.6s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         cc_def  cc_tun  glwspll_def  glwspll_tun  proden_def  proden_tun  rc_def  rc_tun
+dataset level                                                                                  
+cmc     0.6    0.4661  0.4615       0.5023       0.4638      0.4819      0.4683  0.4683  0.4638
+segment 0.3    0.9120  0.9639       0.9711       0.9654      0.8889      0.9567  0.9105  0.9639
+        0.6    0.8947  0.9495       0.9524       0.9524      0.5642      0.9105  0.8932  0.9538
+vehicle 0.6    0.6850  0.7244       0.7559       0.7362      0.4646      0.7244  0.6850  0.7244

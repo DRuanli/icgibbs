@@ -235,6 +235,20 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
 
         attempt("label_spreading", _label_spreading)
         attempt("self_training", _self_training)
+
+        # G6 lượt 3: bản tune 20 cấu hình (cấu hình mặc định = bản trên, nằm trong 20 cấu hình)
+        def _g6_ssl(bname, meth):
+            from icgibbs.baselines_ext import fit_ssl
+            t0 = time.time()
+            m = fit_ssl(bname, Mtr, y_obs, seed=seed, tune=True, n_classes=C)
+            P = m.predict_proba(Mte)
+            more = f"best={_cfg(m.tune_.best)};val={m.tune_.best_score:.4f}"
+            if hasattr(m, "fallback_rows_"):
+                more += f";prior_fallback_rows={m.fallback_rows_}"
+            emit(meth, P, t0, 0, more)
+
+        attempt("ls_tun", lambda: _g6_ssl("label_spreading", "ls_tun"))
+        attempt("st_tun", lambda: _g6_ssl("self_training", "st_tun"))
     elif setting == "noisy":
         def _forward():
             t0 = time.time()
@@ -250,6 +264,17 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
 
         attempt("forward", _forward)
         attempt("cl_tfm", _cl_tfm)
+
+        # G6 lượt 3: forward correction với cấu hình mặc định đã ghi ("như nnPU") và bản tune 20 cấu hình
+        def _g6_forward(tune, meth):
+            from icgibbs.baselines_ext import fit_forward
+            t0 = time.time()
+            m = fit_forward(Mtr, w, T, seed=seed, tune=tune)
+            more = f"best={_cfg(m.tune_.best)};val={m.tune_.best_score:.4f}" if tune else ""
+            emit(meth, m.predict_proba(Mte), t0, 0, more)
+
+        attempt("forward_def", lambda: _g6_forward(False, "forward_def"))
+        attempt("forward_tun", lambda: _g6_forward(True, "forward_tun"))
     else:
         def _proden():
             t0 = time.time()
@@ -259,7 +284,7 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
         attempt("proden", _proden)
 
         # G6 (T3): baseline peer-review đầy đủ cho PLL, bản mặc định (_def) và bản tune 20 cấu hình (_tun)
-        def _g6_pll(bname, tune, meth):
+        def _g6_pll(bname, tune, meth):  # noqa: E306
             from icgibbs.baselines_ext import fit_pll
             t0 = time.time()
             m = fit_pll(bname, Mtr, S, seed=seed, tune=tune)
@@ -270,6 +295,11 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
         for bname, tag in (("proden", "proden"), ("glws", "glwspll"), ("rc", "rc"), ("cc", "cc")):
             for tune, suf in ((False, "def"), (True, "tun")):
                 attempt(f"{tag}_{suf}", lambda b=bname, t=tune, mm=f"{tag}_{suf}": _g6_pll(b, t, mm))
+
+
+def _cfg(cfg):
+    """Cấu hình tune gọn để ghi vào cột extra (không dùng dấu ';')."""
+    return "|".join(f"{k}:{(round(v, 6) if isinstance(v, float) else v)}" for k, v in cfg.items()).replace(" ", "")
 
 
 def summarize(path):

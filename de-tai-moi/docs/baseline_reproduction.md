@@ -10,7 +10,7 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
 
 | Baseline | Code | Dataset tái hiện | Metric | Công bố | Tái hiện | Kết luận |
 |---|---|---|---|---|---|---|
-| SAR-EM | chính thức (`sarpu`, commit 6e4fc3d8) | Breast Cancer, Mushroom (bài gốc, 4 thuộc tính propensity, 25 thí nghiệm) | ROC-AUC, MSE của f | Mushroom 1,000 / 0,103; Breast Cancer 0,983 / 0,058 | Mushroom 1,000 / 0,098; Breast Cancer 0,994 / 0,096 | Mushroom **đạt**; Breast Cancer **lệch**, xếp loại (a) tạm thời: Naive (code gốc) lệch cùng chiều, nghi do thiết lập dữ liệu. Bản bọc trùng code gốc tuyệt đối (50/50 thí nghiệm) |
+| SAR-EM | chính thức (`sarpu`, commit 6e4fc3d8) | Breast Cancer, Mushroom (bài gốc, 4 thuộc tính propensity, 25 thí nghiệm) | ROC-AUC, MSE của f | Mushroom 1,000 / 0,103; Breast Cancer 0,983 / 0,058 | Mushroom 1,000 / 0,098; Breast Cancer 0,994 / 0,096 | Mushroom **đạt**; Breast Cancer **lệch**, xếp loại **(b)** (26/10/2026, sau G6 lượt 2): đã khoanh vùng ở phần thiết lập dữ liệu và đánh giá dùng chung, không ở thuật toán — Naive (code gốc) lệch cùng chiều; đổi tập thuộc tính không giải thích được. Bản bọc trùng code gốc tuyệt đối (100/100 thí nghiệm) |
 
 ## SAR-EM (Bekker, Robberechts & Davis, ECML-PKDD 2019)
 
@@ -40,6 +40,7 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
   - Mushroom đạt ở mọi metric của SAR-EM.
   - Breast Cancer: SAR-EM có AUC 0,994 so với 0,983 công bố (cao hơn), MSE 0,096 so với 0,058. Naive cũng lệch cùng chiều về MSE ở cả hai dataset.
   - Giả thuyết đang kiểm: (1) tập thuộc tính của bộ phân loại — chạy lại với `--cls_mode orig_plus1` và `all`; (2) cách gán cột trong Hình 1 — cần thầy xác nhận trên hình gốc.
+- **Kết quả kiểm giả thuyết 1 (G6 lượt 2, `G4/pilot/g6r2_sarem_repro_*.csv`):** `orig_plus1`: SAR-EM 0,994 / 0,098, Naive 0,990 / 0,160; `all`: SAR-EM 0,988 / 0,097 (AUC đạt), Naive 0,980 / 0,158 (AUC lệch). Không chế độ nào tái hiện cả bốn số; MSE của f gần như không đổi theo tập thuộc tính. **Giả thuyết 1 bị bác.** Xếp loại cuối: **(b)**, chưa rõ nguyên nhân nhưng đã khoanh vùng ngoài thuật toán SAR-EM (Naive, chỉ là hồi quy logistic trên s, lệch cùng chiều). SAR-EM vẫn dùng được; bài ghi rõ chênh lệch. Chi tiết: [G6_ROUND2_REPORT](../G6/G6_ROUND2_REPORT.md) Mục 4.
 
 ## GLWS cho LLP — khác biệt giữa bài và code chính thức (phát hiện G6, 26/10/2026)
 - Bài GLWS mô tả E-step là forward-backward trên NFA, tức hậu nghiệm của nhãn từng mẫu khi biết số đếm của túi.
@@ -58,7 +59,8 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
 
 ## PRODEN
 - Dùng đúng hàm `partial_loss` của kho chính thức, nạp từ kho đã ghim commit 637b531 (kho không có tệp giấy phép nên không sao chép).
-- Dùng SGD momentum 0,9 như `main.py` của kho.
+- Dùng SGD momentum 0,9 như `main.py` của kho (cấu hình mặc định).
+- **Phát hiện ở G6 lượt 2:** trên tập phát triển PLL, bản này chỉ đạt 0,573 accuracy (mặc định) và 0,716 (tune), thấp hơn bản Adam cũ của dự án (0,740) — SGD với lr ≤ 1e-2 chưa hội tụ trên dữ liệu bảng nhỏ. Từ lượt 3, không gian tune có thêm bộ tối ưu ∈ {SGD, Adam} (docs/tuning_spaces.md); mặc định vẫn là SGD như kho chính thức.
 - Bản dự phòng cài lại cho kết quả trùng với hàm chính thức (test `test_proden_official_loss_matches_reimplementation`).
 - Chưa tái hiện số công bố: bài dùng MNIST và các bộ tương tự, sẽ làm ở lượt sau.
 

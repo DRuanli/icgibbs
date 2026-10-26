@@ -1,0 +1,518 @@
+##### g6r2_pu_0.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                      credit-g pu_scar  0.1 s0 nnpu_tun AUC=0.5562 LL=4.0299 47.6s
+                      credit-g pu_scar  0.1 s0 upu_tun  AUC=0.5486 LL=4.2382 43.0s
+                      credit-g pu_scar  0.3 s1 nnpu_tun AUC=0.6637 LL=1.7309 52.5s
+                      credit-g pu_scar  0.3 s1 upu_tun  AUC=0.6756 LL=2.5065 52.4s
+                      credit-g pu_sar   0.1 s2 nnpu_tun AUC=0.5266 LL=1.3401 45.7s
+                      credit-g pu_sar   0.1 s2 upu_tun  AUC=0.6073 LL=0.7391 44.6s
+                      credit-g pu_sar   0.1 s2 sar_e_known AUC=0.6277 LL=1.5555 0.1s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s0 nnpu_tun AUC=0.7548 LL=1.0889 23.1s
+                      diabetes pu_scar  0.1 s0 upu_tun  AUC=0.7788 LL=1.1329 22.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                      diabetes pu_scar  0.3 s1 nnpu_tun AUC=0.6700 LL=3.4686 31.9s
+                      diabetes pu_scar  0.3 s1 upu_tun  AUC=0.7076 LL=2.3738 30.7s
+                      diabetes pu_sar   0.1 s2 nnpu_tun AUC=0.7096 LL=0.7090 28.0s
+                      diabetes pu_sar   0.1 s2 upu_tun  AUC=0.6803 LL=1.8210 29.8s
+                      diabetes pu_sar   0.1 s2 sar_e_known AUC=0.6807 LL=0.8084 0.0s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s0 nnpu_tun AUC=0.6600 LL=2.0362 22.7s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.1 s0 upu_tun  AUC=0.5824 LL=2.9206 25.8s
+  blood-transfusion-service-center pu_scar  0.3 s1 nnpu_tun AUC=0.6417 LL=2.0471 33.1s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.3 s1 upu_tun  AUC=0.6249 LL=2.5803 35.2s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_sar   0.1 s2 nnpu_tun AUC=0.5004 LL=1.8895 29.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_sar   0.1 s2 upu_tun  AUC=0.5034 LL=2.8592 29.6s
+  blood-transfusion-service-center pu_sar   0.1 s2 sar_e_known AUC=0.7261 LL=0.5413 0.0s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s0 nnpu_tun AUC=1.0000 LL=0.0131 36.5s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+       banknote-authentication pu_scar  0.1 s0 upu_tun  AUC=0.9861 LL=0.2101 44.1s
+       banknote-authentication pu_scar  0.3 s1 nnpu_tun AUC=1.0000 LL=0.0002 48.0s
+       banknote-authentication pu_scar  0.3 s1 upu_tun  AUC=0.9998 LL=0.0312 46.7s
+       banknote-authentication pu_sar   0.1 s2 nnpu_tun AUC=0.9379 LL=0.3002 43.7s
+       banknote-authentication pu_sar   0.1 s2 upu_tun  AUC=0.8435 LL=0.7825 42.9s
+       banknote-authentication pu_sar   0.1 s2 sar_e_known AUC=0.9692 LL=0.5579 0.0s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s0 nnpu_tun AUC=0.7021 LL=0.9531 23.6s
+                          ilpd pu_scar  0.1 s0 upu_tun  AUC=0.7000 LL=1.0599 26.9s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s1 nnpu_tun AUC=0.6796 LL=2.0613 33.0s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s1 upu_tun  AUC=0.6644 LL=2.6960 31.7s
+                          ilpd pu_sar   0.1 s2 nnpu_tun AUC=0.6136 LL=1.0441 29.2s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.1 s2 upu_tun  AUC=0.5923 LL=3.2106 27.9s
+                          ilpd pu_sar   0.1 s2 sar_e_known AUC=0.7349 LL=0.7672 0.0s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s0 nnpu_tun AUC=0.9683 LL=0.3402 22.4s
+                          wdbc pu_scar  0.1 s0 upu_tun  AUC=0.9717 LL=0.1908 25.3s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_scar  0.3 s1 nnpu_tun AUC=0.9797 LL=0.3406 31.7s
+                          wdbc pu_scar  0.3 s1 upu_tun  AUC=0.9797 LL=0.1918 31.8s
+                          wdbc pu_sar   0.1 s2 nnpu_tun AUC=0.9584 LL=0.2371 27.9s
+                          wdbc pu_sar   0.1 s2 upu_tun  AUC=0.9263 LL=0.6466 28.9s
+                          wdbc pu_sar   0.1 s2 sar_e_known AUC=0.8319 LL=1.0831 0.0s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      1.0000   0.9861
+                                 0.3      1.0000   0.9998
+blood-transfusion-service-center 0.1      0.6600   0.5824
+                                 0.3      0.6417   0.6249
+credit-g                         0.1      0.5562   0.5486
+                                 0.3      0.6637   0.6756
+diabetes                         0.1      0.7548   0.7788
+                                 0.3      0.6700   0.7076
+ilpd                             0.1      0.7021   0.7000
+                                 0.3      0.6796   0.6644
+wdbc                             0.1      0.9683   0.9717
+                                 0.3      0.9797   0.9797
+
+--- pu_sar ---
+method                                  nnpu_tun  sar_e_known  upu_tun
+dataset                          level                                
+banknote-authentication          0.1      0.9379       0.9692   0.8435
+blood-transfusion-service-center 0.1      0.5004       0.7261   0.5034
+credit-g                         0.1      0.5266       0.6277   0.6073
+diabetes                         0.1      0.7096       0.6807   0.6803
+ilpd                             0.1      0.6136       0.7349   0.5923
+wdbc                             0.1      0.9584       0.8319   0.9263
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.0131   0.2101
+                                 0.3      0.0002   0.0312
+blood-transfusion-service-center 0.1      2.0362   2.9206
+                                 0.3      2.0471   2.5803
+credit-g                         0.1      4.0299   4.2382
+                                 0.3      1.7309   2.5065
+diabetes                         0.1      1.0889   1.1329
+                                 0.3      3.4686   2.3738
+ilpd                             0.1      0.9531   1.0599
+                                 0.3      2.0613   2.6960
+wdbc                             0.1      0.3402   0.1908
+                                 0.3      0.3406   0.1918
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.0057   0.0923
+                                 0.3      0.0007   0.0295
+blood-transfusion-service-center 0.1      0.6757   0.8291
+                                 0.3      0.7650   0.9799
+credit-g                         0.1      1.3780   1.2115
+                                 0.3      1.7294   1.3160
+diabetes                         0.1      1.0563   0.8149
+                                 0.3      1.9260   1.5892
+ilpd                             0.1      0.9361   1.0072
+                                 0.3      1.9766   2.0426
+wdbc                             0.1      0.2835   0.1885
+                                 0.3      0.3378   0.1582
+##### g6r2_pu_1.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.1 s1 nnpu_tun AUC=0.7197 LL=1.0950 55.9s
+                      credit-g pu_scar  0.1 s1 upu_tun  AUC=0.6928 LL=0.7605 51.0s
+                      credit-g pu_scar  0.3 s2 nnpu_tun AUC=0.7342 LL=1.0576 47.5s
+                      credit-g pu_scar  0.3 s2 upu_tun  AUC=0.6883 LL=2.1127 48.8s
+                      credit-g pu_sar   0.3 s0 nnpu_tun AUC=0.6713 LL=3.1677 40.6s
+                      credit-g pu_sar   0.3 s0 upu_tun  AUC=0.6751 LL=1.7308 37.1s
+                      credit-g pu_sar   0.3 s0 sar_e_known AUC=0.6858 LL=0.9952 0.1s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s1 nnpu_tun AUC=0.7760 LL=0.9885 30.1s
+                      diabetes pu_scar  0.1 s1 upu_tun  AUC=0.7581 LL=2.1053 32.8s
+                      diabetes pu_scar  0.3 s2 nnpu_tun AUC=0.8113 LL=0.8004 27.9s
+                      diabetes pu_scar  0.3 s2 upu_tun  AUC=0.7380 LL=2.4996 29.3s
+                      diabetes pu_sar   0.3 s0 nnpu_tun AUC=0.6409 LL=3.8060 24.2s
+                      diabetes pu_sar   0.3 s0 upu_tun  AUC=0.6933 LL=2.7984 24.5s
+                      diabetes pu_sar   0.3 s0 sar_e_known AUC=0.7719 LL=0.5764 0.0s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s1 nnpu_tun AUC=0.6973 LL=2.3880 30.9s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.1 s1 upu_tun  AUC=0.5811 LL=2.8762 31.4s
+  blood-transfusion-service-center pu_scar  0.3 s2 nnpu_tun AUC=0.7904 LL=1.3372 29.6s
+  blood-transfusion-service-center pu_scar  0.3 s2 upu_tun  AUC=0.7820 LL=1.5123 28.3s
+  blood-transfusion-service-center pu_sar   0.3 s0 nnpu_tun AUC=0.4848 LL=3.2403 26.2s
+  blood-transfusion-service-center pu_sar   0.3 s0 upu_tun  AUC=0.4847 LL=3.2376 26.5s
+  blood-transfusion-service-center pu_sar   0.3 s0 sar_e_known AUC=0.7489 LL=0.4945 0.0s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s1 nnpu_tun AUC=0.9904 LL=0.4108 48.7s
+       banknote-authentication pu_scar  0.1 s1 upu_tun  AUC=0.9242 LL=0.9029 48.3s
+       banknote-authentication pu_scar  0.3 s2 nnpu_tun AUC=0.9993 LL=0.0457 44.4s
+       banknote-authentication pu_scar  0.3 s2 upu_tun  AUC=0.9996 LL=0.0508 47.0s
+       banknote-authentication pu_sar   0.3 s0 nnpu_tun AUC=0.9969 LL=0.1683 36.4s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+       banknote-authentication pu_sar   0.3 s0 upu_tun  AUC=0.8765 LL=1.7103 44.2s
+       banknote-authentication pu_sar   0.3 s0 sar_e_known AUC=1.0000 LL=0.3218 0.0s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s1 nnpu_tun AUC=0.6344 LL=1.6415 32.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s1 upu_tun  AUC=0.5300 LL=3.7108 36.1s
+                          ilpd pu_scar  0.3 s2 nnpu_tun AUC=0.6869 LL=0.7958 27.8s
+                          ilpd pu_scar  0.3 s2 upu_tun  AUC=0.6970 LL=0.9769 27.2s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s0 nnpu_tun AUC=0.5222 LL=3.9892 23.7s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s0 upu_tun  AUC=0.5294 LL=3.2001 24.0s
+                          ilpd pu_sar   0.3 s0 sar_e_known AUC=0.6574 LL=0.6806 0.0s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s1 nnpu_tun AUC=0.9836 LL=0.1835 29.9s
+                          wdbc pu_scar  0.1 s1 upu_tun  AUC=0.6776 LL=4.1009 31.9s
+                          wdbc pu_scar  0.3 s2 nnpu_tun AUC=0.9861 LL=0.1206 27.9s
+                          wdbc pu_scar  0.3 s2 upu_tun  AUC=0.9565 LL=0.5468 30.6s
+                          wdbc pu_sar   0.3 s0 nnpu_tun AUC=0.9152 LL=1.4390 24.8s
+                          wdbc pu_sar   0.3 s0 upu_tun  AUC=0.9546 LL=0.4708 24.3s
+                          wdbc pu_sar   0.3 s0 sar_e_known AUC=0.9750 LL=0.3517 0.0s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.9904   0.9242
+                                 0.3      0.9993   0.9996
+blood-transfusion-service-center 0.1      0.6973   0.5811
+                                 0.3      0.7904   0.7820
+credit-g                         0.1      0.7197   0.6928
+                                 0.3      0.7342   0.6882
+diabetes                         0.1      0.7760   0.7581
+                                 0.3      0.8113   0.7380
+ilpd                             0.1      0.6344   0.5300
+                                 0.3      0.6869   0.6970
+wdbc                             0.1      0.9836   0.6776
+                                 0.3      0.9861   0.9565
+
+--- pu_sar ---
+method                                  nnpu_tun  sar_e_known  upu_tun
+dataset                          level                                
+banknote-authentication          0.3      0.9969       1.0000   0.8765
+blood-transfusion-service-center 0.3      0.4848       0.7489   0.4847
+credit-g                         0.3      0.6713       0.6858   0.6751
+diabetes                         0.3      0.6409       0.7718   0.6932
+ilpd                             0.3      0.5222       0.6574   0.5294
+wdbc                             0.3      0.9152       0.9750   0.9546
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.4108   0.9029
+                                 0.3      0.0457   0.0508
+blood-transfusion-service-center 0.1      2.3880   2.8762
+                                 0.3      1.3372   1.5123
+credit-g                         0.1      1.0950   0.7605
+                                 0.3      1.0576   2.1127
+diabetes                         0.1      0.9884   2.1053
+                                 0.3      0.8004   2.4996
+ilpd                             0.1      1.6415   3.7108
+                                 0.3      0.7958   0.9769
+wdbc                             0.1      0.1835   4.1009
+                                 0.3      0.1206   0.5468
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.3127   0.4669
+                                 0.3      0.0371   0.0275
+blood-transfusion-service-center 0.1      0.5658   0.6278
+                                 0.3      1.0361   1.0808
+credit-g                         0.1      1.0940   0.6398
+                                 0.3      1.0571   1.1406
+diabetes                         0.1      0.9798   1.0087
+                                 0.3      0.6950   1.5297
+ilpd                             0.1      1.6378   1.4592
+                                 0.3      0.6173   0.7212
+wdbc                             0.1      0.1791   0.7453
+                                 0.3      0.1185   0.2248
+##### g6r2_pu_2.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.1 s2 nnpu_tun AUC=0.5665 LL=1.0362 53.2s
+                      credit-g pu_scar  0.1 s2 upu_tun  AUC=0.5907 LL=2.3435 50.6s
+                      credit-g pu_sar   0.1 s0 nnpu_tun AUC=0.6848 LL=2.0476 38.5s
+                      credit-g pu_sar   0.1 s0 upu_tun  AUC=0.6854 LL=0.8871 38.8s
+                      credit-g pu_sar   0.1 s0 sar_e_known AUC=0.6363 LL=1.5965 0.2s
+                      credit-g pu_sar   0.3 s1 nnpu_tun AUC=0.6902 LL=0.9932 50.7s
+                      credit-g pu_sar   0.3 s1 upu_tun  AUC=0.6984 LL=1.2753 50.3s
+                      credit-g pu_sar   0.3 s1 sar_e_known AUC=0.6691 LL=1.1273 0.0s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s2 nnpu_tun AUC=0.7876 LL=0.6104 28.6s
+                      diabetes pu_scar  0.1 s2 upu_tun  AUC=0.7892 LL=0.6266 27.7s
+                      diabetes pu_sar   0.1 s0 nnpu_tun AUC=0.7428 LL=1.6359 25.8s
+                      diabetes pu_sar   0.1 s0 upu_tun  AUC=0.6375 LL=3.6965 24.3s
+                      diabetes pu_sar   0.1 s0 sar_e_known AUC=0.6950 LL=0.8267 0.0s
+                      diabetes pu_sar   0.3 s1 nnpu_tun AUC=0.5986 LL=4.6323 31.2s
+                      diabetes pu_sar   0.3 s1 upu_tun  AUC=0.6597 LL=1.8037 30.1s
+                      diabetes pu_sar   0.3 s1 sar_e_known AUC=0.7423 LL=0.7581 0.0s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s2 nnpu_tun AUC=0.7835 LL=0.8711 29.0s
+  blood-transfusion-service-center pu_scar  0.1 s2 upu_tun  AUC=0.8086 LL=1.0561 31.1s
+  blood-transfusion-service-center pu_sar   0.1 s0 nnpu_tun AUC=0.4495 LL=3.2757 25.5s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_sar   0.1 s0 upu_tun  AUC=0.4825 LL=3.3592 25.3s
+  blood-transfusion-service-center pu_sar   0.1 s0 sar_e_known AUC=0.6966 LL=0.5264 0.0s
+  blood-transfusion-service-center pu_sar   0.3 s1 nnpu_tun AUC=0.6777 LL=2.4434 31.6s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_sar   0.3 s1 upu_tun  AUC=0.6364 LL=2.3962 32.3s
+  blood-transfusion-service-center pu_sar   0.3 s1 sar_e_known AUC=0.7897 LL=0.4893 0.0s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s2 nnpu_tun AUC=0.9472 LL=0.3066 44.6s
+       banknote-authentication pu_scar  0.1 s2 upu_tun  AUC=0.8980 LL=1.2841 43.4s
+       banknote-authentication pu_sar   0.1 s0 nnpu_tun AUC=0.9919 LL=0.1493 36.2s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+       banknote-authentication pu_sar   0.1 s0 upu_tun  AUC=0.7406 LL=3.4232 40.2s
+       banknote-authentication pu_sar   0.1 s0 sar_e_known AUC=0.9962 LL=0.3541 0.0s
+       banknote-authentication pu_sar   0.3 s1 nnpu_tun AUC=0.9875 LL=0.1413 50.9s
+       banknote-authentication pu_sar   0.3 s1 upu_tun  AUC=0.8826 LL=1.5281 51.5s
+       banknote-authentication pu_sar   0.3 s1 sar_e_known AUC=0.9983 LL=0.3104 0.0s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s2 nnpu_tun AUC=0.7365 LL=1.6656 31.0s
+                          ilpd pu_scar  0.1 s2 upu_tun  AUC=0.7125 LL=1.5549 33.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.1 s0 nnpu_tun AUC=0.5509 LL=3.8957 25.2s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.1 s0 upu_tun  AUC=0.5296 LL=3.6382 24.1s
+                          ilpd pu_sar   0.1 s0 sar_e_known AUC=0.6150 LL=0.9449 0.0s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s1 nnpu_tun AUC=0.6182 LL=2.8795 31.7s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s1 upu_tun  AUC=0.6050 LL=3.0124 30.1s
+                          ilpd pu_sar   0.3 s1 sar_e_known AUC=0.6870 LL=0.6819 0.0s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s2 nnpu_tun AUC=0.9915 LL=0.0963 28.4s
+                          wdbc pu_scar  0.1 s2 upu_tun  AUC=0.9877 LL=0.1591 28.5s
+                          wdbc pu_sar   0.1 s0 nnpu_tun AUC=0.9574 LL=0.8810 24.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_sar   0.1 s0 upu_tun  AUC=0.8592 LL=1.8460 25.5s
+                          wdbc pu_sar   0.1 s0 sar_e_known AUC=0.8576 LL=0.9738 0.0s
+                          wdbc pu_sar   0.3 s1 nnpu_tun AUC=0.9766 LL=0.1996 30.1s
+                          wdbc pu_sar   0.3 s1 upu_tun  AUC=0.8602 LL=1.9709 30.2s
+                          wdbc pu_sar   0.3 s1 sar_e_known AUC=0.9083 LL=0.6102 0.0s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.9472   0.8980
+blood-transfusion-service-center 0.1      0.7835   0.8086
+credit-g                         0.1      0.5665   0.5907
+diabetes                         0.1      0.7876   0.7892
+ilpd                             0.1      0.7365   0.7125
+wdbc                             0.1      0.9915   0.9877
+
+--- pu_sar ---
+method                                  nnpu_tun  sar_e_known  upu_tun
+dataset                          level                                
+banknote-authentication          0.1      0.9919       0.9962   0.7406
+                                 0.3      0.9875       0.9983   0.8826
+blood-transfusion-service-center 0.1      0.4495       0.6966   0.4825
+                                 0.3      0.6777       0.7897   0.6364
+credit-g                         0.1      0.6848       0.6363   0.6854
+                                 0.3      0.6902       0.6690   0.6984
+diabetes                         0.1      0.7428       0.6950   0.6375
+                                 0.3      0.5986       0.7423   0.6597
+ilpd                             0.1      0.5509       0.6150   0.5296
+                                 0.3      0.6182       0.6870   0.6050
+wdbc                             0.1      0.9574       0.8576   0.8592
+                                 0.3      0.9766       0.9083   0.8602
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.3066   1.2841
+blood-transfusion-service-center 0.1      0.8711   1.0561
+credit-g                         0.1      1.0362   2.3435
+diabetes                         0.1      0.6104   0.6266
+ilpd                             0.1      1.6656   1.5549
+wdbc                             0.1      0.0963   0.1591
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.1      0.3047   0.6190
+blood-transfusion-service-center 0.1      0.8636   0.7492
+credit-g                         0.1      1.0356   1.0893
+diabetes                         0.1      0.5322   0.5359
+ilpd                             0.1      1.6648   1.4484
+wdbc                             0.1      0.0964   0.1419
+##### g6r2_pu_3.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.3 s0 nnpu_tun AUC=0.6344 LL=2.8526 44.1s
+                      credit-g pu_scar  0.3 s0 upu_tun  AUC=0.6092 LL=3.4298 43.6s
+                      credit-g pu_sar   0.1 s1 nnpu_tun AUC=0.7077 LL=2.9554 49.4s
+                      credit-g pu_sar   0.1 s1 upu_tun  AUC=0.6213 LL=2.0725 48.4s
+                      credit-g pu_sar   0.1 s1 sar_e_known AUC=0.5993 LL=1.5797 0.1s
+                      credit-g pu_sar   0.3 s2 nnpu_tun AUC=0.6731 LL=0.7824 48.9s
+                      credit-g pu_sar   0.3 s2 upu_tun  AUC=0.6826 LL=1.2002 47.2s
+                      credit-g pu_sar   0.3 s2 sar_e_known AUC=0.6966 LL=0.8148 0.0s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                      diabetes pu_scar  0.3 s0 nnpu_tun AUC=0.7080 LL=3.2529 26.1s
+                      diabetes pu_scar  0.3 s0 upu_tun  AUC=0.8542 LL=0.7935 23.8s
+                      diabetes pu_sar   0.1 s1 nnpu_tun AUC=0.6062 LL=0.9618 32.8s
+                      diabetes pu_sar   0.1 s1 upu_tun  AUC=0.5568 LL=4.4152 30.9s
+                      diabetes pu_sar   0.1 s1 sar_e_known AUC=0.6725 LL=1.0954 0.0s
+                      diabetes pu_sar   0.3 s2 nnpu_tun AUC=0.6573 LL=1.4218 28.3s
+                      diabetes pu_sar   0.3 s2 upu_tun  AUC=0.6221 LL=2.0015 31.0s
+                      diabetes pu_sar   0.3 s2 sar_e_known AUC=0.7305 LL=0.8045 0.0s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.3 s0 nnpu_tun AUC=0.6896 LL=2.1399 23.6s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.3 s0 upu_tun  AUC=0.6002 LL=2.5444 25.5s
+  blood-transfusion-service-center pu_sar   0.1 s1 nnpu_tun AUC=0.3103 LL=2.8476 31.1s
+  blood-transfusion-service-center pu_sar   0.1 s1 upu_tun  AUC=0.3260 LL=2.8967 32.9s
+  blood-transfusion-service-center pu_sar   0.1 s1 sar_e_known AUC=0.7262 LL=0.5127 0.0s
+  blood-transfusion-service-center pu_sar   0.3 s2 nnpu_tun AUC=0.5879 LL=1.8812 29.4s
+  blood-transfusion-service-center pu_sar   0.3 s2 upu_tun  AUC=0.5879 LL=1.8812 29.8s
+  blood-transfusion-service-center pu_sar   0.3 s2 sar_e_known AUC=0.7995 LL=0.4492 0.0s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.3 s0 nnpu_tun AUC=1.0000 LL=0.0001 41.5s
+       banknote-authentication pu_scar  0.3 s0 upu_tun  AUC=0.9991 LL=0.0670 39.2s
+       banknote-authentication pu_sar   0.1 s1 nnpu_tun AUC=0.9682 LL=0.2452 50.3s
+       banknote-authentication pu_sar   0.1 s1 upu_tun  AUC=0.9047 LL=1.2293 49.2s
+       banknote-authentication pu_sar   0.1 s1 sar_e_known AUC=0.9983 LL=0.4409 0.0s
+       banknote-authentication pu_sar   0.3 s2 nnpu_tun AUC=0.9733 LL=0.1986 42.8s
+       banknote-authentication pu_sar   0.3 s2 upu_tun  AUC=0.8432 LL=1.5750 44.9s
+       banknote-authentication pu_sar   0.3 s2 sar_e_known AUC=0.9938 LL=0.3689 0.0s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s0 nnpu_tun AUC=0.6138 LL=3.5811 26.6s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s0 upu_tun  AUC=0.5125 LL=3.8222 27.4s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.1 s1 nnpu_tun AUC=0.5876 LL=2.6245 33.8s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.1 s1 upu_tun  AUC=0.5636 LL=3.4548 32.9s
+                          ilpd pu_sar   0.1 s1 sar_e_known AUC=0.7290 LL=0.7303 0.0s
+                          ilpd pu_sar   0.3 s2 nnpu_tun AUC=0.6941 LL=1.2643 29.7s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s2 upu_tun  AUC=0.6450 LL=2.5810 27.7s
+                          ilpd pu_sar   0.3 s2 sar_e_known AUC=0.7710 LL=0.5081 0.0s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.3 s0 nnpu_tun AUC=0.9953 LL=0.1099 22.8s
+                          wdbc pu_scar  0.3 s0 upu_tun  AUC=0.9658 LL=0.2785 25.0s
+                          wdbc pu_sar   0.1 s1 nnpu_tun AUC=0.9693 LL=0.2062 29.6s
+/kaggle/working/run_g6b/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_sar   0.1 s1 upu_tun  AUC=0.6328 LL=3.8726 32.1s
+                          wdbc pu_sar   0.1 s1 sar_e_known AUC=0.8646 LL=1.0209 0.0s
+                          wdbc pu_sar   0.3 s2 nnpu_tun AUC=0.9726 LL=0.2032 28.6s
+                          wdbc pu_sar   0.3 s2 upu_tun  AUC=0.9045 LL=0.6382 26.4s
+                          wdbc pu_sar   0.3 s2 sar_e_known AUC=0.9068 LL=0.5970 0.0s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.3      1.0000   0.9991
+blood-transfusion-service-center 0.3      0.6896   0.6002
+credit-g                         0.3      0.6344   0.6092
+diabetes                         0.3      0.7080   0.8542
+ilpd                             0.3      0.6138   0.5125
+wdbc                             0.3      0.9953   0.9658
+
+--- pu_sar ---
+method                                  nnpu_tun  sar_e_known  upu_tun
+dataset                          level                                
+banknote-authentication          0.1      0.9682       0.9983   0.9047
+                                 0.3      0.9733       0.9938   0.8432
+blood-transfusion-service-center 0.1      0.3103       0.7262   0.3260
+                                 0.3      0.5879       0.7995   0.5879
+credit-g                         0.1      0.7078       0.5993   0.6213
+                                 0.3      0.6731       0.6966   0.6826
+diabetes                         0.1      0.6062       0.6725   0.5568
+                                 0.3      0.6573       0.7305   0.6221
+ilpd                             0.1      0.5876       0.7290   0.5636
+                                 0.3      0.6941       0.7710   0.6450
+wdbc                             0.1      0.9693       0.8646   0.6328
+                                 0.3      0.9726       0.9068   0.9045
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.3      0.0001   0.0670
+blood-transfusion-service-center 0.3      2.1399   2.5444
+credit-g                         0.3      2.8526   3.4298
+diabetes                         0.3      3.2529   0.7936
+ilpd                             0.3      3.5811   3.8222
+wdbc                             0.3      0.1098   0.2785
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  nnpu_tun  upu_tun
+dataset                          level                   
+banknote-authentication          0.3      0.0007   0.0392
+blood-transfusion-service-center 0.3      0.7110   1.4672
+credit-g                         0.3      2.2968   0.8218
+diabetes                         0.3      2.7466   0.6900
+ilpd                             0.3      2.4561   0.8379
+wdbc                             0.3      0.1037   0.2636

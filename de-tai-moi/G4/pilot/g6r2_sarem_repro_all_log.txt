@@ -1,0 +1,44 @@
+kho SAR-PU tại /kaggle/working/SAR-PU, commit 6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7
+  breastcancer part 0 lab 0: supervised=0.992 naive=0.987 sar_em=0.993 sar_em_wrapper=0.993
+  breastcancer part 0 lab 1: supervised=0.992 naive=0.964 sar_em=0.973 sar_em_wrapper=0.973
+  breastcancer part 0 lab 2: supervised=0.992 naive=0.985 sar_em=0.986 sar_em_wrapper=0.986
+  breastcancer part 0 lab 3: supervised=0.992 naive=0.990 sar_em=0.995 sar_em_wrapper=0.995
+  breastcancer part 0 lab 4: supervised=0.992 naive=0.988 sar_em=0.991 sar_em_wrapper=0.991
+  breastcancer part 1 lab 0: supervised=0.994 naive=0.979 sar_em=0.990 sar_em_wrapper=0.990
+  breastcancer part 1 lab 1: supervised=0.994 naive=0.968 sar_em=0.982 sar_em_wrapper=0.982
+  breastcancer part 1 lab 2: supervised=0.994 naive=0.982 sar_em=0.988 sar_em_wrapper=0.988
+  breastcancer part 1 lab 3: supervised=0.994 naive=0.974 sar_em=0.992 sar_em_wrapper=0.992
+  breastcancer part 1 lab 4: supervised=0.994 naive=0.984 sar_em=0.993 sar_em_wrapper=0.993
+  breastcancer part 2 lab 0: supervised=0.997 naive=0.972 sar_em=0.982 sar_em_wrapper=0.982
+  breastcancer part 2 lab 1: supervised=0.997 naive=0.975 sar_em=0.970 sar_em_wrapper=0.970
+  breastcancer part 2 lab 2: supervised=0.997 naive=0.996 sar_em=0.995 sar_em_wrapper=0.995
+  breastcancer part 2 lab 3: supervised=0.997 naive=0.997 sar_em=0.999 sar_em_wrapper=0.999
+  breastcancer part 2 lab 4: supervised=0.997 naive=0.991 sar_em=0.991 sar_em_wrapper=0.991
+  breastcancer part 3 lab 0: supervised=0.997 naive=0.966 sar_em=0.980 sar_em_wrapper=0.980
+  breastcancer part 3 lab 1: supervised=0.997 naive=0.967 sar_em=0.985 sar_em_wrapper=0.985
+  breastcancer part 3 lab 2: supervised=0.997 naive=0.987 sar_em=0.998 sar_em_wrapper=0.998
+  breastcancer part 3 lab 3: supervised=0.997 naive=0.976 sar_em=0.989 sar_em_wrapper=0.989
+  breastcancer part 3 lab 4: supervised=0.997 naive=0.969 sar_em=0.978 sar_em_wrapper=0.978
+  breastcancer part 4 lab 0: supervised=0.998 naive=0.986 sar_em=0.993 sar_em_wrapper=0.993
+  breastcancer part 4 lab 1: supervised=0.998 naive=0.976 sar_em=0.989 sar_em_wrapper=0.989
+  breastcancer part 4 lab 2: supervised=0.998 naive=0.985 sar_em=0.989 sar_em_wrapper=0.989
+  breastcancer part 4 lab 3: supervised=0.998 naive=0.977 sar_em=0.991 sar_em_wrapper=0.991
+  breastcancer part 4 lab 4: supervised=0.998 naive=0.980 sar_em=0.990 sar_em_wrapper=0.990
+
+========= TÁI HIỆN SAR-EM (trung bình ± độ lệch chuẩn qua 25 thí nghiệm) =========
+                                         auc           mse_f           mse_e        
+                                        mean     std    mean     std    mean     std
+dataset      cls_mode method                                                        
+breastcancer all      naive           0.9800  0.0094  0.1580  0.0134     NaN     NaN
+                      sar_em          0.9881  0.0072  0.0972  0.0076  0.0204  0.0176
+                      sar_em_wrapper  0.9881  0.0072  0.0972  0.0076  0.0204  0.0176
+                      supervised      0.9958  0.0023  0.0256  0.0062     NaN     NaN
+  breastcancer sar_em     auc  : tái hiện 0.9881 ± 0.0072 | công bố 0.983 | ĐẠT
+  breastcancer sar_em     mse_f: tái hiện 0.0972 ± 0.0076 | công bố 0.058 | CHÊNH
+  breastcancer naive      auc  : tái hiện 0.9800 ± 0.0094 | công bố 0.992 | CHÊNH
+  breastcancer naive      mse_f: tái hiện 0.1580 ± 0.0134 | công bố 0.127 | CHÊNH
+  breastcancer supervised auc  : tái hiện 0.9958 ± 0.0023 | công bố 0.994 | ĐẠT
+  breastcancer supervised mse_f: tái hiện 0.0256 ± 0.0062 | công bố 0.028 | ĐẠT
+
+bản bọc của dự án so với gọi trực tiếp code chính thức: chênh AUC lớn nhất = 0.00e+00
+(tiêu chí ghi trước: ≤ 1 điểm %, hoặc trong 1 độ lệch chuẩn — lấy ngưỡng rộng hơn)
