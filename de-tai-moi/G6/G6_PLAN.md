@@ -50,7 +50,9 @@ Kho không có tệp LICENSE: chỉ dùng để chạy tái hiện và đối ch
 |---|---|---|
 | 26/10/2026 | T1 SAR-EM: bọc code chính thức (`icgibbs/baselines_sar.py`), random search 20 cấu hình trên nhãn yếu (`icgibbs/tuning.py`), kiểm thử tổng hợp (`tests/test_baselines_g6.py`, 29/29 test qua), script tái hiện số công bố (`g6_reproduce_sarem.py`) | Code xong; chờ chạy Kaggle (`g6_code_v1.zip`) |
 | 26/10/2026 | T2: không gian tune của mọi baseline ghi trước | Xong: [docs/tuning_spaces.md](../docs/tuning_spaces.md) |
-| 26/10/2026 | Kho git riêng tư khởi tạo; commit đóng băng `c4da1f4` | Chờ thầy tạo kho trống trên GitHub để đẩy lên |
+| 26/10/2026 | Kho git riêng tư `github.com/DRuanli/icgibbs`; commit đóng băng `c4da1f4` | Xong, đã đẩy lên |
+| 26/10/2026 | T1 chạy Kaggle: tái hiện SAR-EM (Mushroom đạt; Breast Cancer lệch, đang kiểm), SAR-EM trên tập phát triển, Gibbs ở PU-SAR mức 0,1 | Xong — [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md). **Phát hiện:** khi có SAR-EM, Gibbs chỉ đạt 3/12 ô ở PU-SAR → chờ thầy quyết phạm vi PU-SAR |
 
 ## 5. Cần thầy quyết
-- **Kho git:** thầy đồng ý (26/10/2026). Kho cục bộ đã có (commit đóng băng `c4da1f4`). Phiên làm việc này không có quyền tạo kho mới trên GitHub, nên thầy tạo một kho **trống, riêng tư** (ví dụ `DRuanli/icgibbs`, không thêm README) rồi báo em để đẩy lên.
+- **Kho git:** xong — `github.com/DRuanli/icgibbs` (riêng tư), đẩy lên ngày 26/10/2026.
+- **Phạm vi PU-SAR** và **quy tắc chọn đối thủ chính** (xét cả bản mặc định lẫn bản tune): xem [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md) Mục 4.

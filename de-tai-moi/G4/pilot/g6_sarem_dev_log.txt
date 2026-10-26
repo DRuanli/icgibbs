@@ -1,0 +1,103 @@
+python 3.13.15 · numpy 2.1.3 · tabpfn 9.2.0 · tabicl - · torch 2.11.0+cu128
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_sar   0.1 s0 sar_em   AUC=0.6439 LL=1.4700 3.6s
+                      credit-g pu_sar   0.1 s0 sar_em_tuned AUC=0.5668 LL=0.6339 12.6s
+                      credit-g pu_sar   0.1 s1 sar_em   AUC=0.6033 LL=1.4629 0.6s
+                      credit-g pu_sar   0.1 s1 sar_em_tuned AUC=0.6075 LL=1.7372 9.7s
+                      credit-g pu_sar   0.1 s2 sar_em   AUC=0.6321 LL=1.4917 1.3s
+                      credit-g pu_sar   0.1 s2 sar_em_tuned AUC=0.5876 LL=0.6589 17.2s
+                      credit-g pu_sar   0.3 s0 sar_em   AUC=0.6779 LL=1.0291 3.8s
+                      credit-g pu_sar   0.3 s0 sar_em_tuned AUC=0.6747 LL=0.5786 86.6s
+                      credit-g pu_sar   0.3 s1 sar_em   AUC=0.6939 LL=0.9913 2.4s
+                      credit-g pu_sar   0.3 s1 sar_em_tuned AUC=0.6836 LL=0.5983 64.1s
+                      credit-g pu_sar   0.3 s2 sar_em   AUC=0.6962 LL=0.8277 2.6s
+                      credit-g pu_sar   0.3 s2 sar_em_tuned AUC=0.6824 LL=0.8242 81.8s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_sar   0.1 s0 sar_em   AUC=0.7648 LL=0.8258 0.2s
+                      diabetes pu_sar   0.1 s0 sar_em_tuned AUC=0.7672 LL=0.6729 9.0s
+                      diabetes pu_sar   0.1 s1 sar_em   AUC=0.6216 LL=1.2830 1.0s
+                      diabetes pu_sar   0.1 s1 sar_em_tuned AUC=0.6559 LL=1.1687 7.5s
+                      diabetes pu_sar   0.1 s2 sar_em   AUC=0.6774 LL=1.1087 1.4s
+                      diabetes pu_sar   0.1 s2 sar_em_tuned AUC=0.6804 LL=1.0032 6.6s
+                      diabetes pu_sar   0.3 s0 sar_em   AUC=0.7750 LL=0.6068 0.6s
+                      diabetes pu_sar   0.3 s0 sar_em_tuned AUC=0.7264 LL=0.6009 5.6s
+                      diabetes pu_sar   0.3 s1 sar_em   AUC=0.7356 LL=0.7844 0.6s
+                      diabetes pu_sar   0.3 s1 sar_em_tuned AUC=0.6978 LL=0.9628 5.7s
+                      diabetes pu_sar   0.3 s2 sar_em   AUC=0.7283 LL=0.8308 2.0s
+                      diabetes pu_sar   0.3 s2 sar_em_tuned AUC=0.7314 LL=0.5836 9.7s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_sar   0.1 s0 sar_em   AUC=0.3613 LL=0.6138 1.6s
+  blood-transfusion-service-center pu_sar   0.1 s0 sar_em_tuned AUC=0.3813 LL=0.6006 10.6s
+  blood-transfusion-service-center pu_sar   0.1 s1 sar_em   AUC=0.3413 LL=0.7205 1.5s
+  blood-transfusion-service-center pu_sar   0.1 s1 sar_em_tuned AUC=0.3528 LL=0.8525 14.0s
+  blood-transfusion-service-center pu_sar   0.1 s2 sar_em   AUC=0.3078 LL=0.7495 1.3s
+  blood-transfusion-service-center pu_sar   0.1 s2 sar_em_tuned AUC=0.2959 LL=0.6116 13.7s
+  blood-transfusion-service-center pu_sar   0.3 s0 sar_em   AUC=0.4292 LL=0.5794 0.9s
+  blood-transfusion-service-center pu_sar   0.3 s0 sar_em_tuned AUC=0.4814 LL=0.5859 14.4s
+  blood-transfusion-service-center pu_sar   0.3 s1 sar_em   AUC=0.5368 LL=0.5555 0.7s
+  blood-transfusion-service-center pu_sar   0.3 s1 sar_em_tuned AUC=0.5838 LL=0.6514 6.9s
+  blood-transfusion-service-center pu_sar   0.3 s2 sar_em   AUC=0.4811 LL=0.5764 0.8s
+  blood-transfusion-service-center pu_sar   0.3 s2 sar_em_tuned AUC=0.7189 LL=0.5273 14.6s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_sar   0.1 s0 sar_em   AUC=0.9974 LL=0.4773 0.9s
+       banknote-authentication pu_sar   0.1 s0 sar_em_tuned AUC=0.9316 LL=1.1098 17.1s
+       banknote-authentication pu_sar   0.1 s1 sar_em   AUC=0.9945 LL=0.5872 0.4s
+       banknote-authentication pu_sar   0.1 s1 sar_em_tuned AUC=0.9945 LL=0.5872 10.8s
+       banknote-authentication pu_sar   0.1 s2 sar_em   AUC=0.9703 LL=0.6073 1.2s
+       banknote-authentication pu_sar   0.1 s2 sar_em_tuned AUC=0.7034 LL=0.8964 18.2s
+       banknote-authentication pu_sar   0.3 s0 sar_em   AUC=1.0000 LL=0.3248 0.5s
+       banknote-authentication pu_sar   0.3 s0 sar_em_tuned AUC=0.9378 LL=0.6598 7.2s
+       banknote-authentication pu_sar   0.3 s1 sar_em   AUC=0.9959 LL=0.3692 0.4s
+       banknote-authentication pu_sar   0.3 s1 sar_em_tuned AUC=0.9630 LL=0.5266 8.3s
+       banknote-authentication pu_sar   0.3 s2 sar_em   AUC=0.9934 LL=0.3819 0.5s
+       banknote-authentication pu_sar   0.3 s2 sar_em_tuned AUC=0.9947 LL=0.3640 8.2s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_sar   0.1 s0 sar_em   AUC=0.5944 LL=0.9919 1.9s
+                          ilpd pu_sar   0.1 s0 sar_em_tuned AUC=0.6362 LL=1.5778 13.1s
+                          ilpd pu_sar   0.1 s1 sar_em   AUC=0.6790 LL=0.7588 1.2s
+                          ilpd pu_sar   0.1 s1 sar_em_tuned AUC=0.6762 LL=0.9218 9.8s
+                          ilpd pu_sar   0.1 s2 sar_em   AUC=0.6866 LL=0.8601 1.1s
+                          ilpd pu_sar   0.1 s2 sar_em_tuned AUC=0.6502 LL=1.0693 9.4s
+                          ilpd pu_sar   0.3 s0 sar_em   AUC=0.6512 LL=0.6838 0.5s
+                          ilpd pu_sar   0.3 s0 sar_em_tuned AUC=0.6651 LL=0.6727 8.8s
+                          ilpd pu_sar   0.3 s1 sar_em   AUC=0.6741 LL=0.6977 0.6s
+                          ilpd pu_sar   0.3 s1 sar_em_tuned AUC=0.6917 LL=0.6645 8.3s
+                          ilpd pu_sar   0.3 s2 sar_em   AUC=0.7045 LL=0.6332 1.0s
+                          ilpd pu_sar   0.3 s2 sar_em_tuned AUC=0.7117 LL=0.7896 15.8s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_sar   0.1 s0 sar_em   AUC=0.8474 LL=1.0825 0.8s
+                          wdbc pu_sar   0.1 s0 sar_em_tuned AUC=0.9039 LL=0.5058 19.1s
+                          wdbc pu_sar   0.1 s1 sar_em   AUC=0.8708 LL=1.1291 1.3s
+                          wdbc pu_sar   0.1 s1 sar_em_tuned AUC=0.7703 LL=3.6884 6.3s
+                          wdbc pu_sar   0.1 s2 sar_em   AUC=0.8908 LL=1.1015 1.0s
+                          wdbc pu_sar   0.1 s2 sar_em_tuned AUC=0.9120 LL=0.5770 5.5s
+                          wdbc pu_sar   0.3 s0 sar_em   AUC=0.9831 LL=0.4420 0.3s
+                          wdbc pu_sar   0.3 s0 sar_em_tuned AUC=0.9874 LL=0.3591 17.0s
+                          wdbc pu_sar   0.3 s1 sar_em   AUC=0.8991 LL=0.7641 1.4s
+                          wdbc pu_sar   0.3 s1 sar_em_tuned AUC=0.9547 LL=0.4169 18.2s
+                          wdbc pu_sar   0.3 s2 sar_em   AUC=0.9163 LL=0.7178 0.4s
+                          wdbc pu_sar   0.3 s2 sar_em_tuned AUC=0.9346 LL=0.4433 10.1s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_sar ---
+method                                  sar_em  sar_em_tuned
+dataset                          level                      
+banknote-authentication          0.1    0.9874        0.8765
+                                 0.3    0.9964        0.9651
+blood-transfusion-service-center 0.1    0.3368        0.3433
+                                 0.3    0.4823        0.5947
+credit-g                         0.1    0.6264        0.5873
+                                 0.3    0.6894        0.6802
+diabetes                         0.1    0.6879        0.7012
+                                 0.3    0.7463        0.7185
+ilpd                             0.1    0.6533        0.6542
+                                 0.3    0.6766        0.6895
+wdbc                             0.1    0.8696        0.8621
+                                 0.3    0.9328        0.9589

@@ -117,7 +117,7 @@ def preprocess(repo, name):
     return data_folder
 
 
-def run_dataset(data_folder, name, n_attrs, n_labelings=5, n_partitions=5):
+def run_dataset(data_folder, name, n_attrs, n_labelings=5, n_partitions=5, cls_mode="orig"):
     from sklearn.metrics import roc_auc_score
     from sarpu.data_extending import generate_extended_data
     from sarpu.input_output import read_data
@@ -135,7 +135,14 @@ def run_dataset(data_folder, name, n_attrs, n_labelings=5, n_partitions=5):
     prop = list(range(d, d + n_attrs))
     model = label_data(data_folder, ext, "simple_0.2_0.8", prop, [1] * n_attrs, n_labelings)
     cls = np.zeros(d + 5, bool)
-    cls[:d] = True                                       # thuộc tính phân loại = thuộc tính gốc
+    if cls_mode == "orig":            # thuộc tính phân loại = thuộc tính gốc (cách đọc theo bài)
+        cls[:d] = True
+    elif cls_mode == "orig_plus1":    # như chuỗi "0-<d>" trong notebook Experiments của kho gốc (cận trên tính cả d)
+        cls[:d + 1] = True
+    elif cls_mode == "all":           # mọi thuộc tính, kể cả 5 thuộc tính nhân tạo
+        cls[:] = True
+    else:
+        raise ValueError(cls_mode)
     rows = []
     for part in range(n_partitions):
         for lab in range(n_labelings):
@@ -158,7 +165,7 @@ def run_dataset(data_folder, name, n_attrs, n_labelings=5, n_partitions=5):
             w = SAREM(seed=0).fit(xtr, str_, prop, classification_cols=np.flatnonzero(cls))
             out["sar_em_wrapper"] = (w.predict_proba(xte)[:, 1], w.propensity(xte))
             for meth, (pf, pe) in out.items():
-                r = dict(dataset=name, partition=part, labeling=lab, method=meth, n_train=len(ytr),
+                r = dict(dataset=name, cls_mode=cls_mode, d=d, partition=part, labeling=lab, method=meth, n_train=len(ytr),
                          labeled=int(str_.sum()), auc=roc_auc_score(yte, pf), mse_f=float(np.mean((pf - yte) ** 2)))
                 if pe is not None:
                     r["mse_e"] = float(np.mean((pe - ete) ** 2))
@@ -170,7 +177,8 @@ def run_dataset(data_folder, name, n_attrs, n_labelings=5, n_partitions=5):
 
 def report(df):
     print("\n========= TÁI HIỆN SAR-EM (trung bình ± độ lệch chuẩn qua 25 thí nghiệm) =========")
-    g = df.groupby(["dataset", "method"])[["auc", "mse_f", "mse_e"]].agg(["mean", "std"]).round(4)
+    keys = ["dataset", "cls_mode", "method"] if "cls_mode" in df else ["dataset", "method"]
+    g = df.groupby(keys)[["auc", "mse_f", "mse_e"]].agg(["mean", "std"]).round(4)
     print(g.to_string())
     ok_all = True
     for ds, tgt in TARGETS.items():
@@ -184,8 +192,9 @@ def report(df):
                 ok_all &= ok
                 print(f"  {ds:12s} {meth:10s} {met:5s}: tái hiện {mu:.4f} ± {sd:.4f} | công bố {v:.3f} | "
                       f"{'ĐẠT' if ok else 'CHÊNH'}")
-    w = df[df.method == "sar_em_wrapper"].set_index(["dataset", "partition", "labeling"]).auc
-    o = df[df.method == "sar_em"].set_index(["dataset", "partition", "labeling"]).auc
+    idx = [k for k in ("dataset", "cls_mode", "partition", "labeling") if k in df]
+    w = df[df.method == "sar_em_wrapper"].set_index(idx).auc
+    o = df[df.method == "sar_em"].set_index(idx).auc
     print(f"\nbản bọc của dự án so với gọi trực tiếp code chính thức: chênh AUC lớn nhất = {float((w - o).abs().max()):.2e}")
     print("(tiêu chí ghi trước: ≤ 1 điểm %, hoặc trong 1 độ lệch chuẩn — lấy ngưỡng rộng hơn)")
     return ok_all
@@ -217,6 +226,7 @@ def main():
     ap.add_argument("--datasets", default="breastcancer,mushroom")
     ap.add_argument("--n_attrs", type=int, default=4)
     ap.add_argument("--out", default="g6_sarem_reproduction.csv")
+    ap.add_argument("--cls_mode", default="orig", help="orig | orig_plus1 | all (kiểm giả thuyết về chênh lệch)")
     ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
     if a.selftest:
@@ -227,7 +237,7 @@ def main():
     rows = []
     for name in a.datasets.split(","):
         folder = preprocess(a.repo, name)
-        rows += run_dataset(folder, name, a.n_attrs)
+        rows += run_dataset(folder, name, a.n_attrs, cls_mode=a.cls_mode)
         pd.DataFrame(rows).assign(sarpu_commit=head).to_csv(a.out, index=False)
     report(pd.DataFrame(rows))
 
