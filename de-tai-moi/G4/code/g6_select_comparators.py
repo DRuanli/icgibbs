@@ -28,12 +28,15 @@ SETTINGS = {
             ["proden_def", "proden_tun", "glwspll_def", "glwspll_tun", "rc_def", "rc_tun", "cc_def", "cc_tun"],
             "g4_rq4_pilot.csv"),
     # bối cảnh phụ của RQ4 (G6 lượt 3); bản mặc định của label spreading, self-training, forward là bản trong thí điểm
-    "noisy": ("noisy", [0.2, 0.4], "auc", True, ["forward", "forward_def", "forward_tun", "cl_tfm"], "g4_rq4_pilot.csv"),
-    "ssl": ("ssl", [0.05, 0.2], "auc", True, ["label_spreading", "ls_tun", "self_training", "st_tun"], "g4_rq4_pilot.csv"),
+    "noisy": ("noisy", [0.2, 0.4], "auc", True, ["forward", "forward_def", "forward_tun", "cl_tfm", "illnz_def", "illnz_tun"],
+              "g4_rq4_pilot.csv"),
+    "ssl": ("ssl", [0.05, 0.2], "auc", True, ["label_spreading", "ls_tun", "self_training", "st_tun", "illssl_def",
+                                                  "illssl_tun", "vime_def", "vime_tun"], "g4_rq4_pilot.csv"),
     "pu_sar": ("pu_sar", [0.1, 0.3], "auc", True,
-               ["nnpu", "nnpu_tun", "upu", "upu_tun", "sar_em", "sar_em_tuned"], "g6_pusar_dev_merged.csv"),
+               ["nnpu", "nnpu_tun", "upu", "upu_tun", "sar_em", "sar_em_tuned", "glwspu_def", "glwspu_tun", "vpu_def",
+                "vpu_tun"], "g6_pusar_dev_merged.csv"),
     "pu_scar": ("pu_scar", [0.1, 0.3], "logloss_pm", False,
-                ["nnpu", "nnpu_tun", "upu", "upu_tun"], "g4_pilot_v2.csv"),
+                ["nnpu", "nnpu_tun", "upu", "upu_tun", "glwspu_def", "glwspu_tun", "vpu_def", "vpu_tun"], "g4_pilot_v2.csv"),
 }
 
 

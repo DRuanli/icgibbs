@@ -1,4 +1,4 @@
-# G6 lượt 2 — baseline peer-review trên tập phát triển, chọn đối thủ chính, kiểm lại phạm vi (26/10/2026)
+# G6 lượt 2 và 3 — baseline peer-review trên tập phát triển, chọn đối thủ chính, kiểm lại phạm vi (26/10/2026)
 
 Việc T3–T4 của [G6_PLAN](G6_PLAN.md). Mọi số trong file này chỉ từ **tập phát triển**; chưa phương pháp nào chạy trên tập đánh giá. Dữ liệu: `G4/pilot/g6r2_{llp,pll,pu}.csv` (kèm `_preds.jsonl`, `_log.txt`), `g6r2_sarem_repro_*.csv`; script chọn: `G4/code/g6_select_comparators.py` (viết trước khi có kết quả, commit `3a900c1`); kết quả chọn: `G4/pilot/g6_comparators.csv`.
 
@@ -95,3 +95,11 @@ Giả thuyết 1 ([G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md) §2): chênh lệc
 - **LLP:** quy tắc 60% gộp hai mức cho 7/12 ô — thiếu một ô. Bằng chứng tách rõ theo mức: túi 8 đạt 5/6, túi 16 đạt 2/6. **Quyết định (thầy, 26/10/2026): khẳng định chính chỉ còn túi 8**; túi 16 thành phụ (giao thức §11, deviation 7). Đối thủ chính chọn lại theo quy tắc trên mức chính mới: DLLP tuyến tính mặc định (0,8254); Gibbs 0,8386, đạt 5/6 ô ở túi 8.
 - **PU-SCAR, PU-SAR:** vẫn là bối cảnh phụ; kết quả lượt 2 không đổi điều đó.
 - **Khớp với PROOFS §7:** chỗ để Gibbs giúp tăng theo cỡ túi, nhưng ở túi 16 chuỗi không giữ được trạng thái tốt trên dataset tín hiệu yếu — đúng loại rủi ro "trộn chậm" đã ghi ở METHOD_SPEC (rủi ro 3).
+
+## 7. Lượt 3 (Kaggle CPU, 11:34–11:46 UTC)
+- **Dữ liệu:** 162/162 dòng `ok` (PRODEN tune 18; label spreading tune, self-training tune, forward correction mặc định và tune: 36 mỗi loại). Cùng lần chia và nhãn yếu với các lượt Gibbs/naive: kích thước train/test, số ứng viên trung bình (PLL), số mẫu có nhãn (SSL), tỉ lệ nhiễu thực tế (nhãn nhiễu) khớp ở mọi ô; nhãn test giống hệt ở 90/90 ô có file dự đoán.
+- **PRODEN tune có Adam:** 0,7378 (trước: 0,7161 khi chỉ có SGD; bản Adam cũ: 0,7399). Bản tune chọn Adam ở 16/18 ô. Cải thiện rõ nhất ở vehicle (+0,037 ở q = 0,3; +0,051 ở q = 0,6). Đối thủ chính của PLL không đổi: GLWS/ILL tune (0,7451) — **chốt**. Gibbs 0,7750, đạt 6/6 ô.
+- **Nhãn nhiễu (phụ):** đối thủ chính theo quy tắc là CL + TFM (0,8465); forward correction tune 0,8097, mặc định đã ghi 0,8012, bản thí điểm 0,7749. Gibbs 0,8319, TFM ngây thơ 0,8418. Kiểm phạm vi: 4/12 ô.
+- **SSL (phụ):** đối thủ chính là self-training tune (0,8185); self-training mặc định 0,8066; label spreading 0,7705 (tune 0,7704; trung bình 10 điểm test mỗi ô phải gán tiên nghiệm vì không nhận được nhãn lan truyền). Gibbs 0,8090, TFM ngây thơ 0,8148. Kiểm phạm vi: 2/12 ô (trước lượt 3, so với baseline mặc định: 3/12).
+- Ở cả hai bối cảnh phụ, Gibbs thua TFM ngây thơ về AUC trung bình. Điều này khớp loại 1 của PROOFS §7: bộ ngây thơ dùng chính quan sát, nên không còn thông tin để Gibbs lấy lại. Dự đoán thăm dò D3 (chênh lệch AUC trung bình ≤ +0,02) vẫn đúng trên tập phát triển.
+- **Còn thiếu (bối cảnh phụ):** GLWS cho PU; VPU, In-Context PU; ILL cho nhãn nhiễu và SSL; VIME. Đối thủ chính của các bối cảnh phụ là tạm thời tới khi có các baseline này.

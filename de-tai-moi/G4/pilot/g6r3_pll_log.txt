@@ -1,0 +1,64 @@
+##### g6r3_pll_0.log
+                   vehicle pll    0.3 s0 proden_tun     AUC=0.93312 ACC=0.7795 LL=0.5664 44.0s
+                   vehicle pll    0.6 s1 proden_tun     AUC=0.93284 ACC=0.7598 LL=0.5547 30.3s
+                   segment pll    0.3 s2 proden_tun     AUC=0.99837 ACC=0.9596 LL=0.1296 114.2s
+                       cmc pll    0.3 s0 proden_tun     AUC=0.68552 ACC=0.4842 LL=0.9709 54.5s
+                       cmc pll    0.6 s1 proden_tun     AUC=0.65436 ACC=0.4615 LL=1.0371 55.9s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         proden_tun
+dataset level            
+cmc     0.3        0.4842
+        0.6        0.4615
+segment 0.3        0.9596
+vehicle 0.3        0.7795
+        0.6        0.7598
+##### g6r3_pll_1.log
+                   vehicle pll    0.3 s1 proden_tun     AUC=0.95245 ACC=0.7913 LL=0.4235 44.5s
+                   vehicle pll    0.6 s2 proden_tun     AUC=0.92497 ACC=0.7520 LL=0.6140 34.4s
+                   segment pll    0.6 s0 proden_tun     AUC=0.99455 ACC=0.9553 LL=0.1994 110.1s
+                       cmc pll    0.3 s1 proden_tun     AUC=0.68373 ACC=0.5226 LL=1.0168 58.0s
+                       cmc pll    0.6 s2 proden_tun     AUC=0.63395 ACC=0.4638 LL=1.2391 64.0s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         proden_tun
+dataset level            
+cmc     0.3        0.5226
+        0.6        0.4638
+segment 0.6        0.9553
+vehicle 0.3        0.7913
+        0.6        0.7520
+##### g6r3_pll_2.log
+                   vehicle pll    0.3 s2 proden_tun     AUC=0.95019 ACC=0.7992 LL=0.4439 48.9s
+                   segment pll    0.3 s0 proden_tun     AUC=0.99671 ACC=0.9711 LL=0.1161 99.3s
+                   segment pll    0.6 s1 proden_tun     AUC=0.99642 ACC=0.9538 LL=0.1928 96.5s
+                       cmc pll    0.3 s2 proden_tun     AUC=0.67938 ACC=0.5068 LL=1.0750 67.5s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         proden_tun
+dataset level            
+cmc     0.3        0.5068
+segment 0.3        0.9711
+        0.6        0.9538
+vehicle 0.3        0.7992
+##### g6r3_pll_3.log
+                   vehicle pll    0.6 s0 proden_tun     AUC=0.90706 ACC=0.7323 LL=0.7299 45.4s
+                   segment pll    0.3 s1 proden_tun     AUC=0.99772 ACC=0.9639 LL=0.1266 94.1s
+                   segment pll    0.6 s2 proden_tun     AUC=0.99784 ACC=0.9538 LL=0.1338 123.3s
+                       cmc pll    0.6 s0 proden_tun     AUC=0.65983 ACC=0.4706 LL=1.0220 53.5s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         proden_tun
+dataset level            
+cmc     0.6        0.4706
+segment 0.3        0.9639
+        0.6        0.9538
+vehicle 0.6        0.7323

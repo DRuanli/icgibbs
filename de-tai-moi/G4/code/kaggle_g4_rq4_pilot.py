@@ -249,6 +249,18 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
 
         attempt("ls_tun", lambda: _g6_ssl("label_spreading", "ls_tun"))
         attempt("st_tun", lambda: _g6_ssl("self_training", "st_tun"))
+
+        # G6 lượt 4: ILL và VIME (bản mặc định và bản tune 20 cấu hình)
+        def _g6_ssl2(kind, tune, meth):
+            from icgibbs.baselines_secondary import fit_ill, fit_vime
+            t0 = time.time()
+            m = (fit_ill("ssl", Mtr, y_obs, None, seed=seed, tune=tune, n_classes=C) if kind == "ill"
+                 else fit_vime(Mtr, y_obs, seed=seed, tune=tune, n_classes=C))
+            emit(meth, m.predict_proba(Mte), t0, 0, f"best={_cfg(m.tune_.best)};val={m.tune_.best_score:.4f}" if tune else "")
+
+        for kind, tag in (("ill", "illssl"), ("vime", "vime")):
+            for tune, suf in ((False, "def"), (True, "tun")):
+                attempt(f"{tag}_{suf}", lambda k=kind, t=tune, mm=f"{tag}_{suf}": _g6_ssl2(k, t, mm))
     elif setting == "noisy":
         def _forward():
             t0 = time.time()
@@ -275,6 +287,16 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
 
         attempt("forward_def", lambda: _g6_forward(False, "forward_def"))
         attempt("forward_tun", lambda: _g6_forward(True, "forward_tun"))
+
+        # G6 lượt 4: ILL cho nhãn nhiễu (bản mặc định: ma trận nhiễu học được như kho; bản tune có thêm T đã biết)
+        def _g6_illnz(tune, meth):
+            from icgibbs.baselines_secondary import fit_ill
+            t0 = time.time()
+            m = fit_ill("noisy", Mtr, w, T, seed=seed, tune=tune, n_classes=2)
+            emit(meth, m.predict_proba(Mte), t0, 0, f"best={_cfg(m.tune_.best)};val={m.tune_.best_score:.4f}" if tune else "")
+
+        attempt("illnz_def", lambda: _g6_illnz(False, "illnz_def"))
+        attempt("illnz_tun", lambda: _g6_illnz(True, "illnz_tun"))
     else:
         def _proden():
             t0 = time.time()

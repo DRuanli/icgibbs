@@ -263,6 +263,17 @@ def run_cell(args, backend, did, setting, level, seed, data, writer, fh, done):
                 m = fit_nnpu(Mtr, s, prior=float(ytr.mean()), nn_correction=nn, seed=seed, tune=True)
                 emit(meth, m.predict_proba(Mte)[:, 1], t0, 0,
                      f"best={_cfg_str(m.tune_.best)};val={m.tune_.best_score:.4f}")
+    if setting.startswith("pu"):
+        # G6 lượt 4: GLWS cho PU và VPU (bối cảnh phụ), bản mặc định và bản tune 20 cấu hình
+        for bname, tag in (("glws", "glwspu"), ("vpu", "vpu")):
+            for tune, suf in ((False, "def"), (True, "tun")):
+                meth = f"{tag}_{suf}"
+                if todo(meth):
+                    from icgibbs.baselines_secondary import fit_pu2
+                    t0 = time.time()
+                    m = fit_pu2(bname, Mtr, s, prior=float(ytr.mean()), seed=seed, tune=tune)
+                    emit(meth, m.predict_proba(Mte)[:, 1], t0, 0,
+                         f"best={_cfg_str(m.tune_.best)};val={m.tune_.best_score:.4f}" if tune else "")
     if setting == "pu_sar" and todo("sar_e_known"):
         # phân tích phụ: bộ phân loại với propensity THẬT (đối chứng công bằng cho gibbs_known_warm)
         from sklearn.preprocessing import StandardScaler
