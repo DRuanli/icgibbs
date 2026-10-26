@@ -1,0 +1,10 @@
+# Kho của đề tài A
+
+# Bản nén để gửi và bản giải nén thô của kết quả Kaggle (đã có bản chính trong G4/pilot)
+de-tai-moi/*.zip
+de-tai-moi/G4/pilot/*_raw/
+
+__pycache__/
+.pytest_cache/
+*.pyc
+.ipynb_checkpoints/

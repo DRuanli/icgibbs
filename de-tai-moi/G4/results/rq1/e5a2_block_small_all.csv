@@ -1,0 +1,7 @@
+prior,n,block_size,K,kind,tv,pred_err_max,seconds
+cell,10,2,5,"approx, khối trên mọi mẫu",0.014537155243501671,3.2751579226442118e-15,1.2
+cell,10,4,2,"approx, khối trên mọi mẫu",0.05018475064672384,8.881784197001252e-16,7.9
+cell,10,8,1,"approx, khối trên mọi mẫu",0.18707287685087537,1.887379141862766e-15,9.7
+mixture,10,2,5,"approx, khối trên mọi mẫu",0.04274780932804992,0.010507567882749203,6.7
+mixture,10,4,2,"approx, khối trên mọi mẫu",0.15390872068714423,0.06120958004512089,57.6
+mixture,10,8,1,"approx, khối trên mọi mẫu",0.31715909538488507,0.11075524176137719,31.9

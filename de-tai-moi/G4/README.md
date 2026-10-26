@@ -1,0 +1,160 @@
+# G4 · Phát triển phương pháp và lý thuyết (đề tài A: In-Context Gibbs)
+
+Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) §G4: phương pháp và lý thuyết phải đúng *trước khi* tối ưu hiệu năng.
+
+| Tệp | Nội dung |
+|---|---|
+| [METHOD_SPEC.md](METHOD_SPEC.md) | Đặc tả: vào/ra, thuật toán, mô hình quan sát, chi phí, 9 quyết định thiết kế có căn cứ, baseline, rủi ro |
+| [PROOFS.md](PROOFS.md) | Chứng minh đầy đủ: Bổ đề 1, Định lý 1 (a, b, c), Mệnh đề 1.4, Mệnh đề 3, Định lý 2, Mệnh đề 4 |
+| [SELF_REVIEW_MATH.md](SELF_REVIEW_MATH.md) | Tự rà soát phản biện phần toán (không thay kiểm duyệt độc lập) |
+| [RQ1_REPORT.md](RQ1_REPORT.md) | Kết quả kiểm chứng số RQ1 (E1–E5) |
+| [GATE_REVIEW_G4.md](GATE_REVIEW_G4.md) | Biên bản kiểm duyệt cổng G4 |
+| `code/icgibbs/` | Thư viện (OOP) |
+| `code/tests/` | 23+ kiểm thử (`cd code && python -m pytest -q tests`) |
+| `code/experiments/` | Kiểm chứng RQ1 (chạy CPU): `rq1_exact.py`, `cell_pfn.py`, `rq1_figures.py` |
+| `code/kaggle_g4_pilot.py` | Thí điểm trên 6 dataset phát triển (GPU Kaggle) — **thầy chạy** |
+| [pilot/PILOT_V1_REPORT.md](pilot/PILOT_V1_REPORT.md) | Kết quả thí điểm lượt 1 và thiết kế lượt 2 |
+| [pilot/PILOT_V2_REPORT.md](pilot/PILOT_V2_REPORT.md) | Kết quả thí điểm lượt 2: khởi động ấm, chẩn đoán, phạm vi |
+| `code/kaggle_g4_rq4_pilot.py` | Thí điểm RQ4 (SSL, nhãn nhiễu, PLL) trên tập phát triển — **thầy chạy** |
+| `code/g5_verify_datasets.py` | Kiểm tra danh sách dataset đánh giá dự kiến của G5 (chỉ đọc dữ liệu) — **thầy chạy** |
+| `code/kaggle_g4_manyclass_pilot.py` | Thí điểm PLL > 10 lớp trên tập phát triển (TabPFN v2 bọc ECOC so với TabICL v2), chọn backend cho RQ5 — **thầy chạy** |
+| `code/g5_verify_pll_real.py` | Xác minh chỉ đọc bộ PLL thật cho RQ5 (Lost, MSRCv2, BirdSong, …) — **thầy chạy** |
+| [pilot/PILOT_RQ4_REPORT.md](pilot/PILOT_RQ4_REPORT.md) | Kết quả thí điểm RQ4 (cuối, lượt v4 + v5) và quyết định phạm vi |
+| [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
+| `results/` | CSV, log, hình |
+
+## Việc F7 — xác minh bộ PLL thật (notebook CPU, khoảng 5 phút)
+
+Lượt v5 chưa chạy ô này. Không cần GPU, không cần TabPFN token. Dùng lại dataset `icgibbs-g4` (bản có `g4_code_v5`).
+1. Notebook mới: *Accelerator: None; Internet: On; Add data: `icgibbs-g4`*.
+2. Ô 1:
+```python
+import glob, os, shutil
+src = glob.glob("/kaggle/input/**/g4_code_v5/code/g5_verify_pll_real.py", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/run_f7", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_f7", ignore=shutil.ignore_patterns("prev_v4", "__pycache__"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_f7
+!(apt-get -qq update && apt-get -qq install -y unrar) > /dev/null 2>&1 || apt-get -qq install -y p7zip-full libarchive-tools > /dev/null 2>&1; which unrar 7z bsdtar
+!python g5_verify_pll_real.py --out /kaggle/working/g5_pll_real_check.csv --download_dir /kaggle/working/pll_downloads --save_dir /kaggle/working/pll_real 2>&1 | tee /kaggle/working/g5_pll_real_log.txt
+```
+4. Gửi lại `g5_pll_real_check.csv` và `g5_pll_real_log.txt`. Nếu log báo không tải được hoặc không giải nén được: thầy tải tay `lost.rar`, `MSRCv2.rar`, `BirdSong.rar` ở palm.seu.edu.cn/zhangml/Resources.htm, đưa vào một Kaggle dataset, thêm dataset đó vào notebook rồi chạy lại ô 2.
+
+## Lượt v5 trên Kaggle — dùng `g4_code_v5.zip` (đã chạy 26/10/2026: phần RQ4 và many-class xong; ô xác minh PLL thật chưa chạy — xem F7 ở trên)
+
+Ba việc trong một notebook, tổng khoảng 3,5–5,5 giờ T4 (dưới giới hạn 12 giờ):
+(a) chạy tiếp thí điểm RQ4 vào đúng file kết quả lượt v4 — chỉ chạy phần còn thiếu: PLL segment 0,6, cmc, các baseline SSL bị lỗi NaN (khoảng 1 giờ);
+(b) xác minh chỉ đọc bộ PLL thật cho RQ5 (vài phút, không cần GPU);
+(c) thí điểm PLL nhiều lớp trên tập phát triển để chọn backend cho RQ5 (khoảng 2–4 giờ).
+
+1. Tải `g4_code_v5.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*; trong notebook cập nhật dataset lên bản mới nhất. *GPU T4 x1, Internet: On.* Nên chạy bằng *Save Version → Save & Run All (Commit)* để máy chạy nền.
+2. Ô 1 — cài đặt (ghim đúng phiên bản đã dùng/đã kiểm), chép mã và kết quả lượt v4:
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab "tabpfn-extensions[many-class]==0.6.3"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g4_code_v5/code/kaggle_g4_rq4_pilot.py", recursive=True)
+print(src)   # thường là /kaggle/input/icgibbs-g4/g4_code_v5/code/kaggle_g4_rq4_pilot.py
+assert len(src) == 1, "không thấy g4_code_v5: cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+code = os.path.dirname(src[0])
+shutil.rmtree("/kaggle/working/run_v5", ignore_errors=True)
+shutil.copytree(code, "/kaggle/working/run_v5", ignore=shutil.ignore_patterns(".pytest_cache", "__pycache__"))
+for f in ("g4_rq4_pilot.csv", "g4_rq4_pilot_preds.jsonl", "g4_rq4_pilot_log.txt"):
+    if not os.path.exists(f"/kaggle/working/{f}"):          # không ghi đè nếu chạy lại ô này
+        shutil.copy(f"{code}/prev_v4/{f}", f"/kaggle/working/{f}")
+print(os.listdir("/kaggle/working"))
+```
+3. Ô 2 — (a) chạy tiếp RQ4 (PLL trước, rồi SSL; phần đã xong tự bỏ qua):
+```python
+%cd /kaggle/working/run_v5
+!python kaggle_g4_rq4_pilot.py --backend tabpfn_v2 --settings pll,ssl --out /kaggle/working/g4_rq4_pilot.csv 2>&1 | tee -a /kaggle/working/g4_rq4_pilot_log.txt
+```
+4. Ô 3 — (b) xác minh bộ PLL thật (chỉ đọc; tải từ palm.seu.edu.cn, cần công cụ giải nén RAR):
+```python
+!(apt-get -qq update && apt-get -qq install -y unrar) > /dev/null 2>&1 || apt-get -qq install -y p7zip-full libarchive-tools > /dev/null 2>&1; which unrar 7z bsdtar
+!python g5_verify_pll_real.py --out /kaggle/working/g5_pll_real_check.csv --download_dir /kaggle/working/pll_downloads --save_dir /kaggle/working/pll_real 2>&1 | tee /kaggle/working/g5_pll_real_log.txt
+```
+   Nếu Kaggle không tải được từ máy chủ nguồn: thầy tải tay các tệp `lost.rar`, `MSRCv2.rar`, `BirdSong.rar` (và nếu được cả `FG-NET.rar`, `Soccer Player.rar`, `Yahoo! News.rar`) ở palm.seu.edu.cn/zhangml/Resources.htm, đưa vào một Kaggle dataset rồi chạy lại ô này — script tự tìm trong /kaggle/input.
+5. Ô 4 — (c) thí điểm PLL nhiều lớp (vowel 11 lớp, letter 26 lớp; 2 mức × 2 seed × 2 backend):
+```python
+!python kaggle_g4_manyclass_pilot.py --out /kaggle/working/g4_manyclass_pilot.csv 2>&1 | tee -a /kaggle/working/g4_manyclass_pilot_log.txt
+```
+   Lần đầu TabICL tự tải checkpoint từ Hugging Face. Nếu một backend lỗi, backend kia vẫn chạy tiếp; chạy lại đúng lệnh thì script chỉ làm phần còn thiếu.
+6. Gửi lại toàn bộ tab *Output* (nén như lần trước): `g4_rq4_pilot.csv`, `g4_rq4_pilot_preds.jsonl`, `g4_rq4_pilot_log.txt`, `g5_pll_real_check.csv`, `g5_pll_real_log.txt`, `g4_manyclass_pilot.csv`, `g4_manyclass_pilot_preds.jsonl`, `g4_manyclass_pilot_log.txt`. Thư mục `pll_real/` (bản .npz) **không cần gửi** — giữ trên Kaggle cho G6.
+
+## Thí điểm RQ4 trên Kaggle (SSL, nhãn nhiễu, PLL) — dùng `g4_code_v4.zip` (đã chạy 25–26/10/2026; phần còn thiếu chạy ở v5)
+
+Mục đích: GATE_REVIEW_G4 §3d, R5. Khoảng 2–2,5 giờ T4.
+1. Tải `g4_code_v4.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*; trong notebook cập nhật dataset lên bản mới nhất. *GPU T4, Internet: On.*
+2. Ô 1:
+```python
+!pip install -q tabpfn tabicl cleanlab
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g4_code_v4/code/kaggle_g4_rq4_pilot.py", recursive=True)
+print(src)   # thường là /kaggle/input/icgibbs-g4/g4_code_v4/code/kaggle_g4_rq4_pilot.py
+assert len(src) == 1, "không thấy g4_code_v4: cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_rq4", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_rq4",
+                ignore=shutil.ignore_patterns(".pytest_cache", "__pycache__"))
+print(os.listdir("/kaggle/working/run_rq4"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_rq4
+!python g5_verify_datasets.py --out /kaggle/working/g5_dataset_check.csv 2>&1 | tee /kaggle/working/g5_dataset_check_log.txt
+!python kaggle_g4_rq4_pilot.py --backend tabpfn_v2 --out /kaggle/working/g4_rq4_pilot.csv 2>&1 | tee -a /kaggle/working/g4_rq4_pilot_log.txt
+```
+   Lệnh đầu chỉ đọc metadata và dữ liệu của các dataset đánh giá dự kiến để kiểm tra tiêu chí chọn (G5, việc F2); không chạy phương pháp nào trên chúng. Mất vài phút, không cần GPU.
+4. Gửi lại cả thư mục output (nén như lần trước): `g4_rq4_pilot.csv`, `g4_rq4_pilot_preds.jsonl`, `g4_rq4_pilot_log.txt`, `g5_dataset_check.csv`.
+
+## Thí điểm lượt 2 (v2) trên Kaggle — dùng `g4_code_v3.zip` (đã xong 25/10/2026)
+
+`g4_code_v3.zip` thay cho `g4_code_v2.zip`: thêm metric khớp tiên nghiệm (quyết định Q1), `hard_em_warm` (Q2), lưu dự đoán test, và chỉ dùng lại các chuỗi tốn GPU của lượt 1.
+
+1. Kaggle → dataset `icgibbs-g4` → *New Version* → tải `g4_code_v3.zip` lên (giữ các file cũ cũng được). Trong notebook, cập nhật dataset lên phiên bản mới nhất.
+2. *Settings → Accelerator: GPU T4 x1; Internet: On.*
+3. Ô 1 — cài đặt và chép mã (tự tìm đúng đường dẫn, không phụ thuộc cách Kaggle đặt tên thư mục):
+```python
+!pip install -q tabpfn tabicl
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g4_code_v3/code/kaggle_g4_pilot.py", recursive=True)
+print(src)   # thường là /kaggle/input/icgibbs-g4/g4_code_v3/code/kaggle_g4_pilot.py
+assert len(src) == 1, "không thấy g4_code_v3: kiểm tra đã cập nhật dataset icgibbs-g4 lên phiên bản mới nhất chưa"
+shutil.rmtree("/kaggle/working/run_v2", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_v2",
+                ignore=shutil.ignore_patterns(".pytest_cache", "__pycache__"))
+print(os.listdir("/kaggle/working/run_v2"))   # phải có kaggle_g4_pilot.py, g4_pilot_v1.csv, icgibbs
+```
+4. Ô 2 — chạy (phần chính khoảng 4 giờ T4, phần chẩn đoán thêm khoảng 1,2 giờ; tổng khoảng 5 giờ, dưới giới hạn 12 giờ của một phiên):
+```python
+%cd /kaggle/working/run_v2
+!python kaggle_g4_pilot.py --backend tabpfn_v2 --prev g4_pilot_v1.csv --out /kaggle/working/g4_pilot_v2.csv 2>&1 | tee -a /kaggle/working/g4_pilot_v2_log.txt
+!python kaggle_g4_pilot.py --backend tabpfn_v2 --prev g4_pilot_v1.csv --diag --out /kaggle/working/g4_pilot_v2.csv 2>&1 | tee -a /kaggle/working/g4_pilot_v2_log.txt
+```
+5. Nên chạy bằng *Save Version → Save & Run All (Commit)* để máy chạy nền khi thầy đóng trình duyệt; kết quả nằm ở tab *Output*. Nếu bị ngắt giữa chừng: chạy lại đúng hai ô trên, script tự bỏ qua phần đã xong (với chế độ Commit thì phải tải `g4_pilot_v2.csv` của lượt dở dang lên lại; đơn giản hơn là chạy tương tác).
+6. Gửi lại: `g4_pilot_v2.csv`, `g4_pilot_v2_preds.jsonl`, `g4_pilot_v2_log.txt`.
+
+## Chạy thí điểm trên Kaggle (lượt 1, đã xong 24/10/2026)
+
+1. Tải `g4_code.zip` lên Kaggle: *Datasets → New Dataset → Upload*, đặt tên ví dụ `icgibbs-g4`.
+2. Tạo Notebook mới: *Settings → Accelerator: GPU T4 x1; Internet: On*. *Add data* → chọn dataset `icgibbs-g4`.
+3. Các ô lệnh:
+```python
+!pip install -q tabpfn tabicl
+from kaggle_secrets import UserSecretsClient; import os
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+!cp -r /kaggle/input/icgibbs-g4/code /kaggle/working/code
+!cd /kaggle/working/code && python kaggle_g4_pilot.py --backend tabpfn_v2 --out /kaggle/working/g4_pilot.csv
+```
+4. Script in bảng tóm tắt và kết luận theo tiêu chí dừng ở cuối. Gửi lại file `/kaggle/working/g4_pilot.csv` (và nếu được, toàn bộ log của ô cuối).
+5. Nếu phiên bị ngắt: chạy lại đúng lệnh ở bước 3, script tự bỏ qua các dòng đã xong.
+
+Ước tính: 2–3 giờ GPU T4 (6 dataset × 4 mức nhãn yếu × 3 seed × 8 phương pháp). Muốn kiểm tra nhanh trước: thêm `--datasets 37 --seeds 0` (khoảng 5 phút).

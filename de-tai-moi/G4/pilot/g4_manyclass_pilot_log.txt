@@ -1,0 +1,126 @@
+== vowel: n=990, C=11, d=12
+       vowel r=1 s0 mlp             proden        ACC=0.9327 LL=0.2720     4.9s (0 lần gọi)
+       vowel r=1 s0 tabpfn_v2_ecoc  naive         ACC=0.8586 LL=0.8251     4.9s (1 lần gọi)
+       vowel r=1 s0 tabpfn_v2_ecoc  oracle        ACC=0.9731 LL=0.0530     2.0s (1 lần gọi)
+       vowel r=1 s0 tabpfn_v2_ecoc  gibbs_warm    ACC=0.9630 LL=0.1189   513.1s (315 lần gọi)
+       vowel r=1 s0 tabpfn_v2_ecoc  sem_warm      ACC=0.9562 LL=0.1380   515.0s (306 lần gọi)
+       vowel r=1 s0 tabpfn_v2_ecoc  hard_em_warm  ACC=0.9562 LL=0.1236   157.9s (106 lần gọi)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+       vowel r=1 s0 tabicl_v2       naive         ACC=0.8518 LL=0.8614     4.7s (1 lần gọi)
+       vowel r=1 s0 tabicl_v2       oracle        ACC=0.9764 LL=0.0714     0.3s (1 lần gọi)
+       vowel r=1 s0 tabicl_v2       gibbs_warm    ACC=0.9764 LL=0.0791    35.0s (315 lần gọi)
+       vowel r=1 s0 tabicl_v2       sem_warm      ACC=0.9630 LL=0.1214    35.3s (306 lần gọi)
+       vowel r=1 s0 tabicl_v2       hard_em_warm  ACC=0.9596 LL=0.1588    10.8s (106 lần gọi)
+       vowel r=1 s1 mlp             proden        ACC=0.9428 LL=0.3021     2.0s (0 lần gọi)
+       vowel r=1 s1 tabpfn_v2_ecoc  naive         ACC=0.7879 LL=0.9567     2.0s (1 lần gọi)
+       vowel r=1 s1 tabpfn_v2_ecoc  oracle        ACC=0.9798 LL=0.0420     2.1s (1 lần gọi)
+       vowel r=1 s1 tabpfn_v2_ecoc  gibbs_warm    ACC=0.9764 LL=0.0596   492.8s (315 lần gọi)
+       vowel r=1 s1 tabpfn_v2_ecoc  sem_warm      ACC=0.9596 LL=0.1482   494.7s (306 lần gọi)
+       vowel r=1 s1 tabpfn_v2_ecoc  hard_em_warm  ACC=0.9663 LL=0.0877   157.5s (106 lần gọi)
+       vowel r=1 s1 tabicl_v2       naive         ACC=0.8350 LL=0.9554     0.3s (1 lần gọi)
+       vowel r=1 s1 tabicl_v2       oracle        ACC=0.9966 LL=0.0150     0.3s (1 lần gọi)
+       vowel r=1 s1 tabicl_v2       gibbs_warm    ACC=0.9966 LL=0.0160    35.0s (315 lần gọi)
+       vowel r=1 s1 tabicl_v2       sem_warm      ACC=0.9966 LL=0.0150    35.3s (306 lần gọi)
+       vowel r=1 s1 tabicl_v2       hard_em_warm  ACC=0.9899 LL=0.0390    10.8s (106 lần gọi)
+       vowel r=2 s0 mlp             proden        ACC=0.8956 LL=0.4163     2.0s (0 lần gọi)
+       vowel r=2 s0 tabpfn_v2_ecoc  naive         ACC=0.5926 LL=1.6689     2.0s (1 lần gọi)
+       vowel r=2 s0 tabpfn_v2_ecoc  oracle        ACC=0.9731 LL=0.0530     2.1s (1 lần gọi)
+       vowel r=2 s0 tabpfn_v2_ecoc  gibbs_warm    ACC=0.9327 LL=0.2928   497.1s (315 lần gọi)
+       vowel r=2 s0 tabpfn_v2_ecoc  sem_warm      ACC=0.9461 LL=0.3806   498.9s (306 lần gọi)
+       vowel r=2 s0 tabpfn_v2_ecoc  hard_em_warm  ACC=0.9091 LL=0.5358   157.6s (106 lần gọi)
+       vowel r=2 s0 tabicl_v2       naive         ACC=0.6061 LL=1.6195     0.3s (1 lần gọi)
+       vowel r=2 s0 tabicl_v2       oracle        ACC=0.9764 LL=0.0714     0.3s (1 lần gọi)
+       vowel r=2 s0 tabicl_v2       gibbs_warm    ACC=0.9495 LL=0.2333    35.1s (315 lần gọi)
+       vowel r=2 s0 tabicl_v2       sem_warm      ACC=0.9226 LL=0.4906    35.4s (306 lần gọi)
+       vowel r=2 s0 tabicl_v2       hard_em_warm  ACC=0.9125 LL=0.5120    10.9s (106 lần gọi)
+       vowel r=2 s1 mlp             proden        ACC=0.9158 LL=0.3983     2.0s (0 lần gọi)
+       vowel r=2 s1 tabpfn_v2_ecoc  naive         ACC=0.7205 LL=1.5800     1.9s (1 lần gọi)
+       vowel r=2 s1 tabpfn_v2_ecoc  oracle        ACC=0.9798 LL=0.0420     1.8s (1 lần gọi)
+       vowel r=2 s1 tabpfn_v2_ecoc  gibbs_warm    ACC=0.9596 LL=0.0775   492.8s (315 lần gọi)
+       vowel r=2 s1 tabpfn_v2_ecoc  sem_warm      ACC=0.9697 LL=0.0819   494.6s (306 lần gọi)
+       vowel r=2 s1 tabpfn_v2_ecoc  hard_em_warm  ACC=0.9495 LL=0.1800   156.4s (106 lần gọi)
+       vowel r=2 s1 tabicl_v2       naive         ACC=0.6195 LL=1.6066     0.3s (1 lần gọi)
+       vowel r=2 s1 tabicl_v2       oracle        ACC=0.9966 LL=0.0150     0.3s (1 lần gọi)
+       vowel r=2 s1 tabicl_v2       gibbs_warm    ACC=0.9933 LL=0.0294    35.1s (315 lần gọi)
+       vowel r=2 s1 tabicl_v2       sem_warm      ACC=0.9933 LL=0.0217    35.4s (306 lần gọi)
+       vowel r=2 s1 tabicl_v2       hard_em_warm  ACC=0.9731 LL=0.1648    10.7s (106 lần gọi)
+== letter: n=2000, C=26, d=16
+      letter r=1 s0 mlp             proden        ACC=0.8050 LL=0.9969     3.8s (0 lần gọi)
+      letter r=1 s0 tabpfn_v2_ecoc  naive         ACC=0.7650 LL=1.1537     4.3s (1 lần gọi)
+      letter r=1 s0 tabpfn_v2_ecoc  oracle        ACC=0.8683 LL=0.4448     4.2s (1 lần gọi)
+      letter r=1 s0 tabpfn_v2_ecoc  gibbs_warm    ACC=0.8683 LL=0.4727  1070.7s (315 lần gọi)
+      letter r=1 s0 tabpfn_v2_ecoc  sem_warm      ACC=0.8650 LL=0.5105  1075.0s (306 lần gọi)
+      letter r=1 s0 tabpfn_v2_ecoc  hard_em_warm  ACC=0.8717 LL=0.5177   340.4s (106 lần gọi)
+      letter r=1 s0 tabicl_v2       naive         ACC=0.8100 LL=1.0780     0.5s (1 lần gọi)
+      letter r=1 s0 tabicl_v2       oracle        ACC=0.8900 LL=0.3962     0.4s (1 lần gọi)
+      letter r=1 s0 tabicl_v2       gibbs_warm    ACC=0.8867 LL=0.4636    50.7s (315 lần gọi)
+      letter r=1 s0 tabicl_v2       sem_warm      ACC=0.8783 LL=0.5139    51.2s (306 lần gọi)
+      letter r=1 s0 tabicl_v2       hard_em_warm  ACC=0.8900 LL=0.4874    15.7s (106 lần gọi)
+      letter r=1 s1 mlp             proden        ACC=0.8167 LL=0.8431     3.7s (0 lần gọi)
+      letter r=1 s1 tabpfn_v2_ecoc  naive         ACC=0.7850 LL=1.1036     4.3s (1 lần gọi)
+      letter r=1 s1 tabpfn_v2_ecoc  oracle        ACC=0.8967 LL=0.3558     4.3s (1 lần gọi)
+      letter r=1 s1 tabpfn_v2_ecoc  gibbs_warm    ACC=0.8883 LL=0.4187  1067.0s (315 lần gọi)
+      letter r=1 s1 tabpfn_v2_ecoc  sem_warm      ACC=0.8783 LL=0.4879  1071.3s (306 lần gọi)
+      letter r=1 s1 tabpfn_v2_ecoc  hard_em_warm  ACC=0.8917 LL=0.4416   343.4s (106 lần gọi)
+      letter r=1 s1 tabicl_v2       naive         ACC=0.8250 LL=1.0273     0.4s (1 lần gọi)
+      letter r=1 s1 tabicl_v2       oracle        ACC=0.9033 LL=0.3350     0.4s (1 lần gọi)
+      letter r=1 s1 tabicl_v2       gibbs_warm    ACC=0.8850 LL=0.3752    51.6s (315 lần gọi)
+      letter r=1 s1 tabicl_v2       sem_warm      ACC=0.8850 LL=0.4019    52.0s (306 lần gọi)
+      letter r=1 s1 tabicl_v2       hard_em_warm  ACC=0.8917 LL=0.3796    16.0s (106 lần gọi)
+      letter r=2 s0 mlp             proden        ACC=0.7950 LL=1.2548     3.9s (0 lần gọi)
+      letter r=2 s0 tabpfn_v2_ecoc  naive         ACC=0.6633 LL=1.9304     4.4s (1 lần gọi)
+      letter r=2 s0 tabpfn_v2_ecoc  oracle        ACC=0.8683 LL=0.4448     4.3s (1 lần gọi)
+      letter r=2 s0 tabpfn_v2_ecoc  gibbs_warm    ACC=0.8550 LL=0.5309  1080.0s (315 lần gọi)
+      letter r=2 s0 tabpfn_v2_ecoc  sem_warm      ACC=0.8467 LL=0.6161  1084.3s (306 lần gọi)
+      letter r=2 s0 tabpfn_v2_ecoc  hard_em_warm  ACC=0.8450 LL=0.7282   344.6s (106 lần gọi)
+      letter r=2 s0 tabicl_v2       naive         ACC=0.7167 LL=1.7531     0.4s (1 lần gọi)
+      letter r=2 s0 tabicl_v2       oracle        ACC=0.8900 LL=0.3962     0.4s (1 lần gọi)
+      letter r=2 s0 tabicl_v2       gibbs_warm    ACC=0.8800 LL=0.4603    51.7s (315 lần gọi)
+      letter r=2 s0 tabicl_v2       sem_warm      ACC=0.8717 LL=0.5858    52.2s (306 lần gọi)
+      letter r=2 s0 tabicl_v2       hard_em_warm  ACC=0.8750 LL=0.5521    16.0s (106 lần gọi)
+      letter r=2 s1 mlp             proden        ACC=0.7933 LL=1.1997     4.0s (0 lần gọi)
+      letter r=2 s1 tabpfn_v2_ecoc  naive         ACC=0.6783 LL=1.8044     4.4s (1 lần gọi)
+      letter r=2 s1 tabpfn_v2_ecoc  oracle        ACC=0.8967 LL=0.3558     4.3s (1 lần gọi)
+      letter r=2 s1 tabpfn_v2_ecoc  gibbs_warm    ACC=0.8800 LL=0.4975  1079.3s (315 lần gọi)
+      letter r=2 s1 tabpfn_v2_ecoc  sem_warm      ACC=0.8700 LL=0.5615  1083.6s (306 lần gọi)
+      letter r=2 s1 tabpfn_v2_ecoc  hard_em_warm  ACC=0.8683 LL=0.6303   343.6s (106 lần gọi)
+      letter r=2 s1 tabicl_v2       naive         ACC=0.7450 LL=1.6441     0.4s (1 lần gọi)
+      letter r=2 s1 tabicl_v2       oracle        ACC=0.9033 LL=0.3350     0.4s (1 lần gọi)
+      letter r=2 s1 tabicl_v2       gibbs_warm    ACC=0.8733 LL=0.4649    51.3s (315 lần gọi)
+      letter r=2 s1 tabicl_v2       sem_warm      ACC=0.8800 LL=0.5039    51.7s (306 lần gọi)
+      letter r=2 s1 tabicl_v2       hard_em_warm  ACC=0.8700 LL=0.5745    15.8s (106 lần gọi)
+
+================ TÓM TẮT PLL NHIỀU LỚP (accuracy, trung bình theo seed) ================
+method                    gibbs_warm  hard_em_warm   naive  oracle  proden  sem_warm
+dataset r backend                                                                   
+letter  1 mlp                    NaN           NaN     NaN     NaN  0.8108       NaN
+          tabicl_v2           0.8858        0.8908  0.8175  0.8967     NaN    0.8817
+          tabpfn_v2_ecoc      0.8783        0.8817  0.7750  0.8825     NaN    0.8717
+        2 mlp                    NaN           NaN     NaN     NaN  0.7942       NaN
+          tabicl_v2           0.8767        0.8725  0.7308  0.8967     NaN    0.8758
+          tabpfn_v2_ecoc      0.8675        0.8567  0.6708  0.8825     NaN    0.8583
+vowel   1 mlp                    NaN           NaN     NaN     NaN  0.9377       NaN
+          tabicl_v2           0.9865        0.9748  0.8434  0.9865     NaN    0.9798
+          tabpfn_v2_ecoc      0.9697        0.9613  0.8232  0.9764     NaN    0.9579
+        2 mlp                    NaN           NaN     NaN     NaN  0.9057       NaN
+          tabicl_v2           0.9714        0.9428  0.6128  0.9865     NaN    0.9579
+          tabpfn_v2_ecoc      0.9461        0.9293  0.6566  0.9764     NaN    0.9579
+
+--- thời gian trung bình mỗi ô (giây) ---
+method                  gibbs_warm  hard_em_warm  naive  oracle  proden  sem_warm
+dataset backend                                                                  
+letter  mlp                    NaN           NaN    NaN     NaN     4.0       NaN
+        tabicl_v2             51.0          16.0    0.0     0.0     NaN      52.0
+        tabpfn_v2_ecoc      1074.0         343.0    4.0     4.0     NaN    1079.0
+vowel   mlp                    NaN           NaN    NaN     NaN     3.0       NaN
+        tabicl_v2             35.0          11.0    1.0     0.0     NaN      35.0
+        tabpfn_v2_ecoc       499.0         157.0    3.0     2.0     NaN     501.0
+
+accuracy oracle trung bình theo backend: {'tabicl_v2': 0.9416, 'tabpfn_v2_ecoc': 0.9295}
+thời gian gibbs_warm trung bình mỗi ô (phút): {('letter', 'tabicl_v2'): 0.9, ('letter', 'tabpfn_v2_ecoc'): 17.9, ('vowel', 'tabicl_v2'): 0.6, ('vowel', 'tabpfn_v2_ecoc'): 8.3}

@@ -1,0 +1,731 @@
+python 3.13.15 · numpy 2.1.3 · tabpfn 9.2.0 · tabicl 2.2.0 · torch 2.11.0+cu128
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+
+tabpfn-v2-classifier-finetuned-zk73skhh.(…): downloading bytes: ▊| 22.8MB,  362k
+tabpfn-v2-classifier-finetuned-zk73skhh.(…): downloading bytes: █| 27.5MB, 2.71M
+tabpfn-v2-classifier-finetuned-zk73skhh.(…): reconstructing file: 100%|█| 29.0MB
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+config.json: 100%|████████████████████████████| 37.0/37.0 [00:00<00:00, 198kB/s]
+                      credit-g pu_scar  0.1 s0 gibbs    AUC=0.6491 LL=0.8382 93.0s
+                      credit-g pu_scar  0.1 s0 sem      AUC=0.5914 LL=0.8462 87.0s
+                      credit-g pu_scar  0.1 s0 hard_em  AUC=0.6700 LL=1.1939 24.6s
+                      credit-g pu_scar  0.1 s0 naive    AUC=0.6700 LL=0.6340 0.6s
+                      credit-g pu_scar  0.1 s0 oracle   AUC=0.8215 LL=0.4682 0.6s
+                      credit-g pu_scar  0.1 s0 nnpu     AUC=0.6914 LL=0.7802 7.2s
+                      credit-g pu_scar  0.1 s0 upu      AUC=0.5839 LL=3.0679 1.4s
+                      credit-g pu_scar  0.1 s1 gibbs    AUC=0.6061 LL=0.6241 79.5s
+                      credit-g pu_scar  0.1 s1 sem      AUC=0.5758 LL=0.8822 73.8s
+                      credit-g pu_scar  0.1 s1 hard_em  AUC=0.6446 LL=1.1060 24.9s
+                      credit-g pu_scar  0.1 s1 naive    AUC=0.6446 LL=0.5833 0.6s
+                      credit-g pu_scar  0.1 s1 oracle   AUC=0.7821 LL=0.5021 0.6s
+                      credit-g pu_scar  0.1 s1 nnpu     AUC=0.6877 LL=0.8722 1.3s
+                      credit-g pu_scar  0.1 s1 upu      AUC=0.6268 LL=3.2851 1.4s
+                      credit-g pu_scar  0.1 s2 gibbs    AUC=0.5839 LL=0.7282 79.1s
+                      credit-g pu_scar  0.1 s2 sem      AUC=0.6177 LL=0.7140 73.4s
+                      credit-g pu_scar  0.1 s2 hard_em  AUC=0.5882 LL=1.1515 24.6s
+                      credit-g pu_scar  0.1 s2 naive    AUC=0.5882 LL=0.6198 0.6s
+                      credit-g pu_scar  0.1 s2 oracle   AUC=0.7894 LL=0.4990 0.6s
+                      credit-g pu_scar  0.1 s2 nnpu     AUC=0.5143 LL=1.2534 1.3s
+                      credit-g pu_scar  0.1 s2 upu      AUC=0.5215 LL=3.1869 1.4s
+                      credit-g pu_scar  0.3 s0 gibbs    AUC=0.6926 LL=0.6428 79.1s
+                      credit-g pu_scar  0.3 s0 sem      AUC=0.7620 LL=0.6243 73.2s
+                      credit-g pu_scar  0.3 s0 hard_em  AUC=0.6942 LL=0.8612 24.9s
+                      credit-g pu_scar  0.3 s0 naive    AUC=0.6942 LL=0.6026 0.6s
+                      credit-g pu_scar  0.3 s0 oracle   AUC=0.8215 LL=0.4682 0.6s
+                      credit-g pu_scar  0.3 s0 nnpu     AUC=0.6796 LL=0.9654 1.3s
+                      credit-g pu_scar  0.3 s0 upu      AUC=0.7130 LL=2.7554 1.4s
+                      credit-g pu_scar  0.3 s1 gibbs    AUC=0.6874 LL=0.5923 79.5s
+                      credit-g pu_scar  0.3 s1 sem      AUC=0.6868 LL=0.6475 73.7s
+                      credit-g pu_scar  0.3 s1 hard_em  AUC=0.7075 LL=0.7755 25.2s
+                      credit-g pu_scar  0.3 s1 naive    AUC=0.7075 LL=0.5666 0.6s
+                      credit-g pu_scar  0.3 s1 oracle   AUC=0.7821 LL=0.5021 0.6s
+                      credit-g pu_scar  0.3 s1 nnpu     AUC=0.6367 LL=1.3525 1.4s
+                      credit-g pu_scar  0.3 s1 upu      AUC=0.6724 LL=2.6803 1.4s
+                      credit-g pu_scar  0.3 s2 gibbs    AUC=0.7838 LL=0.5414 79.5s
+                      credit-g pu_scar  0.3 s2 sem      AUC=0.7526 LL=0.5313 73.5s
+                      credit-g pu_scar  0.3 s2 hard_em  AUC=0.7563 LL=0.7567 24.7s
+                      credit-g pu_scar  0.3 s2 naive    AUC=0.7563 LL=0.5377 0.6s
+                      credit-g pu_scar  0.3 s2 oracle   AUC=0.7894 LL=0.4990 0.6s
+                      credit-g pu_scar  0.3 s2 nnpu     AUC=0.6799 LL=1.0581 1.3s
+                      credit-g pu_scar  0.3 s2 upu      AUC=0.6466 LL=2.6083 1.4s
+                      credit-g llp        8 s0 gibbs    AUC=0.7597 LL=0.6009 79.8s
+                      credit-g llp        8 s0 sem      AUC=0.7316 LL=0.6717 74.1s
+                      credit-g llp        8 s0 hard_em  AUC=0.7684 LL=0.7887 25.2s
+                      credit-g llp        8 s0 naive    AUC=0.6315 LL=0.6071 0.6s
+                      credit-g llp        8 s0 oracle   AUC=0.8215 LL=0.4682 0.6s
+                      credit-g llp        8 s0 dllp     AUC=0.7504 LL=0.6261 12.2s
+                      credit-g llp        8 s1 gibbs    AUC=0.7652 LL=0.5456 79.7s
+                      credit-g llp        8 s1 sem      AUC=0.6720 LL=0.5877 74.0s
+                      credit-g llp        8 s1 hard_em  AUC=0.7446 LL=0.7412 24.7s
+                      credit-g llp        8 s1 naive    AUC=0.4427 LL=0.6164 0.7s
+                      credit-g llp        8 s1 oracle   AUC=0.7821 LL=0.5021 0.7s
+                      credit-g llp        8 s1 dllp     AUC=0.7090 LL=0.7748 11.8s
+                      credit-g llp        8 s2 gibbs    AUC=0.7352 LL=0.5463 78.9s
+                      credit-g llp        8 s2 sem      AUC=0.7176 LL=0.5705 73.2s
+                      credit-g llp        8 s2 hard_em  AUC=0.6378 LL=0.9321 24.7s
+                      credit-g llp        8 s2 naive    AUC=0.6765 LL=0.6059 0.6s
+                      credit-g llp        8 s2 oracle   AUC=0.7894 LL=0.4990 0.6s
+                      credit-g llp        8 s2 dllp     AUC=0.6906 LL=0.8912 12.0s
+                      credit-g llp       32 s0 gibbs    AUC=0.5431 LL=0.6104 79.0s
+                      credit-g llp       32 s0 sem      AUC=0.4402 LL=0.6135 73.3s
+                      credit-g llp       32 s0 hard_em  AUC=0.6545 LL=1.5822 24.4s
+                      credit-g llp       32 s0 naive    AUC=0.5844 LL=0.6075 0.6s
+                      credit-g llp       32 s0 oracle   AUC=0.8215 LL=0.4682 0.6s
+                      credit-g llp       32 s0 dllp     AUC=0.6644 LL=0.5944 3.1s
+                      credit-g llp       32 s1 gibbs    AUC=0.6520 LL=0.6021 78.9s
+                      credit-g llp       32 s1 sem      AUC=0.5909 LL=0.5985 73.3s
+                      credit-g llp       32 s1 hard_em  AUC=0.5215 LL=1.9829 24.7s
+                      credit-g llp       32 s1 naive    AUC=0.4578 LL=0.6125 0.7s
+                      credit-g llp       32 s1 oracle   AUC=0.7821 LL=0.5021 0.6s
+                      credit-g llp       32 s1 dllp     AUC=0.6395 LL=0.6185 3.1s
+                      credit-g llp       32 s2 gibbs    AUC=0.6194 LL=0.6028 79.1s
+                      credit-g llp       32 s2 sem      AUC=0.4864 LL=0.7302 73.1s
+                      credit-g llp       32 s2 hard_em  AUC=0.5201 LL=2.1891 24.6s
+                      credit-g llp       32 s2 naive    AUC=0.5564 LL=0.6105 0.6s
+                      credit-g llp       32 s2 oracle   AUC=0.7894 LL=0.4990 0.6s
+                      credit-g llp       32 s2 dllp     AUC=0.6230 LL=0.6146 3.1s
+                      credit-g pu_sar   0.3 s0 gibbs    AUC=0.6862 LL=0.9883 78.5s
+                      credit-g pu_sar   0.3 s0 sem      AUC=0.6864 LL=1.0477 72.8s
+                      credit-g pu_sar   0.3 s0 gibbs_known AUC=0.6785 LL=0.7142 77.7s
+                      credit-g pu_sar   0.3 s0 hard_em  AUC=0.6920 LL=1.0546 24.6s
+                      credit-g pu_sar   0.3 s0 naive    AUC=0.6918 LL=1.1215 0.6s
+                      credit-g pu_sar   0.3 s0 oracle   AUC=0.8215 LL=0.4682 0.6s
+                      credit-g pu_sar   0.3 s0 nnpu     AUC=0.7222 LL=0.8216 1.4s
+                      credit-g pu_sar   0.3 s0 upu      AUC=0.7062 LL=2.2414 1.3s
+                      credit-g pu_sar   0.3 s1 gibbs    AUC=0.6502 LL=0.9401 77.3s
+                      credit-g pu_sar   0.3 s1 sem      AUC=0.6335 LL=1.0218 71.7s
+                      credit-g pu_sar   0.3 s1 gibbs_known AUC=0.7673 LL=0.5169 77.2s
+                      credit-g pu_sar   0.3 s1 hard_em  AUC=0.6593 LL=1.0038 24.7s
+                      credit-g pu_sar   0.3 s1 naive    AUC=0.6541 LL=1.5833 0.6s
+                      credit-g pu_sar   0.3 s1 oracle   AUC=0.7821 LL=0.5021 0.6s
+                      credit-g pu_sar   0.3 s1 nnpu     AUC=0.7314 LL=1.0256 1.3s
+                      credit-g pu_sar   0.3 s1 upu      AUC=0.6571 LL=2.7315 1.3s
+                      credit-g pu_sar   0.3 s2 gibbs    AUC=0.6112 LL=1.1715 78.0s
+                      credit-g pu_sar   0.3 s2 sem      AUC=0.6186 LL=1.1533 72.3s
+                      credit-g pu_sar   0.3 s2 gibbs_known AUC=0.6982 LL=0.7281 77.6s
+                      credit-g pu_sar   0.3 s2 hard_em  AUC=0.6119 LL=1.1889 24.5s
+                      credit-g pu_sar   0.3 s2 naive    AUC=0.6112 LL=1.4850 0.6s
+                      credit-g pu_sar   0.3 s2 oracle   AUC=0.7894 LL=0.4990 0.6s
+                      credit-g pu_sar   0.3 s2 nnpu     AUC=0.6547 LL=1.0758 1.4s
+                      credit-g pu_sar   0.3 s2 upu      AUC=0.6271 LL=2.7785 1.4s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s0 gibbs    AUC=0.7365 LL=0.7585 43.6s
+                      diabetes pu_scar  0.1 s0 sem      AUC=0.7266 LL=1.0800 40.4s
+                      diabetes pu_scar  0.1 s0 hard_em  AUC=0.7920 LL=1.2643 13.4s
+                      diabetes pu_scar  0.1 s0 naive    AUC=0.7920 LL=0.5695 0.4s
+                      diabetes pu_scar  0.1 s0 oracle   AUC=0.8640 LL=0.4326 0.4s
+                      diabetes pu_scar  0.1 s0 nnpu     AUC=0.6612 LL=1.0231 1.2s
+                      diabetes pu_scar  0.1 s0 upu      AUC=0.6591 LL=3.4114 1.2s
+                      diabetes pu_scar  0.1 s1 gibbs    AUC=0.7896 LL=0.6480 43.8s
+                      diabetes pu_scar  0.1 s1 sem      AUC=0.7915 LL=1.0616 40.6s
+                      diabetes pu_scar  0.1 s1 hard_em  AUC=0.7950 LL=1.2234 13.1s
+                      diabetes pu_scar  0.1 s1 naive    AUC=0.7950 LL=0.6321 0.4s
+                      diabetes pu_scar  0.1 s1 oracle   AUC=0.8244 LL=0.4937 0.4s
+                      diabetes pu_scar  0.1 s1 nnpu     AUC=0.7671 LL=0.8930 1.2s
+                      diabetes pu_scar  0.1 s1 upu      AUC=0.6930 LL=3.4726 1.2s
+                      diabetes pu_scar  0.1 s2 gibbs    AUC=0.7587 LL=0.6146 44.2s
+                      diabetes pu_scar  0.1 s2 sem      AUC=0.7424 LL=0.7165 40.9s
+                      diabetes pu_scar  0.1 s2 hard_em  AUC=0.7723 LL=1.2382 13.2s
+                      diabetes pu_scar  0.1 s2 naive    AUC=0.7723 LL=0.5749 0.4s
+                      diabetes pu_scar  0.1 s2 oracle   AUC=0.8420 LL=0.4693 0.4s
+                      diabetes pu_scar  0.1 s2 nnpu     AUC=0.6849 LL=0.9650 1.2s
+                      diabetes pu_scar  0.1 s2 upu      AUC=0.6731 LL=3.3231 1.2s
+                      diabetes pu_scar  0.3 s0 gibbs    AUC=0.8654 LL=0.4591 43.6s
+                      diabetes pu_scar  0.3 s0 sem      AUC=0.8703 LL=0.4560 40.5s
+                      diabetes pu_scar  0.3 s0 hard_em  AUC=0.8639 LL=0.7270 13.0s
+                      diabetes pu_scar  0.3 s0 naive    AUC=0.8637 LL=0.4836 0.4s
+                      diabetes pu_scar  0.3 s0 oracle   AUC=0.8640 LL=0.4326 0.3s
+                      diabetes pu_scar  0.3 s0 nnpu     AUC=0.8128 LL=0.9704 1.3s
+                      diabetes pu_scar  0.3 s0 upu      AUC=0.8233 LL=2.0746 1.3s
+                      diabetes pu_scar  0.3 s1 gibbs    AUC=0.8144 LL=0.5326 44.0s
+                      diabetes pu_scar  0.3 s1 sem      AUC=0.8013 LL=0.5916 40.8s
+                      diabetes pu_scar  0.3 s1 hard_em  AUC=0.8137 LL=0.8631 13.1s
+                      diabetes pu_scar  0.3 s1 naive    AUC=0.8137 LL=0.5550 0.4s
+                      diabetes pu_scar  0.3 s1 oracle   AUC=0.8244 LL=0.4937 0.4s
+                      diabetes pu_scar  0.3 s1 nnpu     AUC=0.7628 LL=1.1572 1.2s
+                      diabetes pu_scar  0.3 s1 upu      AUC=0.7054 LL=2.8297 1.3s
+                      diabetes pu_scar  0.3 s2 gibbs    AUC=0.7863 LL=0.5488 43.8s
+                      diabetes pu_scar  0.3 s2 sem      AUC=0.7645 LL=0.6459 40.6s
+                      diabetes pu_scar  0.3 s2 hard_em  AUC=0.7958 LL=0.8790 13.2s
+                      diabetes pu_scar  0.3 s2 naive    AUC=0.7958 LL=0.5571 0.4s
+                      diabetes pu_scar  0.3 s2 oracle   AUC=0.8420 LL=0.4693 0.4s
+                      diabetes pu_scar  0.3 s2 nnpu     AUC=0.6923 LL=1.3833 1.3s
+                      diabetes pu_scar  0.3 s2 upu      AUC=0.7120 LL=2.5876 1.2s
+                      diabetes llp        8 s0 gibbs    AUC=0.8480 LL=0.4577 44.4s
+                      diabetes llp        8 s0 sem      AUC=0.8506 LL=0.4647 41.1s
+                      diabetes llp        8 s0 hard_em  AUC=0.7789 LL=0.8021 13.8s
+                      diabetes llp        8 s0 naive    AUC=0.5717 LL=0.6478 0.4s
+                      diabetes llp        8 s0 oracle   AUC=0.8640 LL=0.4326 0.3s
+                      diabetes llp        8 s0 dllp     AUC=0.7435 LL=0.7840 9.4s
+                      diabetes llp        8 s1 gibbs    AUC=0.8220 LL=0.4947 43.9s
+                      diabetes llp        8 s1 sem      AUC=0.8068 LL=0.5598 40.9s
+                      diabetes llp        8 s1 hard_em  AUC=0.7569 LL=0.8088 13.1s
+                      diabetes llp        8 s1 naive    AUC=0.5419 LL=0.6476 0.4s
+                      diabetes llp        8 s1 oracle   AUC=0.8244 LL=0.4937 0.3s
+                      diabetes llp        8 s1 dllp     AUC=0.6915 LL=1.0535 8.8s
+                      diabetes llp        8 s2 gibbs    AUC=0.7874 LL=0.5588 43.5s
+                      diabetes llp        8 s2 sem      AUC=0.7599 LL=0.5951 40.3s
+                      diabetes llp        8 s2 hard_em  AUC=0.7940 LL=0.7085 13.3s
+                      diabetes llp        8 s2 naive    AUC=0.5683 LL=0.6446 0.3s
+                      diabetes llp        8 s2 oracle   AUC=0.8420 LL=0.4693 0.4s
+                      diabetes llp        8 s2 dllp     AUC=0.6993 LL=1.0555 9.0s
+                      diabetes llp       32 s0 gibbs    AUC=0.5320 LL=0.6494 43.3s
+                      diabetes llp       32 s0 sem      AUC=0.5560 LL=0.7063 40.1s
+                      diabetes llp       32 s0 hard_em  AUC=0.5276 LL=2.4099 13.2s
+                      diabetes llp       32 s0 naive    AUC=0.3342 LL=0.6540 0.3s
+                      diabetes llp       32 s0 oracle   AUC=0.8640 LL=0.4326 0.4s
+                      diabetes llp       32 s0 dllp     AUC=0.7419 LL=0.5749 2.5s
+                      diabetes llp       32 s1 gibbs    AUC=0.6625 LL=0.6318 42.8s
+                      diabetes llp       32 s1 sem      AUC=0.5938 LL=0.7206 39.7s
+                      diabetes llp       32 s1 hard_em  AUC=0.4472 LL=3.0261 13.1s
+                      diabetes llp       32 s1 naive    AUC=0.6487 LL=0.6452 0.4s
+                      diabetes llp       32 s1 oracle   AUC=0.8244 LL=0.4937 0.3s
+                      diabetes llp       32 s1 dllp     AUC=0.6598 LL=0.7056 2.4s
+                      diabetes llp       32 s2 gibbs    AUC=0.6050 LL=0.6425 43.6s
+                      diabetes llp       32 s2 sem      AUC=0.3951 LL=0.6498 40.4s
+                      diabetes llp       32 s2 hard_em  AUC=0.6279 LL=1.4409 13.0s
+                      diabetes llp       32 s2 naive    AUC=0.3583 LL=0.6571 0.3s
+                      diabetes llp       32 s2 oracle   AUC=0.8420 LL=0.4693 0.3s
+                      diabetes llp       32 s2 dllp     AUC=0.5558 LL=0.6786 2.5s
+                      diabetes pu_sar   0.3 s0 gibbs    AUC=0.7325 LL=0.9657 42.4s
+                      diabetes pu_sar   0.3 s0 sem      AUC=0.7451 LL=1.0211 39.3s
+                      diabetes pu_sar   0.3 s0 gibbs_known AUC=0.8371 LL=0.6778 42.1s
+                      diabetes pu_sar   0.3 s0 hard_em  AUC=0.7212 LL=1.1052 13.0s
+                      diabetes pu_sar   0.3 s0 naive    AUC=0.7190 LL=1.1950 0.4s
+                      diabetes pu_sar   0.3 s0 oracle   AUC=0.8640 LL=0.4326 0.3s
+                      diabetes pu_sar   0.3 s0 nnpu     AUC=0.7197 LL=1.3984 1.2s
+                      diabetes pu_sar   0.3 s0 upu      AUC=0.7073 LL=2.8834 1.2s
+                      diabetes pu_sar   0.3 s1 gibbs    AUC=0.7154 LL=1.0670 42.9s
+                      diabetes pu_sar   0.3 s1 sem      AUC=0.7084 LL=1.0559 39.7s
+                      diabetes pu_sar   0.3 s1 gibbs_known AUC=0.7888 LL=0.5964 42.7s
+                      diabetes pu_sar   0.3 s1 hard_em  AUC=0.6746 LL=1.3688 13.4s
+                      diabetes pu_sar   0.3 s1 naive    AUC=0.6767 LL=1.6366 0.3s
+                      diabetes pu_sar   0.3 s1 oracle   AUC=0.8244 LL=0.4937 0.3s
+                      diabetes pu_sar   0.3 s1 nnpu     AUC=0.6807 LL=1.3095 1.3s
+                      diabetes pu_sar   0.3 s1 upu      AUC=0.6593 LL=3.1467 1.2s
+                      diabetes pu_sar   0.3 s2 gibbs    AUC=0.7084 LL=1.1194 43.5s
+                      diabetes pu_sar   0.3 s2 sem      AUC=0.7179 LL=1.1930 40.2s
+                      diabetes pu_sar   0.3 s2 gibbs_known AUC=0.7216 LL=0.7708 43.4s
+                      diabetes pu_sar   0.3 s2 hard_em  AUC=0.7049 LL=1.3913 13.4s
+                      diabetes pu_sar   0.3 s2 naive    AUC=0.7049 LL=1.2711 0.3s
+                      diabetes pu_sar   0.3 s2 oracle   AUC=0.8420 LL=0.4693 0.3s
+                      diabetes pu_sar   0.3 s2 nnpu     AUC=0.6526 LL=1.3839 1.2s
+                      diabetes pu_sar   0.3 s2 upu      AUC=0.6126 LL=3.5880 1.3s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s0 gibbs    AUC=0.7102 LL=0.6352 40.7s
+  blood-transfusion-service-center pu_scar  0.1 s0 sem      AUC=0.7174 LL=0.7031 37.6s
+  blood-transfusion-service-center pu_scar  0.1 s0 hard_em  AUC=0.7212 LL=0.9362 12.6s
+  blood-transfusion-service-center pu_scar  0.1 s0 naive    AUC=0.7212 LL=0.5095 0.3s
+  blood-transfusion-service-center pu_scar  0.1 s0 oracle   AUC=0.7472 LL=0.4776 0.4s
+  blood-transfusion-service-center pu_scar  0.1 s0 nnpu     AUC=0.7282 LL=0.7221 1.2s
+  blood-transfusion-service-center pu_scar  0.1 s0 upu      AUC=0.6215 LL=2.4350 1.2s
+  blood-transfusion-service-center pu_scar  0.1 s1 gibbs    AUC=0.7017 LL=0.5753 40.8s
+  blood-transfusion-service-center pu_scar  0.1 s1 sem      AUC=0.6236 LL=0.6776 37.7s
+  blood-transfusion-service-center pu_scar  0.1 s1 hard_em  AUC=0.5277 LL=0.9316 12.7s
+  blood-transfusion-service-center pu_scar  0.1 s1 naive    AUC=0.5277 LL=0.5526 0.4s
+  blood-transfusion-service-center pu_scar  0.1 s1 oracle   AUC=0.7592 LL=0.4658 0.3s
+  blood-transfusion-service-center pu_scar  0.1 s1 nnpu     AUC=0.6137 LL=1.7820 1.2s
+  blood-transfusion-service-center pu_scar  0.1 s1 upu      AUC=0.6267 LL=2.1878 1.3s
+  blood-transfusion-service-center pu_scar  0.1 s2 gibbs    AUC=0.7067 LL=0.5442 40.8s
+  blood-transfusion-service-center pu_scar  0.1 s2 sem      AUC=0.7285 LL=1.0738 37.7s
+  blood-transfusion-service-center pu_scar  0.1 s2 hard_em  AUC=0.7404 LL=0.8701 12.7s
+  blood-transfusion-service-center pu_scar  0.1 s2 naive    AUC=0.7404 LL=0.5254 0.3s
+  blood-transfusion-service-center pu_scar  0.1 s2 oracle   AUC=0.7976 LL=0.4463 0.3s
+  blood-transfusion-service-center pu_scar  0.1 s2 nnpu     AUC=0.7960 LL=0.7995 1.2s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.1 s2 upu      AUC=0.7971 LL=1.5314 1.2s
+  blood-transfusion-service-center pu_scar  0.3 s0 gibbs    AUC=0.7112 LL=0.5223 40.8s
+  blood-transfusion-service-center pu_scar  0.3 s0 sem      AUC=0.7181 LL=0.5367 37.6s
+  blood-transfusion-service-center pu_scar  0.3 s0 hard_em  AUC=0.7385 LL=0.6604 12.4s
+  blood-transfusion-service-center pu_scar  0.3 s0 naive    AUC=0.7385 LL=0.4902 0.3s
+  blood-transfusion-service-center pu_scar  0.3 s0 oracle   AUC=0.7472 LL=0.4776 0.3s
+  blood-transfusion-service-center pu_scar  0.3 s0 nnpu     AUC=0.6075 LL=2.2058 1.3s
+  blood-transfusion-service-center pu_scar  0.3 s0 upu      AUC=0.6111 LL=2.1860 1.3s
+  blood-transfusion-service-center pu_scar  0.3 s1 gibbs    AUC=0.7434 LL=0.5087 40.6s
+  blood-transfusion-service-center pu_scar  0.3 s1 sem      AUC=0.6686 LL=0.5540 37.5s
+  blood-transfusion-service-center pu_scar  0.3 s1 hard_em  AUC=0.6815 LL=0.7059 12.5s
+  blood-transfusion-service-center pu_scar  0.3 s1 naive    AUC=0.6815 LL=0.5256 0.4s
+  blood-transfusion-service-center pu_scar  0.3 s1 oracle   AUC=0.7592 LL=0.4658 0.3s
+  blood-transfusion-service-center pu_scar  0.3 s1 nnpu     AUC=0.7039 LL=1.3525 1.3s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.3 s1 upu      AUC=0.7121 LL=2.1161 1.3s
+  blood-transfusion-service-center pu_scar  0.3 s2 gibbs    AUC=0.7930 LL=0.4512 40.6s
+  blood-transfusion-service-center pu_scar  0.3 s2 sem      AUC=0.8082 LL=0.4473 37.6s
+  blood-transfusion-service-center pu_scar  0.3 s2 hard_em  AUC=0.7951 LL=0.6216 12.3s
+  blood-transfusion-service-center pu_scar  0.3 s2 naive    AUC=0.7951 LL=0.4597 0.3s
+  blood-transfusion-service-center pu_scar  0.3 s2 oracle   AUC=0.7976 LL=0.4463 0.4s
+  blood-transfusion-service-center pu_scar  0.3 s2 nnpu     AUC=0.7967 LL=1.2496 1.3s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+  blood-transfusion-service-center pu_scar  0.3 s2 upu      AUC=0.7591 LL=1.6938 1.3s
+  blood-transfusion-service-center llp        8 s0 gibbs    AUC=0.7032 LL=0.5166 41.0s
+  blood-transfusion-service-center llp        8 s0 sem      AUC=0.7218 LL=0.5183 37.9s
+  blood-transfusion-service-center llp        8 s0 hard_em  AUC=0.6114 LL=1.0340 12.4s
+  blood-transfusion-service-center llp        8 s0 naive    AUC=0.7040 LL=0.5444 0.4s
+  blood-transfusion-service-center llp        8 s0 oracle   AUC=0.7472 LL=0.4776 0.3s
+  blood-transfusion-service-center llp        8 s0 dllp     AUC=0.6937 LL=0.5746 8.9s
+  blood-transfusion-service-center llp        8 s1 gibbs    AUC=0.7177 LL=0.5206 41.0s
+  blood-transfusion-service-center llp        8 s1 sem      AUC=0.7359 LL=0.5219 37.9s
+  blood-transfusion-service-center llp        8 s1 hard_em  AUC=0.4690 LL=1.1799 12.5s
+  blood-transfusion-service-center llp        8 s1 naive    AUC=0.7061 LL=0.5333 0.3s
+  blood-transfusion-service-center llp        8 s1 oracle   AUC=0.7592 LL=0.4658 0.3s
+  blood-transfusion-service-center llp        8 s1 dllp     AUC=0.7343 LL=0.6558 8.8s
+  blood-transfusion-service-center llp        8 s2 gibbs    AUC=0.6513 LL=0.5489 41.1s
+  blood-transfusion-service-center llp        8 s2 sem      AUC=0.5171 LL=0.5529 38.1s
+  blood-transfusion-service-center llp        8 s2 hard_em  AUC=0.7341 LL=0.6220 12.7s
+  blood-transfusion-service-center llp        8 s2 naive    AUC=0.5176 LL=0.5538 0.3s
+  blood-transfusion-service-center llp        8 s2 oracle   AUC=0.7976 LL=0.4463 0.3s
+  blood-transfusion-service-center llp        8 s2 dllp     AUC=0.6738 LL=0.5478 9.0s
+  blood-transfusion-service-center llp       32 s0 gibbs    AUC=0.5657 LL=0.5481 40.6s
+  blood-transfusion-service-center llp       32 s0 sem      AUC=0.4427 LL=0.5611 37.6s
+  blood-transfusion-service-center llp       32 s0 hard_em  AUC=0.4923 LL=2.1656 12.4s
+  blood-transfusion-service-center llp       32 s0 naive    AUC=0.5036 LL=0.5531 0.3s
+  blood-transfusion-service-center llp       32 s0 oracle   AUC=0.7472 LL=0.4776 0.3s
+  blood-transfusion-service-center llp       32 s0 dllp     AUC=0.5964 LL=0.5539 2.5s
+  blood-transfusion-service-center llp       32 s1 gibbs    AUC=0.6052 LL=0.5466 40.8s
+  blood-transfusion-service-center llp       32 s1 sem      AUC=0.3968 LL=0.5539 37.7s
+  blood-transfusion-service-center llp       32 s1 hard_em  AUC=0.4555 LL=2.0536 12.6s
+  blood-transfusion-service-center llp       32 s1 naive    AUC=0.3265 LL=0.5574 0.3s
+  blood-transfusion-service-center llp       32 s1 oracle   AUC=0.7592 LL=0.4658 0.3s
+  blood-transfusion-service-center llp       32 s1 dllp     AUC=0.6220 LL=0.5148 2.5s
+  blood-transfusion-service-center llp       32 s2 gibbs    AUC=0.5400 LL=0.5535 40.5s
+  blood-transfusion-service-center llp       32 s2 sem      AUC=0.5198 LL=0.5507 37.5s
+  blood-transfusion-service-center llp       32 s2 hard_em  AUC=0.5830 LL=1.2759 12.5s
+  blood-transfusion-service-center llp       32 s2 naive    AUC=0.2660 LL=0.5775 0.3s
+  blood-transfusion-service-center llp       32 s2 oracle   AUC=0.7976 LL=0.4463 0.4s
+  blood-transfusion-service-center llp       32 s2 dllp     AUC=0.6695 LL=0.5629 2.5s
+  blood-transfusion-service-center pu_sar   0.3 s0 gibbs    AUC=0.6090 LL=0.6849 40.5s
+  blood-transfusion-service-center pu_sar   0.3 s0 sem      AUC=0.6206 LL=0.6971 37.3s
+  blood-transfusion-service-center pu_sar   0.3 s0 gibbs_known AUC=0.7364 LL=0.5160 40.7s
+  blood-transfusion-service-center pu_sar   0.3 s0 hard_em  AUC=0.5883 LL=0.7095 12.4s
+  blood-transfusion-service-center pu_sar   0.3 s0 naive    AUC=0.5883 LL=0.5487 0.3s
+  blood-transfusion-service-center pu_sar   0.3 s0 oracle   AUC=0.7472 LL=0.4776 0.3s
+  blood-transfusion-service-center pu_sar   0.3 s0 nnpu     AUC=0.4570 LL=2.3062 1.2s
+  blood-transfusion-service-center pu_sar   0.3 s0 upu      AUC=0.4520 LL=2.2996 1.2s
+  blood-transfusion-service-center pu_sar   0.3 s1 gibbs    AUC=0.6390 LL=0.7106 40.6s
+  blood-transfusion-service-center pu_sar   0.3 s1 sem      AUC=0.6116 LL=0.7270 37.6s
+  blood-transfusion-service-center pu_sar   0.3 s1 gibbs_known AUC=0.7476 LL=0.5309 40.2s
+  blood-transfusion-service-center pu_sar   0.3 s1 hard_em  AUC=0.5957 LL=0.7424 12.7s
+  blood-transfusion-service-center pu_sar   0.3 s1 naive    AUC=0.5957 LL=0.5561 0.3s
+  blood-transfusion-service-center pu_sar   0.3 s1 oracle   AUC=0.7592 LL=0.4658 0.4s
+  blood-transfusion-service-center pu_sar   0.3 s1 nnpu     AUC=0.5530 LL=2.2876 1.3s
+  blood-transfusion-service-center pu_sar   0.3 s1 upu      AUC=0.5619 LL=2.2662 1.3s
+  blood-transfusion-service-center pu_sar   0.3 s2 gibbs    AUC=0.6511 LL=0.5772 41.2s
+  blood-transfusion-service-center pu_sar   0.3 s2 sem      AUC=0.7312 LL=0.6404 37.9s
+  blood-transfusion-service-center pu_sar   0.3 s2 gibbs_known AUC=0.7714 LL=0.4964 40.5s
+  blood-transfusion-service-center pu_sar   0.3 s2 hard_em  AUC=0.7033 LL=0.6699 12.6s
+  blood-transfusion-service-center pu_sar   0.3 s2 naive    AUC=0.7033 LL=0.5246 0.3s
+  blood-transfusion-service-center pu_sar   0.3 s2 oracle   AUC=0.7976 LL=0.4463 0.4s
+  blood-transfusion-service-center pu_sar   0.3 s2 nnpu     AUC=0.6265 LL=2.1568 1.2s
+  blood-transfusion-service-center pu_sar   0.3 s2 upu      AUC=0.6312 LL=2.1412 1.2s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s0 gibbs    AUC=1.0000 LL=0.1008 43.1s
+       banknote-authentication pu_scar  0.1 s0 sem      AUC=1.0000 LL=0.0015 39.7s
+       banknote-authentication pu_scar  0.1 s0 hard_em  AUC=0.9986 LL=1.2116 13.4s
+       banknote-authentication pu_scar  0.1 s0 naive    AUC=0.9986 LL=0.2074 0.4s
+       banknote-authentication pu_scar  0.1 s0 oracle   AUC=1.0000 LL=0.0003 0.3s
+       banknote-authentication pu_scar  0.1 s0 nnpu     AUC=0.9999 LL=0.0169 1.7s
+       banknote-authentication pu_scar  0.1 s0 upu      AUC=1.0000 LL=0.0512 1.7s
+       banknote-authentication pu_scar  0.1 s1 gibbs    AUC=0.9943 LL=0.1652 43.0s
+       banknote-authentication pu_scar  0.1 s1 sem      AUC=0.9931 LL=0.1038 39.8s
+       banknote-authentication pu_scar  0.1 s1 hard_em  AUC=0.9998 LL=1.2788 13.2s
+       banknote-authentication pu_scar  0.1 s1 naive    AUC=0.9998 LL=0.2774 0.4s
+       banknote-authentication pu_scar  0.1 s1 oracle   AUC=1.0000 LL=0.0000 0.4s
+       banknote-authentication pu_scar  0.1 s1 nnpu     AUC=0.9994 LL=0.0398 1.7s
+       banknote-authentication pu_scar  0.1 s1 upu      AUC=0.9205 LL=1.2600 1.7s
+       banknote-authentication pu_scar  0.1 s2 gibbs    AUC=0.9809 LL=0.4481 43.4s
+       banknote-authentication pu_scar  0.1 s2 sem      AUC=0.9572 LL=0.7877 40.1s
+       banknote-authentication pu_scar  0.1 s2 hard_em  AUC=0.9886 LL=1.2909 13.6s
+       banknote-authentication pu_scar  0.1 s2 naive    AUC=0.9886 LL=0.2916 0.4s
+       banknote-authentication pu_scar  0.1 s2 oracle   AUC=1.0000 LL=0.0002 0.4s
+       banknote-authentication pu_scar  0.1 s2 nnpu     AUC=0.9509 LL=0.3201 1.7s
+       banknote-authentication pu_scar  0.1 s2 upu      AUC=0.9050 LL=1.4177 1.7s
+       banknote-authentication pu_scar  0.3 s0 gibbs    AUC=1.0000 LL=0.0049 44.0s
+       banknote-authentication pu_scar  0.3 s0 sem      AUC=1.0000 LL=0.0030 40.7s
+       banknote-authentication pu_scar  0.3 s0 hard_em  AUC=1.0000 LL=0.6142 13.4s
+       banknote-authentication pu_scar  0.3 s0 naive    AUC=1.0000 LL=0.0827 0.4s
+       banknote-authentication pu_scar  0.3 s0 oracle   AUC=1.0000 LL=0.0003 0.3s
+       banknote-authentication pu_scar  0.3 s0 nnpu     AUC=1.0000 LL=0.0049 1.7s
+       banknote-authentication pu_scar  0.3 s0 upu      AUC=0.9996 LL=0.0834 1.7s
+       banknote-authentication pu_scar  0.3 s1 gibbs    AUC=1.0000 LL=0.0040 43.6s
+       banknote-authentication pu_scar  0.3 s1 sem      AUC=1.0000 LL=0.0003 40.2s
+       banknote-authentication pu_scar  0.3 s1 hard_em  AUC=1.0000 LL=0.5535 13.5s
+       banknote-authentication pu_scar  0.3 s1 naive    AUC=1.0000 LL=0.0814 0.3s
+       banknote-authentication pu_scar  0.3 s1 oracle   AUC=1.0000 LL=0.0000 0.3s
+       banknote-authentication pu_scar  0.3 s1 nnpu     AUC=1.0000 LL=0.0126 1.6s
+       banknote-authentication pu_scar  0.3 s1 upu      AUC=0.9999 LL=0.0686 1.7s
+       banknote-authentication pu_scar  0.3 s2 gibbs    AUC=0.9998 LL=0.0341 43.4s
+       banknote-authentication pu_scar  0.3 s2 sem      AUC=1.0000 LL=0.0296 40.0s
+       banknote-authentication pu_scar  0.3 s2 hard_em  AUC=1.0000 LL=0.6203 13.2s
+       banknote-authentication pu_scar  0.3 s2 naive    AUC=1.0000 LL=0.0933 0.4s
+       banknote-authentication pu_scar  0.3 s2 oracle   AUC=1.0000 LL=0.0002 0.4s
+       banknote-authentication pu_scar  0.3 s2 nnpu     AUC=1.0000 LL=0.0138 1.6s
+       banknote-authentication pu_scar  0.3 s2 upu      AUC=0.9998 LL=0.0543 1.7s
+       banknote-authentication llp        8 s0 gibbs    AUC=1.0000 LL=0.0003 44.6s
+       banknote-authentication llp        8 s0 sem      AUC=1.0000 LL=0.0003 41.2s
+       banknote-authentication llp        8 s0 hard_em  AUC=1.0000 LL=0.0003 13.3s
+       banknote-authentication llp        8 s0 naive    AUC=0.9873 LL=0.5821 0.4s
+       banknote-authentication llp        8 s0 oracle   AUC=1.0000 LL=0.0003 0.4s
+       banknote-authentication llp        8 s0 dllp     AUC=1.0000 LL=0.0065 16.5s
+       banknote-authentication llp        8 s1 gibbs    AUC=1.0000 LL=0.0000 44.6s
+       banknote-authentication llp        8 s1 sem      AUC=1.0000 LL=0.0000 41.3s
+       banknote-authentication llp        8 s1 hard_em  AUC=1.0000 LL=0.0000 13.2s
+       banknote-authentication llp        8 s1 naive    AUC=0.9764 LL=0.5920 0.4s
+       banknote-authentication llp        8 s1 oracle   AUC=1.0000 LL=0.0000 0.4s
+       banknote-authentication llp        8 s1 dllp     AUC=1.0000 LL=0.0123 16.1s
+       banknote-authentication llp        8 s2 gibbs    AUC=1.0000 LL=0.0002 44.6s
+       banknote-authentication llp        8 s2 sem      AUC=1.0000 LL=0.0002 41.3s
+       banknote-authentication llp        8 s2 hard_em  AUC=1.0000 LL=0.0002 13.3s
+       banknote-authentication llp        8 s2 naive    AUC=0.9809 LL=0.6231 0.4s
+       banknote-authentication llp        8 s2 oracle   AUC=1.0000 LL=0.0002 0.4s
+       banknote-authentication llp        8 s2 dllp     AUC=1.0000 LL=0.0075 16.1s
+       banknote-authentication llp       32 s0 gibbs    AUC=0.9179 LL=0.4769 43.7s
+       banknote-authentication llp       32 s0 sem      AUC=0.9478 LL=0.2856 40.4s
+       banknote-authentication llp       32 s0 hard_em  AUC=0.5604 LL=2.5198 13.1s
+       banknote-authentication llp       32 s0 naive    AUC=0.6399 LL=0.6848 0.4s
+       banknote-authentication llp       32 s0 oracle   AUC=1.0000 LL=0.0003 0.4s
+       banknote-authentication llp       32 s0 dllp     AUC=1.0000 LL=0.0564 4.1s
+       banknote-authentication llp       32 s1 gibbs    AUC=1.0000 LL=0.1278 43.7s
+       banknote-authentication llp       32 s1 sem      AUC=1.0000 LL=0.0000 40.4s
+       banknote-authentication llp       32 s1 hard_em  AUC=0.4928 LL=2.0768 12.9s
+       banknote-authentication llp       32 s1 naive    AUC=0.7788 LL=0.6784 0.3s
+       banknote-authentication llp       32 s1 oracle   AUC=1.0000 LL=0.0000 0.4s
+       banknote-authentication llp       32 s1 dllp     AUC=1.0000 LL=0.0677 3.9s
+       banknote-authentication llp       32 s2 gibbs    AUC=1.0000 LL=0.0080 43.0s
+       banknote-authentication llp       32 s2 sem      AUC=1.0000 LL=0.0002 39.8s
+       banknote-authentication llp       32 s2 hard_em  AUC=0.6916 LL=1.9458 12.9s
+       banknote-authentication llp       32 s2 naive    AUC=0.8008 LL=0.6794 0.4s
+       banknote-authentication llp       32 s2 oracle   AUC=1.0000 LL=0.0002 0.3s
+       banknote-authentication llp       32 s2 dllp     AUC=0.9998 LL=0.0771 4.0s
+       banknote-authentication pu_sar   0.3 s0 gibbs    AUC=0.9993 LL=0.1972 42.4s
+       banknote-authentication pu_sar   0.3 s0 sem      AUC=0.9997 LL=0.0975 39.0s
+       banknote-authentication pu_sar   0.3 s0 gibbs_known AUC=1.0000 LL=0.0026 42.6s
+       banknote-authentication pu_sar   0.3 s0 hard_em  AUC=0.9904 LL=0.8483 13.1s
+       banknote-authentication pu_sar   0.3 s0 naive    AUC=0.9979 LL=0.3565 0.4s
+       banknote-authentication pu_sar   0.3 s0 oracle   AUC=1.0000 LL=0.0003 0.4s
+       banknote-authentication pu_sar   0.3 s0 nnpu     AUC=0.9637 LL=0.2191 1.6s
+       banknote-authentication pu_sar   0.3 s0 upu      AUC=0.9214 LL=1.6275 1.8s
+       banknote-authentication pu_sar   0.3 s1 gibbs    AUC=0.9941 LL=0.4371 42.4s
+       banknote-authentication pu_sar   0.3 s1 sem      AUC=0.9942 LL=0.4308 39.1s
+       banknote-authentication pu_sar   0.3 s1 gibbs_known AUC=0.9986 LL=0.0815 42.7s
+       banknote-authentication pu_sar   0.3 s1 hard_em  AUC=0.9934 LL=0.6494 13.3s
+       banknote-authentication pu_sar   0.3 s1 naive    AUC=0.9983 LL=0.2575 0.4s
+       banknote-authentication pu_sar   0.3 s1 oracle   AUC=1.0000 LL=0.0000 0.4s
+       banknote-authentication pu_sar   0.3 s1 nnpu     AUC=0.9889 LL=0.1442 1.6s
+       banknote-authentication pu_sar   0.3 s1 upu      AUC=0.8897 LL=1.4293 1.7s
+       banknote-authentication pu_sar   0.3 s2 gibbs    AUC=0.9977 LL=0.1870 43.3s
+       banknote-authentication pu_sar   0.3 s2 sem      AUC=0.9966 LL=0.0964 40.0s
+       banknote-authentication pu_sar   0.3 s2 gibbs_known AUC=1.0000 LL=0.0215 43.6s
+       banknote-authentication pu_sar   0.3 s2 hard_em  AUC=0.9840 LL=1.1383 13.6s
+       banknote-authentication pu_sar   0.3 s2 naive    AUC=0.9932 LL=0.4645 0.4s
+       banknote-authentication pu_sar   0.3 s2 oracle   AUC=1.0000 LL=0.0002 0.3s
+       banknote-authentication pu_sar   0.3 s2 nnpu     AUC=0.9846 LL=0.1620 1.7s
+       banknote-authentication pu_sar   0.3 s2 upu      AUC=0.8841 LL=1.6406 1.7s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s0 gibbs    AUC=0.7195 LL=0.7982 47.5s
+                          ilpd pu_scar  0.1 s0 sem      AUC=0.6542 LL=1.7460 43.8s
+                          ilpd pu_scar  0.1 s0 hard_em  AUC=0.7128 LL=1.0076 14.8s
+                          ilpd pu_scar  0.1 s0 naive    AUC=0.7128 LL=0.5449 0.4s
+                          ilpd pu_scar  0.1 s0 oracle   AUC=0.7488 LL=0.5041 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s0 nnpu     AUC=0.7000 LL=1.4448 0.9s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s0 upu      AUC=0.6585 LL=2.8077 0.8s
+                          ilpd pu_scar  0.1 s1 gibbs    AUC=0.6749 LL=0.6555 47.2s
+                          ilpd pu_scar  0.1 s1 sem      AUC=0.6664 LL=1.1660 43.7s
+                          ilpd pu_scar  0.1 s1 hard_em  AUC=0.6544 LL=1.1305 14.7s
+                          ilpd pu_scar  0.1 s1 naive    AUC=0.6541 LL=0.8409 0.4s
+                          ilpd pu_scar  0.1 s1 oracle   AUC=0.7134 LL=0.5665 0.4s
+                          ilpd pu_scar  0.1 s1 nnpu     AUC=0.6344 LL=1.3264 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s1 upu      AUC=0.5476 LL=3.2004 0.8s
+                          ilpd pu_scar  0.1 s2 gibbs    AUC=0.7331 LL=0.5508 47.0s
+                          ilpd pu_scar  0.1 s2 sem      AUC=0.6773 LL=0.9939 43.5s
+                          ilpd pu_scar  0.1 s2 hard_em  AUC=0.6696 LL=0.9993 14.3s
+                          ilpd pu_scar  0.1 s2 naive    AUC=0.6696 LL=0.5737 0.4s
+                          ilpd pu_scar  0.1 s2 oracle   AUC=0.7635 LL=0.4891 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s2 nnpu     AUC=0.7272 LL=1.3568 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.1 s2 upu      AUC=0.7178 LL=2.1882 0.9s
+                          ilpd pu_scar  0.3 s0 gibbs    AUC=0.7510 LL=0.5272 47.1s
+                          ilpd pu_scar  0.3 s0 sem      AUC=0.7234 LL=0.5634 43.8s
+                          ilpd pu_scar  0.3 s0 hard_em  AUC=0.7331 LL=0.7587 15.0s
+                          ilpd pu_scar  0.3 s0 naive    AUC=0.7331 LL=0.5318 0.4s
+                          ilpd pu_scar  0.3 s0 oracle   AUC=0.7488 LL=0.5041 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s0 nnpu     AUC=0.7202 LL=1.3230 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s0 upu      AUC=0.7050 LL=2.4489 0.8s
+                          ilpd pu_scar  0.3 s1 gibbs    AUC=0.7021 LL=0.5849 47.1s
+                          ilpd pu_scar  0.3 s1 sem      AUC=0.6781 LL=0.6105 43.7s
+                          ilpd pu_scar  0.3 s1 hard_em  AUC=0.7005 LL=0.7590 14.7s
+                          ilpd pu_scar  0.3 s1 naive    AUC=0.7005 LL=0.5570 0.4s
+                          ilpd pu_scar  0.3 s1 oracle   AUC=0.7134 LL=0.5665 0.4s
+                          ilpd pu_scar  0.3 s1 nnpu     AUC=0.6492 LL=1.8400 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s1 upu      AUC=0.5874 LL=3.0327 0.9s
+                          ilpd pu_scar  0.3 s2 gibbs    AUC=0.8181 LL=0.4568 46.9s
+                          ilpd pu_scar  0.3 s2 sem      AUC=0.7696 LL=0.5582 43.6s
+                          ilpd pu_scar  0.3 s2 hard_em  AUC=0.8021 LL=0.6630 14.9s
+                          ilpd pu_scar  0.3 s2 naive    AUC=0.8021 LL=0.4740 0.4s
+                          ilpd pu_scar  0.3 s2 oracle   AUC=0.7635 LL=0.4891 0.4s
+                          ilpd pu_scar  0.3 s2 nnpu     AUC=0.7181 LL=1.1134 0.9s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_scar  0.3 s2 upu      AUC=0.6371 LL=2.4272 0.8s
+                          ilpd llp        8 s0 gibbs    AUC=0.6710 LL=0.5552 47.1s
+                          ilpd llp        8 s0 sem      AUC=0.6886 LL=0.5788 43.8s
+                          ilpd llp        8 s0 hard_em  AUC=0.4698 LL=1.1392 15.0s
+                          ilpd llp        8 s0 naive    AUC=0.6147 LL=0.5977 0.4s
+                          ilpd llp        8 s0 oracle   AUC=0.7488 LL=0.5041 0.4s
+                          ilpd llp        8 s0 dllp     AUC=0.5581 LL=1.1403 6.9s
+                          ilpd llp        8 s1 gibbs    AUC=0.6928 LL=0.5484 47.0s
+                          ilpd llp        8 s1 sem      AUC=0.6603 LL=0.6112 43.4s
+                          ilpd llp        8 s1 hard_em  AUC=0.6117 LL=1.0723 14.6s
+                          ilpd llp        8 s1 naive    AUC=0.5288 LL=0.5981 0.4s
+                          ilpd llp        8 s1 oracle   AUC=0.7134 LL=0.5665 0.3s
+                          ilpd llp        8 s1 dllp     AUC=0.6475 LL=0.9914 6.6s
+                          ilpd llp        8 s2 gibbs    AUC=0.7746 LL=0.4967 47.0s
+                          ilpd llp        8 s2 sem      AUC=0.7486 LL=0.5254 43.6s
+                          ilpd llp        8 s2 hard_em  AUC=0.7082 LL=0.8495 14.3s
+                          ilpd llp        8 s2 naive    AUC=0.8010 LL=0.5891 0.4s
+                          ilpd llp        8 s2 oracle   AUC=0.7635 LL=0.4891 0.4s
+                          ilpd llp        8 s2 dllp     AUC=0.6984 LL=0.9158 6.8s
+                          ilpd llp       32 s0 gibbs    AUC=0.6419 LL=0.6617 47.1s
+                          ilpd llp       32 s0 sem      AUC=0.6034 LL=1.1654 43.7s
+                          ilpd llp       32 s0 hard_em  AUC=0.4440 LL=2.6506 14.5s
+                          ilpd llp       32 s0 naive    AUC=0.6618 LL=0.5947 0.4s
+                          ilpd llp       32 s0 oracle   AUC=0.7488 LL=0.5041 0.4s
+                          ilpd llp       32 s0 dllp     AUC=0.5874 LL=0.6937 1.8s
+                          ilpd llp       32 s1 gibbs    AUC=0.6771 LL=0.5862 47.0s
+                          ilpd llp       32 s1 sem      AUC=0.4877 LL=0.6270 43.5s
+                          ilpd llp       32 s1 hard_em  AUC=0.4936 LL=2.3354 14.4s
+                          ilpd llp       32 s1 naive    AUC=0.4486 LL=0.6026 0.4s
+                          ilpd llp       32 s1 oracle   AUC=0.7134 LL=0.5665 0.4s
+                          ilpd llp       32 s1 dllp     AUC=0.5789 LL=0.7231 1.8s
+                          ilpd llp       32 s2 gibbs    AUC=0.7864 LL=0.4993 47.1s
+                          ilpd llp       32 s2 sem      AUC=0.6584 LL=0.5856 43.8s
+                          ilpd llp       32 s2 hard_em  AUC=0.3133 LL=2.2811 14.5s
+                          ilpd llp       32 s2 naive    AUC=0.4690 LL=0.6033 0.4s
+                          ilpd llp       32 s2 oracle   AUC=0.7635 LL=0.4891 0.4s
+                          ilpd llp       32 s2 dllp     AUC=0.6546 LL=0.8648 1.9s
+                          ilpd pu_sar   0.3 s0 gibbs    AUC=0.7130 LL=0.5848 46.8s
+                          ilpd pu_sar   0.3 s0 sem      AUC=0.7178 LL=0.6758 43.5s
+                          ilpd pu_sar   0.3 s0 gibbs_known AUC=0.6850 LL=0.6383 46.8s
+                          ilpd pu_sar   0.3 s0 hard_em  AUC=0.5789 LL=1.0323 14.7s
+                          ilpd pu_sar   0.3 s0 naive    AUC=0.5811 LL=1.3162 0.4s
+                          ilpd pu_sar   0.3 s0 oracle   AUC=0.7488 LL=0.5041 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s0 nnpu     AUC=0.5674 LL=2.0978 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s0 upu      AUC=0.5346 LL=3.2802 0.8s
+                          ilpd pu_sar   0.3 s1 gibbs    AUC=0.6778 LL=0.7455 46.7s
+                          ilpd pu_sar   0.3 s1 sem      AUC=0.6829 LL=0.8024 43.4s
+                          ilpd pu_sar   0.3 s1 gibbs_known AUC=0.6842 LL=0.6980 47.2s
+                          ilpd pu_sar   0.3 s1 hard_em  AUC=0.6136 LL=1.0869 14.7s
+                          ilpd pu_sar   0.3 s1 naive    AUC=0.6139 LL=1.1627 0.4s
+                          ilpd pu_sar   0.3 s1 oracle   AUC=0.7134 LL=0.5665 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s1 nnpu     AUC=0.6275 LL=2.1073 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s1 upu      AUC=0.6219 LL=2.6932 0.8s
+                          ilpd pu_sar   0.3 s2 gibbs    AUC=0.8285 LL=0.4582 47.6s
+                          ilpd pu_sar   0.3 s2 sem      AUC=0.8138 LL=0.7238 44.1s
+                          ilpd pu_sar   0.3 s2 gibbs_known AUC=0.8178 LL=0.4780 47.4s
+                          ilpd pu_sar   0.3 s2 hard_em  AUC=0.7258 LL=0.7638 15.1s
+                          ilpd pu_sar   0.3 s2 naive    AUC=0.7264 LL=0.8946 0.4s
+                          ilpd pu_sar   0.3 s2 oracle   AUC=0.7635 LL=0.4891 0.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s2 nnpu     AUC=0.6958 LL=2.0502 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          ilpd pu_sar   0.3 s2 upu      AUC=0.6841 LL=2.5738 0.8s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s0 gibbs    AUC=0.9590 LL=0.3938 70.1s
+                          wdbc pu_scar  0.1 s0 sem      AUC=0.9680 LL=0.3026 64.8s
+                          wdbc pu_scar  0.1 s0 hard_em  AUC=0.9749 LL=0.9938 21.3s
+                          wdbc pu_scar  0.1 s0 naive    AUC=0.9749 LL=0.2039 0.6s
+                          wdbc pu_scar  0.1 s0 oracle   AUC=0.9914 LL=0.1067 0.6s
+                          wdbc pu_scar  0.1 s0 nnpu     AUC=0.9704 LL=0.2256 0.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_scar  0.1 s0 upu      AUC=0.8268 LL=2.8033 0.8s
+                          wdbc pu_scar  0.1 s1 gibbs    AUC=0.8833 LL=0.8090 69.6s
+                          wdbc pu_scar  0.1 s1 sem      AUC=0.9016 LL=0.7930 64.3s
+                          wdbc pu_scar  0.1 s1 hard_em  AUC=0.8806 LL=1.2498 21.4s
+                          wdbc pu_scar  0.1 s1 naive    AUC=0.8806 LL=0.5137 0.6s
+                          wdbc pu_scar  0.1 s1 oracle   AUC=0.9898 LL=0.1526 0.6s
+                          wdbc pu_scar  0.1 s1 nnpu     AUC=0.9823 LL=0.1564 0.9s
+                          wdbc pu_scar  0.1 s1 upu      AUC=0.7516 LL=3.4001 0.9s
+                          wdbc pu_scar  0.1 s2 gibbs    AUC=0.9468 LL=0.3256 68.9s
+                          wdbc pu_scar  0.1 s2 sem      AUC=0.9688 LL=0.2550 63.9s
+                          wdbc pu_scar  0.1 s2 hard_em  AUC=0.9707 LL=0.9947 21.3s
+                          wdbc pu_scar  0.1 s2 naive    AUC=0.9707 LL=0.2202 0.6s
+                          wdbc pu_scar  0.1 s2 oracle   AUC=0.9934 LL=0.1129 0.6s
+                          wdbc pu_scar  0.1 s2 nnpu     AUC=0.9898 LL=0.1031 0.9s
+                          wdbc pu_scar  0.1 s2 upu      AUC=0.9073 LL=1.5296 0.9s
+                          wdbc pu_scar  0.3 s0 gibbs    AUC=0.9820 LL=0.1590 69.4s
+                          wdbc pu_scar  0.3 s0 sem      AUC=0.9825 LL=0.2250 64.2s
+                          wdbc pu_scar  0.3 s0 hard_em  AUC=0.9828 LL=0.6057 21.5s
+                          wdbc pu_scar  0.3 s0 naive    AUC=0.9828 LL=0.1895 0.5s
+                          wdbc pu_scar  0.3 s0 oracle   AUC=0.9914 LL=0.1067 0.6s
+                          wdbc pu_scar  0.3 s0 nnpu     AUC=0.9944 LL=0.1026 0.9s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_scar  0.3 s0 upu      AUC=0.8918 LL=1.5640 0.9s
+                          wdbc pu_scar  0.3 s1 gibbs    AUC=0.9771 LL=0.2689 69.3s
+                          wdbc pu_scar  0.3 s1 sem      AUC=0.9728 LL=0.2782 64.2s
+                          wdbc pu_scar  0.3 s1 hard_em  AUC=0.9784 LL=0.7594 21.6s
+                          wdbc pu_scar  0.3 s1 naive    AUC=0.9784 LL=0.3266 0.6s
+                          wdbc pu_scar  0.3 s1 oracle   AUC=0.9898 LL=0.1526 0.6s
+                          wdbc pu_scar  0.3 s1 nnpu     AUC=0.9870 LL=0.1314 0.9s
+                          wdbc pu_scar  0.3 s1 upu      AUC=0.9159 LL=1.5078 0.9s
+                          wdbc pu_scar  0.3 s2 gibbs    AUC=0.9880 LL=0.1281 70.2s
+                          wdbc pu_scar  0.3 s2 sem      AUC=0.9882 LL=0.1250 65.1s
+                          wdbc pu_scar  0.3 s2 hard_em  AUC=0.9893 LL=0.5306 21.6s
+                          wdbc pu_scar  0.3 s2 naive    AUC=0.9893 LL=0.1333 0.6s
+                          wdbc pu_scar  0.3 s2 oracle   AUC=0.9934 LL=0.1129 0.6s
+                          wdbc pu_scar  0.3 s2 nnpu     AUC=0.9904 LL=0.1017 0.9s
+                          wdbc pu_scar  0.3 s2 upu      AUC=0.9496 LL=0.8411 0.9s
+                          wdbc llp        8 s0 gibbs    AUC=0.9924 LL=0.1055 69.8s
+                          wdbc llp        8 s0 sem      AUC=0.9926 LL=0.1080 64.7s
+                          wdbc llp        8 s0 hard_em  AUC=0.9931 LL=0.1034 21.5s
+                          wdbc llp        8 s0 naive    AUC=0.8884 LL=0.6358 0.6s
+                          wdbc llp        8 s0 oracle   AUC=0.9914 LL=0.1067 0.6s
+                          wdbc llp        8 s0 dllp     AUC=0.9851 LL=0.1500 6.8s
+                          wdbc llp        8 s1 gibbs    AUC=0.9882 LL=0.1448 69.3s
+                          wdbc llp        8 s1 sem      AUC=0.9833 LL=0.1633 64.2s
+                          wdbc llp        8 s1 hard_em  AUC=0.9495 LL=0.3329 21.2s
+                          wdbc llp        8 s1 naive    AUC=0.9019 LL=0.6253 0.6s
+                          wdbc llp        8 s1 oracle   AUC=0.9898 LL=0.1526 0.6s
+                          wdbc llp        8 s1 dllp     AUC=0.9876 LL=0.1580 7.0s
+                          wdbc llp        8 s2 gibbs    AUC=0.9920 LL=0.1015 69.5s
+                          wdbc llp        8 s2 sem      AUC=0.9934 LL=0.1129 64.4s
+                          wdbc llp        8 s2 hard_em  AUC=0.9871 LL=0.1215 21.4s
+                          wdbc llp        8 s2 naive    AUC=0.6269 LL=0.6559 0.6s
+                          wdbc llp        8 s2 oracle   AUC=0.9934 LL=0.1129 0.5s
+                          wdbc llp        8 s2 dllp     AUC=0.9924 LL=0.1040 7.1s
+                          wdbc llp       32 s0 gibbs    AUC=0.4876 LL=0.6637 70.3s
+                          wdbc llp       32 s0 sem      AUC=0.6602 LL=0.6451 65.1s
+                          wdbc llp       32 s0 hard_em  AUC=0.6053 LL=1.8323 21.8s
+                          wdbc llp       32 s0 naive    AUC=0.7444 LL=0.6302 0.6s
+                          wdbc llp       32 s0 oracle   AUC=0.9914 LL=0.1067 0.6s
+                          wdbc llp       32 s0 dllp     AUC=0.9523 LL=0.3537 1.9s
+                          wdbc llp       32 s1 gibbs    AUC=0.4334 LL=0.6734 69.6s
+                          wdbc llp       32 s1 sem      AUC=0.3776 LL=0.7206 64.5s
+                          wdbc llp       32 s1 hard_em  AUC=0.6824 LL=1.8148 21.3s
+                          wdbc llp       32 s1 naive    AUC=0.7392 LL=0.6526 0.6s
+                          wdbc llp       32 s1 oracle   AUC=0.9898 LL=0.1526 0.5s
+                          wdbc llp       32 s1 dllp     AUC=0.9521 LL=0.3015 1.9s
+                          wdbc llp       32 s2 gibbs    AUC=0.9609 LL=0.5538 69.7s
+                          wdbc llp       32 s2 sem      AUC=0.9626 LL=0.3378 64.6s
+                          wdbc llp       32 s2 hard_em  AUC=0.2915 LL=2.6860 21.7s
+                          wdbc llp       32 s2 naive    AUC=0.7591 LL=0.6540 0.5s
+                          wdbc llp       32 s2 oracle   AUC=0.9934 LL=0.1129 0.5s
+                          wdbc llp       32 s2 dllp     AUC=0.9815 LL=0.2562 1.8s
+                          wdbc pu_sar   0.3 s0 gibbs    AUC=0.9698 LL=0.3895 68.8s
+                          wdbc pu_sar   0.3 s0 sem      AUC=0.9543 LL=0.4448 63.7s
+                          wdbc pu_sar   0.3 s0 gibbs_known AUC=0.7652 LL=2.5482 68.6s
+                          wdbc pu_sar   0.3 s0 hard_em  AUC=0.9606 LL=0.7682 21.5s
+                          wdbc pu_sar   0.3 s0 naive    AUC=0.9760 LL=0.3933 0.6s
+                          wdbc pu_sar   0.3 s0 oracle   AUC=0.9914 LL=0.1067 0.6s
+                          wdbc pu_sar   0.3 s0 nnpu     AUC=0.9685 LL=0.1812 0.9s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                          wdbc pu_sar   0.3 s0 upu      AUC=0.9077 LL=1.7099 0.9s
+                          wdbc pu_sar   0.3 s1 gibbs    AUC=0.9334 LL=0.6962 70.0s
+                          wdbc pu_sar   0.3 s1 sem      AUC=0.9414 LL=0.7747 64.8s
+                          wdbc pu_sar   0.3 s1 gibbs_known AUC=0.8899 LL=0.9669 69.0s
+                          wdbc pu_sar   0.3 s1 hard_em  AUC=0.8959 LL=1.1008 21.4s
+                          wdbc pu_sar   0.3 s1 naive    AUC=0.9319 LL=0.6895 0.6s
+                          wdbc pu_sar   0.3 s1 oracle   AUC=0.9898 LL=0.1526 0.6s
+                          wdbc pu_sar   0.3 s1 nnpu     AUC=0.9709 LL=0.2158 0.9s
+                          wdbc pu_sar   0.3 s1 upu      AUC=0.8665 LL=1.6013 0.9s
+                          wdbc pu_sar   0.3 s2 gibbs    AUC=0.9546 LL=0.8296 69.2s
+                          wdbc pu_sar   0.3 s2 sem      AUC=0.9591 LL=0.8282 64.1s
+                          wdbc pu_sar   0.3 s2 gibbs_known AUC=0.9052 LL=1.3043 68.2s
+                          wdbc pu_sar   0.3 s2 hard_em  AUC=0.9159 LL=1.1362 21.0s
+                          wdbc pu_sar   0.3 s2 naive    AUC=0.9525 LL=0.6150 0.6s
+                          wdbc pu_sar   0.3 s2 oracle   AUC=0.9934 LL=0.1129 0.5s
+                          wdbc pu_sar   0.3 s2 nnpu     AUC=0.9756 LL=0.2141 0.8s
+                          wdbc pu_sar   0.3 s2 upu      AUC=0.8765 LL=1.7889 0.8s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                   gibbs  hard_em   naive    nnpu  oracle     sem     upu
+dataset                          level                                                         
+banknote-authentication          0.1    0.9918   0.9957  0.9957  0.9834  1.0000  0.9834  0.9418
+                                 0.3    0.9999   1.0000  1.0000  1.0000  1.0000  1.0000  0.9998
+blood-transfusion-service-center 0.1    0.7062   0.6631  0.6631  0.7126  0.7680  0.6898  0.6818
+                                 0.3    0.7492   0.7383  0.7383  0.7027  0.7680  0.7316  0.6941
+credit-g                         0.1    0.6131   0.6342  0.6342  0.6312  0.7977  0.5950  0.5774
+                                 0.3    0.7213   0.7194  0.7194  0.6654  0.7977  0.7338  0.6773
+diabetes                         0.1    0.7616   0.7864  0.7864  0.7044  0.8435  0.7535  0.6750
+                                 0.3    0.8221   0.8245  0.8244  0.7559  0.8435  0.8120  0.7469
+ilpd                             0.1    0.7092   0.6789  0.6788  0.6872  0.7419  0.6660  0.6413
+                                 0.3    0.7571   0.7452  0.7452  0.6958  0.7419  0.7237  0.6431
+wdbc                             0.1    0.9297   0.9420  0.9420  0.9808  0.9915  0.9461  0.8286
+                                 0.3    0.9824   0.9835  0.9835  0.9906  0.9915  0.9812  0.9191
+
+Gibbs thắng CẢ peer-review tốt nhất LẪN naive trên 2/6 dataset (gộp các mức): ['blood-transfusion-service-center', 'ilpd']
+  Gibbs > hard_em: 2/6
+  Gibbs > sem: 5/6
+
+--- pu_sar ---
+method                                   gibbs  gibbs_known  hard_em   naive    nnpu  oracle     sem     upu
+dataset                          level                                                                      
+banknote-authentication          0.3    0.9970       0.9995   0.9893  0.9965  0.9791  1.0000  0.9969  0.8984
+blood-transfusion-service-center 0.3    0.6331       0.7518   0.6291  0.6291  0.5455  0.7680  0.6545  0.5484
+credit-g                         0.3    0.6492       0.7147   0.6544  0.6524  0.7028  0.7977  0.6462  0.6635
+diabetes                         0.3    0.7188       0.7825   0.7002  0.7002  0.6843  0.8435  0.7238  0.6597
+ilpd                             0.3    0.7397       0.7290   0.6394  0.6405  0.6303  0.7419  0.7381  0.6135
+wdbc                             0.3    0.9526       0.8534   0.9241  0.9535  0.9717  0.9915  0.9516  0.8835
+
+Gibbs thắng CẢ peer-review tốt nhất LẪN naive trên 4/6 dataset (gộp các mức): ['banknote-authentication', 'blood-transfusion-service-center', 'diabetes', 'ilpd']
+  Gibbs > hard_em: 5/6
+  Gibbs > sem: 4/6
+
+--- llp ---
+method                                    dllp   gibbs  hard_em   naive  oracle     sem
+dataset                          level                                                 
+banknote-authentication          8.0    1.0000  1.0000   1.0000  0.9815  1.0000  1.0000
+                                 32.0   0.9999  0.9726   0.5816  0.7398  1.0000  0.9826
+blood-transfusion-service-center 8.0    0.7006  0.6907   0.6048  0.6426  0.7680  0.6583
+                                 32.0   0.6293  0.5703   0.5103  0.3654  0.7680  0.4531
+credit-g                         8.0    0.7167  0.7534   0.7169  0.5836  0.7977  0.7071
+                                 32.0   0.6423  0.6048   0.5654  0.5329  0.7977  0.5058
+diabetes                         8.0    0.7114  0.8191   0.7766  0.5606  0.8435  0.8058
+                                 32.0   0.6525  0.5998   0.5343  0.4471  0.8435  0.5150
+ilpd                             8.0    0.6347  0.7128   0.5965  0.6482  0.7419  0.6992
+                                 32.0   0.6069  0.7018   0.4170  0.5265  0.7419  0.5831
+wdbc                             8.0    0.9884  0.9908   0.9766  0.8057  0.9915  0.9898
+                                 32.0   0.9619  0.6273   0.5264  0.7476  0.9915  0.6668
+
+Gibbs thắng CẢ peer-review tốt nhất LẪN naive trên 2/6 dataset (gộp các mức): ['diabetes', 'ilpd']
+  Gibbs > hard_em: 6/6
+  Gibbs > sem: 4/6
+
+Tiêu chí dừng (RESEARCH_PLAN §5): ĐẠT — tiếp tục {'pu_scar': 2, 'pu_sar': 4, 'llp': 2}

@@ -1,0 +1,30 @@
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 1, 'K': 8, 'kind': 'approx', 'tv': 4.547794432707697e-15, 'pred_err_max': 9.43689570931383e-16, 'seconds': 1.0}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 2, 'K': 4, 'kind': 'approx', 'tv': 0.018652022024351768, 'pred_err_max': 1.9984014443252818e-15, 'seconds': 1.4}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 2, 'K': 4, 'kind': 'mh', 'tv': 5.723286428116481e-15, 'pred_err_max': 2.886579864025407e-15, 'seconds': 2.6}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 4, 'K': 2, 'kind': 'approx', 'tv': 0.06866301405809919, 'pred_err_max': 6.106226635438361e-16, 'seconds': 5.1}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 4, 'K': 2, 'kind': 'mh', 'tv': 5.4882313971216234e-15, 'pred_err_max': 2.55351295663786e-15, 'seconds': 28.9}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 8, 'K': 1, 'kind': 'approx', 'tv': 0.3562500000000008, 'pred_err_max': 1.2212453270876722e-15, 'seconds': 1.7}
+{'prior': 'cell', 'n': 10, 'n_free': 8, 'block_size': 8, 'K': 1, 'kind': 'mh', 'tv': 6.9253413767511596e-15, 'pred_err_max': 1.7763568394002505e-15, 'seconds': 11.5}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 1, 'K': 8, 'kind': 'approx', 'tv': 3.3644104364455924e-14, 'pred_err_max': 1.7985612998927536e-14, 'seconds': 1.7}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 2, 'K': 4, 'kind': 'approx', 'tv': 0.08065855579463187, 'pred_err_max': 0.049405735276973894, 'seconds': 5.5}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 2, 'K': 4, 'kind': 'mh', 'tv': 5.20516486115411e-15, 'pred_err_max': 1.9984014443252818e-15, 'seconds': 14.9}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 4, 'K': 2, 'kind': 'approx', 'tv': 0.337411809085418, 'pred_err_max': 0.21034329940022184, 'seconds': 23.0}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 4, 'K': 2, 'kind': 'mh', 'tv': 3.299052646978256e-14, 'pred_err_max': 1.1102230246251565e-15, 'seconds': 207.2}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 8, 'K': 1, 'kind': 'approx', 'tv': 0.7007734022014643, 'pred_err_max': 0.4505520115499689, 'seconds': 2.6}
+{'prior': 'mixture', 'n': 10, 'n_free': 8, 'block_size': 8, 'K': 1, 'kind': 'mh', 'tv': 1.6261019848815308e-10, 'pred_err_max': 2.911237917402332e-11, 'seconds': 79.2}
+  prior  n  n_free  block_size  K   kind           tv  pred_err_max  seconds
+   cell 10       8           1  8 approx 4.547794e-15  9.436896e-16      1.0
+   cell 10       8           2  4 approx 1.865202e-02  1.998401e-15      1.4
+   cell 10       8           2  4     mh 5.723286e-15  2.886580e-15      2.6
+   cell 10       8           4  2 approx 6.866301e-02  6.106227e-16      5.1
+   cell 10       8           4  2     mh 5.488231e-15  2.553513e-15     28.9
+   cell 10       8           8  1 approx 3.562500e-01  1.221245e-15      1.7
+   cell 10       8           8  1     mh 6.925341e-15  1.776357e-15     11.5
+mixture 10       8           1  8 approx 3.364410e-14  1.798561e-14      1.7
+mixture 10       8           2  4 approx 8.065856e-02  4.940574e-02      5.5
+mixture 10       8           2  4     mh 5.205165e-15  1.998401e-15     14.9
+mixture 10       8           4  2 approx 3.374118e-01  2.103433e-01     23.0
+mixture 10       8           4  2     mh 3.299053e-14  1.110223e-15    207.2
+mixture 10       8           8  1 approx 7.007734e-01  4.505520e-01      2.6
+mixture 10       8           8  1     mh 1.626102e-10  2.911238e-11     79.2
+→ /home/claude/de-tai-moi/G4/code/experiments/../../results/rq1/e5a_block_small.csv

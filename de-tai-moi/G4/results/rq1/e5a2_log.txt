@@ -1,0 +1,14 @@
+{'prior': 'cell', 'n': 10, 'block_size': 2, 'K': 5, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.014537155243501671, 'pred_err_max': 3.2751579226442118e-15, 'seconds': 1.2}
+{'prior': 'cell', 'n': 10, 'block_size': 4, 'K': 2, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.05018475064672384, 'pred_err_max': 8.881784197001252e-16, 'seconds': 7.9}
+{'prior': 'cell', 'n': 10, 'block_size': 8, 'K': 1, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.18707287685087537, 'pred_err_max': 1.887379141862766e-15, 'seconds': 9.7}
+{'prior': 'mixture', 'n': 10, 'block_size': 2, 'K': 5, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.04274780932804992, 'pred_err_max': 0.010507567882749203, 'seconds': 6.7}
+{'prior': 'mixture', 'n': 10, 'block_size': 4, 'K': 2, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.15390872068714423, 'pred_err_max': 0.06120958004512089, 'seconds': 57.6}
+{'prior': 'mixture', 'n': 10, 'block_size': 8, 'K': 1, 'kind': 'approx, khối trên mọi mẫu', 'tv': 0.31715909538488507, 'pred_err_max': 0.11075524176137719, 'seconds': 31.9}
+  prior  n  block_size  K                      kind       tv  pred_err_max  seconds
+   cell 10           2  5 approx, khối trên mọi mẫu 0.014537  3.275158e-15      1.2
+   cell 10           4  2 approx, khối trên mọi mẫu 0.050185  8.881784e-16      7.9
+   cell 10           8  1 approx, khối trên mọi mẫu 0.187073  1.887379e-15      9.7
+mixture 10           2  5 approx, khối trên mọi mẫu 0.042748  1.050757e-02      6.7
+mixture 10           4  2 approx, khối trên mọi mẫu 0.153909  6.120958e-02     57.6
+mixture 10           8  1 approx, khối trên mọi mẫu 0.317159  1.107552e-01     31.9
+→ /home/claude/de-tai-moi/G4/code/experiments/../../results/rq1/e5a2_block_small_all.csv
