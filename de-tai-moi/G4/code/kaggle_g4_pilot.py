@@ -58,6 +58,11 @@ FIELDS = ["backend", "dataset_id", "dataset", "setting", "level", "seed", "metho
 EXPENSIVE = {"gibbs", "sem", "gibbs_known", "hard_em"}       # các chuỗi tốn GPU: lấy lại từ lượt trước nếu có
 
 
+def _cfg_str(cfg):
+    """Cấu hình tune gọn để ghi vào cột extra (không dùng dấu ';')."""
+    return "|".join(f"{k}:{(round(v, 6) if isinstance(v, float) else v)}" for k, v in cfg.items()).replace(" ", "")
+
+
 # --------------------------------------------------------------------------------------------------
 def make_estimator(backend: str, n_estimators: int | None):
     if backend == "dry":
@@ -250,6 +255,22 @@ def run_cell(args, backend, did, setting, level, seed, data, writer, fh, done):
                 t0 = time.time()
                 m = NNPU(prior=float(ytr.mean()), nn_correction=nn, epochs=args.epochs, seed=seed).fit(Mtr, s)
                 emit(meth, m.predict_proba(Mte)[:, 1], t0, 0)
+    if setting.startswith("pu"):
+        for meth, nn in (("nnpu_tun", True), ("upu_tun", False)):
+            if todo(meth):
+                from icgibbs.baselines_ext import fit_nnpu
+                t0 = time.time()
+                m = fit_nnpu(Mtr, s, prior=float(ytr.mean()), nn_correction=nn, seed=seed, tune=True)
+                emit(meth, m.predict_proba(Mte)[:, 1], t0, 0,
+                     f"best={_cfg_str(m.tune_.best)};val={m.tune_.best_score:.4f}")
+    if setting == "pu_sar" and todo("sar_e_known"):
+        # phân tích phụ: bộ phân loại với propensity THẬT (đối chứng công bằng cho gibbs_known_warm)
+        from sklearn.preprocessing import StandardScaler
+        from icgibbs.baselines_ext import fit_sar_e
+        t0 = time.time()
+        sc_ = StandardScaler().fit(Mtr)
+        f = fit_sar_e(sc_.transform(Mtr), s, e)
+        emit("sar_e_known", np.clip(f.predict_proba(sc_.transform(Mte)), 1e-6, 1 - 1e-6), t0, 0)
     if setting == "pu_sar" and (todo("sar_em") or todo("sar_em_tuned")):
         # G6 (T1): SAR-EM, code chính thức của Bekker et al. (gói sarpu). Cùng thông tin phụ với Gibbs (quy tắc
         # công bằng B2): thuộc tính propensity là z, nối vào cuối ma trận feature đã chuẩn hoá.
@@ -270,11 +291,22 @@ def run_cell(args, backend, did, setting, level, seed, data, writer, fh, done):
             m = fit_sar_em_tuned(Atr, s, pcol, n_configs=20, seed=seed)
             emit("sar_em_tuned", m.predict_proba(Ate)[:, 1], t0, 0,
                  f"C_f={m.tune_.best['C_f']:.4g};C_e={m.tune_.best['C_e']:.4g};val_weak_loss={m.tune_.best_score:.4f}")
-    else:
+    if setting == "llp":          # (sửa G6: trước đây là "else:" và vô tình gắn với khối if của SAR-EM)
         if todo("dllp"):
             t0 = time.time()
             m = DLLP(epochs=args.epochs, seed=seed).fit(Mtr, bags, counts)
             emit("dllp", m.predict_proba(Mte)[:, 1], t0, 0)
+        # G6 (T3): baseline peer-review đầy đủ cho LLP, bản mặc định (_def) và bản tune 20 cấu hình (_tun)
+        for bname, tag in (("dllp", "dllp"), ("dllp_linear", "dllplin"), ("llp_vat", "llpvat"),
+                           ("easyllp", "easyllp"), ("glws", "glws")):
+            for tune, suf in ((False, "def"), (True, "tun")):
+                meth = f"{tag}_{suf}"
+                if todo(meth):
+                    from icgibbs.baselines_ext import fit_llp
+                    t0 = time.time()
+                    m = fit_llp(bname, Mtr, bags, counts, seed=seed, tune=tune)
+                    more = (f"best={_cfg_str(m.tune_.best)};val={m.tune_.best_score:.4f}" if tune else "")
+                    emit(meth, m.predict_proba(Mte)[:, 1], t0, 0, more)
 
     # ================= v2: khởi động ấm (warm start) + chẩn đoán chuỗi =================
     # monitor = độ chính xác của trạng thái chuỗi so với nhãn thật của tập huấn luyện. CHỈ để chẩn đoán trên
@@ -424,11 +456,13 @@ def main():
                     "đã có ở đó thì không chạy lại; phương pháp rẻ được chạy lại để có thêm metric và dự đoán")
     ap.add_argument("--preds", default="auto", help="file .jsonl lưu dự đoán test ('auto' = cạnh --out; '' = không lưu)")
     ap.add_argument("--only", default="", help="chỉ chạy các phương pháp này (danh sách cách nhau bởi dấu phẩy)")
+    ap.add_argument("--shard", default="0/1", help="i/n: chỉ chạy các ô (dataset × bối cảnh × mức × seed) có chỉ số ≡ i mod n")
     ap.add_argument("--levels", default="", help='ghi đè mức, ví dụ "pu_sar=0.1,0.3;llp=8,16"')
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--out", default="g4_pilot.csv")
     args = ap.parse_args()
     args.only = {m.strip() for m in args.only.split(",") if m.strip()}
+    args.shard_i, args.shard_n = (int(v) for v in args.shard.split("/"))
     for part in [p for p in args.levels.split(";") if p.strip()]:
         k, v = part.split("=")
         LEVELS[k.strip()] = [type(LEVELS[k.strip()][0])(x) for x in v.split(",")]
@@ -452,6 +486,7 @@ def main():
         w = csv.DictWriter(fh, fieldnames=FIELDS)
         if new:
             w.writeheader()
+        cell_no = 0
         for did in [int(v) for v in args.datasets.split(",")]:
             try:
                 data = load_dataset(did, args.dry_run, np.random.default_rng(did))
@@ -464,6 +499,9 @@ def main():
             for setting in args.settings.split(","):
                 for level in LEVELS[setting]:
                     for seed in [int(v) for v in args.seeds.split(",")]:
+                        cell_no += 1
+                        if (cell_no - 1) % args.shard_n != args.shard_i:
+                            continue
                         try:
                             run_cell(args, args.backend, did, setting, level, seed, data, w, fh, done)
                         except Exception as e:

@@ -40,3 +40,31 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
   - Mushroom đạt ở mọi metric của SAR-EM.
   - Breast Cancer: SAR-EM có AUC 0,994 so với 0,983 công bố (cao hơn), MSE 0,096 so với 0,058. Naive cũng lệch cùng chiều về MSE ở cả hai dataset.
   - Giả thuyết đang kiểm: (1) tập thuộc tính của bộ phân loại — chạy lại với `--cls_mode orig_plus1` và `all`; (2) cách gán cột trong Hình 1 — cần thầy xác nhận trên hình gốc.
+
+## GLWS cho LLP — khác biệt giữa bài và code chính thức (phát hiện G6, 26/10/2026)
+- Bài GLWS mô tả E-step là forward-backward trên NFA, tức hậu nghiệm của nhãn từng mẫu khi biết số đếm của túi.
+- Dự án tính đúng đại lượng đó bằng quy hoạch động theo số đếm, và kiểm bằng liệt kê mọi cách gán nhãn (`tests/test_baselines_ext.py::test_glws_estep_is_exact_posterior`).
+- So với hàm `create_proportion_graph` của kho chính thức (commit f577553):
+  - Đại lượng log P(đếm = c | đếm ≤ c) **khớp số**.
+  - **Nhãn giả không khớp**, và tổng theo túi không bằng c. Ví dụ túi 5 mẫu, c = 1: tổng chỉ 0,45; túi 4 mẫu, c = 2: tổng 1,59. Vậy hàm của kho không trả về hậu nghiệm chính xác.
+- Quyết định: baseline GLWS của dự án dùng hậu nghiệm chính xác (bản đúng theo bài, và là bản mạnh hơn). Ghi ở giao thức Mục 11.
+- Chưa tái hiện số công bố của GLWS: các thí nghiệm LLP của bài dùng CIFAR với ResNet, rất tốn GPU. Sẽ chọn cấu hình nhỏ nhất của bài để tái hiện ở lượt sau.
+
+## LLP-VAT, DLLP
+- Hàm `ProportionLoss` và `VATLoss` sao chép nguyên văn từ kho chính thức (MIT, `icgibbs/third_party/llp_vat_losses.py`; đã so `diff` với bản gốc).
+- Proportion loss viết dạng vector, vì phép kiểm `simplex.check` của kho chỉ nhận vector một chiều ở torch mới. Test kiểm khớp số với cách gọi từng túi.
+- Ramp-up của trọng số nhất quán dùng cùng công thức exp(−5(1−t)²) như kho (tệp ramps.py của kho có giấy phép CC BY-NC nên không sao chép).
+- Chưa tái hiện số công bố (CIFAR).
+
+## PRODEN
+- Dùng đúng hàm `partial_loss` của kho chính thức, nạp từ kho đã ghim commit 637b531 (kho không có tệp giấy phép nên không sao chép).
+- Dùng SGD momentum 0,9 như `main.py` của kho.
+- Bản dự phòng cài lại cho kết quả trùng với hàm chính thức (test `test_proden_official_loss_matches_reimplementation`).
+- Chưa tái hiện số công bố: bài dùng MNIST và các bộ tương tự, sẽ làm ở lượt sau.
+
+## EasyLLP, RC, CC
+- Không có code chính thức nên cài theo bài: EasyLLP theo Eq. 3; RC và CC theo Feng et al. 2020.
+- Số công bố để tái hiện:
+  - EasyLLP: accuracy trên MNIST chẵn/lẻ với hồi quy logistic, nhiều cỡ túi.
+  - RC, CC: một trong các bộ chuẩn của bài (MNIST, Fashion-MNIST, Kuzushiji-MNIST); bảng cụ thể sẽ chọn khi làm. Không dùng Lost, MSRCv2, BirdSong vì đó là tập đánh giá RQ5.
+- Lượt tái hiện này cần MNIST, sẽ làm sau lượt chọn đối thủ chính.

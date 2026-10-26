@@ -51,8 +51,13 @@ Kho không có tệp LICENSE: chỉ dùng để chạy tái hiện và đối ch
 | 26/10/2026 | T1 SAR-EM: bọc code chính thức (`icgibbs/baselines_sar.py`), random search 20 cấu hình trên nhãn yếu (`icgibbs/tuning.py`), kiểm thử tổng hợp (`tests/test_baselines_g6.py`, 29/29 test qua), script tái hiện số công bố (`g6_reproduce_sarem.py`) | Code xong; chờ chạy Kaggle (`g6_code_v1.zip`) |
 | 26/10/2026 | T2: không gian tune của mọi baseline ghi trước | Xong: [docs/tuning_spaces.md](../docs/tuning_spaces.md) |
 | 26/10/2026 | Kho git riêng tư `github.com/DRuanli/icgibbs`; commit đóng băng `c4da1f4` | Xong, đã đẩy lên |
-| 26/10/2026 | T1 chạy Kaggle: tái hiện SAR-EM (Mushroom đạt; Breast Cancer lệch, đang kiểm), SAR-EM trên tập phát triển, Gibbs ở PU-SAR mức 0,1 | Xong — [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md). **Phát hiện:** khi có SAR-EM, Gibbs chỉ đạt 3/12 ô ở PU-SAR → chờ thầy quyết phạm vi PU-SAR |
+| 26/10/2026 | T1 chạy Kaggle: tái hiện SAR-EM (Mushroom đạt; Breast Cancer lệch, đang kiểm), SAR-EM trên tập phát triển, Gibbs ở PU-SAR mức 0,1 | Xong — [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md). **Phát hiện:** khi có SAR-EM, Gibbs chỉ đạt 3/12 ô ở PU-SAR |
+| 26/10/2026 | Quyết định (thầy giao Claude chọn): PU-SAR thành bối cảnh phụ; đối thủ chính xét cả bản mặc định lẫn bản tune; thêm RC, CC cho PLL tổng hợp; GLWS dùng E-step chính xác | Đã ghi ở giao thức Mục 11, RESEARCH_PLAN §9, CLAIM #6 |
+| 26/10/2026 | T3: cài DLLP (MLP, tuyến tính), LLP-VAT, EasyLLP, GLWS cho LLP; PRODEN, GLWS/ILL, RC, CC cho PLL; nnPU, uPU có tune; SAR-E (`icgibbs/baselines_ext.py`, 16 test mới). Sửa lỗi ghép nhầm `else` trong `kaggle_g4_pilot.py` (không ảnh hưởng kết quả G6 lượt 1 vì lượt đó chạy với `--only`) | Code xong; chờ lượt 2 trên Kaggle (`g6_code_v2.zip`, `run_g6_round2.sh`) |
+| — | T4: chọn đối thủ chính và kiểm lại phạm vi LLP, PLL (`g6_select_comparators.py`) | Sau lượt 2 |
 
-## 5. Cần thầy quyết
+## 5. Cần thầy làm hoặc xác nhận
 - **Kho git:** xong — `github.com/DRuanli/icgibbs` (riêng tư), đẩy lên ngày 26/10/2026.
-- **Phạm vi PU-SAR** và **quy tắc chọn đối thủ chính** (xét cả bản mặc định lẫn bản tune): xem [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md) Mục 4.
+- **Phạm vi PU-SAR** và **quy tắc chọn đối thủ chính:** đã quyết ngày 26/10/2026 (thầy giao Claude chọn) — PU-SAR thành bối cảnh phụ; ứng viên đối thủ chính gồm cả bản mặc định lẫn bản tune. Ghi ở giao thức Mục 11.
+- **Chạy G6 lượt 2 trên Kaggle (CPU):** hướng dẫn ở [G4/README](../G4/README.md), mục "G6 lượt 2".
+- **Hình 1 của bài SAR-EM:** nhờ thầy nhìn hình để xác nhận cách gán cột (giả thuyết 2 ở [G6_T1_SAREM_REPORT](G6_T1_SAREM_REPORT.md) Mục 2).

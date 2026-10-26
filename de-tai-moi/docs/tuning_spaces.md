@@ -43,4 +43,5 @@ Theo giao thức G5 (Mục 3, Mục 4 quy tắc 1) và GATE_REVIEW_G5 (B3, B4). 
 ## Thay đổi sau ngày ghi
 | Ngày | Thay đổi | Lý do |
 |---|---|---|
-| | | |
+| 26/10/2026 | GLWS (LLP) tune thêm số túi mỗi batch ∈ {8, 32} như các baseline LLP khác; RC và CC dùng cả cho PLL tổng hợp (giao thức Mục 11); GLWS cho PLL trùng với ILL trong kho chính thức nên tính là một baseline "GLWS/ILL" | Khi cài đặt ở G6, trước khi chạy bản tune nào |
+| 26/10/2026 | Ứng viên đối thủ chính gồm cả bản mặc định lẫn bản tune (giao thức Mục 11) | Bản tune có thể kém bản mặc định |

@@ -161,7 +161,8 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
         print(f"  {name:>24s} {setting:5s} {str(level):>4s} s{seed} {method:14s} AUC={row['auc']} "
               f"ACC={row['acc']:.4f} LL={row['logloss']:.4f} {row['seconds']:.1f}s", flush=True)
 
-    todo = lambda m: (args.backend, str(did), setting, str(level), str(seed), m) not in done
+    todo = lambda m: (not args.only or m in args.only) and \
+        (args.backend, str(did), setting, str(level), str(seed), m) not in done
 
     def attempt(method, fn):
         """Chạy một baseline; lỗi của baseline này KHÔNG làm mất các baseline còn lại của ô (sửa lỗi lượt v4)."""
@@ -257,6 +258,19 @@ def run_cell(args, did, setting, level, seed, data, writer, fh, done):
 
         attempt("proden", _proden)
 
+        # G6 (T3): baseline peer-review đầy đủ cho PLL, bản mặc định (_def) và bản tune 20 cấu hình (_tun)
+        def _g6_pll(bname, tune, meth):
+            from icgibbs.baselines_ext import fit_pll
+            t0 = time.time()
+            m = fit_pll(bname, Mtr, S, seed=seed, tune=tune)
+            more = (f"best={'|'.join(f'{k}:{v}' for k, v in m.tune_.best.items()).replace(' ', '')};"
+                    f"val={m.tune_.best_score:.4f}" if tune else f"source={getattr(m, 'source_', '-')}")
+            emit(meth, m.predict_proba(Mte), t0, 0, more)
+
+        for bname, tag in (("proden", "proden"), ("glws", "glwspll"), ("rc", "rc"), ("cc", "cc")):
+            for tune, suf in ((False, "def"), (True, "tun")):
+                attempt(f"{tag}_{suf}", lambda b=bname, t=tune, mm=f"{tag}_{suf}": _g6_pll(b, t, mm))
+
 
 def summarize(path):
     import pandas as pd
@@ -274,6 +288,8 @@ def summarize(path):
         print(f"\n--- {st} ({met}) ---\n{t.round(4).to_string()}")
         for lvl in sorted(d.level.unique()):
             u = d[d.level == lvl].groupby(["dataset", "method"])[met].mean().unstack("method")
+            if not {"gibbs_warm", "naive", "hard_em_warm"} <= set(u.columns):   # lượt chỉ chạy baseline (--only)
+                continue
             bp = u[[p for p in peers[st] if p in u]].max(axis=1)
             for m in ("gibbs_warm",):
                 ok = (u[m] >= bp) & (u[m] >= u["naive"])
@@ -300,9 +316,13 @@ def main():
     ap.add_argument("--test_frac", type=float, default=0.3)
     ap.add_argument("--epochs", type=int, default=200)
     ap.add_argument("--preds", default="auto")
+    ap.add_argument("--only", default="", help="chỉ chạy các phương pháp này (danh sách cách nhau bởi dấu phẩy)")
+    ap.add_argument("--shard", default="0/1", help="i/n: chỉ chạy các ô có chỉ số ≡ i mod n")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--out", default="g4_rq4_pilot.csv")
     args = ap.parse_args()
+    args.only = {m.strip() for m in args.only.split(",") if m.strip()}
+    args.shard_i, args.shard_n = (int(v) for v in args.shard.split("/"))
     if args.dry_run:
         args.backend, args.sweeps, args.burn_in, args.n_use, args.em_iters, args.epochs = "dry", 6, 2, 3, 3, 30
     if args.preds == "auto":
@@ -313,6 +333,7 @@ def main():
         w = csv.DictWriter(fh, fieldnames=FIELDS)
         if new:
             w.writeheader()
+        cell_no = 0
         for setting in args.settings.split(","):
             pool = DEV_MULTI if setting == "pll" else DEV_DATASETS
             ids = list(pool)[:1] if args.dry_run else list(pool)
@@ -326,6 +347,9 @@ def main():
                     print(f"[cảnh báo] dataset {did}: tên '{data[3]}' khác dự kiến '{pool[did]}'", flush=True)
                 for level in LEVELS[setting]:
                     for seed in [int(v) for v in args.seeds.split(",")]:
+                        cell_no += 1
+                        if (cell_no - 1) % args.shard_n != args.shard_i:
+                            continue
                         try:
                             run_cell(args, did, setting, level, seed, data, w, fh, done)
                         except Exception as e:

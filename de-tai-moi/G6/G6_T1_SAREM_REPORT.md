@@ -66,6 +66,8 @@ Log loss trung bình:
 
 ## 4. Hệ quả và việc cần quyết
 
+> **Đã quyết ngày 26/10/2026** (thầy giao Claude chọn): cả hai đề xuất dưới đây được áp dụng — PU-SAR thành bối cảnh phụ; ứng viên đối thủ chính gồm cả bản mặc định lẫn bản tune. Ghi ở giao thức Mục 11 (deviation 2 và 3).
+
 - **Phạm vi PU-SAR (thầy quyết).** Theo cùng ngưỡng 60% đã dùng để phân vai RQ4, PU-SAR (3/12) phải thành bối cảnh phụ. Khi đó khẳng định chính còn: LLP túi ≤ 16, PLL, RQ3 và lý thuyết. "Thành công tối thiểu" của G3 (H2 cho PU *hoặc* LLP) vẫn khả thi qua LLP. Giao thức đã đóng băng nên thay đổi này phải ghi ở Mục 11, với căn cứ chỉ từ tập phát triển. Kết quả "propensity đã biết" có thể giữ làm phân tích, cho thấy bước Gibbs giúp được khi cơ chế quan sát đã biết.
 - **Làm rõ quy tắc chọn đối thủ chính (đề xuất).** Vì bản tune có thể kém bản mặc định, đề xuất: ở bước chọn đối thủ chính trên tập phát triển, mỗi baseline được xét cả **bản mặc định lẫn bản tune**, và chọn bản tốt hơn trên tập phát triển. Cách này khắt khe hơn với phương pháp của mình và vẫn quyết trước khi chạy tập đánh giá. Ghi ở giao thức Mục 11 nếu thầy đồng ý.
 - **Rủi ro tương tự với LLP và PLL.** Ở thí điểm, LLP mới so với DLLP, PLL mới so với PRODEN chưa tune. Việc tiếp theo của G6 (T3, T4) là đưa các baseline peer-review còn lại (LLP-VAT, EasyLLP, GLWS, ILL, PRODEN có tune) chạy trên tập phát triển trước G7, để biết lợi thế còn lại thật sự ở đâu trước khi chạm tập đánh giá.

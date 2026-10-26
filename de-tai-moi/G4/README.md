@@ -20,10 +20,37 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | `code/kaggle_g4_manyclass_pilot.py` | Thí điểm PLL > 10 lớp trên tập phát triển (TabPFN v2 bọc ECOC so với TabICL v2), chọn backend cho RQ5 — **thầy chạy** |
 | `code/g6_reproduce_sarem.py` | G6 (T1): tái hiện số công bố của SAR-EM bằng code chính thức — **thầy chạy** |
 | `code/icgibbs/baselines_sar.py`, `code/icgibbs/tuning.py` | G6: SAR-EM (bọc code chính thức) và random search 20 cấu hình trên nhãn yếu |
+| `code/icgibbs/baselines_ext.py`, `code/run_g6_round2.sh`, `code/g6_select_comparators.py` | G6 (T3–T4): các baseline peer-review còn lại, lượt chạy trên tập phát triển, chọn đối thủ chính |
 | `code/g5_verify_pll_real.py` | Xác minh chỉ đọc bộ PLL thật cho RQ5 (Lost, MSRCv2, BirdSong, …) — **thầy chạy** |
 | [pilot/PILOT_RQ4_REPORT.md](pilot/PILOT_RQ4_REPORT.md) | Kết quả thí điểm RQ4 (cuối, lượt v4 + v5) và quyết định phạm vi |
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
+
+## G6 lượt 2 trên Kaggle — dùng `g6_code_v2.zip` (26/10/2026)
+
+Mục đích: G6 việc T3–T4. Chạy mọi baseline peer-review trên **tập phát triển**, mỗi baseline có bản mặc định và bản tune 20 cấu hình, để chọn đối thủ chính và kiểm lại phạm vi khẳng định trước G7. Các baseline:
+- LLP túi 8, 16: DLLP (MLP và tuyến tính), LLP-VAT, EasyLLP, GLWS;
+- PLL: PRODEN, GLWS/ILL, RC, CC;
+- PU (bối cảnh phụ): nnPU và uPU có tune, SAR-E với propensity đã biết.
+
+Kèm theo: kiểm giả thuyết về chênh lệch khi tái hiện SAR-EM. **Chỉ cần CPU** (không tốn quota GPU), khoảng 3,5–4,5 giờ.
+
+1. Tải `g6_code_v2.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *Accelerator: None (CPU), Internet: On, Add data `icgibbs-g4`* (không cần token). Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+!pip install -q dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+src = glob.glob("/kaggle/input/**/g6_code_v2/code/run_g6_round2.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6b", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6b", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6b
+!bash run_g6_round2.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r2_master_log.txt
+```
+4. Gửi lại các file `g6r2_*` trong /kaggle/working (csv, log, preds); không cần các thư mục `PRODEN/`, `SAR-PU/`.
 
 ## G6 lượt 1 trên Kaggle — dùng `g6_code_v1.zip` (26/10/2026)
 
