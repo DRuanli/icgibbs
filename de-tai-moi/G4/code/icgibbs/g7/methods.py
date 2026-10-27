@@ -137,18 +137,22 @@ def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guar
         guard("cl_tfm", lambda: _cl_tfm(cell, cond_final, emit, state))
 
 
-def run_rhat(cell, cond, seeds=(0, 1000)):
-    """Hai chuỗi Gibbs ấm cùng điểm khởi động, khác seed lấy mẫu; split-R̂ trên trạng thái nhãn sau burn-in."""
+def run_rhat(cell, cond, cond_final=None, seeds=(0, 1000)):
+    """Hai chuỗi Gibbs ấm cùng điểm khởi động, khác seed lấy mẫu; split-R̂ trên trạng thái nhãn sau burn-in.
+    Có cond_final: trả thêm xác suất dự đoán trên test của từng chuỗi (cùng cách dự đoán như gibbs_warm)."""
     from ..sampler import InContextGibbs
     from .rhat import label_rhat
     P0, _ = warm_start(cell, cond)
-    chains = []
+    chains, preds = [], []
     for s in seeds:
         g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
                            burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed + s,
                            init=P0).run(cell.Xtr)
         chains.append(g.samples_)
-    return label_rhat(*chains)
+        if cond_final is not None:
+            preds.append(np.asarray(g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=GIBBS["n_use"]), float))
+    st = label_rhat(*chains)
+    return (st, preds) if cond_final is not None else st
 
 
 def _naive(cell, cond_final, emit):

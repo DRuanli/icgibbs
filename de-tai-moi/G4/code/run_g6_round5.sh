@@ -16,7 +16,8 @@ for i in 0 1 2; do
   OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 ICGIBBS_DEVICE=cpu python run_g7.py --part baselines "${COMMON[@]}" --shard $i/3 \
     --out "$OUT/g6r5_base_$i.csv" > "$OUT/g6r5_base_$i.log" 2>&1 &
 done
-# phần TFM trên GPU (tuần tự)
+# phần TFM trên GPU (tuần tự). Ghi chú 27/10/2026: khi chạy lượt 5, cờ --mh-check trần áp cho MỌI bối cảnh (LLP và PLL);
+# từ sau lượt 5 cờ trần chỉ áp cho LLP — muốn chạy lại đúng như lượt 5 thì dùng --mh-check llp,pll
 python run_g7.py --part tfm "${COMMON[@]}" --mh-check --backend tabpfn_v2 --out "$OUT/g6r5_tfm.csv" > "$OUT/g6r5_tfm.log" 2>&1
 echo "xong phần TFM: $(date)"
 python run_g7.py --part rhat "${COMMON[@]}" --backend tabpfn_v2 --out "$OUT/g6r5_rhat.csv" > "$OUT/g6r5_rhat.log" 2>&1

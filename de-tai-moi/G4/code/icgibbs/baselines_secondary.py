@@ -21,7 +21,7 @@ import math
 import numpy as np
 
 from .baselines_ext import _Std, _device, _mlp, _torch, pu_risk
-from .tuning import Choice, LogUniform, random_search, weak_validation_split
+from .tuning import Choice, LogUniform, random_search, refit_best, weak_validation_split
 
 
 def _batches(rng, n, bs):
@@ -168,7 +168,7 @@ def fit_pu2(name, X, s, prior, seed=0, tune=False, n_configs=20):
 
     res = random_search(score, PU2_SPACES[name], n=n_configs, seed=seed,
                         default={k: PU2_DEFAULTS[name][k] for k in PU2_SPACES[name]})
-    m = mk({**base, **res.best}).fit(X, s)
+    m = refit_best(res, lambda cfg: mk({**base, **cfg}).fit(X, s), X)
     m.tune_ = res
     return m
 
@@ -314,7 +314,7 @@ def fit_ill(setting, X, y_weak, T=None, seed=0, tune=False, n_configs=20, n_clas
         return _ssl_val_logloss(m, X[iva], y_weak[iva])
 
     res = random_search(score, space, n=n_configs, seed=seed, default={k: default[k] for k in space})
-    m = mk({**ILL_DEFAULT, **res.best}).fit(X, y_weak, T, C)
+    m = refit_best(res, lambda cfg: mk({**ILL_DEFAULT, **cfg}).fit(X, y_weak, T, C), X)
     m.tune_ = res
     return m
 
@@ -433,6 +433,6 @@ def fit_vime(X, y_obs, seed=0, tune=False, n_configs=20, n_classes=None):
         return _ssl_val_logloss(VIME(seed=seed, **cfg).fit(X[itr], y_obs[itr], C), X[iva], y_obs[iva])
 
     res = random_search(score, VIME_SPACE, n=n_configs, seed=seed, default=VIME_DEFAULT)
-    m = VIME(seed=seed, **res.best).fit(X, y_obs, C)
+    m = refit_best(res, lambda cfg: VIME(seed=seed, **cfg).fit(X, y_obs, C), X)
     m.tune_ = res
     return m

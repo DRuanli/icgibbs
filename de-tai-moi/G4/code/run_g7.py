@@ -59,17 +59,31 @@ def make_estimator(backend: str, n_estimators):
     raise ValueError(backend)
 
 
-def synthetic_table(did: int, binary: bool) -> Table:
-    """Dữ liệu tổng hợp nhỏ cho kiểm thử (không cần mạng)."""
+def synthetic_table(did: int, binary: bool, shape=None) -> Table:
+    """Dữ liệu tổng hợp cho kiểm thử (không cần mạng). shape = (n, d, C): cỡ tuỳ chọn, để đo thời gian và bộ nhớ ở cỡ
+    của tập đánh giá mà không chạm vào tập đánh giá (G6 lượt 6)."""
     import pandas as pd
     from sklearn.datasets import make_classification
-    C = 2 if binary else 4
-    X, y = make_classification(500 + 50 * (did % 4), 6, n_informative=4, n_classes=C, n_clusters_per_class=1,
+    n, d, C = shape if shape else (500 + 50 * (did % 4), 6, 2 if binary else 4)
+    C = 2 if binary else C
+    inf, red = (min(d, max(4, d // 2)), 0) if shape else (4, 2)          # không shape: đúng như bản cũ (test)
+    X, y = make_classification(n, d, n_informative=inf, n_redundant=red, n_classes=C, n_clusters_per_class=1,
                                weights=[0.65, 0.35] if binary else None, random_state=did, flip_y=0.02)
-    df = pd.DataFrame(X, columns=[f"f{i}" for i in range(6)])
+    df = pd.DataFrame(X, columns=[f"f{i}" for i in range(d)])
     df["cat"] = pd.Categorical(np.where(X[:, 0] > 0, "a", "b"))
-    return canonical_table(df, pd.Series(np.array(list("ABCD"))[y]), did=did, name=f"synthetic-{did}",
+    labels = np.array([f"c{k:02d}" for k in range(C)]) if shape else np.array(list("ABCD"))
+    return canonical_table(df, pd.Series(labels[y]), did=did, name=f"synthetic-{did}" + (f"-{n}x{d}" if shape else ""),
                            binary=binary)
+
+
+def parse_shapes(spec: str):
+    """"31=4210x57;54=6430x36x6" → {31: (4210, 57, 2), 54: (6430, 36, 6)}"""
+    out = {}
+    for part in filter(None, spec.split(";")):
+        k, v = part.split("=")
+        dims = [int(x) for x in v.lower().split("x")]
+        out[int(k)] = (dims[0], dims[1], dims[2] if len(dims) > 2 else 2)
+    return out
 
 
 def parse_levels(spec: str):
@@ -86,6 +100,7 @@ def main(argv=None):
     ap.add_argument("--split", choices=["dev", "eval"], default="dev")
     ap.add_argument("--eval-ok", action="store_true", help="xác nhận chạy trên tập đánh giá (chỉ từ G7)")
     ap.add_argument("--source", choices=["openml", "synthetic"], default="openml")
+    ap.add_argument("--synthetic_shape", default="", help='chỉ với --source synthetic: "ID=nxd[xC];..." (đo thời gian)')
     ap.add_argument("--datasets", default="all", help="'all' hoặc danh sách ID OpenML")
     ap.add_argument("--settings", default="llp,pu_sar,pu_scar,ssl,noisy,pll")
     ap.add_argument("--levels", default="", help='ví dụ "llp=8,16;pu_sar=0.1"')
@@ -96,12 +111,18 @@ def main(argv=None):
     ap.add_argument("--gibbs_est", type=int, default=1)
     ap.add_argument("--final_est", type=lambda v: None if v == "default" else int(v), default=None)
     ap.add_argument("--no-oracle", action="store_true")
-    ap.add_argument("--mh-check", action="store_true", help="thêm gibbs_warm_mh: khối có sửa MH (PROOFS G4-5)")
+    ap.add_argument("--mh-check", nargs="?", const="llp", default="",
+                    help="thêm gibbs_warm_mh (khối có sửa MH, PROOFS G4-5) cho các bối cảnh liệt kê; cờ trần = chỉ LLP. "
+                         "Chậm khoảng 10 lần chuỗi thường (G6 lượt 5)")
     ap.add_argument("--rq5_dir", default="", help="thư mục chứa Lost.npz, MSRCv2.npz, BirdSong.npz (việc F7)")
     ap.add_argument("--rq5_seeds", default="0,1,2,3,4,5,6,7,8,9", help="PLL thật: 10 lần chia 90/10 (giao thức §1.4)")
     ap.add_argument("--out", required=True)
     ap.add_argument("--preds", default="auto")
     a = ap.parse_args(argv)
+    a.mh_settings = {x.strip() for x in a.mh_check.split(",") if x.strip()}
+    shapes = parse_shapes(a.synthetic_shape)
+    if shapes and a.source != "synthetic":
+        ap.error("--synthetic_shape chỉ dùng với --source synthetic")
     if a.split == "eval" and not a.eval_ok:
         ap.error("tập đánh giá chỉ chạy ở G7: cần thêm --eval-ok")
     only = {m.strip() for m in a.only.split(",") if m.strip()}
@@ -156,7 +177,7 @@ def main(argv=None):
             cell_no += n_cells
             continue
         try:
-            t = synthetic_table(did, binary) if a.source == "synthetic" else load_openml(did, binary=binary)
+            t = synthetic_table(did, binary, shapes.get(did)) if a.source == "synthetic" else load_openml(did, binary=binary)
         except Exception as e:
             print(f"[lỗi tải] {did}: {e!r}", flush=True)
             cell_no += n_cells
@@ -228,7 +249,14 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                 t0 = time.time()
                 from icgibbs.g7.methods import run_rhat
                 cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
-                st = run_rhat(cell, cond)
+                fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)
+                st, Ps = run_rhat(cell, cond, fin)
+                # metric chính trên test của từng chuỗi: sai khác do riêng ngẫu nhiên Monte Carlo (cùng dữ liệu, cùng
+                # nhãn yếu, cùng điểm khởi động); chuỗi a cùng seed với gibbs_warm của phần tfm
+                for nm, P in zip("ab", Ps):
+                    met = binary_metrics(yte, P[:, 1], prior=float(ytr.mean())) if C == 2 else multiclass_metrics(yte, P)
+                    st[f"metric_chain_{nm}"] = float(met.get("auc", met.get("acc")))
+                st["metric_absdiff"] = abs(st["metric_chain_a"] - st["metric_chain_b"])
                 writer.write(dict(base, method="rhat", seconds=round(time.time() - t0, 2), status="ok",
                                   extra=";".join(f"{k}={v:.4f}" if isinstance(v, float) else f"{k}={v}" for k, v in st.items())))
                 print(f"  {t.name[:22]:>22s} {setting:7s} {str(level):>4s} s{seed} rhat {st}", flush=True)
@@ -244,8 +272,9 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                 emit("oracle", Out(fin.predict_proba(Xtr, ytr, Xte), 1), time.time() - t0)
             attempt("oracle", _oracle)
         monitor = lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr))   # chẩn đoán, không vào thuật toán
-        if any(todo(m) for m in TFM_METHODS[setting]) or (a.mh_check and todo("gibbs_warm_mh")):
-            run_tfm_methods(cell, cond, fin, todo, emit, monitor=monitor, guard=attempt, mh_check=a.mh_check)
+        mh = setting in a.mh_settings
+        if any(todo(m) for m in TFM_METHODS[setting]) or (mh and todo("gibbs_warm_mh")):
+            run_tfm_methods(cell, cond, fin, todo, emit, monitor=monitor, guard=attempt, mh_check=mh)
     else:
         for m, fn in baselines_for(setting).items():
             if todo(m):

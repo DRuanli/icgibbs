@@ -30,7 +30,7 @@ import os
 
 import numpy as np
 
-from .tuning import Choice, LogUniform, random_search, weak_validation_split
+from .tuning import Choice, LogUniform, random_search, refit_best, weak_validation_split
 
 NEG = -1e9   # thay −∞ trong quy hoạch động để gradient không thành NaN
 
@@ -261,7 +261,7 @@ def fit_llp(name: str, X, bags, counts, seed: int = 0, tune: bool = False, n_con
         return m.weak_loss(X, [bags[g] for g in bva], counts[bva])
 
     res = random_search(score, LLP_SPACES[name], n=n_configs, seed=seed, default=LLP_DEFAULTS[name])
-    m = LLPNet(method, seed=seed, **res.best).fit(X, bags, counts)
+    m = refit_best(res, lambda cfg: LLPNet(method, seed=seed, **cfg).fit(X, bags, counts), X)
     m.tune_ = res
     return m
 
@@ -384,7 +384,7 @@ def fit_pll(name: str, X, S, seed: int = 0, tune: bool = False, n_configs: int =
         return PLLNet(name, seed=seed, **cfg).fit(X[itr], S[itr]).weak_loss(X[iva], S[iva])
 
     res = random_search(score, PLL_SPACES[name], n=n_configs, seed=seed, default=PLL_DEFAULTS[name])
-    m = PLLNet(name, seed=seed, **res.best).fit(X, S)
+    m = refit_best(res, lambda cfg: PLLNet(name, seed=seed, **cfg).fit(X, S), X)
     m.tune_ = res
     return m
 
@@ -419,7 +419,7 @@ def fit_nnpu(X, s, prior, nn_correction=True, seed=0, tune=False, n_configs=20):
         return pu_risk(m.decision_function(X[iva]), s[iva], prior)
 
     res = random_search(score, NNPU_SPACE, n=n_configs, seed=seed, default=NNPU_DEFAULT)
-    m = mk(res.best).fit(X, s)
+    m = refit_best(res, lambda cfg: mk(cfg).fit(X, s), X)
     m.tune_ = res
     return m
 
@@ -522,7 +522,7 @@ def fit_ssl(name: str, X, y_obs, seed: int = 0, tune: bool = False, n_configs: i
         return _ssl_val_logloss(_SSL_CLS[name](**cfg).fit(X[itr], y_obs[itr], C), X[iva], y_obs[iva])
 
     res = random_search(score, SSL_SPACES[name], n=n_configs, seed=seed, default=SSL_DEFAULTS[name])
-    m = _SSL_CLS[name](**res.best).fit(X, y_obs, C)
+    m = refit_best(res, lambda cfg: _SSL_CLS[name](**cfg).fit(X, y_obs, C), X)
     m.tune_ = res
     return m
 
@@ -549,6 +549,6 @@ def fit_forward(X, w, T, seed: int = 0, tune: bool = False, n_configs: int = 20)
         return forward_val_loss(ForwardCorrection(T, seed=seed, **cfg).fit(X[itr], w[itr]), X[iva], w[iva], T)
 
     res = random_search(score, FORWARD_SPACE, n=n_configs, seed=seed, default=FORWARD_DEFAULT)
-    m = ForwardCorrection(T, seed=seed, **res.best).fit(X, w)
+    m = refit_best(res, lambda cfg: ForwardCorrection(T, seed=seed, **cfg).fit(X, w), X)
     m.tune_ = res
     return m

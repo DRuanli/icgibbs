@@ -65,6 +65,28 @@ def random_search(fit_and_score: Callable[[dict], float], space: Dict[str, objec
     return TuneResult(best=best, best_score=best_score, trials=trials)
 
 
+def refit_best(res: TuneResult, fit: Callable[[dict], object], X, max_tries: int = 5):
+    """Fit lại trên toàn bộ train với cấu hình tốt nhất. Quy tắc dự phòng (ghi trước G7, G6 lượt 5): nếu mô hình fit
+    lại cho xác suất không hữu hạn trên chính X train (huấn luyện phân kỳ), dùng cấu hình xếp hạng kế tiếp theo loss
+    validation, tối đa max_tries cấu hình. Chỉ nhìn X train — không nhìn test, không nhìn nhãn. Khi không có lỗi, kết
+    quả trùng hoàn toàn với `fit(res.best)`. Ghi thứ hạng đã dùng vào res.refit_rank (0 = tốt nhất; -1 = mọi lần thử
+    đều hỏng, trả mô hình cuối)."""
+    ranked = sorted((t for t in res.trials if "error" not in t and np.isfinite(t["score"])), key=lambda t: t["score"])
+    cfgs = [{k: v for k, v in t.items() if k != "score"} for t in ranked] or [dict(res.best)]
+    m = None
+    for r, cfg in enumerate(cfgs[:max_tries]):
+        m = fit(cfg)
+        try:
+            ok = bool(np.all(np.isfinite(np.asarray(m.predict_proba(X), float))))
+        except Exception:
+            ok = False
+        if ok:
+            res.refit_rank, res.refit_config = r, cfg
+            return m
+    res.refit_rank, res.refit_config = -1, cfgs[min(len(cfgs), max_tries) - 1]
+    return m
+
+
 def weak_validation_split(n: int, seed: int, frac: float = 0.2, stratify=None):
     """Tách chỉ số train/validation từ phần train (stratify theo NHÃN YẾU nếu có, ví dụ s của PU)."""
     from sklearn.model_selection import train_test_split

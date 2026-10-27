@@ -26,6 +26,29 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## G6 lượt 6 trên Kaggle — dùng `g6_code_v6.zip` (GPU khoảng 2 giờ; 27/10/2026)
+
+Mục đích: **đo thời gian và bộ nhớ ở cỡ của tập đánh giá** trước khi lên lịch G7. Ước tính hiện tại (G6_ROUND45_REPORT Mục 5) phải ngoại suy từ n_train ≤ 1.460 lên tới 4.500. Lượt này chạy bộ chạy G7 trên **dữ liệu tổng hợp** cùng cỡ với 4 dataset lớn nhất của tập đánh giá (phoneme, spambase, satimage, semeion), mỗi bối cảnh 1 mức, 1 seed; baseline chạy CPU song song. **Không tải, không chạm tập đánh giá**; metric trên dữ liệu tổng hợp không dùng cho kết luận nào. Code cũng có các sửa sau lượt 5 (quy tắc dự phòng khi fit lại baseline tune hỏng; `--mh-check` chỉ LLP; R̂ ghi metric từng chuỗi).
+
+1. Tải `g6_code_v6.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *GPU T4, Internet: On, Add data `icgibbs-g4`, Secrets: tích `TABPFN_TOKEN`*. Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+!pip install -q tabpfn==9.2.0 cleanlab dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g6_code_v6/code/run_g6_round6.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6f", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6f", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6f
+!bash run_g6_round6.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r6_master_log.txt
+```
+4. Gửi lại các file `g6r6_*` trong /kaggle/working (csv, log, preds, `g6r6_gpu.txt`, `g6r6_pip_freeze.txt`).
+
 ## G6 lượt 5 trên Kaggle — dùng `g6_code_v5.zip` (GPU; chạy độc lập với lượt 4)
 
 Mục đích: (1) **tổng duyệt bộ chạy G7** (`run_g7.py`) trên **tập phát triển** cho hai bối cảnh chính — LLP túi 8, PLL q = 0,3 và 0,6 — rồi so với kết quả thí điểm cùng ô; (2) **PROOFS G4-5**: Gibbs bag-block có sửa MH (chính xác) so với bản xấp xỉ đang dùng, ở LLP túi 8, kèm tỉ lệ chấp nhận MH; (3) chẩn đoán R̂ từ 2 chuỗi. Không chạm tập đánh giá. GPU khoảng 2,5–3 giờ; phần baseline chạy CPU song song.

@@ -89,7 +89,7 @@ Với cấu hình thí điểm (T = 30, K = 10, S = 10): 300 forward với `n_es
 - RQ3: log loss (PU-SCAR: bản khớp tiên nghiệm).
 
 ## 6c. Phạm vi áp dụng (sau thí điểm, 25/10/2026)
-- **Chế độ được khẳng định:** LLP với túi ≤ 16; PU-SAR. *(Cập nhật 26/10/2026: sau G6 lượt 2 chỉ còn LLP túi 8 là khẳng định chính, PU-SAR thành bối cảnh phụ — giao thức §11.)* Trong chế độ này chuỗi hội tụ trong 30 vòng quét (ba cách khởi tạo cho cùng kết quả ở túi 8).
+- **Chế độ được khẳng định:** LLP với túi ≤ 16; PU-SAR. *(Cập nhật 26/10/2026: sau G6 lượt 2 chỉ còn LLP túi 8 là khẳng định chính, PU-SAR thành bối cảnh phụ — giao thức §11.)* Trong chế độ này chuỗi hội tụ trong 30 vòng quét (ba cách khởi tạo cho cùng kết quả ở túi 8). *(Thu hẹp 27/10/2026 theo $\hat R$ ở G6 lượt 5: ba cách khởi tạo cho cùng **AUC**, nhưng ở mức nhãn từng mẫu hai chuỗi chưa trộn đủ trong 30 vòng quét trên 2/3 dataset kiểm — tỉ lệ mẫu có $\hat R>1{,}1$ là 8–21% so với ≤ 4,5% khi trộn hoàn hảo. Không nói "hội tụ"; nói "dự đoán ổn định theo khởi tạo" và báo cáo $\hat R$.)*
 - **Kiểm tra áp lực, báo cáo như giới hạn:** LLP túi 32 — đa mode, trộn chậm, phụ thuộc khởi tạo; phù hợp với Định lý 2 ($\tau$ lớn khuếch đại sai số của TFM).
 - **Kết quả phụ:** PU-SCAR — TFM ngây thơ + Elkan–Noto với c đã biết gần tối ưu; Gibbs không cải thiện đo được (chờ thầy xác nhận ở G5).
 
@@ -97,7 +97,7 @@ Với cấu hình thí điểm (T = 30, K = 10, S = 10): 300 forward với `n_es
 
 1. **PU-SCAR và AUC.** Dưới SCAR, $p(s{=}1\mid x)=c\,p(y{=}1\mid x)$ nên điểm xếp hạng của TFM ngây thơ đã có cùng thứ tự với posterior thật (Elkan & Noto 2008, Lemma 1). Khi $n\to\infty$, AUC của naive và của bộ dự đoán đúng bằng nhau; lợi ích AUC của Gibbs so với naive ở PU-SCAR chỉ có thể đến từ hiệu ứng mẫu hữu hạn. Dự đoán "hơn TFM ngây thơ ≥ 0,03 AUC ở mức yếu nhất" của RQ2 vì vậy **khó đạt ở PU-SCAR**; log loss/accuracy (cần hiệu chỉnh) và PU-SAR (thứ tự bị bóp méo bởi $e(x)$) là nơi kỳ vọng lợi ích rõ hơn. RESEARCH_PLAN đã đóng băng; nếu đổi metric chính cho PU-SCAR thì phải ghi ở Mục 9 và quyết **trước** khi chạm tập đánh giá. Thí điểm ghi cả AUC, log loss, accuracy, Brier để thầy quyết ở G5.
 2. **Lệch do khối.** D1 sửa nguồn lệch thành phần; phần còn lại (phụ thuộc trong khối) được đo ở RQ1_REPORT §5. Bản sửa MH là phương án dự phòng chính xác nhưng tốn hơn.
-3. **Trộn chậm** khi nhãn yếu rất thông tin (túi LLP lớn, PU với $c$ nhỏ) hoặc khi TFM quá tự tin: chuỗi có thể kẹt ở mode xấu. Thí điểm ghi tỉ lệ nhãn đổi mỗi vòng (`flips_last`); G6 thêm nhiều chuỗi và $\hat R$.
+3. **Trộn chậm** khi nhãn yếu rất thông tin (túi LLP lớn, PU với $c$ nhỏ) hoặc khi TFM quá tự tin: chuỗi có thể kẹt ở mode xấu. Thí điểm ghi tỉ lệ nhãn đổi mỗi vòng (`flips_last`); G6 thêm nhiều chuỗi và $\hat R$. *(G6 lượt 5: R̂ trên tập phát triển xác nhận rủi ro này ở mức nhãn — rõ nhất ở PLL q = 0,6, segment: 25–45% mẫu có R̂ > 1,1; xem G6_ROUND45_REPORT §3.)*
 4. **Prior ngoài phân phối.** Mệnh đề 3 chỉ có nghĩa dưới prior của TFM; với dữ liệu thật, bằng chứng duy nhất là thực nghiệm.
 
 ## 8. Bản đồ mã và kiểm thử

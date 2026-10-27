@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .tuning import LogUniform, random_search, weak_validation_split
+from .tuning import LogUniform, random_search, refit_best, weak_validation_split
 
 SAR_EM_DEFAULT = {"C_f": 1.0, "C_e": 1.0}
 SAR_EM_SPACE = {"C_f": LogUniform(1e-3, 1e3), "C_e": LogUniform(1e-3, 1e3)}
@@ -87,6 +87,7 @@ def fit_sar_em_tuned(X, s, propensity_cols, n_configs: int = 20, seed: int = 0, 
         return m.weak_loss(X[iva], s[iva])
 
     res = random_search(score, SAR_EM_SPACE, n=n_configs, seed=seed, default=SAR_EM_DEFAULT)
-    model = SAREM(res.best["C_f"], res.best["C_e"], max_its=max_its, seed=seed).fit(X, s, propensity_cols)
+    model = refit_best(res, lambda cfg: SAREM(cfg["C_f"], cfg["C_e"], max_its=max_its, seed=seed)
+                       .fit(X, s, propensity_cols), X)
     model.tune_ = res
     return model

@@ -3,8 +3,12 @@ bản không xếp hạng) trên trạng thái nhãn sau burn-in của 2 chuỗi
 
 Với nhãn rời rạc, mỗi mẫu train i cho một dãy chỉ báo I[y_i^(t) = k_i], với k_i là nhãn xuất hiện nhiều nhất ở mẫu i
 trên cả hai chuỗi (nhị phân: tương đương I[y_i = 1] về R̂). Báo cáo trung vị, phân vị 90 và tỉ lệ mẫu có R̂ > 1,1, chỉ
-trên các mẫu có phương sai dương; cùng R̂ của một đại lượng toàn cục: tỉ lệ nhãn của lớp 1 (nhị phân) hoặc tỉ lệ mẫu
-mang nhãn k_i (đa lớp)."""
+trên các mẫu có phương sai dương; cùng R̂ của một đại lượng toàn cục: tỉ lệ mẫu đang mang nhãn k_i (cả nhị phân lẫn đa
+lớp; không dùng tỉ lệ lớp 1 vì với LLP đại lượng này bị số đếm của túi cố định).
+
+Hiệu chuẩn (G6 lượt 5): với 20 lần rút mỗi chuỗi và rút độc lập (trộn hoàn hảo), tỉ lệ mẫu có R̂ > 1,1 chỉ khoảng
+0,4–4,5% và phân vị 90 khoảng 1,01–1,06 (mô phỏng Bernoulli p ∈ [0,02; 0,5]); giá trị cao hơn rõ là dấu hiệu trộn chưa
+đủ trong 30 vòng quét."""
 from __future__ import annotations
 
 import numpy as np

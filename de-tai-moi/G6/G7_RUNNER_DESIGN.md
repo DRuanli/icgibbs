@@ -52,8 +52,15 @@ code/
 | 4c | Phần `rhat` (R5): 2 chuỗi Gibbs ấm cùng điểm khởi động, khác seed; split-R̂ (Vehtari et al. 2021) trên chỉ báo nhãn từng mẫu sau burn-in — trung vị, phân vị 90, tỉ lệ R̂ > 1,1, R̂ toàn cục (`icgibbs/g7/rhat.py`, 3 test). **Quy tắc ghi trước:** 3 dataset nhỏ nhất theo n của mỗi nhóm — tập đánh giá: dresses-sales, cylinder-bands, credit-approval; balance-scale, eucalyptus, analcatdata_dmft | Xong 26/10/2026 |
 | 4d | Bối cảnh `pll_real` (RQ5, PLL thật): đọc .npz của việc F7, đối chiếu SHA-256 tệp gốc với DATASET_CARDS, 10 lần chia 90/10 không phân tầng, số lớp Q lấy từ tập ứng viên, nhãn ngây thơ như thí điểm many-class; chỉ chạy với `--split eval --eval-ok` (1 test với dữ liệu giả). Cờ `--mh-check` cho PROOFS G4-5 | Xong 26/10/2026 |
 | 4e | Còn lại: LLP-Bench (RQ5, kiểm tra áp lực), phần `ablation` (giao thức Mục 7; các điểm cần định rõ ở Mục 4 dưới đây) | Chưa |
-| 5 | Chạy tổng duyệt toàn bộ trên **tập phát triển** (phần `tfm` trên GPU, phần `baselines` trên CPU), so với kết quả thí điểm để thấy sai khác do R1–R3 | Chưa — G6 lượt 5 |
+| 5 | Chạy tổng duyệt toàn bộ trên **tập phát triển** (phần `tfm` trên GPU, phần `baselines` trên CPU), so với kết quả thí điểm để thấy sai khác do R1–R3 | **Xong 27/10/2026** (G6 lượt 5, [G6_ROUND45_REPORT](G6_ROUND45_REPORT.md) §3): 216/216 TFM, 27/27 R̂, 323/324 baseline; mã băm khớp T5 ở 27/27 cặp; tái lập thí điểm khi dữ liệu không đổi (PLL từng bit; LLP Gibbs không tái lập từng bit trên GPU) |
+| 5a | Sửa sau lượt 5: `refit_best` (fit lại cấu hình tune kế tiếp khi xác suất không hữu hạn; giao thức §11 deviation 10); `--mh-check` nhận danh sách bối cảnh, cờ trần = LLP; phần `rhat` ghi metric test của từng chuỗi (`metric_chain_a/b`, chuỗi a cùng seed với `gibbs_warm`); `--synthetic_shape` | Xong 27/10/2026 (4 test mới) |
+| 5b | Đo thời gian và bộ nhớ ở cỡ tập đánh giá bằng dữ liệu tổng hợp (`run_g6_round6.sh`) | Chờ G6 lượt 6 |
 | 6 | Người kiểm duyệt chạy từ clone sạch (T8) | Chưa |
+
+## 3b. Bài học từ lượt 5 cho G7
+- **Tái lập:** cùng dữ liệu và cùng seed, Gibbs ở LLP vẫn có thể lệch tới 0,017 AUC giữa hai lần chạy GPU (một sai khác số nhỏ đổi một lần lấy mẫu, sau đó hai quỹ đạo tách). Bài phải nói kết quả tái lập được về phân phối (qua seed), không từng bit; lưu dự đoán (`_preds.jsonl`) của mọi ô để kiểm lại phân tích mà không cần chạy lại.
+- **Thời gian:** chuỗi có sửa MH chậm 1,2–26 lần chuỗi thường; chỉ bật ở nơi cần (`--mh-check llp`, ablation trên 3 dataset nhỏ). Ước tính compute G7 ở giao thức Mục 9 (ghi chú 27/10/2026), sẽ thay bằng số đo của lượt 6.
+- **Baseline:** 1/324 ô lỗi vì fit lại phân kỳ → quy tắc dự phòng. Ghi phiên bản thư viện (`pip freeze`) ở mọi lượt G7.
 
 ## 4. Điểm của giao thức Mục 7 (ablation) cần định rõ trước G7
 Ghi lại khi thiết kế phần `ablation`; quyết trước khi chạy tập đánh giá và ghi ở giao thức Mục 11.

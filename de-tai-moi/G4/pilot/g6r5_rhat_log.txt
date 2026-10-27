@@ -1,0 +1,40 @@
+run_g7 · part=rhat · split=dev · backend=tabpfn_v2 · code=py-ecf56a8295f3 · config=df15c9043eabdf1c
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+  blood-transfusion-serv llp        8 s0 rhat {'rhat_median': 1.015729942983454, 'rhat_p90': 1.1117553687749837, 'frac_rhat_gt_1_1': 0.1225071225071225, 'n_varying': 351, 'rhat_global': 1.4131657736937615}
+  blood-transfusion-serv llp        8 s1 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0757057484009542, 'frac_rhat_gt_1_1': 0.07352941176470588, 'n_varying': 340, 'rhat_global': 1.209979898678836}
+  blood-transfusion-serv llp        8 s2 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0677078252031311, 'frac_rhat_gt_1_1': 0.052307692307692305, 'n_varying': 325, 'rhat_global': 1.126573623998449}
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+                    ilpd llp        8 s0 rhat {'rhat_median': 1.0319883720275147, 'rhat_p90': 1.208838418722968, 'frac_rhat_gt_1_1': 0.23480662983425415, 'n_varying': 362, 'rhat_global': 1.477783067557559}
+                    ilpd llp        8 s1 rhat {'rhat_median': 1.0118466528060792, 'rhat_p90': 1.1341222574883174, 'frac_rhat_gt_1_1': 0.17575757575757575, 'n_varying': 330, 'rhat_global': 1.5607960958994778}
+                    ilpd llp        8 s2 rhat {'rhat_median': 1.0158740079360233, 'rhat_p90': 1.1431751025405046, 'frac_rhat_gt_1_1': 0.20797720797720798, 'n_varying': 351, 'rhat_global': 1.8137676316289597}
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b
+                    wdbc llp        8 s0 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0606601717798212, 'frac_rhat_gt_1_1': 0.0, 'n_varying': 41, 'rhat_global': 0.9549441212384387}
+                    wdbc llp        8 s1 rhat {'rhat_median': 1.0079370039680118, 'rhat_p90': 1.0819232287091043, 'frac_rhat_gt_1_1': 0.0, 'n_varying': 12, 'rhat_global': 1.1193485500372955}
+                    wdbc llp        8 s2 rhat {'rhat_median': 1.0, 'rhat_p90': 1.1026284386338903, 'frac_rhat_gt_1_1': 0.12903225806451613, 'n_varying': 31, 'rhat_global': 1.0928254736798384}
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+                 vehicle pll      0.3 s0 rhat {'rhat_median': 1.008580412837111, 'rhat_p90': 1.0835086894462342, 'frac_rhat_gt_1_1': 0.06349206349206349, 'n_varying': 126, 'rhat_global': 1.1283029445060233}
+                 vehicle pll      0.3 s1 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0783258754480995, 'frac_rhat_gt_1_1': 0.0625, 'n_varying': 112, 'rhat_global': 1.0001697648768737}
+                 vehicle pll      0.3 s2 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0593499054713802, 'frac_rhat_gt_1_1': 0.024793388429752067, 'n_varying': 121, 'rhat_global': 1.0349546651508097}
+                 vehicle pll      0.6 s0 rhat {'rhat_median': 1.0158740079360233, 'rhat_p90': 1.2937094768634554, 'frac_rhat_gt_1_1': 0.23236514522821577, 'n_varying': 241, 'rhat_global': 1.0960050641527013}
+                 vehicle pll      0.6 s1 rhat {'rhat_median': 1.0158740079360236, 'rhat_p90': 1.2887003371608354, 'frac_rhat_gt_1_1': 0.2890625, 'n_varying': 256, 'rhat_global': 1.4149009983664136}
+                 vehicle pll      0.6 s2 rhat {'rhat_median': 1.0179491598258867, 'rhat_p90': 1.1904036726399945, 'frac_rhat_gt_1_1': 0.23507462686567165, 'n_varying': 268, 'rhat_global': 1.103039383161957}
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+                 segment pll      0.3 s0 rhat {'rhat_median': 1.0146442208002582, 'rhat_p90': 1.1359529651734004, 'frac_rhat_gt_1_1': 0.17307692307692307, 'n_varying': 52, 'rhat_global': 1.180814126880815}
+                 segment pll      0.3 s1 rhat {'rhat_median': 1.0, 'rhat_p90': 1.061609308926273, 'frac_rhat_gt_1_1': 0.07272727272727272, 'n_varying': 55, 'rhat_global': 1.01714797813546}
+                 segment pll      0.3 s2 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0705805922737155, 'frac_rhat_gt_1_1': 0.078125, 'n_varying': 64, 'rhat_global': 1.0102332221931019}
+                 segment pll      0.6 s0 rhat {'rhat_median': 1.0, 'rhat_p90': 1.3109488975268657, 'frac_rhat_gt_1_1': 0.24761904761904763, 'n_varying': 105, 'rhat_global': 1.1368354541381127}
+                 segment pll      0.6 s1 rhat {'rhat_median': 1.0158740079360236, 'rhat_p90': 1.5000000000000002, 'frac_rhat_gt_1_1': 0.32413793103448274, 'n_varying': 145, 'rhat_global': 1.5318985373220344}
+                 segment pll      0.6 s2 rhat {'rhat_median': 1.0606601717798212, 'rhat_p90': 2.1213203435596424, 'frac_rhat_gt_1_1': 0.45454545454545453, 'n_varying': 253, 'rhat_global': 2.316775632092209}
+
+=== 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e
+                     cmc pll      0.3 s0 rhat {'rhat_median': 0.992831448793946, 'rhat_p90': 1.068820202723888, 'frac_rhat_gt_1_1': 0.05991735537190083, 'n_varying': 484, 'rhat_global': 0.9760027020909862}
+                     cmc pll      0.3 s1 rhat {'rhat_median': 0.992831448793946, 'rhat_p90': 1.0622420670239077, 'frac_rhat_gt_1_1': 0.052742616033755275, 'n_varying': 474, 'rhat_global': 1.0711362336678965}
+                     cmc pll      0.3 s2 rhat {'rhat_median': 0.9931794444373833, 'rhat_p90': 1.0677078252031311, 'frac_rhat_gt_1_1': 0.06170212765957447, 'n_varying': 470, 'rhat_global': 1.1421801110299898}
+                     cmc pll      0.6 s0 rhat {'rhat_median': 1.0041508311674447, 'rhat_p90': 1.085254706406647, 'frac_rhat_gt_1_1': 0.0858974358974359, 'n_varying': 780, 'rhat_global': 1.5348741658005276}
+                     cmc pll      0.6 s1 rhat {'rhat_median': 0.9982728791224398, 'rhat_p90': 1.0757057484009542, 'frac_rhat_gt_1_1': 0.07444168734491315, 'n_varying': 806, 'rhat_global': 1.4632409476399915}
+                     cmc pll      0.6 s2 rhat {'rhat_median': 1.0, 'rhat_p90': 1.0786170006755602, 'frac_rhat_gt_1_1': 0.07261146496815286, 'n_varying': 785, 'rhat_global': 1.1250826379221863}

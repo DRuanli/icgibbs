@@ -1,0 +1,560 @@
+===== g6r4_pu_0.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.1 s0 glwspu_def AUC=0.6016 LL=0.9562 11.1s
+                      credit-g pu_scar  0.1 s0 glwspu_tun AUC=0.6315 LL=0.7780 136.5s
+                      credit-g pu_scar  0.1 s0 vpu_def  AUC=0.5820 LL=1.9384 192.3s
+                      credit-g pu_scar  0.1 s0 vpu_tun  AUC=0.5762 LL=2.2244 427.1s
+                      credit-g pu_scar  0.3 s1 glwspu_def AUC=0.6389 LL=1.2765 7.5s
+                      credit-g pu_scar  0.3 s1 glwspu_tun AUC=0.6590 LL=1.3949 192.9s
+                      credit-g pu_scar  0.3 s1 vpu_def  AUC=0.5916 LL=1.4469 186.8s
+                      credit-g pu_scar  0.3 s1 vpu_tun  AUC=0.5916 LL=1.4469 577.9s
+                      credit-g pu_sar   0.1 s2 glwspu_def AUC=0.6409 LL=0.8184 7.3s
+                      credit-g pu_sar   0.1 s2 glwspu_tun AUC=0.6125 LL=0.8136 166.1s
+                      credit-g pu_sar   0.1 s2 vpu_def  AUC=0.6234 LL=1.7489 193.4s
+                      credit-g pu_sar   0.1 s2 vpu_tun  AUC=0.5943 LL=1.3109 405.2s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s0 glwspu_def AUC=0.6489 LL=1.6763 5.4s
+                      diabetes pu_scar  0.1 s0 glwspu_tun AUC=0.6191 LL=1.4837 111.9s
+                      diabetes pu_scar  0.1 s0 vpu_def  AUC=0.5890 LL=1.9522 180.2s
+                      diabetes pu_scar  0.1 s0 vpu_tun  AUC=0.7502 LL=0.5770 337.1s
+                      diabetes pu_scar  0.3 s1 glwspu_def AUC=0.7509 LL=1.0658 5.6s
+                      diabetes pu_scar  0.3 s1 glwspu_tun AUC=0.7311 LL=1.4003 139.3s
+                      diabetes pu_scar  0.3 s1 vpu_def  AUC=0.6092 LL=1.6867 185.5s
+                      diabetes pu_scar  0.3 s1 vpu_tun  AUC=0.7826 LL=0.6241 326.0s
+                      diabetes pu_sar   0.1 s2 glwspu_def AUC=0.6728 LL=1.1659 5.3s
+                      diabetes pu_sar   0.1 s2 glwspu_tun AUC=0.5512 LL=1.3330 128.6s
+                      diabetes pu_sar   0.1 s2 vpu_def  AUC=0.5880 LL=2.1077 180.8s
+                      diabetes pu_sar   0.1 s2 vpu_tun  AUC=0.6035 LL=1.1279 323.3s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s0 glwspu_def AUC=0.7344 LL=1.0644 5.3s
+  blood-transfusion-service-center pu_scar  0.1 s0 glwspu_tun AUC=0.6810 LL=1.8736 105.3s
+  blood-transfusion-service-center pu_scar  0.1 s0 vpu_def  AUC=0.5781 LL=1.3998 182.3s
+  blood-transfusion-service-center pu_scar  0.1 s0 vpu_tun  AUC=0.7368 LL=0.5349 347.8s
+  blood-transfusion-service-center pu_scar  0.3 s1 glwspu_def AUC=0.7110 LL=0.6708 5.3s
+  blood-transfusion-service-center pu_scar  0.3 s1 glwspu_tun AUC=0.6050 LL=1.5555 144.1s
+  blood-transfusion-service-center pu_scar  0.3 s1 vpu_def  AUC=0.5618 LL=1.0029 181.2s
+  blood-transfusion-service-center pu_scar  0.3 s1 vpu_tun  AUC=0.5813 LL=0.9223 328.3s
+  blood-transfusion-service-center pu_sar   0.1 s2 glwspu_def AUC=0.3792 LL=2.8975 5.4s
+  blood-transfusion-service-center pu_sar   0.1 s2 glwspu_tun AUC=0.3822 LL=2.7804 129.4s
+  blood-transfusion-service-center pu_sar   0.1 s2 vpu_def  AUC=0.4850 LL=1.4976 190.7s
+  blood-transfusion-service-center pu_sar   0.1 s2 vpu_tun  AUC=0.4407 LL=1.4981 330.0s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s0 glwspu_def AUC=0.9999 LL=0.0351 9.9s
+       banknote-authentication pu_scar  0.1 s0 glwspu_tun AUC=0.9995 LL=0.0670 183.6s
+       banknote-authentication pu_scar  0.1 s0 vpu_def  AUC=0.9242 LL=1.4834 188.6s
+       banknote-authentication pu_scar  0.1 s0 vpu_tun  AUC=1.0000 LL=0.0891 389.4s
+       banknote-authentication pu_scar  0.3 s1 glwspu_def AUC=1.0000 LL=0.0416 9.9s
+       banknote-authentication pu_scar  0.3 s1 glwspu_tun AUC=0.9993 LL=0.0557 254.5s
+       banknote-authentication pu_scar  0.3 s1 vpu_def  AUC=0.9977 LL=0.2091 181.4s
+       banknote-authentication pu_scar  0.3 s1 vpu_tun  AUC=0.9977 LL=0.2091 554.1s
+       banknote-authentication pu_sar   0.1 s2 glwspu_def AUC=0.7926 LL=0.7820 10.7s
+       banknote-authentication pu_sar   0.1 s2 glwspu_tun AUC=0.7861 LL=0.8436 253.5s
+       banknote-authentication pu_sar   0.1 s2 vpu_def  AUC=0.6955 LL=1.9403 218.3s
+       banknote-authentication pu_sar   0.1 s2 vpu_tun  AUC=0.8392 LL=0.6982 406.7s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s0 glwspu_def AUC=0.6982 LL=1.4855 4.7s
+                          ilpd pu_scar  0.1 s0 glwspu_tun AUC=0.6871 LL=1.9246 88.0s
+                          ilpd pu_scar  0.1 s0 vpu_def  AUC=0.5024 LL=1.7349 163.2s
+                          ilpd pu_scar  0.1 s0 vpu_tun  AUC=0.7077 LL=0.6581 309.2s
+                          ilpd pu_scar  0.3 s1 glwspu_def AUC=0.7323 LL=1.1044 4.7s
+                          ilpd pu_scar  0.3 s1 glwspu_tun AUC=0.7328 LL=1.0454 119.6s
+                          ilpd pu_scar  0.3 s1 vpu_def  AUC=0.5435 LL=1.6487 164.6s
+                          ilpd pu_scar  0.3 s1 vpu_tun  AUC=0.7226 LL=0.7356 309.5s
+                          ilpd pu_sar   0.1 s2 glwspu_def AUC=0.6344 LL=1.9371 4.7s
+                          ilpd pu_sar   0.1 s2 glwspu_tun AUC=0.6344 LL=1.6931 110.6s
+                          ilpd pu_sar   0.1 s2 vpu_def  AUC=0.5130 LL=1.7354 159.6s
+                          ilpd pu_sar   0.1 s2 vpu_tun  AUC=0.5726 LL=1.0817 302.3s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s0 glwspu_def AUC=0.9673 LL=0.2035 4.7s
+                          wdbc pu_scar  0.1 s0 glwspu_tun AUC=0.9798 LL=0.1929 84.9s
+                          wdbc pu_scar  0.1 s0 vpu_def  AUC=0.7811 LL=1.7768 161.1s
+                          wdbc pu_scar  0.1 s0 vpu_tun  AUC=0.9749 LL=0.2994 324.1s
+                          wdbc pu_scar  0.3 s1 glwspu_def AUC=0.9797 LL=0.1603 4.7s
+                          wdbc pu_scar  0.3 s1 glwspu_tun AUC=0.9829 LL=0.1270 116.9s
+                          wdbc pu_scar  0.3 s1 vpu_def  AUC=0.7360 LL=1.3083 162.6s
+                          wdbc pu_scar  0.3 s1 vpu_tun  AUC=0.9753 LL=0.2822 310.5s
+                          wdbc pu_sar   0.1 s2 glwspu_def AUC=0.9079 LL=0.3462 4.6s
+                          wdbc pu_sar   0.1 s2 glwspu_tun AUC=0.8990 LL=0.3366 108.2s
+                          wdbc pu_sar   0.1 s2 vpu_def  AUC=0.7158 LL=1.9081 165.2s
+                          wdbc pu_sar   0.1 s2 vpu_tun  AUC=0.9613 LL=0.3465 304.7s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.9999      0.9995   0.9242   1.0000
+                                 0.3        1.0000      0.9993   0.9977   0.9977
+blood-transfusion-service-center 0.1        0.7344      0.6810   0.5781   0.7368
+                                 0.3        0.7110      0.6050   0.5618   0.5813
+credit-g                         0.1        0.6016      0.6315   0.5820   0.5762
+                                 0.3        0.6389      0.6590   0.5916   0.5916
+diabetes                         0.1        0.6489      0.6191   0.5890   0.7502
+                                 0.3        0.7509      0.7312   0.6092   0.7826
+ilpd                             0.1        0.6982      0.6871   0.5024   0.7077
+                                 0.3        0.7323      0.7328   0.5435   0.7226
+wdbc                             0.1        0.9673      0.9798   0.7811   0.9749
+                                 0.3        0.9797      0.9829   0.7360   0.9753
+
+--- pu_sar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.7926      0.7861   0.6955   0.8392
+blood-transfusion-service-center 0.1        0.3792      0.3822   0.4850   0.4407
+credit-g                         0.1        0.6409      0.6125   0.6234   0.5943
+diabetes                         0.1        0.6728      0.5512   0.5880   0.6035
+ilpd                             0.1        0.6344      0.6344   0.5130   0.5726
+wdbc                             0.1        0.9079      0.8990   0.7158   0.9613
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.0351      0.0670   1.4834   0.0891
+                                 0.3        0.0416      0.0557   0.2091   0.2091
+blood-transfusion-service-center 0.1        1.0644      1.8736   1.3998   0.5349
+                                 0.3        0.6708      1.5555   1.0029   0.9223
+credit-g                         0.1        0.9562      0.7780   1.9384   2.2244
+                                 0.3        1.2765      1.3949   1.4469   1.4469
+diabetes                         0.1        1.6763      1.4837   1.9522   0.5770
+                                 0.3        1.0658      1.4003   1.6867   0.6241
+ilpd                             0.1        1.4855      1.9246   1.7349   0.6581
+                                 0.3        1.1044      1.0454   1.6488   0.7356
+wdbc                             0.1        0.2035      0.1929   1.7768   0.2994
+                                 0.3        0.1603      0.1270   1.3083   0.2822
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.0345      0.0668   0.3362   0.0891
+                                 0.3        0.0388      0.0515   0.1088   0.1088
+blood-transfusion-service-center 0.1        1.0041      1.8627   0.7843   0.5083
+                                 0.3        0.5049      1.5519   0.7915   0.7255
+credit-g                         0.1        0.9556      0.7774   0.7991   0.7515
+                                 0.3        1.2644      1.3832   1.1443   1.1443
+diabetes                         0.1        1.6750      1.4792   0.8632   0.5748
+                                 0.3        1.0653      1.3988   1.0951   0.5422
+ilpd                             0.1        1.4818      1.9241   0.7960   0.6176
+                                 0.3        1.0356      0.9813   1.2651   0.6042
+wdbc                             0.1        0.1900      0.1717   0.5433   0.2861
+                                 0.3        0.1592      0.1267   0.6368   0.2139
+===== g6r4_pu_1.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.1 s1 glwspu_def AUC=0.6802 LL=0.8570 11.3s
+                      credit-g pu_scar  0.1 s1 glwspu_tun AUC=0.6675 LL=0.9059 189.0s
+                      credit-g pu_scar  0.1 s1 vpu_def  AUC=0.5553 LL=1.8076 192.6s
+                      credit-g pu_scar  0.1 s1 vpu_tun  AUC=0.5553 LL=1.8076 570.4s
+                      credit-g pu_scar  0.3 s2 glwspu_def AUC=0.7065 LL=0.9464 7.3s
+                      credit-g pu_scar  0.3 s2 glwspu_tun AUC=0.6731 LL=1.0609 175.1s
+                      credit-g pu_scar  0.3 s2 vpu_def  AUC=0.6884 LL=1.1068 190.9s
+                      credit-g pu_scar  0.3 s2 vpu_tun  AUC=0.6771 LL=1.3761 404.3s
+                      credit-g pu_sar   0.3 s0 glwspu_def AUC=0.6854 LL=1.0468 7.0s
+                      credit-g pu_sar   0.3 s0 glwspu_tun AUC=0.6782 LL=1.0581 138.6s
+                      credit-g pu_sar   0.3 s0 vpu_def  AUC=0.6302 LL=1.4038 188.9s
+                      credit-g pu_sar   0.3 s0 vpu_tun  AUC=0.6710 LL=1.4556 417.6s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s1 glwspu_def AUC=0.7792 LL=1.1935 5.2s
+                      diabetes pu_scar  0.1 s1 glwspu_tun AUC=0.6344 LL=1.4638 146.1s
+                      diabetes pu_scar  0.1 s1 vpu_def  AUC=0.5633 LL=2.1353 186.6s
+                      diabetes pu_scar  0.1 s1 vpu_tun  AUC=0.7369 LL=0.7857 315.5s
+                      diabetes pu_scar  0.3 s2 glwspu_def AUC=0.7059 LL=1.3245 5.6s
+                      diabetes pu_scar  0.3 s2 glwspu_tun AUC=0.6755 LL=1.7902 138.6s
+                      diabetes pu_scar  0.3 s2 vpu_def  AUC=0.6351 LL=1.6151 179.1s
+                      diabetes pu_scar  0.3 s2 vpu_tun  AUC=0.6351 LL=1.6151 489.7s
+                      diabetes pu_sar   0.3 s0 glwspu_def AUC=0.6923 LL=1.4863 5.3s
+                      diabetes pu_sar   0.3 s0 glwspu_tun AUC=0.6610 LL=1.5630 101.6s
+                      diabetes pu_sar   0.3 s0 vpu_def  AUC=0.5971 LL=1.5151 187.0s
+                      diabetes pu_sar   0.3 s0 vpu_tun  AUC=0.7199 LL=0.8644 333.9s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s1 glwspu_def AUC=0.6741 LL=0.9246 5.5s
+  blood-transfusion-service-center pu_scar  0.1 s1 glwspu_tun AUC=0.5923 LL=1.7468 145.8s
+  blood-transfusion-service-center pu_scar  0.1 s1 vpu_def  AUC=0.5506 LL=1.2733 189.1s
+  blood-transfusion-service-center pu_scar  0.1 s1 vpu_tun  AUC=0.5540 LL=1.3685 308.0s
+  blood-transfusion-service-center pu_scar  0.3 s2 glwspu_def AUC=0.7675 LL=0.6293 5.0s
+  blood-transfusion-service-center pu_scar  0.3 s2 glwspu_tun AUC=0.6953 LL=0.8999 126.5s
+  blood-transfusion-service-center pu_scar  0.3 s2 vpu_def  AUC=0.6374 LL=0.8016 189.2s
+  blood-transfusion-service-center pu_scar  0.3 s2 vpu_tun  AUC=0.6374 LL=0.8016 488.9s
+  blood-transfusion-service-center pu_sar   0.3 s0 glwspu_def AUC=0.5044 LL=0.8910 5.5s
+  blood-transfusion-service-center pu_sar   0.3 s0 glwspu_tun AUC=0.5192 LL=1.6582 105.9s
+  blood-transfusion-service-center pu_sar   0.3 s0 vpu_def  AUC=0.4941 LL=1.1903 182.1s
+  blood-transfusion-service-center pu_sar   0.3 s0 vpu_tun  AUC=0.4941 LL=1.1903 508.1s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s1 glwspu_def AUC=0.9980 LL=0.0738 9.6s
+       banknote-authentication pu_scar  0.1 s1 glwspu_tun AUC=0.9908 LL=0.1335 257.6s
+       banknote-authentication pu_scar  0.1 s1 vpu_def  AUC=0.8818 LL=1.5666 179.0s
+       banknote-authentication pu_scar  0.1 s1 vpu_tun  AUC=0.9976 LL=0.3093 359.6s
+       banknote-authentication pu_scar  0.3 s2 glwspu_def AUC=0.9997 LL=0.0497 9.9s
+       banknote-authentication pu_scar  0.3 s2 glwspu_tun AUC=0.9996 LL=0.0486 252.6s
+       banknote-authentication pu_scar  0.3 s2 vpu_def  AUC=0.9899 LL=0.1951 199.4s
+       banknote-authentication pu_scar  0.3 s2 vpu_tun  AUC=0.9993 LL=0.0841 394.3s
+       banknote-authentication pu_sar   0.3 s0 glwspu_def AUC=0.9867 LL=0.1388 12.8s
+       banknote-authentication pu_sar   0.3 s0 glwspu_tun AUC=0.9647 LL=0.2505 242.7s
+       banknote-authentication pu_sar   0.3 s0 vpu_def  AUC=0.9560 LL=0.7606 213.3s
+       banknote-authentication pu_sar   0.3 s0 vpu_tun  AUC=0.9558 LL=0.4290 428.8s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s1 glwspu_def AUC=0.6574 LL=1.5289 4.6s
+                          ilpd pu_scar  0.1 s1 glwspu_tun AUC=0.6584 LL=1.7362 118.4s
+                          ilpd pu_scar  0.1 s1 vpu_def  AUC=0.4546 LL=2.0539 158.8s
+                          ilpd pu_scar  0.1 s1 vpu_tun  AUC=0.4770 LL=1.9268 309.8s
+                          ilpd pu_scar  0.3 s2 glwspu_def AUC=0.7464 LL=0.7980 4.7s
+                          ilpd pu_scar  0.3 s2 glwspu_tun AUC=0.7693 LL=0.6178 106.5s
+                          ilpd pu_scar  0.3 s2 vpu_def  AUC=0.5667 LL=1.3839 157.8s
+                          ilpd pu_scar  0.3 s2 vpu_tun  AUC=0.7224 LL=1.1497 315.6s
+                          ilpd pu_sar   0.3 s0 glwspu_def AUC=0.5793 LL=2.3605 4.9s
+                          ilpd pu_sar   0.3 s0 glwspu_tun AUC=0.5825 LL=2.6097 90.4s
+                          ilpd pu_sar   0.3 s0 vpu_def  AUC=0.4253 LL=1.7613 154.1s
+                          ilpd pu_sar   0.3 s0 vpu_tun  AUC=0.5432 LL=0.9760 319.1s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s1 glwspu_def AUC=0.9664 LL=0.2187 4.6s
+                          wdbc pu_scar  0.1 s1 glwspu_tun AUC=0.8543 LL=0.4108 114.0s
+                          wdbc pu_scar  0.1 s1 vpu_def  AUC=0.6469 LL=2.0433 151.2s
+                          wdbc pu_scar  0.1 s1 vpu_tun  AUC=0.6285 LL=2.0427 327.7s
+                          wdbc pu_scar  0.3 s2 glwspu_def AUC=0.9781 LL=0.1580 4.8s
+                          wdbc pu_scar  0.3 s2 glwspu_tun AUC=0.9832 LL=0.1431 115.6s
+                          wdbc pu_scar  0.3 s2 vpu_def  AUC=0.7966 LL=1.0334 157.1s
+                          wdbc pu_scar  0.3 s2 vpu_tun  AUC=0.7966 LL=1.0334 466.4s
+                          wdbc pu_sar   0.3 s0 glwspu_def AUC=0.9653 LL=0.1943 4.6s
+                          wdbc pu_sar   0.3 s0 glwspu_tun AUC=0.9470 LL=0.2474 64.2s
+                          wdbc pu_sar   0.3 s0 vpu_def  AUC=0.8749 LL=0.8643 101.1s
+                          wdbc pu_sar   0.3 s0 vpu_tun  AUC=0.9606 LL=0.3255 206.9s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.9980      0.9908   0.8818   0.9976
+                                 0.3        0.9997      0.9996   0.9899   0.9993
+blood-transfusion-service-center 0.1        0.6741      0.5923   0.5506   0.5540
+                                 0.3        0.7675      0.6953   0.6374   0.6374
+credit-g                         0.1        0.6802      0.6675   0.5553   0.5553
+                                 0.3        0.7065      0.6731   0.6884   0.6771
+diabetes                         0.1        0.7792      0.6344   0.5633   0.7370
+                                 0.3        0.7059      0.6755   0.6351   0.6351
+ilpd                             0.1        0.6574      0.6584   0.4546   0.4770
+                                 0.3        0.7464      0.7693   0.5667   0.7224
+wdbc                             0.1        0.9664      0.8543   0.6469   0.6285
+                                 0.3        0.9781      0.9832   0.7966   0.7966
+
+--- pu_sar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.3        0.9867      0.9647   0.9560   0.9558
+blood-transfusion-service-center 0.3        0.5044      0.5192   0.4942   0.4942
+credit-g                         0.3        0.6854      0.6782   0.6302   0.6710
+diabetes                         0.3        0.6923      0.6610   0.5971   0.7199
+ilpd                             0.3        0.5793      0.5825   0.4253   0.5432
+wdbc                             0.3        0.9652      0.9470   0.8748   0.9606
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.0738      0.1335   1.5666   0.3093
+                                 0.3        0.0497      0.0486   0.1951   0.0841
+blood-transfusion-service-center 0.1        0.9246      1.7468   1.2733   1.3685
+                                 0.3        0.6293      0.8999   0.8016   0.8016
+credit-g                         0.1        0.8570      0.9058   1.8076   1.8076
+                                 0.3        0.9464      1.0609   1.1068   1.3761
+diabetes                         0.1        1.1935      1.4638   2.1353   0.7857
+                                 0.3        1.3245      1.7902   1.6151   1.6151
+ilpd                             0.1        1.5289      1.7362   2.0539   1.9268
+                                 0.3        0.7980      0.6178   1.3838   1.1497
+wdbc                             0.1        0.2186      0.4108   2.0433   2.0428
+                                 0.3        0.1580      0.1431   1.0334   1.0334
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.0738      0.1306   0.4111   0.1667
+                                 0.3        0.0467      0.0472   0.1310   0.0826
+blood-transfusion-service-center 0.1        0.8320      1.7462   0.7010   0.7660
+                                 0.3        0.4820      0.8372   0.7032   0.7032
+credit-g                         0.1        0.8555      0.9051   0.8036   0.8036
+                                 0.3        0.9098      1.0491   0.8025   0.6763
+diabetes                         0.1        1.1886      1.4631   1.0183   0.6192
+                                 0.3        1.3233      1.7861   0.9855   0.9855
+ilpd                             0.1        1.5281      1.7355   1.2324   1.1794
+                                 0.3        0.7907      0.4911   0.9639   0.6186
+wdbc                             0.1        0.2185      0.4106   0.7957   1.0688
+                                 0.3        0.1581      0.1430   0.4857   0.4857
+===== g6r4_pu_2.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.1 s2 glwspu_def AUC=0.5660 LL=1.0755 11.3s
+                      credit-g pu_scar  0.1 s2 glwspu_tun AUC=0.5496 LL=1.1279 171.6s
+                      credit-g pu_scar  0.1 s2 vpu_def  AUC=0.5711 LL=1.6759 192.3s
+                      credit-g pu_scar  0.1 s2 vpu_tun  AUC=0.5532 LL=1.9221 406.1s
+                      credit-g pu_sar   0.1 s0 glwspu_def AUC=0.6376 LL=0.8898 7.2s
+                      credit-g pu_sar   0.1 s0 glwspu_tun AUC=0.6797 LL=0.7806 141.6s
+                      credit-g pu_sar   0.1 s0 vpu_def  AUC=0.6300 LL=1.7163 186.4s
+                      credit-g pu_sar   0.1 s0 vpu_tun  AUC=0.6377 LL=1.3887 440.0s
+                      credit-g pu_sar   0.3 s1 glwspu_def AUC=0.7009 LL=1.0233 7.1s
+                      credit-g pu_sar   0.3 s1 glwspu_tun AUC=0.6984 LL=1.0019 184.1s
+                      credit-g pu_sar   0.3 s1 vpu_def  AUC=0.6502 LL=1.3671 181.9s
+                      credit-g pu_sar   0.3 s1 vpu_tun  AUC=0.6488 LL=1.3296 413.6s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.1 s2 glwspu_def AUC=0.7219 LL=1.2806 5.5s
+                      diabetes pu_scar  0.1 s2 glwspu_tun AUC=0.7167 LL=1.0148 133.7s
+                      diabetes pu_scar  0.1 s2 vpu_def  AUC=0.5688 LL=2.0410 182.6s
+                      diabetes pu_scar  0.1 s2 vpu_tun  AUC=0.5688 LL=2.0410 484.6s
+                      diabetes pu_sar   0.1 s0 glwspu_def AUC=0.7354 LL=1.1656 5.1s
+                      diabetes pu_sar   0.1 s0 glwspu_tun AUC=0.7109 LL=0.9275 111.5s
+                      diabetes pu_sar   0.1 s0 vpu_def  AUC=0.6505 LL=1.6965 185.6s
+                      diabetes pu_sar   0.1 s0 vpu_tun  AUC=0.6338 LL=1.1739 339.3s
+                      diabetes pu_sar   0.3 s1 glwspu_def AUC=0.6937 LL=1.4401 5.2s
+                      diabetes pu_sar   0.3 s1 glwspu_tun AUC=0.6930 LL=1.3613 145.1s
+                      diabetes pu_sar   0.3 s1 vpu_def  AUC=0.6277 LL=1.6951 180.5s
+                      diabetes pu_sar   0.3 s1 vpu_tun  AUC=0.6040 LL=1.5596 333.3s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.1 s2 glwspu_def AUC=0.6740 LL=0.8199 5.4s
+  blood-transfusion-service-center pu_scar  0.1 s2 glwspu_tun AUC=0.6407 LL=1.3483 135.3s
+  blood-transfusion-service-center pu_scar  0.1 s2 vpu_def  AUC=0.6074 LL=1.2799 182.4s
+  blood-transfusion-service-center pu_scar  0.1 s2 vpu_tun  AUC=0.7092 LL=0.6548 320.6s
+  blood-transfusion-service-center pu_sar   0.1 s0 glwspu_def AUC=0.5310 LL=1.2590 6.3s
+  blood-transfusion-service-center pu_sar   0.1 s0 glwspu_tun AUC=0.5349 LL=2.7780 110.6s
+  blood-transfusion-service-center pu_sar   0.1 s0 vpu_def  AUC=0.5197 LL=1.4938 178.9s
+  blood-transfusion-service-center pu_sar   0.1 s0 vpu_tun  AUC=0.4486 LL=1.7459 345.7s
+  blood-transfusion-service-center pu_sar   0.3 s1 glwspu_def AUC=0.5933 LL=0.8147 5.4s
+  blood-transfusion-service-center pu_sar   0.3 s1 glwspu_tun AUC=0.5871 LL=1.1940 144.0s
+  blood-transfusion-service-center pu_sar   0.3 s1 vpu_def  AUC=0.5674 LL=1.1567 191.3s
+  blood-transfusion-service-center pu_sar   0.3 s1 vpu_tun  AUC=0.5740 LL=1.1539 330.1s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.1 s2 glwspu_def AUC=0.8886 LL=0.5073 9.2s
+       banknote-authentication pu_scar  0.1 s2 glwspu_tun AUC=0.8572 LL=0.4437 229.9s
+       banknote-authentication pu_scar  0.1 s2 vpu_def  AUC=0.8093 LL=1.5005 193.1s
+       banknote-authentication pu_scar  0.1 s2 vpu_tun  AUC=0.9185 LL=0.4452 368.2s
+       banknote-authentication pu_sar   0.1 s0 glwspu_def AUC=0.8998 LL=0.3814 9.3s
+       banknote-authentication pu_sar   0.1 s0 glwspu_tun AUC=0.9282 LL=0.2909 181.7s
+       banknote-authentication pu_sar   0.1 s0 vpu_def  AUC=0.8353 LL=1.7239 180.7s
+       banknote-authentication pu_sar   0.1 s0 vpu_tun  AUC=0.8972 LL=0.6268 377.6s
+       banknote-authentication pu_sar   0.3 s1 glwspu_def AUC=0.9888 LL=0.1313 10.8s
+       banknote-authentication pu_sar   0.3 s1 glwspu_tun AUC=0.9945 LL=0.1435 277.7s
+       banknote-authentication pu_sar   0.3 s1 vpu_def  AUC=0.9758 LL=0.5373 194.1s
+       banknote-authentication pu_sar   0.3 s1 vpu_tun  AUC=0.9584 LL=0.3137 433.1s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.1 s2 glwspu_def AUC=0.6987 LL=1.5663 5.1s
+                          ilpd pu_scar  0.1 s2 glwspu_tun AUC=0.6959 LL=1.7140 110.6s
+                          ilpd pu_scar  0.1 s2 vpu_def  AUC=0.4352 LL=1.7944 158.9s
+                          ilpd pu_scar  0.1 s2 vpu_tun  AUC=0.4352 LL=1.7944 463.5s
+                          ilpd pu_sar   0.1 s0 glwspu_def AUC=0.5566 LL=2.1216 4.8s
+                          ilpd pu_sar   0.1 s0 glwspu_tun AUC=0.5566 LL=1.7231 87.2s
+                          ilpd pu_sar   0.1 s0 vpu_def  AUC=0.4600 LL=1.7659 160.9s
+                          ilpd pu_sar   0.1 s0 vpu_tun  AUC=0.4698 LL=0.9846 314.0s
+                          ilpd pu_sar   0.3 s1 glwspu_def AUC=0.6257 LL=2.0236 4.8s
+                          ilpd pu_sar   0.3 s1 glwspu_tun AUC=0.6182 LL=2.5528 118.7s
+                          ilpd pu_sar   0.3 s1 vpu_def  AUC=0.4475 LL=1.7623 164.8s
+                          ilpd pu_sar   0.3 s1 vpu_tun  AUC=0.5802 LL=0.9033 307.3s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.1 s2 glwspu_def AUC=0.9524 LL=0.2262 4.7s
+                          wdbc pu_scar  0.1 s2 glwspu_tun AUC=0.9331 LL=0.2793 111.9s
+                          wdbc pu_scar  0.1 s2 vpu_def  AUC=0.7504 LL=1.5854 153.1s
+                          wdbc pu_scar  0.1 s2 vpu_tun  AUC=0.9855 LL=0.1873 290.7s
+                          wdbc pu_sar   0.1 s0 glwspu_def AUC=0.8956 LL=0.3516 4.6s
+                          wdbc pu_sar   0.1 s0 glwspu_tun AUC=0.8573 LL=0.3582 88.2s
+                          wdbc pu_sar   0.1 s0 vpu_def  AUC=0.7516 LL=1.6822 165.1s
+                          wdbc pu_sar   0.1 s0 vpu_tun  AUC=0.7469 LL=1.5729 340.2s
+                          wdbc pu_sar   0.3 s1 glwspu_def AUC=0.8937 LL=0.3455 4.8s
+                          wdbc pu_sar   0.3 s1 glwspu_tun AUC=0.9319 LL=0.2711 116.8s
+                          wdbc pu_sar   0.3 s1 vpu_def  AUC=0.8078 LL=1.1879 155.8s
+                          wdbc pu_sar   0.3 s1 vpu_tun  AUC=0.9233 LL=0.4923 300.2s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.8886      0.8572   0.8093   0.9185
+blood-transfusion-service-center 0.1        0.6740      0.6407   0.6074   0.7092
+credit-g                         0.1        0.5660      0.5496   0.5711   0.5532
+diabetes                         0.1        0.7219      0.7167   0.5688   0.5688
+ilpd                             0.1        0.6987      0.6959   0.4352   0.4352
+wdbc                             0.1        0.9524      0.9331   0.7504   0.9855
+
+--- pu_sar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.8998      0.9282   0.8353   0.8972
+                                 0.3        0.9888      0.9945   0.9758   0.9584
+blood-transfusion-service-center 0.1        0.5310      0.5349   0.5197   0.4486
+                                 0.3        0.5933      0.5871   0.5674   0.5740
+credit-g                         0.1        0.6376      0.6797   0.6300   0.6377
+                                 0.3        0.7010      0.6984   0.6502   0.6488
+diabetes                         0.1        0.7354      0.7109   0.6505   0.6338
+                                 0.3        0.6937      0.6930   0.6277   0.6040
+ilpd                             0.1        0.5566      0.5566   0.4600   0.4698
+                                 0.3        0.6257      0.6182   0.4475   0.5802
+wdbc                             0.1        0.8956      0.8573   0.7516   0.7469
+                                 0.3        0.8937      0.9320   0.8078   0.9233
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.5074      0.4437   1.5005   0.4452
+blood-transfusion-service-center 0.1        0.8199      1.3483   1.2799   0.6548
+credit-g                         0.1        1.0755      1.1279   1.6758   1.9221
+diabetes                         0.1        1.2806      1.0148   2.0410   2.0410
+ilpd                             0.1        1.5663      1.7140   1.7944   1.7944
+wdbc                             0.1        0.2262      0.2793   1.5854   0.1873
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.5016      0.4370   0.5010   0.3170
+blood-transfusion-service-center 0.1        0.7985      1.3388   0.7126   0.5021
+credit-g                         0.1        1.0714      1.1226   0.7418   0.6903
+diabetes                         0.1        1.2762      1.0115   1.0172   1.0172
+ilpd                             0.1        1.5634      1.7126   1.0711   1.0711
+wdbc                             0.1        0.2213      0.2716   0.5558   0.1796
+===== g6r4_pu_3.log
+python 3.13.15 · numpy 2.1.3 · tabpfn - · tabicl - · torch 2.11.0+cpu
+
+=== 31 credit-g: n=1000, d=20, dương=0.300
+                      credit-g pu_scar  0.3 s0 glwspu_def AUC=0.6333 LL=1.1334 11.3s
+                      credit-g pu_scar  0.3 s0 glwspu_tun AUC=0.6418 LL=1.2285 139.2s
+                      credit-g pu_scar  0.3 s0 vpu_def  AUC=0.6546 LL=1.4670 192.5s
+                      credit-g pu_scar  0.3 s0 vpu_tun  AUC=0.6546 LL=1.4670 601.8s
+                      credit-g pu_sar   0.1 s1 glwspu_def AUC=0.6791 LL=0.8127 6.9s
+                      credit-g pu_sar   0.1 s1 glwspu_tun AUC=0.5846 LL=1.0882 192.6s
+                      credit-g pu_sar   0.1 s1 vpu_def  AUC=0.6173 LL=1.6790 193.3s
+                      credit-g pu_sar   0.1 s1 vpu_tun  AUC=0.6170 LL=1.6318 406.2s
+                      credit-g pu_sar   0.3 s2 glwspu_def AUC=0.6598 LL=1.0900 7.4s
+                      credit-g pu_sar   0.3 s2 glwspu_tun AUC=0.6235 LL=1.3496 174.6s
+                      credit-g pu_sar   0.3 s2 vpu_def  AUC=0.6322 LL=1.3819 191.9s
+                      credit-g pu_sar   0.3 s2 vpu_tun  AUC=0.6322 LL=1.3819 576.4s
+
+=== 37 diabetes: n=768, d=8, dương=0.349
+                      diabetes pu_scar  0.3 s0 glwspu_def AUC=0.7742 LL=0.9945 5.4s
+                      diabetes pu_scar  0.3 s0 glwspu_tun AUC=0.7726 LL=0.9582 104.5s
+                      diabetes pu_scar  0.3 s0 vpu_def  AUC=0.6892 LL=1.3684 175.6s
+                      diabetes pu_scar  0.3 s0 vpu_tun  AUC=0.8422 LL=0.5162 318.7s
+                      diabetes pu_sar   0.1 s1 glwspu_def AUC=0.6816 LL=1.0798 5.3s
+                      diabetes pu_sar   0.1 s1 glwspu_tun AUC=0.5390 LL=1.3282 142.4s
+                      diabetes pu_sar   0.1 s1 vpu_def  AUC=0.5980 LL=2.0523 188.5s
+                      diabetes pu_sar   0.1 s1 vpu_tun  AUC=0.6006 LL=1.1794 302.1s
+                      diabetes pu_sar   0.3 s2 glwspu_def AUC=0.6893 LL=1.5032 6.0s
+                      diabetes pu_sar   0.3 s2 glwspu_tun AUC=0.6959 LL=1.4287 126.2s
+                      diabetes pu_sar   0.3 s2 vpu_def  AUC=0.5465 LL=1.9048 188.2s
+                      diabetes pu_sar   0.3 s2 vpu_tun  AUC=0.6230 LL=1.1455 320.6s
+
+=== 1464 blood-transfusion-service-center: n=748, d=4, dương=0.238
+  blood-transfusion-service-center pu_scar  0.3 s0 glwspu_def AUC=0.6953 LL=0.7399 5.5s
+  blood-transfusion-service-center pu_scar  0.3 s0 glwspu_tun AUC=0.6366 LL=1.7309 106.9s
+  blood-transfusion-service-center pu_scar  0.3 s0 vpu_def  AUC=0.5994 LL=1.0098 189.1s
+  blood-transfusion-service-center pu_scar  0.3 s0 vpu_tun  AUC=0.6178 LL=1.0022 325.4s
+  blood-transfusion-service-center pu_sar   0.1 s1 glwspu_def AUC=0.4325 LL=1.2707 5.4s
+  blood-transfusion-service-center pu_sar   0.1 s1 glwspu_tun AUC=0.4409 LL=2.6599 135.8s
+  blood-transfusion-service-center pu_sar   0.1 s1 vpu_def  AUC=0.4161 LL=1.4596 189.1s
+  blood-transfusion-service-center pu_sar   0.1 s1 vpu_tun  AUC=0.4599 LL=1.2645 319.7s
+  blood-transfusion-service-center pu_sar   0.3 s2 glwspu_def AUC=0.6356 LL=0.8353 5.4s
+  blood-transfusion-service-center pu_sar   0.3 s2 glwspu_tun AUC=0.5457 LL=1.2399 130.9s
+  blood-transfusion-service-center pu_sar   0.3 s2 vpu_def  AUC=0.5057 LL=1.1751 188.3s
+  blood-transfusion-service-center pu_sar   0.3 s2 vpu_tun  AUC=0.6003 LL=0.7038 313.1s
+
+=== 1462 banknote-authentication: n=1372, d=4, dương=0.445
+       banknote-authentication pu_scar  0.3 s0 glwspu_def AUC=1.0000 LL=0.0322 9.6s
+       banknote-authentication pu_scar  0.3 s0 glwspu_tun AUC=1.0000 LL=0.0302 187.3s
+       banknote-authentication pu_scar  0.3 s0 vpu_def  AUC=0.9982 LL=0.1642 192.6s
+       banknote-authentication pu_scar  0.3 s0 vpu_tun  AUC=0.9982 LL=0.1642 563.2s
+       banknote-authentication pu_sar   0.1 s1 glwspu_def AUC=0.9209 LL=0.3341 9.9s
+       banknote-authentication pu_sar   0.1 s1 glwspu_tun AUC=0.9825 LL=0.2334 263.7s
+       banknote-authentication pu_sar   0.1 s1 vpu_def  AUC=0.8202 LL=1.6543 181.0s
+       banknote-authentication pu_sar   0.1 s1 vpu_tun  AUC=0.9111 LL=0.6624 415.6s
+       banknote-authentication pu_sar   0.3 s2 glwspu_def AUC=0.9680 LL=0.2083 10.4s
+       banknote-authentication pu_sar   0.3 s2 glwspu_tun AUC=0.9362 LL=0.2501 292.7s
+       banknote-authentication pu_sar   0.3 s2 vpu_def  AUC=0.8686 LL=0.9624 193.2s
+       banknote-authentication pu_sar   0.3 s2 vpu_tun  AUC=0.9311 LL=0.5400 423.9s
+
+=== 1480 ilpd: n=583, d=10, dương=0.286
+                          ilpd pu_scar  0.3 s0 glwspu_def AUC=0.6994 LL=1.0406 5.0s
+                          ilpd pu_scar  0.3 s0 glwspu_tun AUC=0.6506 LL=2.0254 94.3s
+                          ilpd pu_scar  0.3 s0 vpu_def  AUC=0.5275 LL=1.4420 157.1s
+                          ilpd pu_scar  0.3 s0 vpu_tun  AUC=0.5334 LL=1.5178 325.8s
+                          ilpd pu_sar   0.1 s1 glwspu_def AUC=0.6282 LL=1.8216 4.7s
+                          ilpd pu_sar   0.1 s1 glwspu_tun AUC=0.6437 LL=1.8815 121.3s
+                          ilpd pu_sar   0.1 s1 vpu_def  AUC=0.4046 LL=1.8534 161.4s
+                          ilpd pu_sar   0.1 s1 vpu_tun  AUC=0.5549 LL=2.4275 306.0s
+                          ilpd pu_sar   0.3 s2 glwspu_def AUC=0.6696 LL=1.6139 4.7s
+                          ilpd pu_sar   0.3 s2 glwspu_tun AUC=0.6446 LL=2.4962 116.5s
+                          ilpd pu_sar   0.3 s2 vpu_def  AUC=0.5259 LL=1.2559 163.7s
+                          ilpd pu_sar   0.3 s2 vpu_tun  AUC=0.5798 LL=0.9088 302.9s
+
+=== 1510 wdbc: n=569, d=30, dương=0.373
+                          wdbc pu_scar  0.3 s0 glwspu_def AUC=0.9907 LL=0.1274 4.7s
+                          wdbc pu_scar  0.3 s0 glwspu_tun AUC=0.9912 LL=0.1224 85.0s
+                          wdbc pu_scar  0.3 s0 vpu_def  AUC=0.8538 LL=1.0298 158.8s
+                          wdbc pu_scar  0.3 s0 vpu_tun  AUC=0.9828 LL=0.1866 316.7s
+                          wdbc pu_sar   0.1 s1 glwspu_def AUC=0.8470 LL=0.4555 4.6s
+                          wdbc pu_sar   0.1 s1 glwspu_tun AUC=0.6838 LL=0.5611 128.5s
+                          wdbc pu_sar   0.1 s1 vpu_def  AUC=0.7339 LL=2.1284 160.8s
+                          wdbc pu_sar   0.1 s1 vpu_tun  AUC=0.8540 LL=0.8782 305.7s
+                          wdbc pu_sar   0.3 s2 glwspu_def AUC=0.9374 LL=0.2921 4.7s
+                          wdbc pu_sar   0.3 s2 glwspu_tun AUC=0.9102 LL=0.3136 110.8s
+                          wdbc pu_sar   0.3 s2 vpu_def  AUC=0.7801 LL=1.1495 160.7s
+                          wdbc pu_sar   0.3 s2 vpu_tun  AUC=0.9588 LL=0.3187 238.6s
+
+================ TÓM TẮT (AUC, trung bình theo seed) ================
+
+--- pu_scar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.3        1.0000      1.0000   0.9982   0.9982
+blood-transfusion-service-center 0.3        0.6953      0.6366   0.5994   0.6178
+credit-g                         0.3        0.6333      0.6418   0.6546   0.6546
+diabetes                         0.3        0.7742      0.7726   0.6892   0.8422
+ilpd                             0.3        0.6994      0.6506   0.5275   0.5334
+wdbc                             0.3        0.9906      0.9912   0.8538   0.9828
+
+--- pu_sar ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.1        0.9209      0.9825   0.8202   0.9111
+                                 0.3        0.9680      0.9362   0.8686   0.9311
+blood-transfusion-service-center 0.1        0.4325      0.4409   0.4161   0.4599
+                                 0.3        0.6356      0.5458   0.5057   0.6003
+credit-g                         0.1        0.6791      0.5846   0.6173   0.6170
+                                 0.3        0.6598      0.6235   0.6322   0.6322
+diabetes                         0.1        0.6816      0.5390   0.5980   0.6006
+                                 0.3        0.6893      0.6959   0.5465   0.6230
+ilpd                             0.1        0.6282      0.6437   0.4046   0.5549
+                                 0.3        0.6696      0.6446   0.5259   0.5798
+wdbc                             0.1        0.8470      0.6838   0.7339   0.8540
+                                 0.3        0.9374      0.9102   0.7801   0.9588
+
+--- pu_scar: logloss (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.3        0.0322      0.0302   0.1642   0.1642
+blood-transfusion-service-center 0.3        0.7399      1.7309   1.0098   1.0022
+credit-g                         0.3        1.1334      1.2285   1.4670   1.4670
+diabetes                         0.3        0.9945      0.9582   1.3684   0.5162
+ilpd                             0.3        1.0406      2.0254   1.4420   1.5178
+wdbc                             0.3        0.1274      0.1224   1.0298   0.1866
+
+--- pu_scar: logloss_pm (thấp hơn là tốt hơn) ---
+method                                  glwspu_def  glwspu_tun  vpu_def  vpu_tun
+dataset                          level                                          
+banknote-authentication          0.3        0.0308      0.0286   0.1032   0.1032
+blood-transfusion-service-center 0.3        0.5561      1.6890   0.7560   0.7158
+credit-g                         0.3        1.1332      1.2264   0.8627   0.8627
+diabetes                         0.3        0.9922      0.9468   0.8374   0.4660
+ilpd                             0.3        1.0082      1.9754   0.9240   0.9294
+wdbc                             0.3        0.1174      0.1132   0.5545   0.1823
