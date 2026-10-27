@@ -1,0 +1,16 @@
+# Phiên bản thư viện chốt cho G7 (việc T8). Lấy từ `pip freeze` của G6 lượt 6 (Kaggle, Python 3.13, 2 × Tesla T4,
+# CUDA 12.8; G4/pilot/g6r6_pip_freeze.txt): đây là bản thực tế trong phiên đó, sau khi notebook cài các gói đánh dấu (*)
+# lên ảnh Kaggle mặc định. Mọi lượt G7 ghi lại `pip freeze`; lệch phiên bản ở gói nào thì ghi vào EXPERIMENT_LOG.
+# tabicl chưa có trong phiên lượt 6 (không dùng); bản ghi dưới là bản của thí điểm many-class, kiểm lại ở lượt 7.
+tabpfn==9.2.0                 # (*) TFM chính: TabPFN v2 (cần TABPFN_TOKEN qua Kaggle Secrets, không ghi vào code)
+tabicl==2.2.0                 # (*) TabICL v2: PLL thật > 10 lớp (RQ5) và ablation TFM; bản đã dùng ở thí điểm many-class
+cleanlab==2.9.0               # (*) Confident Learning + TFM (bối cảnh nhãn nhiễu)
+dill==0.4.1                   # (*) cần cho sarpu
+sarpu @ git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu   # (*) SAR-EM
+torch==2.11.0
+numpy==2.1.3
+pandas==2.3.3
+scikit-learn==1.6.1
+scipy==1.16.3
+# PRODEN: kho chính thức clone lúc chạy, commit 637b531a627a149ca494f966f4f41a20ad235853 (không có tệp LICENSE nên
+# không chép vào kho này; xem docs/baseline_reproduction.md)

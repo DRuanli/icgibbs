@@ -1,0 +1,56 @@
+===== g6r6_tfm_31.log
+run_g7 · part=tfm · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 31 synthetic-31-5395x5: n=5395 (loại trùng 0), d=6, C=2, sha256=cdb8eb7391c3
+     synthetic-31-5395x5 llp        8 s0 oracle           0.9872 5.6s
+     synthetic-31-5395x5 llp        8 s0 naive            0.9355 1.7s
+     synthetic-31-5395x5 llp        8 s0 gibbs_warm       0.9869 108.5s
+     synthetic-31-5395x5 llp        8 s0 sem_warm         0.9866 109.5s
+     synthetic-31-5395x5 llp        8 s0 hard_em_warm     0.9871 68.4s
+===== g6r6_tfm_37.log
+run_g7 · part=tfm · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 37 synthetic-37-4210x57: n=4210 (loại trùng 0), d=58, C=2, sha256=3c7bad4dd057
+    synthetic-37-4210x57 llp        8 s0 oracle           0.9868 25.7s
+    synthetic-37-4210x57 llp        8 s0 naive            0.7881 10.4s
+    synthetic-37-4210x57 llp        8 s0 gibbs_warm       0.9869 710.2s
+    synthetic-37-4210x57 llp        8 s0 sem_warm         0.9864 718.4s
+    synthetic-37-4210x57 llp        8 s0 hard_em_warm     0.9871 320.0s
+    synthetic-37-4210x57 pu_sar   0.1 s0 oracle           0.9868 9.6s
+    synthetic-37-4210x57 pu_sar   0.1 s0 naive            0.7528 10.0s
+    synthetic-37-4210x57 pu_sar   0.1 s0 gibbs_warm       0.8259 664.3s
+    synthetic-37-4210x57 pu_sar   0.1 s0 sem_warm         0.8446 670.9s
+    synthetic-37-4210x57 pu_sar   0.1 s0 hard_em_warm     0.7979 253.9s
+    synthetic-37-4210x57 pu_sar   0.1 s0 gibbs_known_warm 0.8994 603.3s
+    synthetic-37-4210x57 pu_scar  0.1 s0 oracle           0.9868 10.1s
+    synthetic-37-4210x57 pu_scar  0.1 s0 naive            0.9168 9.6s
+    synthetic-37-4210x57 pu_scar  0.1 s0 gibbs_warm       0.9098 556.2s
+    synthetic-37-4210x57 pu_scar  0.1 s0 sem_warm         0.8917 562.4s
+    synthetic-37-4210x57 pu_scar  0.1 s0 hard_em_warm     0.9512 235.8s
+    synthetic-37-4210x57 ssl     0.05 s0 oracle           0.9868 10.0s
+    synthetic-37-4210x57 ssl     0.05 s0 naive            0.9707 1.1s
+    synthetic-37-4210x57 ssl     0.05 s0 gibbs_warm       0.9607 542.6s
+    synthetic-37-4210x57 ssl     0.05 s0 sem_warm         0.9418 549.0s
+    synthetic-37-4210x57 ssl     0.05 s0 hard_em_warm     0.9839 212.2s
+    synthetic-37-4210x57 noisy    0.2 s0 oracle           0.9868 8.2s
+    synthetic-37-4210x57 noisy    0.2 s0 naive            0.9876 9.2s
+    synthetic-37-4210x57 noisy    0.2 s0 gibbs_warm       0.9874 463.8s
+    synthetic-37-4210x57 noisy    0.2 s0 sem_warm         0.9867 469.4s
+    synthetic-37-4210x57 noisy    0.2 s0 hard_em_warm     0.9867 207.9s
+    synthetic-37-4210x57 noisy    0.2 s0 cl_tfm           0.9861 16.4s
+===== g6r6_tfm_pll.log
+run_g7 · part=tfm · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 54 synthetic-54-6430x36: n=6430 (loại trùng 0), d=37, C=6, sha256=bf8842fe7492
+    synthetic-54-6430x36 pll      0.3 s0 oracle           0.9404 13.9s
+    synthetic-54-6430x36 pll      0.3 s0 naive            0.8434 10.0s
+    synthetic-54-6430x36 pll      0.3 s0 gibbs_warm       0.9057 322.4s
+    synthetic-54-6430x36 pll      0.3 s0 sem_warm         0.8948 326.1s
+    synthetic-54-6430x36 pll      0.3 s0 hard_em_warm     0.9311 229.7s
+
+=== 36 synthetic-36-1593x256: n=1593 (loại trùng 0), d=257, C=10, sha256=0a2a5611dcd9
+   synthetic-36-1593x256 pll      0.3 s0 oracle           0.3828 10.0s
+   synthetic-36-1593x256 pll      0.3 s0 naive            0.1255 9.4s
+   synthetic-36-1593x256 pll      0.3 s0 gibbs_warm       0.1067 757.0s
+   synthetic-36-1593x256 pll      0.3 s0 sem_warm         0.1423 767.2s
+   synthetic-36-1593x256 pll      0.3 s0 hard_em_warm     0.1046 234.8s

@@ -10,7 +10,7 @@ import subprocess
 
 import numpy as np
 
-KEY = ("backend", "dataset_id", "setting", "level", "seed", "method")
+KEY = ("backend", "dataset_id", "setting", "level", "seed", "method", "n_train")   # n_train: ablation cỡ dữ liệu
 
 
 def code_version(root: str | None = None) -> str:
@@ -60,17 +60,17 @@ class ResultWriter:
             with open(path) as f:
                 for r in csv.DictReader(f):
                     if r.get("status") == "ok":
-                        self.done.add(tuple(str(r[k]) for k in KEY))
+                        self.done.add(tuple(str(r.get(k) or "") for k in KEY))
         self.fh = open(path, "a", newline="")
         self.w = csv.DictWriter(self.fh, fieldnames=self.fields, extrasaction="ignore")
         if new:
             self.w.writeheader()
 
     def key(self, row) -> tuple:
-        return tuple(str(row[k]) for k in KEY)
+        return tuple(str(row.get(k, "")) for k in KEY)
 
     def is_done(self, **k) -> bool:
-        return tuple(str(k[x]) for x in KEY) in self.done
+        return tuple(str(k.get(x, "")) for x in KEY) in self.done
 
     def write(self, row: dict, P=None, y=None):
         self.w.writerow(row)

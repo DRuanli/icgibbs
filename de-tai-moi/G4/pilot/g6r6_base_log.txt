@@ -1,0 +1,72 @@
+===== g6r6_base_b_0.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 37 synthetic-37-4210x57: n=4210 (loại trùng 0), d=58, C=2, sha256=3c7bad4dd057
+    synthetic-37-4210x57 llp        8 s0 dllp_def         0.9862 36.6s
+    synthetic-37-4210x57 llp        8 s0 dllp_tun         0.9833 367.9s
+    synthetic-37-4210x57 llp        8 s0 dllplin_def      0.9725 13.8s
+    synthetic-37-4210x57 llp        8 s0 dllplin_tun      0.9716 184.1s
+    synthetic-37-4210x57 llp        8 s0 llpvat_def       0.9851 324.0s
+    synthetic-37-4210x57 llp        8 s0 llpvat_tun       0.9842 928.1s
+    synthetic-37-4210x57 llp        8 s0 easyllp_def      0.8797 14.9s
+    synthetic-37-4210x57 llp        8 s0 easyllp_tun      0.9347 212.9s
+    synthetic-37-4210x57 llp        8 s0 glws_def         0.9828 66.3s
+    synthetic-37-4210x57 llp        8 s0 glws_tun         0.9840 770.4s
+    synthetic-37-4210x57 ssl     0.05 s0 label_spreading  0.9322 0.2s
+    synthetic-37-4210x57 ssl     0.05 s0 ls_tun           0.9512 3.1s
+    synthetic-37-4210x57 ssl     0.05 s0 self_training    0.9549 0.1s
+    synthetic-37-4210x57 ssl     0.05 s0 st_tun           0.9344 1.2s
+    synthetic-37-4210x57 ssl     0.05 s0 illssl_def       0.9146 11.7s
+    synthetic-37-4210x57 ssl     0.05 s0 illssl_tun       0.9359 232.8s
+    synthetic-37-4210x57 ssl     0.05 s0 vime_def         0.8471 4.5s
+    synthetic-37-4210x57 ssl     0.05 s0 vime_tun         0.8938 31.9s
+===== g6r6_base_b_1.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 37 synthetic-37-4210x57: n=4210 (loại trùng 0), d=58, C=2, sha256=3c7bad4dd057
+    synthetic-37-4210x57 pu_sar   0.1 s0 nnpu             0.7829 22.6s
+    synthetic-37-4210x57 pu_sar   0.1 s0 upu              0.7237 10.1s
+    synthetic-37-4210x57 pu_sar   0.1 s0 nnpu_tun         0.8190 154.6s
+/kaggle/working/run_g6f/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+    synthetic-37-4210x57 pu_sar   0.1 s0 upu_tun          0.5805 155.9s
+    synthetic-37-4210x57 pu_sar   0.1 s0 glwspu_def       0.7825 34.4s
+    synthetic-37-4210x57 pu_sar   0.1 s0 glwspu_tun       0.8225 695.0s
+    synthetic-37-4210x57 pu_sar   0.1 s0 vpu_def          0.6390 131.0s
+    synthetic-37-4210x57 pu_sar   0.1 s0 vpu_tun          0.8192 340.0s
+    synthetic-37-4210x57 pu_sar   0.1 s0 sar_em           0.8639 9.5s
+    synthetic-37-4210x57 pu_sar   0.1 s0 sar_em_tuned     0.8175 411.1s
+    synthetic-37-4210x57 pu_sar   0.1 s0 sar_e_known      0.8721 0.1s
+    synthetic-37-4210x57 noisy    0.2 s0 forward          0.9269 9.1s
+    synthetic-37-4210x57 noisy    0.2 s0 forward_def      0.9262 6.8s
+    synthetic-37-4210x57 noisy    0.2 s0 forward_tun      0.9812 165.3s
+    synthetic-37-4210x57 noisy    0.2 s0 illnz_def        0.9458 19.2s
+    synthetic-37-4210x57 noisy    0.2 s0 illnz_tun        0.9774 300.4s
+===== g6r6_base_b_2.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 37 synthetic-37-4210x57: n=4210 (loại trùng 0), d=58, C=2, sha256=3c7bad4dd057
+    synthetic-37-4210x57 pu_scar  0.1 s0 nnpu             0.9467 22.3s
+    synthetic-37-4210x57 pu_scar  0.1 s0 upu              0.7859 10.5s
+    synthetic-37-4210x57 pu_scar  0.1 s0 nnpu_tun         0.9489 159.0s
+    synthetic-37-4210x57 pu_scar  0.1 s0 upu_tun          0.8988 139.9s
+    synthetic-37-4210x57 pu_scar  0.1 s0 glwspu_def       0.8433 34.3s
+    synthetic-37-4210x57 pu_scar  0.1 s0 glwspu_tun       0.9327 657.1s
+    synthetic-37-4210x57 pu_scar  0.1 s0 vpu_def          0.6668 132.4s
+    synthetic-37-4210x57 pu_scar  0.1 s0 vpu_tun          0.9418 356.8s
+===== g6r6_base_m_0.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+
+=== 54 synthetic-54-6430x36: n=6430 (loại trùng 0), d=37, C=6, sha256=bf8842fe7492
+    synthetic-54-6430x36 pll      0.3 s0 proden_def       0.8129 13.5s
+    synthetic-54-6430x36 pll      0.3 s0 proden_tun       0.9139 249.8s
+    synthetic-54-6430x36 pll      0.3 s0 glwspll_def      0.8870 15.5s
+    synthetic-54-6430x36 pll      0.3 s0 glwspll_tun      0.9207 259.2s
+    synthetic-54-6430x36 pll      0.3 s0 rc_def           0.7190 6.9s
+    synthetic-54-6430x36 pll      0.3 s0 rc_tun           0.9186 208.7s
+    synthetic-54-6430x36 pll      0.3 s0 cc_def           0.7190 7.0s
+    synthetic-54-6430x36 pll      0.3 s0 cc_tun           0.9031 191.4s
+===== g6r6_base_m_1.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c
+===== g6r6_base_m_2.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-27aea5141b71 · config=df15c9043eabdf1c

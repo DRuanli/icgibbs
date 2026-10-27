@@ -51,10 +51,12 @@ code/
 | 4b | `methods.py` (đúng cấu hình đã chốt và tên phương pháp như thí điểm; mỗi phương pháp có khung bắt lỗi riêng), `run_g7.py` (hai phần `tfm`/`baselines`, chia mảnh, chạy tiếp, mặc định tập phát triển; tập đánh giá cần `--split eval --eval-ok`) — 3 test (chặn tập đánh giá; chạy đầu-cuối với TFM giả; chạy tiếp không thêm dòng) và chạy thử đầu-cuối mọi bối cảnh, mọi loại phương pháp trên dữ liệu tổng hợp | Xong 26/10/2026 |
 | 4c | Phần `rhat` (R5): 2 chuỗi Gibbs ấm cùng điểm khởi động, khác seed; split-R̂ (Vehtari et al. 2021) trên chỉ báo nhãn từng mẫu sau burn-in — trung vị, phân vị 90, tỉ lệ R̂ > 1,1, R̂ toàn cục (`icgibbs/g7/rhat.py`, 3 test). **Quy tắc ghi trước:** 3 dataset nhỏ nhất theo n của mỗi nhóm — tập đánh giá: dresses-sales, cylinder-bands, credit-approval; balance-scale, eucalyptus, analcatdata_dmft | Xong 26/10/2026 |
 | 4d | Bối cảnh `pll_real` (RQ5, PLL thật): đọc .npz của việc F7, đối chiếu SHA-256 tệp gốc với DATASET_CARDS, 10 lần chia 90/10 không phân tầng, số lớp Q lấy từ tập ứng viên, nhãn ngây thơ như thí điểm many-class; chỉ chạy với `--split eval --eval-ok` (1 test với dữ liệu giả). Cờ `--mh-check` cho PROOFS G4-5 | Xong 26/10/2026 |
-| 4e | Còn lại: LLP-Bench (RQ5, kiểm tra áp lực), phần `ablation` (giao thức Mục 7; các điểm cần định rõ ở Mục 4 dưới đây) | Chưa |
+| 4e | Phần `ablation` (giao thức Mục 7; định rõ ở Mục 4, deviation 11) và ablation cỡ dữ liệu (`--n_train_max`); 5 test (`tests/test_g7_ablation.py`). LLP-Bench: đề xuất ở Mục 4b, chờ kiểm quyền truy cập dữ liệu Criteo | Ablation xong 27/10/2026; LLP-Bench chưa |
 | 5 | Chạy tổng duyệt toàn bộ trên **tập phát triển** (phần `tfm` trên GPU, phần `baselines` trên CPU), so với kết quả thí điểm để thấy sai khác do R1–R3 | **Xong 27/10/2026** (G6 lượt 5, [G6_ROUND45_REPORT](G6_ROUND45_REPORT.md) §3): 216/216 TFM, 27/27 R̂, 323/324 baseline; mã băm khớp T5 ở 27/27 cặp; tái lập thí điểm khi dữ liệu không đổi (PLL từng bit; LLP Gibbs không tái lập từng bit trên GPU) |
 | 5a | Sửa sau lượt 5: `refit_best` (fit lại cấu hình tune kế tiếp khi xác suất không hữu hạn; giao thức §11 deviation 10); `--mh-check` nhận danh sách bối cảnh, cờ trần = LLP; phần `rhat` ghi metric test của từng chuỗi (`metric_chain_a/b`, chuỗi a cùng seed với `gibbs_warm`); `--synthetic_shape` | Xong 27/10/2026 (4 test mới) |
-| 5b | Đo thời gian và bộ nhớ ở cỡ tập đánh giá bằng dữ liệu tổng hợp (`run_g6_round6.sh`) | Chờ G6 lượt 6 |
+| 5b | Đo thời gian và bộ nhớ ở cỡ tập đánh giá bằng dữ liệu tổng hợp (`run_g6_round6.sh`) | **Xong 27/10/2026** ([G6_ROUND6_REPORT](G6_ROUND6_REPORT.md)): 92/92 dòng ok, không hết bộ nhớ (đỉnh 1,7 GB) |
+| 5c | Sửa backend TabICL của `run_g7.py` cho đúng cấu hình F6 (giữ checkpoint trong bộ nhớ, `support_many_classes=True`, 2 bộ ước lượng khi dự đoán cuối) — bản trước nạp lại checkpoint mỗi lần fit và thiếu tham số; chưa từng chạy nên chưa ảnh hưởng kết quả nào | Xong 27/10/2026 |
+| 5d | Tổng duyệt ablation, cỡ dữ liệu, TabICL trên tập phát triển, dùng 2 GPU song song (`run_g6_round7.sh`) | Chờ G6 lượt 7 |
 | 6 | Người kiểm duyệt chạy từ clone sạch (T8) | Chưa |
 
 ## 3b. Bài học từ lượt 5 cho G7
@@ -62,8 +64,26 @@ code/
 - **Thời gian:** chuỗi có sửa MH chậm 1,2–26 lần chuỗi thường; chỉ bật ở nơi cần (`--mh-check llp`, ablation trên 3 dataset nhỏ). Ước tính compute G7 ở giao thức Mục 9 (ghi chú 27/10/2026), sẽ thay bằng số đo của lượt 6.
 - **Baseline:** 1/324 ô lỗi vì fit lại phân kỳ → quy tắc dự phòng. Ghi phiên bản thư viện (`pip freeze`) ở mọi lượt G7.
 
-## 4. Điểm của giao thức Mục 7 (ablation) cần định rõ trước G7
-Ghi lại khi thiết kế phần `ablation`; quyết trước khi chạy tập đánh giá và ghi ở giao thức Mục 11.
-1. **"3 dataset, 1 mức"** (số khối K, số vòng quét) và **"3 dataset nhỏ"** (khối có sửa MH) chưa nói dataset và mức nào. Đề xuất: dùng cùng quy tắc với R̂ — 3 dataset nhỏ nhất theo n của mỗi nhóm; mức chính đầu tiên của bối cảnh (LLP túi 8; PLL q = 0,3).
-2. **Cỡ dữ liệu n_train ∈ {500, 1.000, 2.000, 4.000} trên "3 dataset lớn nhất":** với chia 70/30, chỉ satimage (train 4.501) và first-order-theorem-proving (4.282) có đủ 4.000 hàng train; dataset nhị phân lớn nhất (phoneme) chỉ có 3.782. Đề xuất: lấy 3 dataset đa lớp lớn nhất (satimage, first-order-theorem-proving, optdigits) cho PLL, mức n_train cuối là min(4.000, toàn bộ train), và ghi rõ trong bảng.
-3. **Prior của η (PU-SAR):** N(0, 1), N(0, 2²), N(0, 4²) — `PUSAR(prior_scale=...)` đã hỗ trợ; PU-SAR giờ là bối cảnh phụ nên ablation này cũng là phụ.
+## 4. Ablation (giao thức Mục 7): các điểm đã định rõ (27/10/2026; giao thức §11, deviation 11)
+Thầy giao em chọn; ghi trước khi chạy bất kỳ ablation nào trên tập đánh giá. Nguyên tắc: dùng lại đúng quy tắc chọn dataset đã ghi cho R̂ (3 dataset nhỏ nhất theo n mỗi nhóm) để không có thêm lựa chọn tự do; mỗi biến thể là **một chuỗi Gibbs cùng seed với `gibbs_warm`** của phần chính, chỉ khác đúng một thành phần, nên so ghép cặp được (đã kiểm: biến thể không đổi gì cho đúng từng chữ số kết quả của `gibbs_warm`).
+
+| Dòng của Mục 7 | Bối cảnh, mức | Dataset (tập đánh giá) | Biến thể (tên phương pháp) | Ghi chú |
+|---|---|---|---|---|
+| RQ3 (Gibbs / SEM / hard-EM) | mọi ô của phần chính | mọi dataset | `gibbs_warm`, `sem_warm`, `hard_em_warm` | đã có trong phần `tfm`, không chạy thêm |
+| Khởi tạo ấm / lạnh | LLP túi 8; PLL q = 0,3 và 0,6 | mọi dataset | `gibbs_cold` | lạnh = y_i ~ ℓ_i chuẩn hoá (LLP: hoán vị ngẫu nhiên khớp số đếm của túi). Cột "Dải" của Mục 7 để trống như dòng RQ3, nên hiểu là mọi ô của hai bối cảnh chính |
+| Số khối K ∈ {5, 10, 20} | LLP túi 8; PLL q = 0,3 | 3 nhỏ nhất mỗi nhóm: dresses-sales, cylinder-bands, credit-approval; analcatdata_dmft, balance-scale, eucalyptus | `gibbs_warm_K5`, `gibbs_warm_K20` | K = 10 lấy từ phần chính |
+| Số vòng quét ∈ {15, 30, 60} | như trên | như trên | `gibbs_warm_S15`, `gibbs_warm_S60` | burn-in = S/3 (5, 10, 20); dự đoán dùng 10 mẫu cách đều sau burn-in |
+| Quy nạp / chuyển nạp (G4-2) | LLP túi 8 | mọi dataset | `gibbs_warm_trans` | X_test vào chuỗi như điểm tự do (ℓ ≡ 1), khởi động bằng cùng DLLP tuyến tính; dự đoán = trung bình Rao–Blackwell của điều kiện trong chuỗi (TFM trong chuỗi, `n_estimators = 1`). Khác bộ dự đoán quy nạp cả ở số `n_estimators` — ghi rõ khi báo cáo |
+| Khối có sửa MH (bật / tắt) | LLP túi 8; PLL q = 0,3 | 3 nhỏ nhất mỗi nhóm | `gibbs_warm_mh` | chậm 1,2–26 lần chuỗi thường (G6 lượt 5) |
+| Propensity: học / đã biết; prior η | PU-SAR, cả hai mức | mọi dataset | `gibbs_warm_prior1`, `gibbs_warm_prior4` (mặc định N(0, 2²) ở phần chính); "đã biết" = `gibbs_known_warm` của phần chính | bối cảnh phụ |
+| TFM: TabPFN v2 / TabICL v2 | LLP túi 8; PLL q = 0,3 và 0,6 | mọi dataset | mọi phương pháp TFM của phần chính với `--backend tabicl_v2` | TabICL đúng cấu hình F6: `support_many_classes=True`, 1 bộ ước lượng trong chuỗi, 2 khi dự đoán cuối |
+| Cỡ dữ liệu n_train ∈ {500, 1.000, 2.000, 4.000} | LLP túi 8 (3 nhị phân lớn nhất: phoneme, spambase, sick); PLL q = 0,3 (3 đa lớp lớn nhất: satimage, first-order-theorem-proving, optdigits) | như cột trước | mọi phương pháp TFM + đối thủ chính (`dllplin_def`, `glwspll_tun`) | `--n_train_max`: mẫu con lồng nhau, phân tầng, cố định theo seed; test không đổi. Cỡ ≥ toàn bộ train thì dùng kết quả phần chính. Thay đề xuất cũ (chỉ PLL): LLP là khẳng định chính nên cũng cần đường cong theo cỡ dữ liệu |
+
+Dòng lệnh: `run_g7.py --part ablation --ablation {init, blocks, sweeps, trans, mh, prior}` (quy tắc dataset và mức tự áp theo `--split`); TabICL: `--part tfm --backend tabicl_v2 --settings llp,pll --levels "llp=8;pll=0.3,0.6"`; cỡ dữ liệu: `--part tfm|baselines --n_train_max M`.
+
+Ước tính GPU trên tập đánh giá (mô hình thời gian sau lượt 6, sai số khoảng ±40%): khởi tạo lạnh 9 giờ, K và số vòng quét 1–2 giờ (dataset nhỏ), chuyển nạp 2 giờ, sửa MH 3 giờ, prior η 6 giờ, TabICL 6 giờ (giả định TabICL nhanh hơn TabPFN khoảng 2,5 lần như ở thí điểm many-class; lượt 7 đo lại), cỡ dữ liệu 5 giờ: **tổng khoảng 32 giờ**.
+
+## 4b. LLP-Bench (RQ5, kiểm tra áp lực): đề xuất, chưa chốt
+- **Dữ liệu:** bài LLP-Bench (Brahmbhatt et al., NeurIPS 2023 D&B) không công bố code hay dữ liệu đã chia túi; các túi được dựng lại từ dữ liệu Criteo (khoảng 45,8 triệu hàng; 13 feature số, 26 feature phân loại) theo mô tả trong bài. Nguồn: dữ liệu cuộc thi Criteo Display Advertising trên Kaggle, hoặc bản `reczoo/Criteo_x4` trên Hugging Face (cùng 45.840.617 hàng; tiền xử lý không hoàn toàn như AutoInt). **Việc cần thầy:** kiểm trên Kaggle xem thêm được dữ liệu Criteo vào notebook không, và điều khoản sử dụng của nguồn đó.
+- **Cỡ:** TFM chỉ nhận ngữ cảnh ≤ 2.000, còn mỗi bộ của LLP-Bench có hàng triệu mẫu. Đề xuất: lấy mẫu con 5.000 mẫu train và 2.000 mẫu test cho mỗi cấu hình. Dùng 4 bộ túi ngẫu nhiên (cỡ 64, 128, 256, 512) và một số bộ túi theo feature (chọn bằng quy tắc ghi trước, ví dụ 4 bộ có cỡ túi trung bình gần trung vị). 5 lần chia như bài. So Gibbs ấm với DLLP tuyến tính và TFM ngây thơ.
+- **Dự đoán ghi trước** (giao thức §1.4): phương pháp yếu ở túi cỡ ≥ 64.

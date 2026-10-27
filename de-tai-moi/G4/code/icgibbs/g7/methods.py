@@ -57,13 +57,15 @@ def tuned_extra(m):
 # =====================================================================================================
 # Mô hình quan sát cho sampler, nhãn ngây thơ và khởi động ấm (D6)
 # =====================================================================================================
-def weak_model(cell: Cell, known_eta: bool = False):
+def weak_model(cell: Cell, known_eta: bool = False, prior_scale: float = 2.0):
+    """prior_scale: độ lệch chuẩn của prior N(0, s² I) cho η của PU-SAR (mặc định 2; ablation giao thức Mục 7: 1 và 4)."""
     from ..weak import LLP, PUSAR, PUSCAR, SSL, NoisyLabel, PartialLabel
     w = cell.weak
     if w.setting == "pu_scar":
         return PUSCAR(w.s, c=w.level)
     if w.setting == "pu_sar":
-        return PUSAR(w.s, Z=w.z[:, None], eta=list(w.eta)) if known_eta else PUSAR(w.s, Z=w.z[:, None], prior_scale=2.0)
+        return PUSAR(w.s, Z=w.z[:, None], eta=list(w.eta)) if known_eta else \
+            PUSAR(w.s, Z=w.z[:, None], prior_scale=prior_scale)
     if w.setting == "llp":
         return LLP(w.bags, w.counts, len(cell.Xtr))
     if w.setting == "ssl":
@@ -88,8 +90,9 @@ def naive_labels(cell: Cell):
     raise ValueError(w.setting)
 
 
-def warm_start(cell: Cell, cond, known_eta: bool = False):
-    """Điểm khởi động ấm P0 trên train (D6) và số lần gọi TFM."""
+def warm_start(cell: Cell, cond, known_eta: bool = False, extras: dict | None = None):
+    """Điểm khởi động ấm P0 trên train (D6) và số lần gọi TFM. extras (dict, tuỳ chọn): với LLP ghi thêm
+    extras["P0_test"] = dự đoán của cùng DLLP tuyến tính trên test (khởi động cho chế độ chuyển nạp)."""
     from ..baselines import DLLP, warm_start_cross, warm_start_pu
     w = cell.weak
     if w.setting in ("pu_scar", "pu_sar"):
@@ -97,6 +100,8 @@ def warm_start(cell: Cell, cond, known_eta: bool = False):
         return warm_start_pu(cond, cell.Xtr, w.s, e, n_folds=GIBBS["warm_folds"], seed=cell.seed), GIBBS["warm_folds"]
     if w.setting == "llp":
         dl = DLLP(epochs=200, hidden=(), seed=cell.seed).fit(cell.Mtr, w.bags, w.counts)    # DLLP tuyến tính
+        if extras is not None:
+            extras["P0_test"] = dl.predict_proba(cell.Mte)
         return dl.predict_proba(cell.Mtr), 0
     pseudo, fit_mask = naive_labels(cell)
     return warm_start_cross(cond, cell.Xtr, pseudo, fit_mask=fit_mask, n_folds=GIBBS["warm_folds"],
@@ -153,6 +158,82 @@ def run_rhat(cell, cond, cond_final=None, seeds=(0, 1000)):
             preds.append(np.asarray(g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=GIBBS["n_use"]), float))
     st = label_rhat(*chains)
     return (st, preds) if cond_final is not None else st
+
+
+# =====================================================================================================
+# Ablation (giao thức Mục 7; các điểm định rõ ở G7_RUNNER_DESIGN §4 và giao thức §11, deviation 11)
+# Mỗi biến thể là MỘT chuỗi Gibbs cùng seed với gibbs_warm của phần TFM, chỉ khác đúng một thành phần, nên so ghép cặp
+# với gibbs_warm (K = 10, 30 vòng quét, khởi động ấm, quy nạp, không sửa MH, prior η N(0, 2²)).
+# =====================================================================================================
+ABLATION_VARIANTS = {
+    "gibbs_cold": dict(init="cold"),                   # khởi tạo lạnh: y_i ~ ℓ_i chuẩn hoá (LLP: hoán vị khớp số đếm)
+    "gibbs_warm_K5": dict(n_blocks=5),
+    "gibbs_warm_K20": dict(n_blocks=20),
+    "gibbs_warm_S15": dict(n_sweeps=15),               # burn-in = S/3; n_use = 10 mẫu cách đều sau burn-in
+    "gibbs_warm_S60": dict(n_sweeps=60),
+    "gibbs_warm_trans": dict(transductive=True),       # X_test vào chuỗi như điểm tự do (ℓ ≡ 1)
+    "gibbs_warm_mh": dict(mh_correct=True),            # khối / bag-block có sửa MH (chính xác)
+    "gibbs_warm_prior1": dict(prior_scale=1.0),        # PU-SAR: prior η ~ N(0, 1)
+    "gibbs_warm_prior4": dict(prior_scale=4.0),        # PU-SAR: prior η ~ N(0, 4²)
+}
+
+
+def run_ablation(cell: Cell, cond, cond_final, variants, todo, emit, guard=None):
+    guard = guard or (lambda m, fn: fn())
+    need = [v for v in variants if todo(v)]
+    if not need:
+        return
+    state = {}
+    if any(ABLATION_VARIANTS[v].get("init") != "cold" for v in need):
+        def _warm():
+            t0 = time.time()
+            ex = {}
+            state["P0"], state["calls"] = warm_start(cell, cond, extras=ex)
+            state["P0_test"] = ex.get("P0_test")
+            state["t"] = time.time() - t0
+        guard("warm_start", _warm)
+    for v in need:
+        if ABLATION_VARIANTS[v].get("init") != "cold" and "P0" not in state:
+            continue
+        guard(v, lambda v=v: _gibbs_variant(cell, cond, cond_final, emit, state, v, **ABLATION_VARIANTS[v]))
+
+
+def _gibbs_variant(cell, cond, cond_final, emit, state, name, init="warm", n_blocks=None, n_sweeps=None,
+                   transductive=False, mh_correct=False, prior_scale=None):
+    from ..sampler import InContextGibbs
+    t1 = time.time()
+    cond.n_calls = 0
+    S = GIBBS["n_sweeps"] if n_sweeps is None else int(n_sweeps)
+    burn = GIBBS["burn_in"] if n_sweeps is None else S // 3
+    K = GIBBS["n_blocks"] if n_blocks is None else int(n_blocks)
+    wm = weak_model(cell) if prior_scale is None else weak_model(cell, prior_scale=prior_scale)
+    cold = init == "cold"
+    calls0, t0 = (0, 0.0) if cold else (state["calls"], state["t"])
+    kw = dict(n_blocks=K, n_sweeps=S, burn_in=burn, max_context=GIBBS["max_context"], seed=cell.seed,
+              mh_correct=mh_correct)
+    info = f"K={K};sweeps={S};burn_in={burn};init={'cold' if cold else 'warm'}"
+    if transductive:
+        m = len(cell.Xte)
+        wm.extend(m)
+        P0t = state.get("P0_test")
+        if P0t is None:                                    # ngoài LLP: điểm test khởi tạo theo ℓ ≡ 1 (đều)
+            P0t = np.full((m, cell.n_classes), 1.0 / cell.n_classes)
+        init_arg = "lik" if cold else np.vstack([np.asarray(state["P0"], float), np.asarray(P0t, float)])
+        g = InContextGibbs(cond, wm, init=init_arg, track=np.arange(len(cell.Xtr), len(cell.Xtr) + m), **kw) \
+            .run(np.vstack([cell.Xtr, cell.Xte]))
+        P = g.transductive_proba()                         # trung bình Rao–Blackwell của điều kiện trong chuỗi
+        n_calls = calls0 + cond.n_calls
+        info += ";mode=transductive"
+    else:
+        g = InContextGibbs(cond, wm, init="lik" if cold else state["P0"], **kw).run(cell.Xtr)
+        cond_final.n_calls = 0
+        n_use = min(GIBBS["n_use"], max(len(g.samples_), 1))
+        P = g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=n_use)
+        n_calls = calls0 + cond.n_calls + cond_final.n_calls
+    info += ";flips=" + "/".join(f"{f:.3f}" for f in g.trace_.flips)
+    if mh_correct:
+        info += ";accept=" + "/".join(f"{a:.3f}" for a in g.trace_.accept)
+    emit(name, Out(P, n_calls, info), t0 + time.time() - t1)
 
 
 def _naive(cell, cond_final, emit):

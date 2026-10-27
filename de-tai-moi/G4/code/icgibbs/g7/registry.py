@@ -20,6 +20,14 @@ S1_EXCLUDE = {40966, 1497, 11, 40975}
 RHAT_EVAL = {"binary": [23381, 6332, 29], "multiclass": [11, 188, 469]}
 RHAT_DEV = {"binary": [1510, 1480, 1464], "multiclass": [54, 23, 36]}
 
+# Ablation (giao thức Mục 7; quy tắc ghi trước 27/10/2026, giao thức §11 deviation 11): "3 dataset nhỏ" và "3 dataset,
+# 1 mức" dùng đúng danh sách của R̂; "3 dataset lớn nhất" = 3 dataset lớn nhất theo n sau loại trùng mỗi nhóm
+# (docs/dataset_hashes.csv): phoneme 5395, spambase 4210, sick 3711; satimage 6430, first-order-theorem-proving 5636,
+# optdigits 5620. Tập phát triển: banknote 1348, credit-g 1000, diabetes 768; segment 2086, cmc 1425, vehicle 846.
+ABL_SMALL_EVAL, ABL_SMALL_DEV = RHAT_EVAL, RHAT_DEV
+ABL_LARGE_EVAL = {"binary": [1489, 44, 38], "multiclass": [182, 1475, 28]}
+ABL_LARGE_DEV = {"binary": [1462, 31, 37], "multiclass": [36, 23, 54]}
+
 # RQ5 — PLL thật (G5/DATASET_CARDS Mục D): tên → (mã số dùng cho seed, SHA-256 của tệp gốc trên trang PALM)
 REAL_PLL = {
     "Lost": (1, "ce4c1e0d5ad117e1b48f9f83805cba46f2a955ca5bdf75e578026ae4f6c7a960"),

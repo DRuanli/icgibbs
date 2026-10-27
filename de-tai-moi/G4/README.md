@@ -26,6 +26,29 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## G6 lượt 7 trên Kaggle — dùng `g6_code_v7.zip` (GPU T4 × 2, khoảng 2,5 giờ; 27/10/2026)
+
+Mục đích: **tổng duyệt phần ablation** của bộ chạy G7 (khởi tạo lạnh, số khối K, số vòng quét, chuyển nạp, prior η của PU-SAR), **ablation cỡ dữ liệu** và **backend TabICL v2** (đã sửa cho đúng cấu hình F6) trên **tập phát triển**, theo đúng quy tắc chọn dataset sẽ dùng ở G7. Chạy hai luồng song song, mỗi luồng một GPU, để thử cách chạy cho G7. Không chạm tập đánh giá.
+
+1. Tải `g6_code_v7.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *Accelerator: **GPU T4 × 2**, Internet: On, Add data `icgibbs-g4`, Secrets: tích `TABPFN_TOKEN`*. Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+src = glob.glob("/kaggle/input/**/g6_code_v7/code/run_g6_round7.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6g", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6g", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6g
+!bash run_g6_round7.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r7_master_log.txt
+```
+4. Gửi lại các file `g6r7_*` trong /kaggle/working (csv, log, preds, `g6r7_gpu.txt`, `g6r7_pip_freeze.txt`).
+
 ## G6 lượt 6 trên Kaggle — dùng `g6_code_v6.zip` (GPU khoảng 2 giờ; 27/10/2026)
 
 Mục đích: **đo thời gian và bộ nhớ ở cỡ của tập đánh giá** trước khi lên lịch G7. Ước tính hiện tại (G6_ROUND45_REPORT Mục 5) phải ngoại suy từ n_train ≤ 1.460 lên tới 4.500. Lượt này chạy bộ chạy G7 trên **dữ liệu tổng hợp** cùng cỡ với 4 dataset lớn nhất của tập đánh giá (phoneme, spambase, satimage, semeion), mỗi bối cảnh 1 mức, 1 seed; baseline chạy CPU song song. **Không tải, không chạm tập đánh giá**; metric trên dữ liệu tổng hợp không dùng cho kết luận nào. Code cũng có các sửa sau lượt 5 (quy tắc dự phòng khi fit lại baseline tune hỏng; `--mh-check` chỉ LLP; R̂ ghi metric từng chuỗi).

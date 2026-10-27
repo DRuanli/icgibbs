@@ -25,16 +25,32 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icgibbs.g7.data import (Preprocessor, Table, canonical_table, encode_tfm, load_openml,  # noqa: E402
                              load_real_pll, table_sha256)
 from icgibbs.g7.io import ResultWriter, code_version, config_hash, weak_hash  # noqa: E402
-from icgibbs.g7.methods import GIBBS, TFM_METHODS, Cell, baselines_for, run_tfm_methods  # noqa: E402
+from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, Cell, baselines_for,  # noqa: E402
+                                run_ablation, run_tfm_methods)
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
-from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL,  # noqa: E402
-                                 RHAT_DEV, RHAT_EVAL)
-from icgibbs.g7.splits import random_split, split_sha256, stratified_split  # noqa: E402
+from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, ABL_SMALL_EVAL,  # noqa: E402
+                                 DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
+                                 RHAT_EVAL)
+from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
 from icgibbs.g7.weakgen import make_weak, real_pll_weak, weak_rng  # noqa: E402
 
 LEVELS = {"llp": [8, 16, 32], "pu_sar": [0.1, 0.3], "pu_scar": [0.1, 0.3], "ssl": [0.05, 0.2], "noisy": [0.2, 0.4],
           "pll": [0.3, 0.6]}
 BINARY_SETTINGS = ("llp", "pu_sar", "pu_scar", "ssl", "noisy")
+# Ablation (giao thức Mục 7; các điểm chưa nói rõ được định ở G7_RUNNER_DESIGN §4, giao thức §11 deviation 11).
+# datasets: "all" = mọi dataset của nhóm; "small3" = 3 dataset nhỏ nhất mỗi nhóm (cùng danh sách với R̂)
+ABLATIONS = {
+    "init": dict(levels={"llp": [8], "pll": [0.3, 0.6]}, datasets="all", variants=["gibbs_cold"]),
+    "blocks": dict(levels={"llp": [8], "pll": [0.3]}, datasets="small3", variants=["gibbs_warm_K5", "gibbs_warm_K20"]),
+    "sweeps": dict(levels={"llp": [8], "pll": [0.3]}, datasets="small3", variants=["gibbs_warm_S15", "gibbs_warm_S60"]),
+    "trans": dict(levels={"llp": [8]}, datasets="all", variants=["gibbs_warm_trans"]),
+    "mh": dict(levels={"llp": [8], "pll": [0.3]}, datasets="small3", variants=["gibbs_warm_mh"]),
+    "prior": dict(levels={"pu_sar": [0.1, 0.3]}, datasets="all", variants=["gibbs_warm_prior1", "gibbs_warm_prior4"]),
+}
+# Ablation cỡ dữ liệu (--n_train_max): LLP túi 8 trên 3 dataset nhị phân lớn nhất, PLL q = 0,3 trên 3 dataset đa lớp lớn
+# nhất; cỡ 500, 1.000, 2.000, 4.000; cỡ ≥ toàn bộ train thì bỏ qua ô (dùng kết quả phần chính)
+SIZE_LEVELS = {"llp": [8], "pll": [0.3]}
+assert all(v in ABLATION_VARIANTS for r in ABLATIONS.values() for v in r["variants"])
 METRIC_FIELDS = ["auc", "pr_auc", "logloss", "brier", "acc", "ece", "logloss_pm", "brier_pm", "auc_ovr"]
 FIELDS = ["backend", "dataset_id", "dataset", "setting", "level", "seed", "method", "part"] + METRIC_FIELDS + \
          ["n_train", "n_test", "d", "n_classes", "pos_rate", "n_duplicates_removed", "n_tfm_calls", "seconds",
@@ -53,10 +69,28 @@ def make_estimator(backend: str, n_estimators):
         if n_estimators is not None:
             kw["n_estimators"] = n_estimators
         return TabPFNClassifier.create_default_for_version(version, **kw)
-    if backend == "tabicl_v2":
+    if backend == "tabicl_v2":                              # đúng cấu hình đã chọn ở F6 (giao thức §1.4)
         from tabicl import TabICLClassifier
-        return TabICLClassifier(**({} if n_estimators is None else {"n_estimators": n_estimators}))
+
+        class CachedTabICL(TabICLClassifier):
+            """TabICLClassifier.fit nạp lại checkpoint từ đĩa mỗi lần; Gibbs gọi fit hàng trăm lần nên giữ mô hình
+            (chế độ eval, trọng số không đổi) trong bộ nhớ và dùng lại — như kaggle_g4_manyclass_pilot.py."""
+
+            def _load_model(self):
+                key = (self.checkpoint_version, str(self.model_path))
+                if key not in _TABICL_CACHE:
+                    super()._load_model()
+                    _TABICL_CACHE[key] = (self.model_, self.model_config_, self.model_path_)
+                self.model_, self.model_config_, self.model_path_ = _TABICL_CACHE[key]
+
+        kw = {"support_many_classes": True, "random_state": 0}
+        if n_estimators is not None:
+            kw["n_estimators"] = n_estimators
+        return CachedTabICL(**kw)
     raise ValueError(backend)
+
+
+_TABICL_CACHE: dict = {}
 
 
 def synthetic_table(did: int, binary: bool, shape=None) -> Table:
@@ -96,7 +130,10 @@ def parse_levels(spec: str):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--part", choices=["tfm", "baselines", "rhat"], required=True)
+    ap.add_argument("--part", choices=["tfm", "baselines", "rhat", "ablation"], required=True)
+    ap.add_argument("--ablation", choices=sorted(ABLATIONS), default="", help="với --part ablation: một ablation")
+    ap.add_argument("--n_train_max", type=int, default=0,
+                    help="ablation cỡ dữ liệu: lấy mẫu con lồng nhau, phân tầng của train tới cỡ này (0 = không)")
     ap.add_argument("--split", choices=["dev", "eval"], default="dev")
     ap.add_argument("--eval-ok", action="store_true", help="xác nhận chạy trên tập đánh giá (chỉ từ G7)")
     ap.add_argument("--source", choices=["openml", "synthetic"], default="openml")
@@ -120,6 +157,8 @@ def main(argv=None):
     ap.add_argument("--preds", default="auto")
     a = ap.parse_args(argv)
     a.mh_settings = {x.strip() for x in a.mh_check.split(",") if x.strip()}
+    if a.backend == "tabicl_v2" and a.final_est is None:   # giao thức §1.4: TabICL 1 trong chuỗi, 2 khi dự đoán cuối
+        a.final_est = 2
     shapes = parse_shapes(a.synthetic_shape)
     if shapes and a.source != "synthetic":
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
@@ -135,6 +174,23 @@ def main(argv=None):
     if a.part == "rhat" and a.datasets == "all":            # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
         rs = RHAT_EVAL if a.split == "eval" else RHAT_DEV
         a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
+    if a.part == "ablation":                               # thiết lập theo quy tắc ghi trước của từng ablation
+        if not a.ablation:
+            ap.error("--part ablation cần --ablation")
+        rule = ABLATIONS[a.ablation]
+        settings[:] = list(rule["levels"])
+        levels.update(rule["levels"])
+        if rule["datasets"] == "small3" and a.datasets == "all":
+            rs = ABL_SMALL_EVAL if a.split == "eval" else ABL_SMALL_DEV
+            a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
+    if a.n_train_max:
+        if a.part not in ("tfm", "baselines"):
+            ap.error("--n_train_max chỉ dùng với --part tfm hoặc baselines")
+        settings[:] = [s for s in settings if s in SIZE_LEVELS] or list(SIZE_LEVELS)
+        levels.update(SIZE_LEVELS)
+        if a.datasets == "all":
+            rs = ABL_LARGE_EVAL if a.split == "eval" else ABL_LARGE_DEV
+            a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
     if a.datasets != "all":
         want = {int(x) for x in a.datasets.split(",")}
         binary_ids = {k: v for k, v in binary_ids.items() if k in want}
@@ -202,12 +258,18 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
     did = t.did
     C = weak.n_classes if weak is not None else t.n_classes
     itr, ite = split if split is not None else stratified_split(t.y, seed)
+    if getattr(a, "n_train_max", 0):                      # ablation cỡ dữ liệu: test không đổi
+        if a.n_train_max >= len(itr):
+            print(f"  [bỏ qua] {t.name} {setting} s{seed}: n_train {len(itr)} ≤ {a.n_train_max} — dùng kết quả phần chính",
+                  flush=True)
+            return
+        itr = nested_subsample(itr, t.y, a.n_train_max, seed, did)
     prep = Preprocessor().fit(t.X.iloc[itr])
     Mtr, Mte = prep.transform(t.X.iloc[itr]), prep.transform(t.X.iloc[ite])
     Xtr, Xte, ytr, yte = X_all[itr], X_all[ite], t.y[itr], t.y[ite]
     wd = weak if weak is not None else make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
     cell = Cell(did, t.name, setting, level, seed, C, Xtr, Xte, Mtr, Mte, wd, prior=float(ytr.mean()) if C == 2 else None)
-    base = dict(backend=a.backend if a.part in ("tfm", "rhat") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
+    base = dict(backend=a.backend if a.part in ("tfm", "rhat", "ablation") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
                 level=level, seed=seed, part=a.part, n_train=len(itr), n_test=len(ite), d=X_all.shape[1], n_classes=C,
                 pos_rate=round(float(ytr.mean()), 4) if C == 2 else "", n_duplicates_removed=t.n_duplicates_removed,
                 sha256_table=sha_t, sha256_split=split_sha256(itr, ite), weak_hash=weak_hash(wd), code=code,
@@ -261,6 +323,11 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                                   extra=";".join(f"{k}={v:.4f}" if isinstance(v, float) else f"{k}={v}" for k, v in st.items())))
                 print(f"  {t.name[:22]:>22s} {setting:7s} {str(level):>4s} s{seed} rhat {st}", flush=True)
             attempt("rhat", _rh)
+        return
+    if a.part == "ablation":
+        cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
+        fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)
+        run_ablation(cell, cond, fin, ABLATIONS[a.ablation]["variants"], todo, emit, guard=attempt)
         return
     if a.part == "tfm":
         cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
