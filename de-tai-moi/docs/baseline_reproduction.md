@@ -64,6 +64,15 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
 - Bản dự phòng cài lại cho kết quả trùng với hàm chính thức (test `test_proden_official_loss_matches_reimplementation`).
 - Chưa tái hiện số công bố: bài dùng MNIST và các bộ tương tự, sẽ làm ở lượt sau.
 
+## PRODEN, RC, CC trên UCI (kế hoạch, G6 lượt 8; `G4/code/g6_reproduce_pll_uci.py`)
+- Bài PRODEN chỉ có số MNIST trong hình, nhưng có **Bảng 1 (UCI, binomial q = 0,1 / 0,7, mô hình tuyến tính)**: Yeast 59,05 ± 4,66 / 55,15 ± 3,87; Texture 99,64 ± 0,16 / 99,33 ± 0,32; Dermatology 96,16 ± 3,26 / 95,34 ± 3,15; Synthetic Control 98,33 ± 1,32 / 95,00 ± 4,75. Siêu tham số từng bộ lấy từ `parameter_settings.txt` của kho (SGD momentum 0,9; 500 epoch; trung bình accuracy 10 epoch cuối).
+- Bài RC/CC: **Bảng 3 (UCI, tập ứng viên đều, mô hình tuyến tính)**: RC / CC — Texture 99,24 ± 0,14 / 98,02 ± 2,91; Yeast 59,89 ± 1,27 / 59,97 ± 1,57; Dermatology 99,41 ± 1,00 / 99,73 ± 0,85; Har 98,03 ± 0,09 / 98,10 ± 0,18. Adam, full batch, 2000 epoch; lr và weight decay trong {1e-6, …, 1e-1} chọn trên 10% validation; 10 lần chia 90/10.
+- Không bộ nào trùng tập phát triển hay tập đánh giá. 20Newsgroups (bản 300 chiều) chưa tìm được trên OpenML nên bỏ. Chỗ bài không nói rõ được chọn và ghi ở đầu script.
+
+## GLWS/ILL cho PLL — thiếu số hạng của bản chính thức (phát hiện G6, 27/10/2026)
+- Mọi config PLL của kho (20 tệp) bật `average_entropy_loss: True`; bản cài của dự án thiếu số hạng này. Đã thêm đúng công thức (test khớp từng phép tính), mặc định bật, tune bật/tắt; chạy lại ở G6 lượt 8 (giao thức §11, deviation 13).
+- Tái hiện số công bố: mọi thí nghiệm PLL của bài dùng ảnh (LeNet cho MNIST/Fashion-MNIST, WRN-34-10 cho CIFAR) với tăng cường mạnh ba góc nhìn; bản cài cho dữ liệu bảng dùng một góc nhìn (deviation 9). Đề xuất: kiểm tương đương từng phép tính với code chính thức thay cho tái hiện số (chờ quyết).
+
 ## EasyLLP, RC, CC
 - Không có code chính thức nên cài theo bài: EasyLLP theo Eq. 3; RC và CC theo Feng et al. 2020.
 - Số công bố để tái hiện:

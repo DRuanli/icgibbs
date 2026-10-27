@@ -291,13 +291,18 @@ class PLLNet:
     """method ∈ {proden, glws, rc, cc}."""
 
     def __init__(self, method: str = "proden", lr: float = 1e-3, weight_decay: float = 1e-5, hidden=(128, 128),
-                 epochs: int = 200, batch_size: int = 128, seed: int = 0, optimizer: str | None = None):
+                 epochs: int = 200, batch_size: int = 128, seed: int = 0, optimizer: str | None = None,
+                 average_entropy_loss: bool = True):
         self.method, self.lr, self.wd, self.hidden, self.epochs = method, lr, weight_decay, tuple(hidden), epochs
         self.bs, self.seed = batch_size, seed
+        # GLWS/ILL cho PLL: số hạng cân bằng entropy trung bình 0,1 · CE(đều ‖ dự đoán trung bình của batch), như
+        # `imp_partial_label.py`; MỌI config PLL chính thức đều bật (G6, 27/10/2026). Chỉ dùng khi method == "glws".
+        self.average_entropy_loss = bool(average_entropy_loss)
         # PRODEN: SGD momentum 0,9 như kho chính thức (mặc định); không gian tune có thêm Adam (G6 lượt 2, mục 5)
         self.optimizer = optimizer or ("sgd" if method == "proden" else "adam")
 
-    def fit(self, X, S):
+    def fit(self, X, S, on_epoch=None):
+        """on_epoch(model, epoch): gọi cuối mỗi epoch (chỉ để tái hiện số công bố, ví dụ trung bình 10 epoch cuối)."""
         torch = _torch()
         torch.manual_seed(self.seed)
         rng = np.random.default_rng(self.seed)
@@ -332,6 +337,9 @@ class PLLNet:
                     sup = -torch.mean(torch.sum(torch.log(1.0000001 - p) * (1 - S[b]), 1))
                     unsup = -(pseudo * torch.log_softmax(logits, -1)).sum(1).mean()
                     loss = sup + unsup
+                    if self.average_entropy_loss:
+                        avg = torch.clamp(p.mean(0), min=1e-6, max=1.0)
+                        loss = loss + 0.1 * (-(torch.full_like(avg, 1.0 / C) * torch.log(avg)).sum())
                 elif self.method == "rc":
                     loss = -(W[b] * torch.log_softmax(logits, -1)).sum(1).mean()
                 elif self.method == "cc":
@@ -346,6 +354,8 @@ class PLLNet:
                 with torch.no_grad():
                     p = torch.softmax(self.net(Xs), -1) * S
                     W = p / p.sum(1, keepdim=True).clamp_min(1e-12)
+            if on_epoch is not None:
+                on_epoch(self, _)
         return self
 
     def predict_proba(self, X):
@@ -361,14 +371,15 @@ class PLLNet:
 
 PLL_DEFAULTS = {
     "proden": dict(lr=1e-3, weight_decay=1e-5, hidden=(128, 128), epochs=200, batch_size=128),
-    "glws": dict(lr=1e-3, weight_decay=1e-5, hidden=(128, 128), epochs=200, batch_size=128),
+    "glws": dict(lr=1e-3, weight_decay=1e-5, hidden=(128, 128), epochs=200, batch_size=128, average_entropy_loss=True),
     "rc": dict(lr=1e-3, weight_decay=1e-5, hidden=(), epochs=200, batch_size=128),
     "cc": dict(lr=1e-3, weight_decay=1e-5, hidden=(), epochs=200, batch_size=128),
 }
 _PLL_SPACE = {"lr": LogUniform(1e-4, 1e-2), "weight_decay": LogUniform(1e-6, 1e-2),
               "hidden": Choice([(), (64,), (128, 128)]), "epochs": Choice([100, 200, 400]), "batch_size": Choice([128])}
 PLL_SPACES = {k: dict(_PLL_SPACE) for k in PLL_DEFAULTS}
-PLL_SPACES["glws"] = dict(_PLL_SPACE, hidden=Choice([(64,), (128,), (128, 128)]))
+PLL_SPACES["glws"] = dict(_PLL_SPACE, hidden=Choice([(64,), (128,), (128, 128)]),
+                          average_entropy_loss=Choice([True, False]))   # G6, 27/10/2026: như ILL nhãn nhiễu, SSL
 # G6 lượt 2 (26/10/2026): SGD với lr ≤ 1e-2 làm PRODEN chưa hội tụ trên dữ liệu bảng nhỏ (bản Adam cũ của dự án mạnh hơn)
 # → thêm bộ tối ưu vào không gian tune; cấu hình mặc định giữ SGD như kho chính thức. Ghi ở docs/tuning_spaces.md.
 PLL_SPACES["proden"] = dict(_PLL_SPACE, optimizer=Choice(["sgd", "adam"]))

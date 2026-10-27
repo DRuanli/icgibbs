@@ -56,7 +56,7 @@ code/
 | 5a | Sửa sau lượt 5: `refit_best` (fit lại cấu hình tune kế tiếp khi xác suất không hữu hạn; giao thức §11 deviation 10); `--mh-check` nhận danh sách bối cảnh, cờ trần = LLP; phần `rhat` ghi metric test của từng chuỗi (`metric_chain_a/b`, chuỗi a cùng seed với `gibbs_warm`); `--synthetic_shape` | Xong 27/10/2026 (4 test mới) |
 | 5b | Đo thời gian và bộ nhớ ở cỡ tập đánh giá bằng dữ liệu tổng hợp (`run_g6_round6.sh`) | **Xong 27/10/2026** ([G6_ROUND6_REPORT](G6_ROUND6_REPORT.md)): 92/92 dòng ok, không hết bộ nhớ (đỉnh 1,7 GB) |
 | 5c | Sửa backend TabICL của `run_g7.py` cho đúng cấu hình F6 (giữ checkpoint trong bộ nhớ, `support_many_classes=True`, 2 bộ ước lượng khi dự đoán cuối) — bản trước nạp lại checkpoint mỗi lần fit và thiếu tham số; chưa từng chạy nên chưa ảnh hưởng kết quả nào | Xong 27/10/2026 |
-| 5d | Tổng duyệt ablation, cỡ dữ liệu, TabICL trên tập phát triển, dùng 2 GPU song song (`run_g6_round7.sh`) | Chờ G6 lượt 7 |
+| 5d | Tổng duyệt ablation, cỡ dữ liệu, TabICL trên tập phát triển, dùng 2 GPU song song (`run_g6_round7.sh`) | **Xong 27/10/2026** ([G6_ROUND7_REPORT](G6_ROUND7_REPORT.md)): 509/509 dòng ok; 2 luồng GPU song song tăng thông lượng khoảng 1,6–2 lần; TabICL nhanh hơn TabPFN khoảng 3 lần |
 | 6 | Người kiểm duyệt chạy từ clone sạch (T8) | Chưa |
 
 ## 3b. Bài học từ lượt 5 cho G7
@@ -81,7 +81,7 @@ Thầy giao em chọn; ghi trước khi chạy bất kỳ ablation nào trên t�
 
 Dòng lệnh: `run_g7.py --part ablation --ablation {init, blocks, sweeps, trans, mh, prior}` (quy tắc dataset và mức tự áp theo `--split`); TabICL: `--part tfm --backend tabicl_v2 --settings llp,pll --levels "llp=8;pll=0.3,0.6"`; cỡ dữ liệu: `--part tfm|baselines --n_train_max M`.
 
-Ước tính GPU trên tập đánh giá (mô hình thời gian sau lượt 6, sai số khoảng ±40%): khởi tạo lạnh 9 giờ, K và số vòng quét 1–2 giờ (dataset nhỏ), chuyển nạp 2 giờ, sửa MH 3 giờ, prior η 6 giờ, TabICL 6 giờ (giả định TabICL nhanh hơn TabPFN khoảng 2,5 lần như ở thí điểm many-class; lượt 7 đo lại), cỡ dữ liệu 5 giờ: **tổng khoảng 32 giờ**.
+Ước tính GPU trên tập đánh giá (mô hình thời gian sau lượt 6, sai số khoảng ±40%): khởi tạo lạnh 9 giờ, K và số vòng quét 1–2 giờ (dataset nhỏ), chuyển nạp 2 giờ, sửa MH 3 giờ, prior η 6 giờ, TabICL khoảng 4,5 giờ (lượt 7 đo: nhanh hơn TabPFN khoảng 3 lần), cỡ dữ liệu 5 giờ: **tổng khoảng 31 giờ**.
 
 ## 4b. LLP-Bench (RQ5, kiểm tra áp lực): đề xuất, chưa chốt
 - **Dữ liệu:** bài LLP-Bench (Brahmbhatt et al., NeurIPS 2023 D&B) không công bố code hay dữ liệu đã chia túi; các túi được dựng lại từ dữ liệu Criteo (khoảng 45,8 triệu hàng; 13 feature số, 26 feature phân loại) theo mô tả trong bài. Nguồn: dữ liệu cuộc thi Criteo Display Advertising trên Kaggle, hoặc bản `reczoo/Criteo_x4` trên Hugging Face (cùng 45.840.617 hàng; tiền xử lý không hoàn toàn như AutoInt). **Việc cần thầy:** kiểm trên Kaggle xem thêm được dữ liệu Criteo vào notebook không, và điều khoản sử dụng của nguồn đó.

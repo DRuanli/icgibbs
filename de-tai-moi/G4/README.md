@@ -26,6 +26,26 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## G6 lượt 8 trên Kaggle — dùng `g6_code_v8.zip` (chỉ CPU, khoảng 1 giờ; 27/10/2026)
+
+Mục đích: (1) chạy lại GLWS/ILL cho PLL sau khi thêm số hạng cân bằng entropy của bản chính thức (deviation 13), cả bằng script thí điểm lẫn bộ chạy G7, để chọn lại đối thủ chính của PLL; (2) T3: tái hiện số công bố của PRODEN, RC, CC trên các bộ UCI của chính bài gốc (Yeast, Texture, Dermatology, Synthetic Control, Har — không trùng tập phát triển hay tập đánh giá). **Chỉ cần CPU.**
+
+1. Tải `g6_code_v8.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *Accelerator: None (CPU), Internet: On, Add data `icgibbs-g4`*. Nên chạy bằng *Save Version → Save & Run All (Commit)*.
+2. Ô 1:
+```python
+import os, glob, shutil
+src = glob.glob("/kaggle/input/**/g6_code_v8/code/run_g6_round8.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6h", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6h", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6h
+!bash run_g6_round8.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r8_master_log.txt
+```
+4. Gửi lại các file `g6r8_*` trong /kaggle/working (csv, log, preds, `g6r8_pip_freeze.txt`).
+
 ## G6 lượt 7 trên Kaggle — dùng `g6_code_v7.zip` (GPU T4 × 2, khoảng 2,5 giờ; 27/10/2026)
 
 Mục đích: **tổng duyệt phần ablation** của bộ chạy G7 (khởi tạo lạnh, số khối K, số vòng quét, chuyển nạp, prior η của PU-SAR), **ablation cỡ dữ liệu** và **backend TabICL v2** (đã sửa cho đúng cấu hình F6) trên **tập phát triển**, theo đúng quy tắc chọn dataset sẽ dùng ở G7. Chạy hai luồng song song, mỗi luồng một GPU, để thử cách chạy cho G7. Không chạm tập đánh giá.
