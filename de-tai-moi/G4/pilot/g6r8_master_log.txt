@@ -1,0 +1,23 @@
+bắt đầu: Tue Oct 27 04:38:48 PM UTC 2026
+đã tải trước dữ liệu phát triển
+  cc t8: 98.16
+  cc t9: 97.38
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  cc     uniform       dermatology         94.86 ± 3.70 | công bố 99.73 ± 0.85 | chênh -4.87 → LỆCH
+  cc     uniform       har                 97.78 ± 0.57 | công bố 98.10 ± 0.18 | chênh -0.32 → ĐẠT
+  cc     uniform       texture             99.55 ± 0.25 | công bố 98.02 ± 2.91 | chênh +1.53 → ĐẠT
+  cc     uniform       yeast               54.26 ± 3.52 | công bố 59.97 ± 1.57 | chênh -5.71 → LỆCH
+  proden binomial_0.1  dermatology         97.30 ± 2.70 | công bố 96.16 ± 3.26 | chênh +1.14 → ĐẠT
+  proden binomial_0.1  synthetic_control   98.33 ± 1.18 | công bố 98.33 ± 1.32 | chênh +0.00 → ĐẠT
+  proden binomial_0.1  texture             99.78 ± 0.14 | công bố 99.64 ± 0.16 | chênh +0.14 → ĐẠT
+  proden binomial_0.1  yeast               57.09 ± 2.61 | công bố 59.05 ± 4.66 | chênh -1.96 → ĐẠT
+  proden binomial_0.7  dermatology         95.68 ± 3.63 | công bố 95.34 ± 3.15 | chênh +0.34 → ĐẠT
+  proden binomial_0.7  synthetic_control   96.33 ± 2.98 | công bố 95.00 ± 4.75 | chênh +1.33 → ĐẠT
+  proden binomial_0.7  texture             99.23 ± 0.41 | công bố 99.33 ± 0.32 | chênh -0.10 → ĐẠT
+  proden binomial_0.7  yeast               54.59 ± 3.23 | công bố 55.15 ± 3.87 | chênh -0.56 → ĐẠT
+  rc     uniform       dermatology         94.59 ± 3.37 | công bố 99.41 ± 1.00 | chênh -4.82 → LỆCH
+  rc     uniform       har                 97.71 ± 0.58 | công bố 98.03 ± 0.09 | chênh -0.32 → ĐẠT
+  rc     uniform       texture             99.56 ± 0.26 | công bố 99.24 ± 0.14 | chênh +0.32 → ĐẠT
+  rc     uniform       yeast               54.26 ± 3.52 | công bố 59.89 ± 1.27 | chênh -5.63 → LỆCH
+kết thúc: Tue Oct 27 06:50:51 PM UTC 2026

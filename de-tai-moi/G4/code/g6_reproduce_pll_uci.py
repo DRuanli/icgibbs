@@ -138,6 +138,9 @@ def main(argv=None):
     ap.add_argument("--out", required=True)
     ap.add_argument("--selftest", action="store_true", help="dữ liệu tổng hợp, ít epoch — chỉ kiểm đường chạy")
     ap.add_argument("--only", default="proden,rc,cc")
+    ap.add_argument("--datasets", default="", help="danh sách tên dataset (mặc định: tất cả)")
+    ap.add_argument("--select", choices=["first_split", "per_trial"], default="first_split",
+                    help="RC/CC: chọn lr, wd một lần trên lần chia đầu (lượt 8) hay riêng cho từng lần chia (lượt 9)")
     a = ap.parse_args(argv)
     only = set(a.only.split(","))
     E_PRODEN, E_RC, n_proden, n_rc = (500, 2000, 5, 10) if not a.selftest else (12, 15, 2, 2)
@@ -147,6 +150,8 @@ def main(argv=None):
     w = csv.DictWriter(fh, fieldnames=fields)
     w.writeheader()
     names = list(DATASETS) if not a.selftest else ["yeast"]
+    if a.datasets:
+        names = [n for n in names if n in a.datasets.split(",")]
     for name in names:
         try:
             X, y = load(name, a.selftest)
@@ -174,20 +179,24 @@ def main(argv=None):
         for m in ("rc", "cc"):
             if m not in only or not (a.selftest or name in TARGETS[(m, "uniform")]):
                 continue
-            tr, te = split90(len(y), 0)
-            S0 = uniform_candidates(y[tr], k, seed=0)
-            ntr = len(tr)
-            p = np.random.default_rng(99).permutation(ntr)
-            vi, ti = p[: int(round(0.1 * ntr))], p[int(round(0.1 * ntr)):]
-            Xa, Xv = impute(X[tr][ti], X[tr][vi])
-            best = (-1, None)
-            for lr, wd in itertools.product(GRID, GRID):
-                acc, _ = train_eval(m, Xa, S0[ti], Xv, y[tr][vi], lr, wd, len(ti), E_RC, "adam", 0)
-                if acc > best[0]:
-                    best = (acc, (lr, wd))
-            lr, wd = best[1]
-            print(f"  {m}: chọn lr={lr:g}, wd={wd:g} (val {best[0]:.2f})", flush=True)
+            def select(t):
+                """lr, wd tốt nhất trên 10% train (nhãn đúng, như bài) của lần chia t."""
+                tr, _ = split90(len(y), t)
+                S0 = uniform_candidates(y[tr], k, seed=t)
+                ntr = len(tr)
+                p = np.random.default_rng(99 + t).permutation(ntr)
+                vi, ti = p[: int(round(0.1 * ntr))], p[int(round(0.1 * ntr)):]
+                Xa, Xv = impute(X[tr][ti], X[tr][vi])
+                best = (-1, None)
+                for lr, wd in itertools.product(GRID, GRID):
+                    acc, _ = train_eval(m, Xa, S0[ti], Xv, y[tr][vi], lr, wd, len(ti), E_RC, "adam", t)
+                    if acc > best[0]:
+                        best = (acc, (lr, wd))
+                print(f"  {m} t{t}: chọn lr={best[1][0]:g}, wd={best[1][1]:g} (val {best[0]:.2f})", flush=True)
+                return best[1]
+            hp = None if a.select == "per_trial" else select(0)
             for t in range(n_rc):
+                lr, wd = select(t) if a.select == "per_trial" else hp
                 tr, te = split90(len(y), t)
                 Xtr, Xte = impute(X[tr], X[te])
                 S = uniform_candidates(y[tr], k, seed=t)
@@ -195,7 +204,8 @@ def main(argv=None):
                 acc, fin = train_eval(m, Xtr, S, Xte, y[te], lr, wd, len(tr), E_RC, "adam", t)
                 w.writerow(dict(method=m, candidates="uniform", dataset=name, trial=t, acc_last10=round(acc, 3),
                                 acc_final=round(fin, 3), lr=lr, wd=wd, batch=len(tr), epochs=E_RC,
-                                avg_candidates=round(S.sum(1).mean(), 3), source="project", seconds=round(time.time() - t0, 1)))
+                                avg_candidates=round(S.sum(1).mean(), 3), source=f"project;select={a.select}",
+                                seconds=round(time.time() - t0, 1)))
                 fh.flush()
                 print(f"  {m} t{t}: {acc:.2f}", flush=True)
     fh.close()

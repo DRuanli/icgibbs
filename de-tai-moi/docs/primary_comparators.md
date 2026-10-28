@@ -7,7 +7,7 @@ Theo giao thức [G5 Mục 6](../G5/EXPERIMENT_PROTOCOL.md) và Mục 11 (deviat
 | Bối cảnh | Vai trò | Mức chính | Metric | Đối thủ chính | Trung bình trên tập phát triển | Trạng thái |
 |---|---|---|---|---|---|---|
 | LLP | Chính (H2) | túi 8 | ROC AUC | **DLLP tuyến tính, mặc định** (`dllplin_def`; Ardehaly & Culotta, ICDMW 2017) | 0,8254 (bản tune 0,8248) | **Chốt** 26/10/2026 |
-| PLL tổng hợp | Chính (H4) | q = 0,3; 0,6 | accuracy | GLWS/ILL, tune (`glwspll_tun`) — **chọn lại sau G6 lượt 8** | 0,7451 với bản thiếu số hạng entropy (PRODEN tune có Adam: 0,7378) | **Mở lại** 27/10/2026: bản cài GLWS/ILL cho PLL thiếu số hạng cân bằng entropy của bản chính thức (deviation 13); chạy lại rồi áp lại quy tắc |
+| PLL tổng hợp | Chính (H4) | q = 0,3; 0,6 | accuracy | **CC, tune** (`cc_tun`; Feng et al., NeurIPS 2020) | 0,7422 (GLWS/ILL tune đã sửa 0,7412; RC tune 0,7411; PRODEN tune 0,7378). Đối chiếu trên bộ chạy G7: cc_tun 0,7472, cũng đứng đầu | **Chốt** 28/10/2026 sau lượt 8 (deviation 13) |
 | LLP túi 16 | Phụ | túi 16 | ROC AUC | cùng đối thủ của LLP chính (`dllplin_def`) | — | Chốt |
 | LLP túi 32 | Kiểm tra áp lực | túi 32 | ROC AUC | cùng đối thủ của LLP chính | — | Chốt |
 | PU-SAR | Phụ | E[e \| y=1] = 0,1; 0,3 | ROC AUC | nnPU, mặc định (`nnpu`) | 0,7260 (GLWS mặc định 0,7206; VPU tune 0,6889) | **Chốt** 27/10/2026 sau lượt 4 |
@@ -26,6 +26,7 @@ Ghi chú:
 ## Lịch sử
 | Ngày | Thay đổi |
 |---|---|
+| 28/10/2026 | Lượt 8: GLWS/ILL cho PLL (đã thêm số hạng cân bằng entropy) chạy lại; quy tắc chọn **`cc_tun`** (0,7422) thay `glwspll_tun` (nay 0,7412, trước 0,7451). Cùng kết quả trên bộ chạy G7 (cc_tun 0,7472 đứng đầu). Gibbs ấm vẫn đạt quy tắc phạm vi 6/6 ô; so với cc_tun +0,016 tới +0,069 accuracy ở mọi ô (bộ chạy G7) |
 | 27/10/2026 | Mở lại đối thủ chính của PLL: GLWS/ILL cho PLL được sửa cho đúng bản chính thức (thêm số hạng cân bằng entropy; deviation 13). Chọn lại theo cùng quy tắc sau G6 lượt 8 ([G6_ROUND7_REPORT](../G6/G6_ROUND7_REPORT.md) §5) |
 | 27/10/2026 | Lượt 4 (baseline còn thiếu của bối cảnh phụ): **chốt mọi bối cảnh phụ**. Nhãn nhiễu `cl_tfm`, SSL `st_tun`, PU-SAR `nnpu` không đổi; PU-SCAR đổi từ `nnpu` sang `vpu_tun`. Chi tiết: [G6_ROUND45_REPORT](../G6/G6_ROUND45_REPORT.md) |
 | 26/10/2026 | Lượt 3: PRODEN tune có Adam (0,7378) không đổi đối thủ chính của PLL → chốt `glwspll_tun`. Nhãn nhiễu: `cl_tfm`; SSL: `st_tun` (tạm thời) |

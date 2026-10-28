@@ -10,6 +10,9 @@ Theo [02 §G6](../../research-handbook/02_QUY_TRINH_CONG_KIEM_DUYET.md) và [G6_
 
 | Baseline | Code | Dataset tái hiện | Metric | Công bố | Tái hiện | Kết luận |
 |---|---|---|---|---|---|---|
+| PRODEN | dự án (`PLLNet`), loss chính thức; sinh nhãn bằng `partialize` chính thức | Yeast, Texture, Dermatology, Synthetic Control (UCI, Bảng 1 của bài; binomial q = 0,1 và 0,7; tuyến tính; 5 lần chia 90/10) | accuracy % | 59,05 / 55,15; 99,64 / 99,33; 96,16 / 95,34; 98,33 / 95,00 | 57,09 / 54,59; 99,78 / 99,23; 97,30 / 95,68; 98,33 / 96,33 | **Đạt 8/8** (G6 lượt 8, 28/10/2026) |
+| RC | dự án (`PLLNet`) | Texture, Yeast, Dermatology, Har (UCI, Bảng 3; tập ứng viên đều; tuyến tính; 10 lần chia 90/10) | accuracy % | 99,24; 59,89; 99,41; 98,03 | 99,56; 54,26; 94,59; 97,71 | Texture, Har **đạt**; Yeast (−5,6), Dermatology (−4,8) **lệch** — siêu tham số chọn một lần trên validation rất nhỏ (Yeast chọn wd = 0,1, RC và CC cho kết quả trùng nhau); kiểm lại ở lượt 9 (chọn riêng mỗi lần chia) |
+| CC | dự án (`PLLNet`) | như RC | accuracy % | 98,02; 59,97; 99,73; 98,10 | 99,55; 54,26; 94,86; 97,78 | như RC: Texture, Har **đạt**; Yeast (−5,7), Dermatology (−4,9) **lệch**, kiểm lại ở lượt 9 |
 | SAR-EM | chính thức (`sarpu`, commit 6e4fc3d8) | Breast Cancer, Mushroom (bài gốc, 4 thuộc tính propensity, 25 thí nghiệm) | ROC-AUC, MSE của f | Mushroom 1,000 / 0,103; Breast Cancer 0,983 / 0,058 | Mushroom 1,000 / 0,098; Breast Cancer 0,994 / 0,096 | Mushroom **đạt**; Breast Cancer **lệch**, xếp loại **(b)** (26/10/2026, sau G6 lượt 2): đã khoanh vùng ở phần thiết lập dữ liệu và đánh giá dùng chung, không ở thuật toán — Naive (code gốc) lệch cùng chiều; đổi tập thuộc tính không giải thích được. Bản bọc trùng code gốc tuyệt đối (100/100 thí nghiệm) |
 
 ## SAR-EM (Bekker, Robberechts & Davis, ECML-PKDD 2019)

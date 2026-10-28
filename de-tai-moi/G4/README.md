@@ -26,6 +26,26 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## G6 lượt 9 trên Kaggle — dùng `g6_code_v9.zip` (chỉ CPU, khoảng 1 giờ; 28/10/2026)
+
+Mục đích: T3 — kiểm lại phần RC, CC lệch số công bố ở Yeast và Dermatology (lượt 8) bằng cách chọn siêu tham số riêng cho từng lần chia. **Chỉ cần CPU.**
+
+1. Tải `g6_code_v9.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Notebook mới: *Accelerator: None (CPU), Internet: On, Add data `icgibbs-g4`*.
+2. Ô 1:
+```python
+import os, glob, shutil
+src = glob.glob("/kaggle/input/**/g6_code_v9/code/run_g6_round9.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/run_g6i", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/run_g6i", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+```
+3. Ô 2:
+```python
+%cd /kaggle/working/run_g6i
+!bash run_g6_round9.sh /kaggle/working 2>&1 | tee /kaggle/working/g6r9_master_log.txt
+```
+4. Gửi lại các file `g6r9_*` trong /kaggle/working (kèm thư mục `run_g6i` nếu tiện, để em đối chiếu code đã chạy).
+
 ## G6 lượt 8 trên Kaggle — dùng `g6_code_v8.zip` (chỉ CPU, khoảng 1 giờ; 27/10/2026)
 
 Mục đích: (1) chạy lại GLWS/ILL cho PLL sau khi thêm số hạng cân bằng entropy của bản chính thức (deviation 13), cả bằng script thí điểm lẫn bộ chạy G7, để chọn lại đối thủ chính của PLL; (2) T3: tái hiện số công bố của PRODEN, RC, CC trên các bộ UCI của chính bài gốc (Yeast, Texture, Dermatology, Synthetic Control, Har — không trùng tập phát triển hay tập đánh giá). **Chỉ cần CPU.**

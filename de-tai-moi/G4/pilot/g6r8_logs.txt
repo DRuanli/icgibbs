@@ -1,0 +1,263 @@
+===== g6r8_pll_0.log
+                   vehicle pll    0.3 s0 glwspll_def    AUC=0.9319 ACC=0.8071 LL=0.9134 18.1s
+                   vehicle pll    0.3 s0 glwspll_tun    AUC=0.92542 ACC=0.7795 LL=0.6337 45.2s
+                   vehicle pll    0.3 s2 glwspll_def    AUC=0.94669 ACC=0.8071 LL=0.6968 2.8s
+                   vehicle pll    0.3 s2 glwspll_tun    AUC=0.94746 ACC=0.7716 LL=0.4371 52.6s
+                   vehicle pll    0.6 s1 glwspll_def    AUC=0.92896 ACC=0.7835 LL=1.2822 2.8s
+                   vehicle pll    0.6 s1 glwspll_tun    AUC=0.92686 ACC=0.7480 LL=0.6111 40.0s
+                   segment pll    0.3 s0 glwspll_def    AUC=0.99765 ACC=0.9812 LL=0.1490 8.3s
+                   segment pll    0.3 s0 glwspll_tun    AUC=0.99667 ACC=0.9711 LL=0.1170 143.3s
+                   segment pll    0.3 s2 glwspll_def    AUC=0.99735 ACC=0.9610 LL=0.2172 8.3s
+                   segment pll    0.3 s2 glwspll_tun    AUC=0.99808 ACC=0.9639 LL=0.1129 167.7s
+                   segment pll    0.6 s1 glwspll_def    AUC=0.99486 ACC=0.9509 LL=0.3198 8.6s
+                   segment pll    0.6 s1 glwspll_tun    AUC=0.99676 ACC=0.9452 LL=0.1629 155.3s
+                       cmc pll    0.3 s0 glwspll_def    AUC=0.66576 ACC=0.4887 LL=2.3418 5.8s
+                       cmc pll    0.3 s0 glwspll_tun    AUC=0.69911 ACC=0.5181 LL=0.9688 89.7s
+                       cmc pll    0.3 s2 glwspll_def    AUC=0.62432 ACC=0.4434 LL=2.6815 5.4s
+                       cmc pll    0.3 s2 glwspll_tun    AUC=0.68528 ACC=0.5204 LL=1.0857 97.0s
+                       cmc pll    0.6 s1 glwspll_def    AUC=0.62683 ACC=0.4683 LL=3.4871 5.4s
+                       cmc pll    0.6 s1 glwspll_tun    AUC=0.67461 ACC=0.5181 LL=1.0359 78.7s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         glwspll_def  glwspll_tun
+dataset level                          
+cmc     0.3         0.4661       0.5192
+        0.6         0.4683       0.5181
+segment 0.3         0.9711       0.9675
+        0.6         0.9509       0.9452
+vehicle 0.3         0.8071       0.7756
+        0.6         0.7835       0.7480
+===== g6r8_pll_1.log
+                   vehicle pll    0.3 s1 glwspll_def    AUC=0.95369 ACC=0.8032 LL=0.6829 18.1s
+                   vehicle pll    0.3 s1 glwspll_tun    AUC=0.9625 ACC=0.8189 LL=0.3743 41.2s
+                   vehicle pll    0.6 s0 glwspll_def    AUC=0.91384 ACC=0.7520 LL=1.2000 2.9s
+                   vehicle pll    0.6 s0 glwspll_tun    AUC=0.91974 ACC=0.7638 LL=0.6560 47.5s
+                   vehicle pll    0.6 s2 glwspll_def    AUC=0.91986 ACC=0.7520 LL=1.2275 3.0s
+                   vehicle pll    0.6 s2 glwspll_tun    AUC=0.90166 ACC=0.6850 LL=0.7000 51.5s
+                   segment pll    0.3 s1 glwspll_def    AUC=0.99778 ACC=0.9668 LL=0.1880 8.3s
+                   segment pll    0.3 s1 glwspll_tun    AUC=0.99729 ACC=0.9610 LL=0.1784 141.4s
+                   segment pll    0.6 s0 glwspll_def    AUC=0.99347 ACC=0.9466 LL=0.4206 8.5s
+                   segment pll    0.6 s0 glwspll_tun    AUC=0.9934 ACC=0.9437 LL=0.2767 155.8s
+                   segment pll    0.6 s2 glwspll_def    AUC=0.99755 ACC=0.9509 LL=0.2165 8.6s
+                   segment pll    0.6 s2 glwspll_tun    AUC=0.99753 ACC=0.9625 LL=0.1542 198.5s
+                       cmc pll    0.3 s1 glwspll_def    AUC=0.64426 ACC=0.4864 LL=2.4230 5.6s
+                       cmc pll    0.3 s1 glwspll_tun    AUC=0.69168 ACC=0.5362 LL=0.9956 82.8s
+                       cmc pll    0.6 s0 glwspll_def    AUC=0.64858 ACC=0.4683 LL=2.9316 5.0s
+                       cmc pll    0.6 s0 glwspll_tun    AUC=0.67283 ACC=0.4796 LL=1.0116 86.3s
+                       cmc pll    0.6 s2 glwspll_def    AUC=0.62715 ACC=0.4593 LL=3.4414 5.5s
+                       cmc pll    0.6 s2 glwspll_tun    AUC=0.63887 ACC=0.4547 LL=1.1434 89.5s
+
+================ TÓM TẮT RQ4 (trung bình theo seed) ================
+
+--- pll (acc) ---
+method         glwspll_def  glwspll_tun
+dataset level                          
+cmc     0.3         0.4864       0.5362
+        0.6         0.4638       0.4672
+segment 0.3         0.9668       0.9610
+        0.6         0.9488       0.9531
+vehicle 0.3         0.8032       0.8189
+        0.6         0.7520       0.7244
+===== g6r8_pll_uci.log
+
+=== yeast: n=1484, d=8, k=10
+  proden q=0.1 t0: 57.23
+  proden q=0.1 t1: 58.78
+  proden q=0.1 t2: 58.18
+  proden q=0.1 t3: 58.72
+  proden q=0.1 t4: 52.57
+  proden q=0.7 t0: 54.66
+  proden q=0.7 t1: 57.30
+  proden q=0.7 t2: 57.97
+  proden q=0.7 t3: 50.07
+  proden q=0.7 t4: 52.97
+  rc: chọn lr=0.001, wd=0.1 (val 58.21)
+  rc t0: 53.38
+  rc t1: 53.38
+  rc t2: 52.03
+  rc t3: 54.73
+  rc t4: 50.00
+  rc t5: 60.81
+  rc t6: 59.46
+  rc t7: 50.68
+  rc t8: 55.41
+  rc t9: 52.70
+  cc: chọn lr=0.001, wd=0.1 (val 58.21)
+  cc t0: 53.38
+  cc t1: 53.38
+  cc t2: 52.03
+  cc t3: 54.73
+  cc t4: 50.00
+  cc t5: 60.81
+  cc t6: 59.46
+  cc t7: 50.68
+  cc t8: 55.41
+  cc t9: 52.70
+
+=== texture: n=5500, d=40, k=11
+  proden q=0.1 t0: 99.64
+  proden q=0.1 t1: 99.89
+  proden q=0.1 t2: 99.93
+  proden q=0.1 t3: 99.82
+  proden q=0.1 t4: 99.62
+  proden q=0.7 t0: 99.45
+  proden q=0.7 t1: 99.09
+  proden q=0.7 t2: 98.73
+  proden q=0.7 t3: 99.80
+  proden q=0.7 t4: 99.05
+  rc: chọn lr=0.1, wd=1e-05 (val 99.39)
+  rc t0: 99.45
+  rc t1: 99.82
+  rc t2: 99.82
+  rc t3: 99.64
+  rc t4: 99.82
+  rc t5: 99.09
+  rc t6: 99.82
+  rc t7: 99.45
+  rc t8: 99.45
+  rc t9: 99.27
+  cc: chọn lr=0.01, wd=1e-06 (val 99.39)
+  cc t0: 99.64
+  cc t1: 99.27
+  cc t2: 99.82
+  cc t3: 99.64
+  cc t4: 99.82
+  cc t5: 99.09
+  cc t6: 99.82
+  cc t7: 99.45
+  cc t8: 99.64
+  cc t9: 99.35
+
+=== dermatology: n=366, d=34, k=6
+  proden q=0.1 t0: 100.00
+  proden q=0.1 t1: 97.30
+  proden q=0.1 t2: 94.59
+  proden q=0.1 t3: 100.00
+  proden q=0.1 t4: 94.59
+  proden q=0.7 t0: 100.00
+  proden q=0.7 t1: 97.30
+  proden q=0.7 t2: 91.89
+  proden q=0.7 t3: 91.89
+  proden q=0.7 t4: 97.30
+  rc: chọn lr=0.0001, wd=1e-06 (val 96.97)
+  rc t0: 100.00
+  rc t1: 97.30
+  rc t2: 91.89
+  rc t3: 94.59
+  rc t4: 91.89
+  rc t5: 94.59
+  rc t6: 91.89
+  rc t7: 89.19
+  rc t8: 97.30
+  rc t9: 97.30
+  cc: chọn lr=0.0001, wd=1e-06 (val 96.97)
+  cc t0: 100.00
+  cc t1: 100.00
+  cc t2: 91.89
+  cc t3: 94.59
+  cc t4: 91.89
+  cc t5: 94.59
+  cc t6: 91.89
+  cc t7: 89.19
+  cc t8: 97.30
+  cc t9: 97.30
+
+=== synthetic_control: n=600, d=60, k=6
+  proden q=0.1 t0: 96.67
+  proden q=0.1 t1: 98.33
+  proden q=0.1 t2: 100.00
+  proden q=0.1 t3: 98.33
+  proden q=0.1 t4: 98.33
+  proden q=0.7 t0: 93.33
+  proden q=0.7 t1: 96.67
+  proden q=0.7 t2: 100.00
+  proden q=0.7 t3: 98.33
+  proden q=0.7 t4: 93.33
+
+=== har: n=10299, d=561, k=6
+  rc: chọn lr=0.001, wd=0.001 (val 97.84)
+  rc t0: 97.48
+  rc t1: 98.06
+  rc t2: 96.60
+  rc t3: 97.86
+  rc t4: 97.57
+  rc t5: 97.57
+  rc t6: 97.57
+  rc t7: 98.83
+  rc t8: 98.16
+  rc t9: 97.38
+  cc: chọn lr=0.001, wd=0.001 (val 97.84)
+  cc t0: 97.48
+  cc t1: 98.25
+  cc t2: 96.70
+  cc t3: 97.86
+  cc t4: 97.86
+  cc t5: 97.67
+  cc t6: 97.57
+  cc t7: 98.83
+  cc t8: 98.16
+  cc t9: 97.38
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  cc     uniform       dermatology         94.86 ± 3.70 | công bố 99.73 ± 0.85 | chênh -4.87 → LỆCH
+  cc     uniform       har                 97.78 ± 0.57 | công bố 98.10 ± 0.18 | chênh -0.32 → ĐẠT
+  cc     uniform       texture             99.55 ± 0.25 | công bố 98.02 ± 2.91 | chênh +1.53 → ĐẠT
+  cc     uniform       yeast               54.26 ± 3.52 | công bố 59.97 ± 1.57 | chênh -5.71 → LỆCH
+  proden binomial_0.1  dermatology         97.30 ± 2.70 | công bố 96.16 ± 3.26 | chênh +1.14 → ĐẠT
+  proden binomial_0.1  synthetic_control   98.33 ± 1.18 | công bố 98.33 ± 1.32 | chênh +0.00 → ĐẠT
+  proden binomial_0.1  texture             99.78 ± 0.14 | công bố 99.64 ± 0.16 | chênh +0.14 → ĐẠT
+  proden binomial_0.1  yeast               57.09 ± 2.61 | công bố 59.05 ± 4.66 | chênh -1.96 → ĐẠT
+  proden binomial_0.7  dermatology         95.68 ± 3.63 | công bố 95.34 ± 3.15 | chênh +0.34 → ĐẠT
+  proden binomial_0.7  synthetic_control   96.33 ± 2.98 | công bố 95.00 ± 4.75 | chênh +1.33 → ĐẠT
+  proden binomial_0.7  texture             99.23 ± 0.41 | công bố 99.33 ± 0.32 | chênh -0.10 → ĐẠT
+  proden binomial_0.7  yeast               54.59 ± 3.23 | công bố 55.15 ± 3.87 | chênh -0.56 → ĐẠT
+  rc     uniform       dermatology         94.59 ± 3.37 | công bố 99.41 ± 1.00 | chênh -4.82 → LỆCH
+  rc     uniform       har                 97.71 ± 0.58 | công bố 98.03 ± 0.09 | chênh -0.32 → ĐẠT
+  rc     uniform       texture             99.56 ± 0.26 | công bố 99.24 ± 0.14 | chênh +0.32 → ĐẠT
+  rc     uniform       yeast               54.26 ± 3.52 | công bố 59.89 ± 1.27 | chênh -5.63 → LỆCH
+===== g6r8_runner_pll.log
+run_g7 · part=baselines · split=dev · backend=tabpfn_v2 · code=py-46a481afb2e4 · config=df15c9043eabdf1c
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+                 vehicle pll      0.3 s0 glwspll_def      0.8071 18.1s
+                 vehicle pll      0.3 s0 glwspll_tun      0.7795 45.7s
+                 vehicle pll      0.3 s1 glwspll_def      0.7992 2.8s
+                 vehicle pll      0.3 s1 glwspll_tun      0.8189 40.8s
+                 vehicle pll      0.3 s2 glwspll_def      0.8071 2.8s
+                 vehicle pll      0.3 s2 glwspll_tun      0.7677 51.8s
+                 vehicle pll      0.6 s0 glwspll_def      0.7520 2.7s
+                 vehicle pll      0.6 s0 glwspll_tun      0.7638 46.7s
+                 vehicle pll      0.6 s1 glwspll_def      0.7835 2.8s
+                 vehicle pll      0.6 s1 glwspll_tun      0.7480 39.7s
+                 vehicle pll      0.6 s2 glwspll_def      0.7520 2.9s
+                 vehicle pll      0.6 s2 glwspll_tun      0.6850 49.9s
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+                 segment pll      0.3 s0 glwspll_def      0.9665 7.8s
+                 segment pll      0.3 s0 glwspll_tun      0.9617 141.3s
+                 segment pll      0.3 s1 glwspll_def      0.9585 7.8s
+                 segment pll      0.3 s1 glwspll_tun      0.9617 154.2s
+                 segment pll      0.3 s2 glwspll_def      0.9649 8.3s
+                 segment pll      0.3 s2 glwspll_tun      0.9633 162.8s
+                 segment pll      0.6 s0 glwspll_def      0.9377 8.1s
+                 segment pll      0.6 s0 glwspll_tun      0.9377 133.1s
+                 segment pll      0.6 s1 glwspll_def      0.9393 7.0s
+                 segment pll      0.6 s1 glwspll_tun      0.9441 92.4s
+                 segment pll      0.6 s2 glwspll_def      0.9409 4.9s
+                 segment pll      0.6 s2 glwspll_tun      0.9505 95.7s
+
+=== 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e
+                     cmc pll      0.3 s0 glwspll_def      0.5304 3.1s
+                     cmc pll      0.3 s0 glwspll_tun      0.5537 56.5s
+                     cmc pll      0.3 s1 glwspll_def      0.4836 3.3s
+                     cmc pll      0.3 s1 glwspll_tun      0.4977 52.4s
+                     cmc pll      0.3 s2 glwspll_def      0.5070 3.1s
+                     cmc pll      0.3 s2 glwspll_tun      0.5257 80.7s
+                     cmc pll      0.6 s0 glwspll_def      0.4720 4.4s
+                     cmc pll      0.6 s0 glwspll_tun      0.5234 66.4s
+                     cmc pll      0.6 s1 glwspll_def      0.4229 3.6s
+                     cmc pll      0.6 s1 glwspll_tun      0.4907 52.0s
+                     cmc pll      0.6 s2 glwspll_def      0.5421 3.0s
+                     cmc pll      0.6 s2 glwspll_tun      0.5117 61.8s
