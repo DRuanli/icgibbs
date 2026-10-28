@@ -26,6 +26,39 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## G7 trên Kaggle — dùng `g7_code_v1.zip` (chỉ sau khi thầy ký "Qua" ở G6/GATE_REVIEW_G6.md)
+
+Kế hoạch các lượt: [G7/G7_PLAN.md](../G7/G7_PLAN.md). Một notebook cho mỗi lượt; đổi `LOT` ở ô 2.
+- **Lượt GPU** (L1–L6): *Accelerator: GPU T4 × 2, Internet: On, Add data `icgibbs-g4`, Secrets: tích `TABPFN_TOKEN`*.
+- **Lượt CPU** (C1–C3): *Accelerator: None*.
+
+Nên chạy bằng *Save Version → Save & Run All (Commit)*. Hết 12 giờ mà chưa xong thì chạy lại đúng lượt đó; các ô đã xong được bỏ qua. Để chạy tiếp, ô 1 chép lại các tệp `g7_*` của lần trước vào `/kaggle/working`: thêm output của phiên trước làm dữ liệu vào notebook.
+
+1. Tải `g7_code_v1.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*.
+2. Ô 1:
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass                                   # lượt CPU không cần TabPFN
+src = glob.glob("/kaggle/input/**/g7_code_v1/code/run_g7_lot.sh", recursive=True)
+print(src); assert len(src) == 1, "cập nhật dataset icgibbs-g4 lên phiên bản mới nhất"
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for f in glob.glob("/kaggle/input/**/g7_*.csv", recursive=True) + glob.glob("/kaggle/input/**/g7_*.jsonl", recursive=True):
+    shutil.copy(f, "/kaggle/working/")    # chạy tiếp lượt dở (nếu có)
+```
+3. Ô 2 (đổi `LOT`):
+```python
+LOT = "L1"
+%cd /kaggle/working/code
+!bash run_g7_lot.sh {LOT} /kaggle/working 2>&1 | tee /kaggle/working/g7_{LOT}_master_log.txt
+```
+4. Gửi lại toàn bộ `g7_*` trong /kaggle/working **và thư mục `/kaggle/working/code`**.
+
 ## G6 lượt 9 trên Kaggle — dùng `g6_code_v9.zip` (chỉ CPU, khoảng 1 giờ; 28/10/2026)
 
 Mục đích: T3 — kiểm lại phần RC, CC lệch số công bố ở Yeast và Dermatology (lượt 8) bằng cách chọn siêu tham số riêng cho từng lần chia. **Chỉ cần CPU.**

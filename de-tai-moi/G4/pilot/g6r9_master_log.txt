@@ -1,0 +1,25 @@
+bắt đầu: Wed Oct 28 02:16:28 AM UTC 2026
+==> /kaggle/working/g6r9_cc_dermatology.log <==
+  cc t9: 97.30
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  cc     uniform       dermatology         94.59 ± 3.12 | công bố 99.73 ± 0.85 | chênh -5.14 → LỆCH
+
+==> /kaggle/working/g6r9_cc_yeast.log <==
+  cc t9: 49.46
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  cc     uniform       yeast               55.82 ± 4.01 | công bố 59.97 ± 1.57 | chênh -4.15 → LỆCH
+
+==> /kaggle/working/g6r9_rc_dermatology.log <==
+  rc t9: 97.30
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  rc     uniform       dermatology         94.86 ± 3.48 | công bố 99.41 ± 1.00 | chênh -4.55 → LỆCH
+
+==> /kaggle/working/g6r9_rc_yeast.log <==
+  rc t9: 54.73
+
+=== So với số công bố (tiêu chí: |chênh| ≤ max(1 điểm %, độ lệch chuẩn công bố)) ===
+  rc     uniform       yeast               56.76 ± 3.47 | công bố 59.89 ± 1.27 | chênh -3.13 → LỆCH
+kết thúc: Wed Oct 28 02:40:26 AM UTC 2026
