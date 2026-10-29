@@ -1,0 +1,5 @@
+lượt L2 bắt đầu: Thu Oct 29 04:06:46 AM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 434.59s (0:07:14)
+GPU0 xong tfm_2: Thu Oct 29 10:59:26 AM UTC 2026
+GPU1 xong tfm_3: Thu Oct 29 11:02:38 AM UTC 2026
+lượt L2 kết thúc: Thu Oct 29 11:02:38 AM UTC 2026
