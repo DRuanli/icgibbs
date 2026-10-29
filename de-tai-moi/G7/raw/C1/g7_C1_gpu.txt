@@ -1,0 +1,1 @@
+run_g7_lot.sh: line 16: nvidia-smi: command not found

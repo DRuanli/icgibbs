@@ -1,0 +1,7 @@
+lượt C1 bắt đầu: Wed Oct 28 06:15:13 PM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 325.71s (0:05:25)
+CPU xong base_3: Wed Oct 28 11:07:52 PM UTC 2026
+CPU xong base_0: Wed Oct 28 11:33:51 PM UTC 2026
+CPU xong base_2: Wed Oct 28 11:44:21 PM UTC 2026
+CPU xong base_1: Wed Oct 28 11:47:17 PM UTC 2026
+lượt C1 kết thúc: Wed Oct 28 11:47:17 PM UTC 2026

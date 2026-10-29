@@ -1,0 +1,355 @@
+run_g7 · part=baselines · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp       16 s1 dllp_def         0.9902 8.4s
+                kr-vs-kp llp       16 s1 dllp_tun         0.9949 99.4s
+                kr-vs-kp llp       16 s1 dllplin_def      0.9859 3.5s
+                kr-vs-kp llp       16 s1 dllplin_tun      0.9871 41.5s
+                kr-vs-kp llp       16 s1 llpvat_def       0.9948 78.1s
+                kr-vs-kp llp       16 s1 llpvat_tun       0.9947 212.0s
+                kr-vs-kp llp       16 s1 easyllp_def      0.8100 5.3s
+                kr-vs-kp llp       16 s1 easyllp_tun      0.9026 92.6s
+                kr-vs-kp llp       16 s1 glws_def         0.9956 44.3s
+                kr-vs-kp llp       16 s1 glws_tun         0.9942 658.3s
+                kr-vs-kp pu_scar  0.1 s1 nnpu             0.9694 4.7s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                kr-vs-kp pu_scar  0.1 s1 upu              0.7441 4.7s
+                kr-vs-kp pu_scar  0.1 s1 nnpu_tun         0.9527 97.4s
+                kr-vs-kp pu_scar  0.1 s1 upu_tun          0.9321 88.9s
+                kr-vs-kp pu_scar  0.1 s1 glwspu_def       0.9093 23.1s
+                kr-vs-kp pu_scar  0.1 s1 glwspu_tun       0.9659 509.0s
+                kr-vs-kp pu_scar  0.1 s1 vpu_def          0.7374 150.9s
+                kr-vs-kp pu_scar  0.1 s1 vpu_tun          0.9250 341.2s
+                kr-vs-kp noisy    0.2 s1 forward          0.9669 5.8s
+                kr-vs-kp noisy    0.2 s1 forward_def      0.9672 4.4s
+                kr-vs-kp noisy    0.2 s1 forward_tun      0.9435 123.3s
+                kr-vs-kp noisy    0.2 s1 illnz_def        0.9832 12.1s
+                kr-vs-kp noisy    0.2 s1 illnz_tun        0.9894 157.3s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp       32 s1 dllp_def         0.7924 0.6s
+         credit-approval llp       32 s1 dllp_tun         0.7809 15.3s
+         credit-approval llp       32 s1 dllplin_def      0.7345 0.4s
+         credit-approval llp       32 s1 dllplin_tun      0.7876 6.1s
+         credit-approval llp       32 s1 llpvat_def       0.7927 8.3s
+         credit-approval llp       32 s1 llpvat_tun       0.7927 36.4s
+         credit-approval llp       32 s1 easyllp_def      0.7029 0.6s
+         credit-approval llp       32 s1 easyllp_tun      0.5872 13.2s
+         credit-approval llp       32 s1 glws_def         0.8319 6.6s
+         credit-approval llp       32 s1 glws_tun         0.8039 176.1s
+         credit-approval pu_scar  0.3 s1 nnpu             0.8948 0.9s
+         credit-approval pu_scar  0.3 s1 upu              0.8616 0.9s
+         credit-approval pu_scar  0.3 s1 nnpu_tun         0.8996 24.7s
+         credit-approval pu_scar  0.3 s1 upu_tun          0.8926 21.0s
+         credit-approval pu_scar  0.3 s1 glwspu_def       0.8850 3.8s
+         credit-approval pu_scar  0.3 s1 glwspu_tun       0.8882 106.5s
+         credit-approval pu_scar  0.3 s1 vpu_def          0.7556 120.7s
+         credit-approval pu_scar  0.3 s1 vpu_tun          0.9029 228.6s
+         credit-approval noisy    0.4 s1 forward          0.8095 1.0s
+         credit-approval noisy    0.4 s1 forward_def      0.8149 0.8s
+         credit-approval noisy    0.4 s1 forward_tun      0.8236 26.6s
+         credit-approval noisy    0.4 s1 illnz_def        0.8002 2.7s
+         credit-approval noisy    0.4 s1 illnz_tun        0.8261 44.0s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase pu_sar   0.1 s1 nnpu             0.8627 5.5s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                spambase pu_sar   0.1 s1 upu              0.6524 5.5s
+                spambase pu_sar   0.1 s1 nnpu_tun         0.9085 129.1s
+                spambase pu_sar   0.1 s1 upu_tun          0.8181 118.2s
+                spambase pu_sar   0.1 s1 glwspu_def       0.7184 27.0s
+                spambase pu_sar   0.1 s1 glwspu_tun       0.7843 712.8s
+                spambase pu_sar   0.1 s1 vpu_def          0.6628 123.5s
+                spambase pu_sar   0.1 s1 vpu_tun          0.7707 277.4s
+                spambase pu_sar   0.1 s1 sar_em           0.9029 12.0s
+                spambase pu_sar   0.1 s1 sar_em_tuned     0.8879 435.2s
+                spambase pu_sar   0.1 s1 sar_e_known      0.7914 0.1s
+                spambase ssl     0.05 s1 label_spreading  0.8311 0.2s
+                spambase ssl     0.05 s1 ls_tun           0.8784 3.1s
+                spambase ssl     0.05 s1 self_training    0.9533 0.1s
+                spambase ssl     0.05 s1 st_tun           0.9555 1.4s
+                spambase ssl     0.05 s1 illssl_def       0.9347 12.1s
+                spambase ssl     0.05 s1 illssl_tun       0.9391 199.5s
+                spambase ssl     0.05 s1 vime_def         0.3675 1.3s
+                spambase ssl     0.05 s1 vime_tun         0.3675 77.9s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp        8 s1 dllp_def         0.8781 2.9s
+             tic-tac-toe llp        8 s1 dllp_tun         0.8571 52.7s
+             tic-tac-toe llp        8 s1 dllplin_def      0.7737 2.0s
+             tic-tac-toe llp        8 s1 dllplin_tun      0.9761 24.7s
+             tic-tac-toe llp        8 s1 llpvat_def       0.8800 44.8s
+             tic-tac-toe llp        8 s1 llpvat_tun       0.9239 97.7s
+             tic-tac-toe llp        8 s1 easyllp_def      0.7029 3.0s
+             tic-tac-toe llp        8 s1 easyllp_tun      0.7148 50.0s
+             tic-tac-toe llp        8 s1 glws_def         0.7684 14.2s
+             tic-tac-toe llp        8 s1 glws_tun         0.7481 189.6s
+             tic-tac-toe pu_sar   0.3 s1 nnpu             0.6496 1.2s
+             tic-tac-toe pu_sar   0.3 s1 upu              0.5999 1.1s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+             tic-tac-toe pu_sar   0.3 s1 nnpu_tun         0.5181 32.2s
+             tic-tac-toe pu_sar   0.3 s1 upu_tun          0.6259 33.3s
+             tic-tac-toe pu_sar   0.3 s1 glwspu_def       0.7601 5.4s
+             tic-tac-toe pu_sar   0.3 s1 glwspu_tun       0.7773 154.9s
+             tic-tac-toe pu_sar   0.3 s1 vpu_def          0.7882 158.5s
+             tic-tac-toe pu_sar   0.3 s1 vpu_tun          0.8367 320.1s
+             tic-tac-toe pu_sar   0.3 s1 sar_em           0.8732 0.8s
+             tic-tac-toe pu_sar   0.3 s1 sar_em_tuned     0.8514 13.9s
+             tic-tac-toe pu_sar   0.3 s1 sar_e_known      0.8718 0.0s
+             tic-tac-toe ssl      0.2 s1 label_spreading  0.6491 0.0s
+             tic-tac-toe ssl      0.2 s1 ls_tun           0.8382 0.2s
+             tic-tac-toe ssl      0.2 s1 self_training    0.9685 0.0s
+             tic-tac-toe ssl      0.2 s1 st_tun           0.9972 0.6s
+             tic-tac-toe ssl      0.2 s1 illssl_def       0.8615 3.2s
+             tic-tac-toe ssl      0.2 s1 illssl_tun       0.8566 48.9s
+             tic-tac-toe ssl      0.2 s1 vime_def         0.7246 1.0s
+             tic-tac-toe ssl      0.2 s1 vime_tun         0.5127 26.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp       16 s1 dllp_def         0.8212 2.1s
+                     pc4 llp       16 s1 dllp_tun         0.8158 38.9s
+                     pc4 llp       16 s1 dllplin_def      0.6549 1.5s
+                     pc4 llp       16 s1 dllplin_tun      0.8827 15.1s
+                     pc4 llp       16 s1 llpvat_def       0.8385 33.3s
+                     pc4 llp       16 s1 llpvat_tun       0.8077 80.8s
+                     pc4 llp       16 s1 easyllp_def      0.7332 2.3s
+                     pc4 llp       16 s1 easyllp_tun      0.8205 38.3s
+                     pc4 llp       16 s1 glws_def         0.7743 17.8s
+                     pc4 llp       16 s1 glws_tun         0.7743 244.2s
+                     pc4 pu_scar  0.1 s1 nnpu             0.8302 1.5s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                     pc4 pu_scar  0.1 s1 upu              0.6701 1.5s
+                     pc4 pu_scar  0.1 s1 nnpu_tun         0.5794 34.8s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                     pc4 pu_scar  0.1 s1 upu_tun          0.5676 35.5s
+                     pc4 pu_scar  0.1 s1 glwspu_def       0.8009 7.6s
+                     pc4 pu_scar  0.1 s1 glwspu_tun       0.8348 213.9s
+                     pc4 pu_scar  0.1 s1 vpu_def          0.6084 123.4s
+                     pc4 pu_scar  0.1 s1 vpu_tun          0.6084 377.0s
+                     pc4 noisy    0.2 s1 forward          0.8214 2.2s
+                     pc4 noisy    0.2 s1 forward_def      0.8861 1.7s
+                     pc4 noisy    0.2 s1 forward_tun      0.8955 45.0s
+                     pc4 noisy    0.2 s1 illnz_def        0.8991 5.0s
+                     pc4 noisy    0.2 s1 illnz_tun        0.9337 69.7s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp       32 s1 dllp_def         0.8444 4.2s
+                 phoneme llp       32 s1 dllp_tun         0.8640 97.4s
+                 phoneme llp       32 s1 dllplin_def      0.8040 2.9s
+                 phoneme llp       32 s1 dllplin_tun      0.8002 32.7s
+                 phoneme llp       32 s1 llpvat_def       0.8523 65.6s
+                 phoneme llp       32 s1 llpvat_tun       0.8620 189.7s
+                 phoneme llp       32 s1 easyllp_def      0.8225 4.1s
+                 phoneme llp       32 s1 easyllp_tun      0.8210 79.7s
+                 phoneme llp       32 s1 glws_def         0.8226 59.4s
+                 phoneme llp       32 s1 glws_tun         0.7832 869.9s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                 phoneme pu_scar  0.3 s1 nnpu             0.8106 6.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                 phoneme pu_scar  0.3 s1 upu              0.8101 6.4s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                 phoneme pu_scar  0.3 s1 nnpu_tun         0.8735 149.7s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                 phoneme pu_scar  0.3 s1 upu_tun          0.8629 144.4s
+                 phoneme pu_scar  0.3 s1 glwspu_def       0.8977 32.4s
+                 phoneme pu_scar  0.3 s1 glwspu_tun       0.8738 843.9s
+                 phoneme pu_scar  0.3 s1 vpu_def          0.8934 113.1s
+                 phoneme pu_scar  0.3 s1 vpu_tun          0.8934 365.0s
+                 phoneme noisy    0.4 s1 forward          0.8769 9.0s
+                 phoneme noisy    0.4 s1 forward_def      0.8912 6.8s
+                 phoneme noisy    0.4 s1 forward_tun      0.8848 182.6s
+                 phoneme noisy    0.4 s1 illnz_def        0.8136 19.7s
+                 phoneme noisy    0.4 s1 illnz_tun        0.8783 258.2s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+             qsar-biodeg pu_sar   0.1 s1 nnpu             0.6377 1.3s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+             qsar-biodeg pu_sar   0.1 s1 upu              0.6175 1.3s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+             qsar-biodeg pu_sar   0.1 s1 nnpu_tun         0.6471 36.3s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+             qsar-biodeg pu_sar   0.1 s1 upu_tun          0.6108 37.0s
+             qsar-biodeg pu_sar   0.1 s1 glwspu_def       0.6067 6.9s
+             qsar-biodeg pu_sar   0.1 s1 glwspu_tun       0.5526 166.6s
+             qsar-biodeg pu_sar   0.1 s1 vpu_def          0.5385 115.6s
+             qsar-biodeg pu_sar   0.1 s1 vpu_tun          0.5956 258.9s
+             qsar-biodeg pu_sar   0.1 s1 sar_em           0.6557 8.0s
+             qsar-biodeg pu_sar   0.1 s1 sar_em_tuned     0.6743 56.5s
+             qsar-biodeg pu_sar   0.1 s1 sar_e_known      0.6577 0.0s
+             qsar-biodeg ssl     0.05 s1 label_spreading  0.6202 0.0s
+             qsar-biodeg ssl     0.05 s1 ls_tun           0.6464 0.3s
+             qsar-biodeg ssl     0.05 s1 self_training    0.8344 0.0s
+             qsar-biodeg ssl     0.05 s1 st_tun           0.8721 0.9s
+             qsar-biodeg ssl     0.05 s1 illssl_def       0.7422 3.0s
+             qsar-biodeg ssl     0.05 s1 illssl_tun       0.7450 46.8s
+             qsar-biodeg ssl     0.05 s1 vime_def         0.7565 0.8s
+             qsar-biodeg ssl     0.05 s1 vime_tun         0.7994 83.4s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s1 dllp_def         0.6499 1.7s
+          cylinder-bands llp        8 s1 dllp_tun         0.6525 31.2s
+          cylinder-bands llp        8 s1 dllplin_def      0.6697 1.0s
+          cylinder-bands llp        8 s1 dllplin_tun      0.7168 11.8s
+          cylinder-bands llp        8 s1 llpvat_def       0.6518 22.6s
+          cylinder-bands llp        8 s1 llpvat_tun       0.6356 64.0s
+          cylinder-bands llp        8 s1 easyllp_def      0.6661 1.8s
+          cylinder-bands llp        8 s1 easyllp_tun      0.6890 28.8s
+          cylinder-bands llp        8 s1 glws_def         0.6284 6.7s
+          cylinder-bands llp        8 s1 glws_tun         0.6350 114.3s
+          cylinder-bands pu_sar   0.3 s1 nnpu             0.6294 0.9s
+          cylinder-bands pu_sar   0.3 s1 upu              0.6423 0.9s
+          cylinder-bands pu_sar   0.3 s1 nnpu_tun         0.6106 24.3s
+          cylinder-bands pu_sar   0.3 s1 upu_tun          0.6591 24.4s
+          cylinder-bands pu_sar   0.3 s1 glwspu_def       0.6712 3.5s
+          cylinder-bands pu_sar   0.3 s1 glwspu_tun       0.6999 90.1s
+          cylinder-bands pu_sar   0.3 s1 vpu_def          0.6352 99.7s
+          cylinder-bands pu_sar   0.3 s1 vpu_tun          0.6352 326.0s
+          cylinder-bands pu_sar   0.3 s1 sar_em           0.6399 4.8s
+          cylinder-bands pu_sar   0.3 s1 sar_em_tuned     0.6862 104.4s
+          cylinder-bands pu_sar   0.3 s1 sar_e_known      0.6447 0.0s
+          cylinder-bands ssl      0.2 s1 label_spreading  0.6758 0.0s
+          cylinder-bands ssl      0.2 s1 ls_tun           0.6758 0.2s
+          cylinder-bands ssl      0.2 s1 self_training    0.6370 0.1s
+          cylinder-bands ssl      0.2 s1 st_tun           0.7114 0.8s
+          cylinder-bands ssl      0.2 s1 illssl_def       0.6550 1.6s
+          cylinder-bands ssl      0.2 s1 illssl_tun       0.6760 32.4s
+          cylinder-bands ssl      0.2 s1 vime_def         0.7109 2.5s
+          cylinder-bands ssl      0.2 s1 vime_tun         0.7220 23.6s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp       16 s1 dllp_def         0.5435 0.9s
+           dresses-sales llp       16 s1 dllp_tun         0.5463 19.8s
+           dresses-sales llp       16 s1 dllplin_def      0.5660 0.6s
+           dresses-sales llp       16 s1 dllplin_tun      0.5660 7.9s
+           dresses-sales llp       16 s1 llpvat_def       0.5415 11.9s
+           dresses-sales llp       16 s1 llpvat_tun       0.5329 36.5s
+           dresses-sales llp       16 s1 easyllp_def      0.5689 0.9s
+           dresses-sales llp       16 s1 easyllp_tun      0.5650 19.9s
+           dresses-sales llp       16 s1 glws_def         0.5518 6.3s
+           dresses-sales llp       16 s1 glws_tun         0.5518 121.0s
+           dresses-sales pu_scar  0.1 s1 nnpu             0.6165 0.9s
+           dresses-sales pu_scar  0.1 s1 upu              0.6440 0.9s
+           dresses-sales pu_scar  0.1 s1 nnpu_tun         0.5979 23.7s
+           dresses-sales pu_scar  0.1 s1 upu_tun          0.6144 25.3s
+           dresses-sales pu_scar  0.1 s1 glwspu_def       0.5864 3.3s
+           dresses-sales pu_scar  0.1 s1 glwspu_tun       0.6105 87.9s
+           dresses-sales pu_scar  0.1 s1 vpu_def          0.6561 85.2s
+           dresses-sales pu_scar  0.1 s1 vpu_tun          0.6189 209.4s
+           dresses-sales noisy    0.2 s1 forward          0.5757 0.8s
+           dresses-sales noisy    0.2 s1 forward_def      0.5671 0.6s
+           dresses-sales noisy    0.2 s1 forward_tun      0.5886 18.7s
+           dresses-sales noisy    0.2 s1 illnz_def        0.5935 2.1s
+           dresses-sales noisy    0.2 s1 illnz_tun        0.5913 35.0s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp       32 s1 dllp_def         0.8809 3.3s
+                    sick llp       32 s1 dllp_tun         0.8857 76.3s
+                    sick llp       32 s1 dllplin_def      0.6697 2.0s
+                    sick llp       32 s1 dllplin_tun      0.7019 23.7s
+                    sick llp       32 s1 llpvat_def       0.8556 47.3s
+                    sick llp       32 s1 llpvat_tun       0.9065 149.2s
+                    sick llp       32 s1 easyllp_def      0.8217 3.5s
+                    sick llp       32 s1 easyllp_tun      0.7424 69.2s
+                    sick llp       32 s1 glws_def         0.8951 44.8s
+                    sick llp       32 s1 glws_tun         0.8969 631.5s
+                    sick pu_scar  0.3 s1 nnpu             0.9329 4.2s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                    sick pu_scar  0.3 s1 upu              0.8551 4.1s
+/kaggle/working/code/icgibbs/baselines.py:128: RuntimeWarning: overflow encountered in exp
+  p = 1 / (1 + np.exp(-z))
+                    sick pu_scar  0.3 s1 nnpu_tun         0.8052 101.2s
+                    sick pu_scar  0.3 s1 upu_tun          0.5957 104.8s
+                    sick pu_scar  0.3 s1 glwspu_def       0.9391 18.7s
+                    sick pu_scar  0.3 s1 glwspu_tun       0.9404 553.8s
+                    sick pu_scar  0.3 s1 vpu_def          0.8965 121.7s
+                    sick pu_scar  0.3 s1 vpu_tun          0.8516 281.1s
+                    sick noisy    0.4 s1 forward          0.8936 6.5s
+                    sick noisy    0.4 s1 forward_def      0.8924 4.9s
+                    sick noisy    0.4 s1 forward_tun      0.9234 136.9s
+                    sick noisy    0.4 s1 illnz_def        0.8207 14.0s
+                    sick noisy    0.4 s1 illnz_tun        0.9224 186.5s
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.6 s1 proden_def       0.5643 4.0s
+           mfeat-factors pll      0.6 s1 proden_tun       0.9566 72.8s
+           mfeat-factors pll      0.6 s1 glwspll_def      0.9583 5.6s
+           mfeat-factors pll      0.6 s1 glwspll_tun      0.9482 85.7s
+           mfeat-factors pll      0.6 s1 rc_def           0.9633 2.3s
+           mfeat-factors pll      0.6 s1 rc_tun           0.9599 84.0s
+           mfeat-factors pll      0.6 s1 cc_def           0.9599 2.0s
+           mfeat-factors pll      0.6 s1 cc_tun           0.9599 79.5s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.6 s1 proden_def       0.9368 6.2s
+                  splice pll      0.6 s1 proden_tun       0.9146 104.1s
+                  splice pll      0.6 s1 glwspll_def      0.8004 8.8s
+                  splice pll      0.6 s1 glwspll_tun      0.9313 136.4s
+                  splice pll      0.6 s1 rc_def           0.8902 3.0s
+                  splice pll      0.6 s1 rc_tun           0.9379 122.3s
+                  splice pll      0.6 s1 cc_def           0.8914 3.0s
+                  splice pll      0.6 s1 cc_tun           0.9401 114.7s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.6 s1 proden_def       0.3801 1.3s
+              eucalyptus pll      0.6 s1 proden_tun       0.5023 23.5s
+              eucalyptus pll      0.6 s1 glwspll_def      0.4253 1.9s
+              eucalyptus pll      0.6 s1 glwspll_tun      0.5158 28.1s
+              eucalyptus pll      0.6 s1 rc_def           0.4977 0.7s
+              eucalyptus pll      0.6 s1 rc_tun           0.4706 24.0s
+              eucalyptus pll      0.6 s1 cc_def           0.4977 0.7s
+              eucalyptus pll      0.6 s1 cc_tun           0.4887 22.7s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.6 s1 proden_def       0.1138 0.9s
+        analcatdata_dmft pll      0.6 s1 proden_tun       0.1377 14.1s
+        analcatdata_dmft pll      0.6 s1 glwspll_def      0.1377 1.4s
+        analcatdata_dmft pll      0.6 s1 glwspll_tun      0.1317 18.2s
+        analcatdata_dmft pll      0.6 s1 rc_def           0.1317 0.5s
+        analcatdata_dmft pll      0.6 s1 rc_tun           0.1557 15.9s
+        analcatdata_dmft pll      0.6 s1 cc_def           0.1317 0.5s
+        analcatdata_dmft pll      0.6 s1 cc_tun           0.1617 14.8s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.6 s1 proden_def       0.7392 8.7s
+   wall-robot-navigation pll      0.6 s1 proden_tun       0.8888 169.3s
+   wall-robot-navigation pll      0.6 s1 glwspll_def      0.8601 13.5s
+   wall-robot-navigation pll      0.6 s1 glwspll_tun      0.8735 222.0s
+   wall-robot-navigation pll      0.6 s1 rc_def           0.7172 4.6s
+   wall-robot-navigation pll      0.6 s1 rc_tun           0.8681 151.4s
+   wall-robot-navigation pll      0.6 s1 cc_def           0.7172 3.0s
+   wall-robot-navigation pll      0.6 s1 cc_tun           0.8674 117.9s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s1 proden_def       0.3488 1.1s
+             MiceProtein pll      0.6 s1 proden_tun       0.9506 19.4s
+             MiceProtein pll      0.6 s1 glwspll_def      0.9167 1.4s
+             MiceProtein pll      0.6 s1 glwspll_tun      0.9537 24.0s
+             MiceProtein pll      0.6 s1 rc_def           0.8765 0.5s
+             MiceProtein pll      0.6 s1 rc_tun           0.9074 19.5s
+             MiceProtein pll      0.6 s1 cc_def           0.8735 0.5s
+             MiceProtein pll      0.6 s1 cc_tun           0.9321 20.3s
+
+=== 40982 steel-plates-fault: n=1941 (loại trùng 0), d=27, C=7, sha256=a308bbebe29b
+      steel-plates-fault pll      0.6 s1 proden_def       0.4923 2.0s
+      steel-plates-fault pll      0.6 s1 proden_tun       0.6638 33.6s
+      steel-plates-fault pll      0.6 s1 glwspll_def      0.6175 2.7s
+      steel-plates-fault pll      0.6 s1 glwspll_tun      0.6569 42.1s
+      steel-plates-fault pll      0.6 s1 rc_def           0.6329 1.1s
+      steel-plates-fault pll      0.6 s1 rc_tun           0.6569 38.4s
+      steel-plates-fault pll      0.6 s1 cc_def           0.6329 1.1s
+      steel-plates-fault pll      0.6 s1 cc_tun           0.6449 36.2s
