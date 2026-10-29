@@ -1,0 +1,8 @@
+Lost           n=  1122 d= 108 C= 16 cand=2.23 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=True
+MSRCv2         n=  1758 d=  48 C= 23 cand=3.16 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=True
+BirdSong       n=  4998 d=  38 C= 13 cand=2.17 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=True
+FG-NET         n=  1002 d= 262 C= 78 cand=7.48 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=False
+Soccer Player  n= 17472 d= 279 C=171 cand=2.09 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=False
+Yahoo! News    n= 22991 d= 163 C=219 cand=1.91 true∈S=1.000 khớp_công_bố=True đạt_tiêu_chí=False
+
+đã ghi /kaggle/working/g7_pll_real_check.csv

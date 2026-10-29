@@ -1,0 +1,6 @@
+lượt C3 bắt đầu: Wed Oct 28 06:16:25 PM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 533.96s (0:08:53)
+CPU xong base_8: Thu Oct 29 04:02:03 AM UTC 2026
+CPU xong base_9: Thu Oct 29 04:21:25 AM UTC 2026
+CPU xong base_11: Thu Oct 29 04:43:40 AM UTC 2026
+CPU xong base_10: Thu Oct 29 04:43:56 AM UTC 2026

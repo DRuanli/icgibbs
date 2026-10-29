@@ -1,0 +1,124 @@
+run_g7 · part=baselines · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 dllplin_def      0.8477 3.3s
+                spambase llp        8 s1 dllplin_def      0.9279 1.0s
+                spambase llp        8 s2 dllplin_def      0.9068 1.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 dllplin_def      0.8029 1.0s
+                 phoneme llp        8 s1 dllplin_def      0.7805 1.0s
+                 phoneme llp        8 s2 dllplin_def      0.7757 1.0s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 dllplin_def      0.8403 1.0s
+                    sick llp        8 s1 dllplin_def      0.8299 1.0s
+                    sick llp        8 s2 dllplin_def      0.9007 1.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 cc_tun           0.9437 12.7s
+               optdigits pll      0.3 s1 cc_tun           0.9324 16.1s
+               optdigits pll      0.3 s2 cc_tun           0.9300 15.8s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 cc_tun           0.8248 13.3s
+                satimage pll      0.3 s1 cc_tun           0.8626 17.1s
+                satimage pll      0.3 s2 cc_tun           0.8326 15.7s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 cc_tun           0.4222 12.9s
+  first-order-theorem-pr pll      0.3 s1 cc_tun           0.4252 16.5s
+  first-order-theorem-pr pll      0.3 s2 cc_tun           0.3696 15.5s
+run_g7 · part=baselines · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 dllplin_def      0.9540 4.3s
+                spambase llp        8 s1 dllplin_def      0.9516 2.0s
+                spambase llp        8 s2 dllplin_def      0.9255 2.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 dllplin_def      0.7908 1.9s
+                 phoneme llp        8 s1 dllplin_def      0.8009 1.9s
+                 phoneme llp        8 s2 dllplin_def      0.7840 2.0s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 dllplin_def      0.8189 2.0s
+                    sick llp        8 s1 dllplin_def      0.8903 2.0s
+                    sick llp        8 s2 dllplin_def      0.9092 2.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 cc_tun           0.9620 25.8s
+               optdigits pll      0.3 s1 cc_tun           0.9526 33.3s
+               optdigits pll      0.3 s2 cc_tun           0.9614 31.1s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 cc_tun           0.8611 25.1s
+                satimage pll      0.3 s1 cc_tun           0.8802 34.5s
+                satimage pll      0.3 s2 cc_tun           0.8616 31.4s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 cc_tun           0.4423 25.7s
+  first-order-theorem-pr pll      0.3 s1 cc_tun           0.4636 33.2s
+  first-order-theorem-pr pll      0.3 s2 cc_tun           0.4755 30.5s
+run_g7 · part=baselines · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 dllplin_def      0.9680 6.2s
+                spambase llp        8 s1 dllplin_def      0.9712 4.0s
+                spambase llp        8 s2 dllplin_def      0.9558 4.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 dllplin_def      0.8009 3.8s
+                 phoneme llp        8 s1 dllplin_def      0.7995 3.9s
+                 phoneme llp        8 s2 dllplin_def      0.7997 3.8s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 dllplin_def      0.9133 4.0s
+                    sick llp        8 s1 dllplin_def      0.9200 4.0s
+                    sick llp        8 s2 dllplin_def      0.9276 3.9s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 cc_tun           0.9620 51.3s
+               optdigits pll      0.3 s1 cc_tun           0.9751 66.2s
+               optdigits pll      0.3 s2 cc_tun           0.9751 62.9s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 cc_tun           0.8481 50.4s
+                satimage pll      0.3 s1 cc_tun           0.8875 70.3s
+                satimage pll      0.3 s2 cc_tun           0.8844 65.8s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 cc_tun           0.4831 51.2s
+  first-order-theorem-pr pll      0.3 s1 cc_tun           0.5027 73.3s
+  first-order-theorem-pr pll      0.3 s2 cc_tun           0.4713 61.0s
+run_g7 · part=baselines · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+  [bỏ qua] spambase llp s0: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] spambase llp s1: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] spambase llp s2: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+  [bỏ qua] phoneme llp s0: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] phoneme llp s1: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] phoneme llp s2: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+  [bỏ qua] sick llp s0: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] sick llp s1: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] sick llp s2: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+  [bỏ qua] optdigits pll s0: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] optdigits pll s1: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] optdigits pll s2: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 cc_tun           0.8880 120.0s
+                satimage pll      0.3 s1 cc_tun           0.9057 160.3s
+                satimage pll      0.3 s2 cc_tun           0.8891 143.7s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  [bỏ qua] first-order-theorem-proving pll s0: n_train 3945 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] first-order-theorem-proving pll s1: n_train 3945 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] first-order-theorem-proving pll s2: n_train 3945 ≤ 4000 — dùng kết quả phần chính

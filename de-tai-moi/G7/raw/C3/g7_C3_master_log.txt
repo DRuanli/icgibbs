@@ -1,6 +1,12 @@
-lượt C3 bắt đầu: Wed Oct 28 06:16:25 PM UTC 2026
-106 passed, 1 skipped, 9613 warnings in 533.96s (0:08:53)
-CPU xong base_8: Thu Oct 29 04:02:03 AM UTC 2026
-CPU xong base_9: Thu Oct 29 04:21:25 AM UTC 2026
-CPU xong base_11: Thu Oct 29 04:43:40 AM UTC 2026
-CPU xong base_10: Thu Oct 29 04:43:56 AM UTC 2026
+lượt C3 bắt đầu: Thu Oct 29 07:23:34 AM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 397.18s (0:06:37)
+CPU xong base_8: Thu Oct 29 07:32:16 AM UTC 2026
+CPU xong base_9: Thu Oct 29 07:32:16 AM UTC 2026
+CPU xong base_11: Thu Oct 29 07:32:16 AM UTC 2026
+CPU xong base_10: Thu Oct 29 07:32:16 AM UTC 2026
+CPU xong rq5_base: Thu Oct 29 09:28:18 AM UTC 2026
+CPU xong size_base: Thu Oct 29 09:30:48 AM UTC 2026
+CPU xong size_base: Thu Oct 29 09:35:42 AM UTC 2026
+CPU xong size_base: Thu Oct 29 09:45:36 AM UTC 2026
+CPU xong size_base: Thu Oct 29 09:52:43 AM UTC 2026
+lượt C3 kết thúc: Thu Oct 29 09:52:43 AM UTC 2026
