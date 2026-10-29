@@ -1,0 +1,415 @@
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                kr-vs-kp llp        8 s1 oracle           0.9985 12.9s
+                kr-vs-kp llp        8 s1 naive            0.8344 4.4s
+                kr-vs-kp llp        8 s1 gibbs_warm       0.9986 267.9s
+                kr-vs-kp llp        8 s1 sem_warm         0.9983 272.2s
+                kr-vs-kp llp        8 s1 hard_em_warm     0.9984 103.8s
+                kr-vs-kp llp       32 s1 oracle           0.9985 4.1s
+                kr-vs-kp llp       32 s1 naive            0.4942 4.3s
+                kr-vs-kp llp       32 s1 gibbs_warm       0.9101 244.1s
+                kr-vs-kp llp       32 s1 sem_warm         0.8849 248.0s
+                kr-vs-kp llp       32 s1 hard_em_warm     0.9506 76.6s
+                kr-vs-kp pu_sar   0.3 s1 oracle           0.9985 4.8s
+                kr-vs-kp pu_sar   0.3 s1 naive            0.9903 4.3s
+                kr-vs-kp pu_sar   0.3 s1 gibbs_warm       0.9890 235.1s
+                kr-vs-kp pu_sar   0.3 s1 sem_warm         0.9878 239.1s
+                kr-vs-kp pu_sar   0.3 s1 hard_em_warm     0.9823 73.4s
+                kr-vs-kp pu_sar   0.3 s1 gibbs_known_warm 0.9789 236.1s
+                kr-vs-kp pu_scar  0.3 s1 oracle           0.9985 4.4s
+                kr-vs-kp pu_scar  0.3 s1 naive            0.9923 4.3s
+                kr-vs-kp pu_scar  0.3 s1 gibbs_warm       0.9725 240.2s
+                kr-vs-kp pu_scar  0.3 s1 sem_warm         0.9744 244.2s
+                kr-vs-kp pu_scar  0.3 s1 hard_em_warm     0.9715 74.2s
+                kr-vs-kp ssl      0.2 s1 oracle           0.9985 4.5s
+                kr-vs-kp ssl      0.2 s1 naive            0.9938 1.3s
+                kr-vs-kp ssl      0.2 s1 gibbs_warm       0.9917 234.9s
+                kr-vs-kp ssl      0.2 s1 sem_warm         0.9908 238.9s
+                kr-vs-kp ssl      0.2 s1 hard_em_warm     0.9906 71.3s
+                kr-vs-kp noisy    0.4 s1 oracle           0.9985 4.4s
+                kr-vs-kp noisy    0.4 s1 naive            0.9903 4.5s
+                kr-vs-kp noisy    0.4 s1 gibbs_warm       0.9350 240.1s
+                kr-vs-kp noisy    0.4 s1 sem_warm         0.9089 244.0s
+                kr-vs-kp noisy    0.4 s1 hard_em_warm     0.9519 71.8s
+                kr-vs-kp noisy    0.4 s1 cl_tfm           0.9846 6.4s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp       16 s1 oracle           0.9514 0.5s
+         credit-approval llp       16 s1 naive            0.5665 0.5s
+         credit-approval llp       16 s1 gibbs_warm       0.9243 43.7s
+         credit-approval llp       16 s1 sem_warm         0.9089 44.2s
+         credit-approval llp       16 s1 hard_em_warm     0.8871 14.9s
+         credit-approval pu_sar   0.1 s1 oracle           0.9514 0.5s
+         credit-approval pu_sar   0.1 s1 naive            0.8775 0.5s
+         credit-approval pu_sar   0.1 s1 gibbs_warm       0.9160 41.7s
+         credit-approval pu_sar   0.1 s1 sem_warm         0.9189 42.2s
+         credit-approval pu_sar   0.1 s1 hard_em_warm     0.8201 12.8s
+         credit-approval pu_sar   0.1 s1 gibbs_known_warm 0.9335 41.5s
+         credit-approval pu_scar  0.1 s1 oracle           0.9514 0.5s
+         credit-approval pu_scar  0.1 s1 naive            0.9266 0.5s
+         credit-approval pu_scar  0.1 s1 gibbs_warm       0.9388 41.5s
+         credit-approval pu_scar  0.1 s1 sem_warm         0.9379 41.9s
+         credit-approval pu_scar  0.1 s1 hard_em_warm     0.9308 12.9s
+         credit-approval ssl     0.05 s1 oracle           0.9514 0.5s
+         credit-approval ssl     0.05 s1 naive            0.9206 0.3s
+         credit-approval ssl     0.05 s1 gibbs_warm       0.9273 41.1s
+         credit-approval ssl     0.05 s1 sem_warm         0.9165 41.6s
+         credit-approval ssl     0.05 s1 hard_em_warm     0.9119 12.7s
+         credit-approval noisy    0.2 s1 oracle           0.9514 0.5s
+         credit-approval noisy    0.2 s1 naive            0.9477 0.5s
+         credit-approval noisy    0.2 s1 gibbs_warm       0.9447 41.4s
+         credit-approval noisy    0.2 s1 sem_warm         0.9420 42.1s
+         credit-approval noisy    0.2 s1 hard_em_warm     0.9383 13.0s
+         credit-approval noisy    0.2 s1 cl_tfm           0.9388 1.2s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s1 oracle           0.9919 15.5s
+                spambase llp        8 s1 naive            0.9253 16.7s
+                spambase llp        8 s1 gibbs_warm       0.9870 609.8s
+                spambase llp        8 s1 sem_warm         0.9846 620.0s
+                spambase llp        8 s1 hard_em_warm     0.9874 263.2s
+                spambase llp       32 s1 oracle           0.9919 16.0s
+                spambase llp       32 s1 naive            0.4749 15.4s
+                spambase llp       32 s1 gibbs_warm       0.9850 590.9s
+                spambase llp       32 s1 sem_warm         0.9811 602.2s
+                spambase llp       32 s1 hard_em_warm     0.9828 241.9s
+                spambase pu_sar   0.3 s1 oracle           0.9919 16.0s
+                spambase pu_sar   0.3 s1 naive            0.9728 14.8s
+                spambase pu_sar   0.3 s1 gibbs_warm       0.9764 589.6s
+                spambase pu_sar   0.3 s1 sem_warm         0.9730 599.9s
+                spambase pu_sar   0.3 s1 hard_em_warm     0.9727 239.6s
+                spambase pu_sar   0.3 s1 gibbs_known_warm 0.9822 590.2s
+                spambase pu_scar  0.3 s1 oracle           0.9919 15.6s
+                spambase pu_scar  0.3 s1 naive            0.9839 15.9s
+                spambase pu_scar  0.3 s1 gibbs_warm       0.9862 590.5s
+                spambase pu_scar  0.3 s1 sem_warm         0.9854 599.9s
+                spambase pu_scar  0.3 s1 hard_em_warm     0.9845 243.6s
+                spambase ssl      0.2 s1 oracle           0.9919 15.3s
+                spambase ssl      0.2 s1 naive            0.9855 4.5s
+                spambase ssl      0.2 s1 gibbs_warm       0.9853 563.9s
+                spambase ssl      0.2 s1 sem_warm         0.9832 573.4s
+                spambase ssl      0.2 s1 hard_em_warm     0.9853 233.6s
+                spambase noisy    0.4 s1 oracle           0.9919 14.9s
+                spambase noisy    0.4 s1 naive            0.9754 14.5s
+                spambase noisy    0.4 s1 gibbs_warm       0.9783 599.1s
+                spambase noisy    0.4 s1 sem_warm         0.9774 609.3s
+                spambase noisy    0.4 s1 hard_em_warm     0.9610 228.6s
+                spambase noisy    0.4 s1 cl_tfm           0.9811 21.9s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp       16 s1 oracle           0.9994 0.4s
+             tic-tac-toe llp       16 s1 naive            0.5134 0.4s
+             tic-tac-toe llp       16 s1 gibbs_warm       0.6955 44.4s
+             tic-tac-toe llp       16 s1 sem_warm         0.6865 44.8s
+             tic-tac-toe llp       16 s1 hard_em_warm     0.6273 15.3s
+             tic-tac-toe pu_sar   0.1 s1 oracle           0.9994 0.4s
+             tic-tac-toe pu_sar   0.1 s1 naive            0.5762 0.4s
+             tic-tac-toe pu_sar   0.1 s1 gibbs_warm       0.5810 40.8s
+             tic-tac-toe pu_sar   0.1 s1 sem_warm         0.5362 41.3s
+             tic-tac-toe pu_sar   0.1 s1 hard_em_warm     0.5762 12.5s
+             tic-tac-toe pu_sar   0.1 s1 gibbs_known_warm 0.4907 40.5s
+             tic-tac-toe pu_scar  0.1 s1 oracle           0.9994 0.4s
+             tic-tac-toe pu_scar  0.1 s1 naive            0.6252 0.4s
+             tic-tac-toe pu_scar  0.1 s1 gibbs_warm       0.5705 42.3s
+             tic-tac-toe pu_scar  0.1 s1 sem_warm         0.4383 42.9s
+             tic-tac-toe pu_scar  0.1 s1 hard_em_warm     0.6252 17.2s
+             tic-tac-toe ssl     0.05 s1 oracle           0.9994 0.5s
+             tic-tac-toe ssl     0.05 s1 naive            0.8113 0.4s
+             tic-tac-toe ssl     0.05 s1 gibbs_warm       0.6496 55.7s
+             tic-tac-toe ssl     0.05 s1 sem_warm         0.6626 56.2s
+             tic-tac-toe ssl     0.05 s1 hard_em_warm     0.6888 17.4s
+             tic-tac-toe noisy    0.2 s1 oracle           0.9994 0.5s
+             tic-tac-toe noisy    0.2 s1 naive            0.9692 0.5s
+             tic-tac-toe noisy    0.2 s1 gibbs_warm       0.8965 55.9s
+             tic-tac-toe noisy    0.2 s1 sem_warm         0.7957 56.4s
+             tic-tac-toe noisy    0.2 s1 hard_em_warm     0.8309 16.2s
+             tic-tac-toe noisy    0.2 s1 cl_tfm           0.8827 1.1s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s1 oracle           0.9568 2.5s
+                     pc4 llp        8 s1 naive            0.7853 2.7s
+                     pc4 llp        8 s1 gibbs_warm       0.9423 226.6s
+                     pc4 llp        8 s1 sem_warm         0.9334 229.2s
+                     pc4 llp        8 s1 hard_em_warm     0.9364 76.5s
+                     pc4 llp       32 s1 oracle           0.9568 3.2s
+                     pc4 llp       32 s1 naive            0.6807 3.0s
+                     pc4 llp       32 s1 gibbs_warm       0.7760 221.6s
+                     pc4 llp       32 s1 sem_warm         0.7425 224.6s
+                     pc4 llp       32 s1 hard_em_warm     0.7884 66.8s
+                     pc4 pu_sar   0.3 s1 oracle           0.9568 3.1s
+                     pc4 pu_sar   0.3 s1 naive            0.8684 3.7s
+                     pc4 pu_sar   0.3 s1 gibbs_warm       0.8656 216.3s
+                     pc4 pu_sar   0.3 s1 sem_warm         0.8654 219.9s
+                     pc4 pu_sar   0.3 s1 hard_em_warm     0.8968 63.3s
+                     pc4 pu_sar   0.3 s1 gibbs_known_warm 0.9147 218.3s
+                     pc4 pu_scar  0.3 s1 oracle           0.9568 3.0s
+                     pc4 pu_scar  0.3 s1 naive            0.9455 2.5s
+                     pc4 pu_scar  0.3 s1 gibbs_warm       0.9469 211.7s
+                     pc4 pu_scar  0.3 s1 sem_warm         0.9201 214.6s
+                     pc4 pu_scar  0.3 s1 hard_em_warm     0.9425 64.7s
+                     pc4 ssl      0.2 s1 oracle           0.9568 2.5s
+                     pc4 ssl      0.2 s1 naive            0.9303 0.7s
+                     pc4 ssl      0.2 s1 gibbs_warm       0.9157 217.1s
+                     pc4 ssl      0.2 s1 sem_warm         0.9225 220.5s
+                     pc4 ssl      0.2 s1 hard_em_warm     0.9104 62.1s
+                     pc4 noisy    0.4 s1 oracle           0.9568 3.0s
+                     pc4 noisy    0.4 s1 naive            0.8845 3.1s
+                     pc4 noisy    0.4 s1 gibbs_warm       0.6681 178.1s
+                     pc4 noisy    0.4 s1 sem_warm         0.6347 180.6s
+                     pc4 noisy    0.4 s1 hard_em_warm     0.4617 53.9s
+                     pc4 noisy    0.4 s1 cl_tfm           0.8868 6.4s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp       16 s1 oracle           0.9629 2.4s
+                 phoneme llp       16 s1 naive            0.6707 2.4s
+                 phoneme llp       16 s1 gibbs_warm       0.8300 84.0s
+                 phoneme llp       16 s1 sem_warm         0.8463 85.2s
+                 phoneme llp       16 s1 hard_em_warm     0.8742 49.5s
+                 phoneme pu_sar   0.1 s1 oracle           0.9629 2.4s
+                 phoneme pu_sar   0.1 s1 naive            0.8298 2.4s
+                 phoneme pu_sar   0.1 s1 gibbs_warm       0.8186 66.7s
+                 phoneme pu_sar   0.1 s1 sem_warm         0.8062 67.9s
+                 phoneme pu_sar   0.1 s1 hard_em_warm     0.8301 34.8s
+                 phoneme pu_sar   0.1 s1 gibbs_known_warm 0.8649 67.5s
+                 phoneme pu_scar  0.1 s1 oracle           0.9629 2.4s
+                 phoneme pu_scar  0.1 s1 naive            0.8532 2.4s
+                 phoneme pu_scar  0.1 s1 gibbs_warm       0.8250 66.5s
+                 phoneme pu_scar  0.1 s1 sem_warm         0.8183 67.7s
+                 phoneme pu_scar  0.1 s1 hard_em_warm     0.8473 34.6s
+                 phoneme ssl     0.05 s1 oracle           0.9629 2.4s
+                 phoneme ssl     0.05 s1 naive            0.8791 0.5s
+                 phoneme ssl     0.05 s1 gibbs_warm       0.8165 64.9s
+                 phoneme ssl     0.05 s1 sem_warm         0.8143 66.2s
+                 phoneme ssl     0.05 s1 hard_em_warm     0.8610 37.6s
+                 phoneme noisy    0.2 s1 oracle           0.9629 2.6s
+                 phoneme noisy    0.2 s1 naive            0.9361 2.6s
+                 phoneme noisy    0.2 s1 gibbs_warm       0.9190 84.3s
+                 phoneme noisy    0.2 s1 sem_warm         0.9093 85.6s
+                 phoneme noisy    0.2 s1 hard_em_warm     0.9196 39.5s
+                 phoneme noisy    0.2 s1 cl_tfm           0.9296 4.2s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s1 oracle           0.9489 2.6s
+             qsar-biodeg llp        8 s1 naive            0.6977 2.6s
+             qsar-biodeg llp        8 s1 gibbs_warm       0.8972 224.1s
+             qsar-biodeg llp        8 s1 sem_warm         0.8996 227.2s
+             qsar-biodeg llp        8 s1 hard_em_warm     0.9097 72.2s
+             qsar-biodeg llp       32 s1 oracle           0.9489 2.9s
+             qsar-biodeg llp       32 s1 naive            0.4574 2.2s
+             qsar-biodeg llp       32 s1 gibbs_warm       0.7849 205.7s
+             qsar-biodeg llp       32 s1 sem_warm         0.7792 207.9s
+             qsar-biodeg llp       32 s1 hard_em_warm     0.7236 64.7s
+             qsar-biodeg pu_sar   0.3 s1 oracle           0.9489 2.4s
+             qsar-biodeg pu_sar   0.3 s1 naive            0.7666 3.2s
+             qsar-biodeg pu_sar   0.3 s1 gibbs_warm       0.8451 209.1s
+             qsar-biodeg pu_sar   0.3 s1 sem_warm         0.8393 211.4s
+             qsar-biodeg pu_sar   0.3 s1 hard_em_warm     0.7786 66.7s
+             qsar-biodeg pu_sar   0.3 s1 gibbs_known_warm 0.9117 211.6s
+             qsar-biodeg pu_scar  0.3 s1 oracle           0.9489 3.4s
+             qsar-biodeg pu_scar  0.3 s1 naive            0.9025 3.2s
+             qsar-biodeg pu_scar  0.3 s1 gibbs_warm       0.8901 211.0s
+             qsar-biodeg pu_scar  0.3 s1 sem_warm         0.9001 213.6s
+             qsar-biodeg pu_scar  0.3 s1 hard_em_warm     0.8774 67.4s
+             qsar-biodeg ssl      0.2 s1 oracle           0.9489 2.8s
+             qsar-biodeg ssl      0.2 s1 naive            0.9084 0.7s
+             qsar-biodeg ssl      0.2 s1 gibbs_warm       0.9248 201.9s
+             qsar-biodeg ssl      0.2 s1 sem_warm         0.9229 204.8s
+             qsar-biodeg ssl      0.2 s1 hard_em_warm     0.8867 61.8s
+             qsar-biodeg noisy    0.4 s1 oracle           0.9489 1.8s
+             qsar-biodeg noisy    0.4 s1 naive            0.8844 1.7s
+             qsar-biodeg noisy    0.4 s1 gibbs_warm       0.8774 183.3s
+             qsar-biodeg noisy    0.4 s1 sem_warm         0.8541 186.0s
+             qsar-biodeg noisy    0.4 s1 hard_em_warm     0.8604 60.6s
+             qsar-biodeg noisy    0.4 s1 cl_tfm           0.9001 4.1s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp       16 s1 oracle           0.8548 1.0s
+          cylinder-bands llp       16 s1 naive            0.5131 0.9s
+          cylinder-bands llp       16 s1 gibbs_warm       0.5795 103.7s
+          cylinder-bands llp       16 s1 sem_warm         0.5865 104.7s
+          cylinder-bands llp       16 s1 hard_em_warm     0.6737 34.3s
+          cylinder-bands pu_sar   0.1 s1 oracle           0.8548 0.9s
+          cylinder-bands pu_sar   0.1 s1 naive            0.5735 1.0s
+          cylinder-bands pu_sar   0.1 s1 gibbs_warm       0.6241 101.5s
+          cylinder-bands pu_sar   0.1 s1 sem_warm         0.6084 102.7s
+          cylinder-bands pu_sar   0.1 s1 hard_em_warm     0.5878 32.5s
+          cylinder-bands pu_sar   0.1 s1 gibbs_known_warm 0.5829 106.0s
+          cylinder-bands pu_scar  0.1 s1 oracle           0.8548 1.2s
+          cylinder-bands pu_scar  0.1 s1 naive            0.6050 1.3s
+          cylinder-bands pu_scar  0.1 s1 gibbs_warm       0.5792 102.1s
+          cylinder-bands pu_scar  0.1 s1 sem_warm         0.5804 103.5s
+          cylinder-bands pu_scar  0.1 s1 hard_em_warm     0.5907 32.7s
+          cylinder-bands ssl     0.05 s1 oracle           0.8548 1.1s
+          cylinder-bands ssl     0.05 s1 naive            0.6181 0.4s
+          cylinder-bands ssl     0.05 s1 gibbs_warm       0.6374 91.8s
+          cylinder-bands ssl     0.05 s1 sem_warm         0.4382 93.1s
+          cylinder-bands ssl     0.05 s1 hard_em_warm     0.5681 25.4s
+          cylinder-bands noisy    0.2 s1 oracle           0.8548 0.7s
+          cylinder-bands noisy    0.2 s1 naive            0.8299 1.1s
+          cylinder-bands noisy    0.2 s1 gibbs_warm       0.8088 81.9s
+          cylinder-bands noisy    0.2 s1 sem_warm         0.7829 82.8s
+          cylinder-bands noisy    0.2 s1 hard_em_warm     0.8060 25.4s
+          cylinder-bands noisy    0.2 s1 cl_tfm           0.8314 1.8s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s1 oracle           0.6079 0.4s
+           dresses-sales llp        8 s1 naive            0.5656 0.4s
+           dresses-sales llp        8 s1 gibbs_warm       0.5424 33.9s
+           dresses-sales llp        8 s1 sem_warm         0.5267 34.3s
+           dresses-sales llp        8 s1 hard_em_warm     0.5276 12.2s
+           dresses-sales llp       32 s1 oracle           0.6079 0.4s
+           dresses-sales llp       32 s1 naive            0.4975 0.4s
+           dresses-sales llp       32 s1 gibbs_warm       0.5453 30.5s
+           dresses-sales llp       32 s1 sem_warm         0.5198 30.9s
+           dresses-sales llp       32 s1 hard_em_warm     0.4919 9.9s
+           dresses-sales pu_sar   0.3 s1 oracle           0.6079 0.4s
+           dresses-sales pu_sar   0.3 s1 naive            0.5543 0.4s
+           dresses-sales pu_sar   0.3 s1 gibbs_warm       0.5399 29.9s
+           dresses-sales pu_sar   0.3 s1 sem_warm         0.5647 30.3s
+           dresses-sales pu_sar   0.3 s1 hard_em_warm     0.5563 9.3s
+           dresses-sales pu_sar   0.3 s1 gibbs_known_warm 0.6196 29.7s
+           dresses-sales pu_scar  0.3 s1 oracle           0.6079 0.4s
+           dresses-sales pu_scar  0.3 s1 naive            0.5897 0.3s
+           dresses-sales pu_scar  0.3 s1 gibbs_warm       0.5614 29.7s
+           dresses-sales pu_scar  0.3 s1 sem_warm         0.5192 30.0s
+           dresses-sales pu_scar  0.3 s1 hard_em_warm     0.5897 11.0s
+           dresses-sales ssl      0.2 s1 oracle           0.6079 0.4s
+           dresses-sales ssl      0.2 s1 naive            0.5705 0.3s
+           dresses-sales ssl      0.2 s1 gibbs_warm       0.5891 37.1s
+           dresses-sales ssl      0.2 s1 sem_warm         0.5747 37.5s
+           dresses-sales ssl      0.2 s1 hard_em_warm     0.6026 11.6s
+           dresses-sales noisy    0.4 s1 oracle           0.6079 0.4s
+           dresses-sales noisy    0.4 s1 naive            0.5506 0.4s
+           dresses-sales noisy    0.4 s1 gibbs_warm       0.5240 37.8s
+           dresses-sales noisy    0.4 s1 sem_warm         0.5322 38.1s
+           dresses-sales noisy    0.4 s1 hard_em_warm     0.5121 11.7s
+           dresses-sales noisy    0.4 s1 cl_tfm           0.5439 0.9s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp       16 s1 oracle           0.9982 4.4s
+                    sick llp       16 s1 naive            0.8045 4.7s
+                    sick llp       16 s1 gibbs_warm       0.9922 241.0s
+                    sick llp       16 s1 sem_warm         0.9913 244.7s
+                    sick llp       16 s1 hard_em_warm     0.9351 92.4s
+                    sick pu_sar   0.1 s1 oracle           0.9982 4.6s
+                    sick pu_sar   0.1 s1 naive            0.9542 4.6s
+                    sick pu_sar   0.1 s1 gibbs_warm       0.9562 225.7s
+                    sick pu_sar   0.1 s1 sem_warm         0.9371 229.3s
+                    sick pu_sar   0.1 s1 hard_em_warm     0.9459 75.1s
+                    sick pu_sar   0.1 s1 gibbs_known_warm 0.9777 224.2s
+                    sick pu_scar  0.1 s1 oracle           0.9982 5.0s
+                    sick pu_scar  0.1 s1 naive            0.9722 4.9s
+                    sick pu_scar  0.1 s1 gibbs_warm       0.9630 224.4s
+                    sick pu_scar  0.1 s1 sem_warm         0.9594 228.0s
+                    sick pu_scar  0.1 s1 hard_em_warm     0.9706 76.1s
+                    sick ssl     0.05 s1 oracle           0.9982 4.5s
+                    sick ssl     0.05 s1 naive            0.9405 0.8s
+                    sick ssl     0.05 s1 gibbs_warm       0.9559 219.7s
+                    sick ssl     0.05 s1 sem_warm         0.9399 223.2s
+                    sick ssl     0.05 s1 hard_em_warm     0.9212 74.4s
+                    sick noisy    0.2 s1 oracle           0.9982 4.7s
+                    sick noisy    0.2 s1 naive            0.9667 4.6s
+                    sick noisy    0.2 s1 gibbs_warm       0.9506 220.9s
+                    sick noisy    0.2 s1 sem_warm         0.9360 224.6s
+                    sick noisy    0.2 s1 hard_em_warm     0.9553 79.9s
+                    sick noisy    0.2 s1 cl_tfm           0.9723 7.7s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s1 oracle           0.9840 0.3s
+           balance-scale pll      0.3 s1 naive            0.9096 0.3s
+           balance-scale pll      0.3 s1 gibbs_warm       0.9574 34.2s
+           balance-scale pll      0.3 s1 sem_warm         0.9309 34.6s
+           balance-scale pll      0.3 s1 hard_em_warm     0.9787 11.8s
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.3 s1 oracle           0.9800 25.3s
+           mfeat-factors pll      0.3 s1 naive            0.8514 22.8s
+           mfeat-factors pll      0.3 s1 gibbs_warm       0.9783 1524.8s
+           mfeat-factors pll      0.3 s1 sem_warm         0.9699 1553.4s
+           mfeat-factors pll      0.3 s1 hard_em_warm     0.9716 439.3s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s1 oracle           0.9911 25.3s
+               optdigits pll      0.3 s1 naive            0.9187 23.9s
+               optdigits pll      0.3 s1 gibbs_warm       0.9881 643.6s
+               optdigits pll      0.3 s1 sem_warm         0.9816 655.0s
+               optdigits pll      0.3 s1 hard_em_warm     0.9870 364.4s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.3 s1 oracle           0.9590 10.0s
+                  splice pll      0.3 s1 naive            0.9490 11.2s
+                  splice pll      0.3 s1 gibbs_warm       0.9557 567.2s
+                  splice pll      0.3 s1 sem_warm         0.9579 576.8s
+                  splice pll      0.3 s1 hard_em_warm     0.9568 172.3s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s1 oracle           0.9352 18.4s
+                satimage pll      0.3 s1 naive            0.8849 17.7s
+                satimage pll      0.3 s1 gibbs_warm       0.9191 389.7s
+                satimage pll      0.3 s1 sem_warm         0.9020 396.9s
+                satimage pll      0.3 s1 hard_em_warm     0.9259 270.5s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s1 oracle           0.7557 0.9s
+              eucalyptus pll      0.3 s1 naive            0.5882 0.8s
+              eucalyptus pll      0.3 s1 gibbs_warm       0.7557 57.8s
+              eucalyptus pll      0.3 s1 sem_warm         0.7376 58.4s
+              eucalyptus pll      0.3 s1 hard_em_warm     0.7376 21.0s
+
+=== 458 analcatdata_authorship: n=841 (loại trùng 0), d=70, C=4, sha256=81996155218e
+  analcatdata_authorship pll      0.3 s1 oracle           1.0000 4.7s
+  analcatdata_authorship pll      0.3 s1 naive            0.9921 5.9s
+  analcatdata_authorship pll      0.3 s1 gibbs_warm       1.0000 207.9s
+  analcatdata_authorship pll      0.3 s1 sem_warm         1.0000 210.5s
+  analcatdata_authorship pll      0.3 s1 hard_em_warm     1.0000 73.0s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.3 s1 oracle           0.1737 0.3s
+        analcatdata_dmft pll      0.3 s1 naive            0.1677 0.3s
+        analcatdata_dmft pll      0.3 s1 gibbs_warm       0.1677 35.7s
+        analcatdata_dmft pll      0.3 s1 sem_warm         0.1677 36.0s
+        analcatdata_dmft pll      0.3 s1 hard_em_warm     0.1677 11.5s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s1 oracle           0.5996 19.9s
+  first-order-theorem-pr pll      0.3 s1 naive            0.4902 20.5s
+  first-order-theorem-pr pll      0.3 s1 gibbs_warm       0.5204 553.5s
+  first-order-theorem-pr pll      0.3 s1 sem_warm         0.5033 563.2s
+  first-order-theorem-pr pll      0.3 s1 hard_em_warm     0.5517 316.1s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.3 s1 oracle           0.9933 9.5s
+   wall-robot-navigation pll      0.3 s1 naive            0.9835 9.4s
+   wall-robot-navigation pll      0.3 s1 gibbs_warm       0.9908 271.0s
+   wall-robot-navigation pll      0.3 s1 sem_warm         0.9890 275.8s
+   wall-robot-navigation pll      0.3 s1 hard_em_warm     0.9908 147.9s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.3 s1 oracle           0.9456 14.0s
+                 semeion pll      0.3 s1 naive            0.5105 15.4s
+                 semeion pll      0.3 s1 gibbs_warm       0.9226 962.6s
+                 semeion pll      0.3 s1 sem_warm         0.9247 982.5s
+                 semeion pll      0.3 s1 hard_em_warm     0.9310 363.1s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.3 s1 oracle           1.0000 6.6s
+             MiceProtein pll      0.3 s1 naive            0.5679 8.1s
+             MiceProtein pll      0.3 s1 gibbs_warm       0.9969 385.2s
+             MiceProtein pll      0.3 s1 sem_warm         1.0000 391.7s
+             MiceProtein pll      0.3 s1 hard_em_warm     0.9815 118.9s
+
+=== 40975 car: n=1728 (loại trùng 0), d=6, C=4, sha256=172f09c22188
+                     car pll      0.3 s1 oracle           0.9884 0.7s
+                     car pll      0.3 s1 naive            0.8767 0.7s
+                     car pll      0.3 s1 gibbs_warm       0.9634 52.2s
+                     car pll      0.3 s1 sem_warm         0.9518 52.8s
+                     car pll      0.3 s1 hard_em_warm     0.9499 12.6s
+
+=== 40982 steel-plates-fault: n=1941 (loại trùng 0), d=27, C=7, sha256=a308bbebe29b
+      steel-plates-fault pll      0.3 s1 oracle           0.8045 2.7s
+      steel-plates-fault pll      0.3 s1 naive            0.6895 2.7s
+      steel-plates-fault pll      0.3 s1 gibbs_warm       0.7976 130.1s
+      steel-plates-fault pll      0.3 s1 sem_warm         0.7787 132.5s
+      steel-plates-fault pll      0.3 s1 hard_em_warm     0.7890 38.4s
