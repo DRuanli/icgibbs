@@ -49,12 +49,21 @@ RQ3_LEVELS = {"llp": [8, 16], "pu_sar": [0.1, 0.3], "pu_scar": [0.1, 0.3], "pll"
               "noisy": [0.2, 0.4]}
 
 
-def load(raw):
-    fs = glob.glob(os.path.join(raw, "L[123]", "g7_tfm_*.csv")) + glob.glob(os.path.join(raw, "C[123]", "g7_base_*.csv"))
+MAIN_DIRS = ["L1", "L2", "L3", "L3_lan2"]   # thứ tự ưu tiên: một ô có ở nhiều lần chạy thì giữ kết quả hợp lệ ĐẦU TIÊN
+BASE_DIRS = ["C1", "C2", "C3"]             # (đúng ngữ nghĩa "chạy tiếp" của bộ chạy: ô đã xong được bỏ qua)
+
+
+def load_files(raw, dirs, pattern, extra_key=()):
+    fs = [f for d_ in dirs for f in sorted(glob.glob(os.path.join(raw, d_, pattern)))]
     d = pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
     d = d[d.status == "ok"].copy()
     d["level"] = d.level.astype(float)
-    return d.drop_duplicates(["dataset_id", "setting", "level", "seed", "method"])
+    return d.drop_duplicates(["dataset_id", "setting", "level", "seed", "method", *extra_key], keep="first")
+
+
+def load(raw):
+    return pd.concat([load_files(raw, MAIN_DIRS, "g7_tfm_*.csv"), load_files(raw, BASE_DIRS, "g7_base_*.csv")],
+                     ignore_index=True)
 
 
 def ds_table(d, setting, level, metric):

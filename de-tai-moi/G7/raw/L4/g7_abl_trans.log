@@ -1,0 +1,51 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp        8 s0 gibbs_warm_trans 0.9992 253.4s
+                kr-vs-kp llp        8 s1 gibbs_warm_trans 0.9988 250.1s
+                kr-vs-kp llp        8 s2 gibbs_warm_trans 0.9993 250.2s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_warm_trans 0.9284 62.9s
+         credit-approval llp        8 s1 gibbs_warm_trans 0.9289 59.5s
+         credit-approval llp        8 s2 gibbs_warm_trans 0.9126 59.3s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 gibbs_warm_trans 0.9807 570.6s
+                spambase llp        8 s1 gibbs_warm_trans 0.9867 561.8s
+                spambase llp        8 s2 gibbs_warm_trans 0.9849 566.3s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp        8 s0 gibbs_warm_trans 0.6637 59.8s
+             tic-tac-toe llp        8 s1 gibbs_warm_trans 0.6536 60.5s
+             tic-tac-toe llp        8 s2 gibbs_warm_trans 0.7000 61.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s0 gibbs_warm_trans 0.9089 225.8s
+                     pc4 llp        8 s1 gibbs_warm_trans 0.9414 226.0s
+                     pc4 llp        8 s2 gibbs_warm_trans 0.9392 231.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 gibbs_warm_trans 0.8824 122.4s
+                 phoneme llp        8 s1 gibbs_warm_trans 0.8863 120.3s
+                 phoneme llp        8 s2 gibbs_warm_trans 0.8145 118.3s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s0 gibbs_warm_trans 0.8855 204.2s
+             qsar-biodeg llp        8 s1 gibbs_warm_trans 0.8936 209.3s
+             qsar-biodeg llp        8 s2 gibbs_warm_trans 0.8912 212.1s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_warm_trans 0.7118 115.4s
+          cylinder-bands llp        8 s1 gibbs_warm_trans 0.5729 112.7s
+          cylinder-bands llp        8 s2 gibbs_warm_trans 0.7073 113.1s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s0 gibbs_warm_trans 0.4589 43.3s
+           dresses-sales llp        8 s1 gibbs_warm_trans 0.5738 41.8s
+           dresses-sales llp        8 s2 gibbs_warm_trans 0.4536 43.2s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 gibbs_warm_trans 0.9967 231.8s
+                    sick llp        8 s1 gibbs_warm_trans 0.9935 194.1s
+                    sick llp        8 s2 gibbs_warm_trans 0.9948 198.1s

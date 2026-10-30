@@ -1,0 +1,7 @@
+lượt L5 bắt đầu: Thu Oct 29 10:35:56 AM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 411.73s (0:06:51)
+GPU1 xong abl_init_1: Thu Oct 29 02:42:07 PM UTC 2026
+GPU0 xong abl_init_0: Thu Oct 29 03:27:40 PM UTC 2026
+GPU1 xong abl_prior_1: Thu Oct 29 05:31:24 PM UTC 2026
+GPU0 xong abl_prior_0: Thu Oct 29 06:04:17 PM UTC 2026
+lượt L5 kết thúc: Thu Oct 29 06:04:17 PM UTC 2026

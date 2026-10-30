@@ -1,0 +1,352 @@
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 oracle           0.9784 7.4s
+                spambase llp        8 s0 naive            0.8690 3.8s
+                spambase llp        8 s0 gibbs_warm       0.9773 190.0s
+                spambase llp        8 s0 sem_warm         0.9745 193.6s
+                spambase llp        8 s0 hard_em_warm     0.9769 57.0s
+                spambase llp        8 s1 oracle           0.9863 3.6s
+                spambase llp        8 s1 naive            0.6202 3.7s
+                spambase llp        8 s1 gibbs_warm       0.9798 192.9s
+                spambase llp        8 s1 sem_warm         0.9789 196.2s
+                spambase llp        8 s1 hard_em_warm     0.9781 58.4s
+                spambase llp        8 s2 oracle           0.9833 3.4s
+                spambase llp        8 s2 naive            0.5150 3.4s
+                spambase llp        8 s2 gibbs_warm       0.9759 184.4s
+                spambase llp        8 s2 sem_warm         0.9750 188.0s
+                spambase llp        8 s2 hard_em_warm     0.9745 54.4s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 oracle           0.9160 0.6s
+                 phoneme llp        8 s0 naive            0.5508 0.6s
+                 phoneme llp        8 s0 gibbs_warm       0.8389 35.1s
+                 phoneme llp        8 s0 sem_warm         0.8133 35.7s
+                 phoneme llp        8 s0 hard_em_warm     0.8511 12.8s
+                 phoneme llp        8 s1 oracle           0.9058 0.6s
+                 phoneme llp        8 s1 naive            0.5620 0.6s
+                 phoneme llp        8 s1 gibbs_warm       0.8251 35.3s
+                 phoneme llp        8 s1 sem_warm         0.8256 35.9s
+                 phoneme llp        8 s1 hard_em_warm     0.8351 13.1s
+                 phoneme llp        8 s2 oracle           0.9184 0.6s
+                 phoneme llp        8 s2 naive            0.6544 0.6s
+                 phoneme llp        8 s2 gibbs_warm       0.8246 35.0s
+                 phoneme llp        8 s2 sem_warm         0.8347 35.6s
+                 phoneme llp        8 s2 hard_em_warm     0.8720 13.2s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 oracle           0.9926 1.1s
+                    sick llp        8 s0 naive            0.8127 1.1s
+                    sick llp        8 s0 gibbs_warm       0.9767 65.1s
+                    sick llp        8 s0 sem_warm         0.9824 66.2s
+                    sick llp        8 s0 hard_em_warm     0.9769 21.9s
+                    sick llp        8 s1 oracle           0.9809 1.1s
+                    sick llp        8 s1 naive            0.8705 1.1s
+                    sick llp        8 s1 gibbs_warm       0.9761 65.5s
+                    sick llp        8 s1 sem_warm         0.9732 66.6s
+                    sick llp        8 s1 hard_em_warm     0.9613 21.3s
+                    sick llp        8 s2 oracle           0.9781 1.1s
+                    sick llp        8 s2 naive            0.9302 1.0s
+                    sick llp        8 s2 gibbs_warm       0.9754 64.4s
+                    sick llp        8 s2 sem_warm         0.9225 65.5s
+                    sick llp        8 s2 hard_em_warm     0.9799 21.7s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 oracle           0.9703 4.7s
+               optdigits pll      0.3 s0 naive            0.3363 4.4s
+               optdigits pll      0.3 s0 gibbs_warm       0.9674 192.3s
+               optdigits pll      0.3 s0 sem_warm         0.9626 196.3s
+               optdigits pll      0.3 s0 hard_em_warm     0.9270 58.5s
+               optdigits pll      0.3 s1 oracle           0.9662 4.0s
+               optdigits pll      0.3 s1 naive            0.5285 5.2s
+               optdigits pll      0.3 s1 gibbs_warm       0.9537 195.5s
+               optdigits pll      0.3 s1 sem_warm         0.9377 200.2s
+               optdigits pll      0.3 s1 hard_em_warm     0.9496 56.3s
+               optdigits pll      0.3 s2 oracle           0.9644 4.3s
+               optdigits pll      0.3 s2 naive            0.3405 5.2s
+               optdigits pll      0.3 s2 gibbs_warm       0.9632 203.6s
+               optdigits pll      0.3 s2 sem_warm         0.9561 207.7s
+               optdigits pll      0.3 s2 hard_em_warm     0.9579 59.0s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 oracle           0.8984 2.8s
+                satimage pll      0.3 s0 naive            0.8320 3.0s
+                satimage pll      0.3 s0 gibbs_warm       0.8730 129.2s
+                satimage pll      0.3 s0 sem_warm         0.8663 132.8s
+                satimage pll      0.3 s0 hard_em_warm     0.8720 39.2s
+                satimage pll      0.3 s1 oracle           0.8834 3.3s
+                satimage pll      0.3 s1 naive            0.8294 2.8s
+                satimage pll      0.3 s1 gibbs_warm       0.8730 126.2s
+                satimage pll      0.3 s1 sem_warm         0.8564 129.6s
+                satimage pll      0.3 s1 hard_em_warm     0.8694 37.3s
+                satimage pll      0.3 s2 oracle           0.8797 2.8s
+                satimage pll      0.3 s2 naive            0.8103 3.4s
+                satimage pll      0.3 s2 gibbs_warm       0.8626 128.8s
+                satimage pll      0.3 s2 sem_warm         0.8517 131.8s
+                satimage pll      0.3 s2 hard_em_warm     0.8585 37.2s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 oracle           0.4766 3.9s
+  first-order-theorem-pr pll      0.3 s0 naive            0.4211 4.4s
+  first-order-theorem-pr pll      0.3 s0 gibbs_warm       0.4548 183.5s
+  first-order-theorem-pr pll      0.3 s0 sem_warm         0.4423 187.2s
+  first-order-theorem-pr pll      0.3 s0 hard_em_warm     0.4506 48.4s
+  first-order-theorem-pr pll      0.3 s1 oracle           0.4778 5.1s
+  first-order-theorem-pr pll      0.3 s1 naive            0.4116 5.3s
+  first-order-theorem-pr pll      0.3 s1 gibbs_warm       0.4364 182.4s
+  first-order-theorem-pr pll      0.3 s1 sem_warm         0.3950 186.8s
+  first-order-theorem-pr pll      0.3 s1 hard_em_warm     0.4358 52.7s
+  first-order-theorem-pr pll      0.3 s2 oracle           0.4843 3.8s
+  first-order-theorem-pr pll      0.3 s2 naive            0.4128 3.8s
+  first-order-theorem-pr pll      0.3 s2 gibbs_warm       0.4447 179.3s
+  first-order-theorem-pr pll      0.3 s2 sem_warm         0.4258 183.7s
+  first-order-theorem-pr pll      0.3 s2 hard_em_warm     0.4382 52.6s
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 oracle           0.9824 8.9s
+                spambase llp        8 s0 naive            0.8369 6.0s
+                spambase llp        8 s0 gibbs_warm       0.9806 300.7s
+                spambase llp        8 s0 sem_warm         0.9797 305.7s
+                spambase llp        8 s0 hard_em_warm     0.9802 96.2s
+                spambase llp        8 s1 oracle           0.9879 5.0s
+                spambase llp        8 s1 naive            0.8959 5.1s
+                spambase llp        8 s1 gibbs_warm       0.9799 300.1s
+                spambase llp        8 s1 sem_warm         0.9787 305.1s
+                spambase llp        8 s1 hard_em_warm     0.9786 93.4s
+                spambase llp        8 s2 oracle           0.9854 4.9s
+                spambase llp        8 s2 naive            0.8116 4.8s
+                spambase llp        8 s2 gibbs_warm       0.9814 291.5s
+                spambase llp        8 s2 sem_warm         0.9780 296.6s
+                spambase llp        8 s2 hard_em_warm     0.9827 93.1s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 oracle           0.9236 0.8s
+                 phoneme llp        8 s0 naive            0.7309 0.8s
+                 phoneme llp        8 s0 gibbs_warm       0.8672 60.8s
+                 phoneme llp        8 s0 sem_warm         0.8496 61.7s
+                 phoneme llp        8 s0 hard_em_warm     0.8710 26.2s
+                 phoneme llp        8 s1 oracle           0.9277 0.8s
+                 phoneme llp        8 s1 naive            0.5132 0.9s
+                 phoneme llp        8 s1 gibbs_warm       0.8761 61.9s
+                 phoneme llp        8 s1 sem_warm         0.8731 62.9s
+                 phoneme llp        8 s1 hard_em_warm     0.8496 28.0s
+                 phoneme llp        8 s2 oracle           0.9393 0.8s
+                 phoneme llp        8 s2 naive            0.6530 0.8s
+                 phoneme llp        8 s2 gibbs_warm       0.8814 59.4s
+                 phoneme llp        8 s2 sem_warm         0.8809 60.2s
+                 phoneme llp        8 s2 hard_em_warm     0.8442 26.6s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 oracle           0.9955 2.0s
+                    sick llp        8 s0 naive            0.8809 2.0s
+                    sick llp        8 s0 gibbs_warm       0.9941 142.0s
+                    sick llp        8 s0 sem_warm         0.9947 144.2s
+                    sick llp        8 s0 hard_em_warm     0.9755 49.1s
+                    sick llp        8 s1 oracle           0.9857 2.0s
+                    sick llp        8 s1 naive            0.7469 1.9s
+                    sick llp        8 s1 gibbs_warm       0.9831 134.5s
+                    sick llp        8 s1 sem_warm         0.9790 136.4s
+                    sick llp        8 s1 hard_em_warm     0.9670 49.0s
+                    sick llp        8 s2 oracle           0.9956 2.2s
+                    sick llp        8 s2 naive            0.7955 2.1s
+                    sick llp        8 s2 gibbs_warm       0.9794 120.0s
+                    sick llp        8 s2 sem_warm         0.9772 122.0s
+                    sick llp        8 s2 hard_em_warm     0.9798 43.2s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 oracle           0.9775 8.2s
+               optdigits pll      0.3 s0 naive            0.7396 6.4s
+               optdigits pll      0.3 s0 gibbs_warm       0.9680 322.6s
+               optdigits pll      0.3 s0 sem_warm         0.9668 329.6s
+               optdigits pll      0.3 s0 hard_em_warm     0.9692 94.7s
+               optdigits pll      0.3 s1 oracle           0.9798 6.7s
+               optdigits pll      0.3 s1 naive            0.7734 5.9s
+               optdigits pll      0.3 s1 gibbs_warm       0.9727 364.1s
+               optdigits pll      0.3 s1 sem_warm         0.9626 370.7s
+               optdigits pll      0.3 s1 hard_em_warm     0.9638 110.9s
+               optdigits pll      0.3 s2 oracle           0.9775 7.0s
+               optdigits pll      0.3 s2 naive            0.7171 7.9s
+               optdigits pll      0.3 s2 gibbs_warm       0.9763 319.7s
+               optdigits pll      0.3 s2 sem_warm         0.9769 325.9s
+               optdigits pll      0.3 s2 hard_em_warm     0.9727 97.1s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 oracle           0.8963 4.7s
+                satimage pll      0.3 s0 naive            0.8611 4.6s
+                satimage pll      0.3 s0 gibbs_warm       0.8901 184.6s
+                satimage pll      0.3 s0 sem_warm         0.8808 188.8s
+                satimage pll      0.3 s0 hard_em_warm     0.8839 53.1s
+                satimage pll      0.3 s1 oracle           0.9036 4.1s
+                satimage pll      0.3 s1 naive            0.8621 4.2s
+                satimage pll      0.3 s1 gibbs_warm       0.8927 201.2s
+                satimage pll      0.3 s1 sem_warm         0.8906 205.7s
+                satimage pll      0.3 s1 hard_em_warm     0.8932 65.1s
+                satimage pll      0.3 s2 oracle           0.9041 5.0s
+                satimage pll      0.3 s2 naive            0.8258 4.8s
+                satimage pll      0.3 s2 gibbs_warm       0.8942 223.4s
+                satimage pll      0.3 s2 sem_warm         0.8844 227.6s
+                satimage pll      0.3 s2 hard_em_warm     0.8922 64.9s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 oracle           0.5115 6.2s
+  first-order-theorem-pr pll      0.3 s0 naive            0.4258 5.5s
+  first-order-theorem-pr pll      0.3 s0 gibbs_warm       0.4772 309.3s
+  first-order-theorem-pr pll      0.3 s0 sem_warm         0.4595 314.6s
+  first-order-theorem-pr pll      0.3 s0 hard_em_warm     0.4678 79.8s
+  first-order-theorem-pr pll      0.3 s1 oracle           0.5222 6.6s
+  first-order-theorem-pr pll      0.3 s1 naive            0.4607 6.8s
+  first-order-theorem-pr pll      0.3 s1 gibbs_warm       0.4660 277.7s
+  first-order-theorem-pr pll      0.3 s1 sem_warm         0.4642 282.8s
+  first-order-theorem-pr pll      0.3 s1 hard_em_warm     0.4536 83.0s
+  first-order-theorem-pr pll      0.3 s2 oracle           0.5103 5.8s
+  first-order-theorem-pr pll      0.3 s2 naive            0.4252 5.1s
+  first-order-theorem-pr pll      0.3 s2 gibbs_warm       0.4772 272.3s
+  first-order-theorem-pr pll      0.3 s2 sem_warm         0.4831 278.7s
+  first-order-theorem-pr pll      0.3 s2 hard_em_warm     0.4867 82.0s
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 oracle           0.9882 13.5s
+                spambase llp        8 s0 naive            0.7874 10.9s
+                spambase llp        8 s0 gibbs_warm       0.9806 532.8s
+                spambase llp        8 s0 sem_warm         0.9790 541.8s
+                spambase llp        8 s0 hard_em_warm     0.9822 166.2s
+                spambase llp        8 s1 oracle           0.9908 10.1s
+                spambase llp        8 s1 naive            0.9115 10.7s
+                spambase llp        8 s1 gibbs_warm       0.9856 524.6s
+                spambase llp        8 s1 sem_warm         0.9842 534.1s
+                spambase llp        8 s1 hard_em_warm     0.9857 160.7s
+                spambase llp        8 s2 oracle           0.9892 9.0s
+                spambase llp        8 s2 naive            0.8874 10.0s
+                spambase llp        8 s2 gibbs_warm       0.9850 580.8s
+                spambase llp        8 s2 sem_warm         0.9814 591.2s
+                spambase llp        8 s2 hard_em_warm     0.9838 183.5s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 oracle           0.9423 1.5s
+                 phoneme llp        8 s0 naive            0.7051 1.5s
+                 phoneme llp        8 s0 gibbs_warm       0.8787 103.5s
+                 phoneme llp        8 s0 sem_warm         0.8500 104.8s
+                 phoneme llp        8 s0 hard_em_warm     0.8898 52.3s
+                 phoneme llp        8 s1 oracle           0.9442 1.3s
+                 phoneme llp        8 s1 naive            0.8086 1.3s
+                 phoneme llp        8 s1 gibbs_warm       0.8985 97.0s
+                 phoneme llp        8 s1 sem_warm         0.8654 98.3s
+                 phoneme llp        8 s1 hard_em_warm     0.8958 47.1s
+                 phoneme llp        8 s2 oracle           0.9533 1.3s
+                 phoneme llp        8 s2 naive            0.8387 1.3s
+                 phoneme llp        8 s2 gibbs_warm       0.9107 99.1s
+                 phoneme llp        8 s2 sem_warm         0.8727 100.4s
+                 phoneme llp        8 s2 hard_em_warm     0.9137 48.0s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 oracle           0.9974 3.7s
+                    sick llp        8 s0 naive            0.9309 3.6s
+                    sick llp        8 s0 gibbs_warm       0.9975 239.3s
+                    sick llp        8 s0 sem_warm         0.9974 242.7s
+                    sick llp        8 s0 hard_em_warm     0.9639 91.0s
+                    sick llp        8 s1 oracle           0.9975 3.7s
+                    sick llp        8 s1 naive            0.9281 3.5s
+                    sick llp        8 s1 gibbs_warm       0.9961 239.6s
+                    sick llp        8 s1 sem_warm         0.9956 243.2s
+                    sick llp        8 s1 hard_em_warm     0.9955 91.1s
+                    sick llp        8 s2 oracle           0.9975 3.5s
+                    sick llp        8 s2 naive            0.9172 3.3s
+                    sick llp        8 s2 gibbs_warm       0.9940 221.2s
+                    sick llp        8 s2 sem_warm         0.9944 225.0s
+                    sick llp        8 s2 hard_em_warm     0.9958 85.8s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 oracle           0.9840 12.4s
+               optdigits pll      0.3 s0 naive            0.8897 13.1s
+               optdigits pll      0.3 s0 gibbs_warm       0.9822 620.3s
+               optdigits pll      0.3 s0 sem_warm         0.9757 631.9s
+               optdigits pll      0.3 s0 hard_em_warm     0.9775 178.3s
+               optdigits pll      0.3 s1 oracle           0.9887 13.1s
+               optdigits pll      0.3 s1 naive            0.8725 11.5s
+               optdigits pll      0.3 s1 gibbs_warm       0.9840 559.8s
+               optdigits pll      0.3 s1 sem_warm         0.9792 570.2s
+               optdigits pll      0.3 s1 hard_em_warm     0.9721 159.1s
+               optdigits pll      0.3 s2 oracle           0.9852 10.1s
+               optdigits pll      0.3 s2 naive            0.8719 10.7s
+               optdigits pll      0.3 s2 gibbs_warm       0.9816 547.1s
+               optdigits pll      0.3 s2 sem_warm         0.9810 557.2s
+               optdigits pll      0.3 s2 hard_em_warm     0.9763 158.5s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 oracle           0.9077 6.7s
+                satimage pll      0.3 s0 naive            0.8714 7.2s
+                satimage pll      0.3 s0 gibbs_warm       0.9005 359.3s
+                satimage pll      0.3 s0 sem_warm         0.8870 366.6s
+                satimage pll      0.3 s0 hard_em_warm     0.8932 105.1s
+                satimage pll      0.3 s1 oracle           0.9171 7.5s
+                satimage pll      0.3 s1 naive            0.8818 7.5s
+                satimage pll      0.3 s1 gibbs_warm       0.9098 363.4s
+                satimage pll      0.3 s1 sem_warm         0.8984 371.1s
+                satimage pll      0.3 s1 hard_em_warm     0.9077 108.1s
+                satimage pll      0.3 s2 oracle           0.9176 7.2s
+                satimage pll      0.3 s2 naive            0.8792 7.7s
+                satimage pll      0.3 s2 gibbs_warm       0.9046 359.8s
+                satimage pll      0.3 s2 sem_warm         0.9036 366.7s
+                satimage pll      0.3 s2 hard_em_warm     0.9020 108.3s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 oracle           0.5482 9.8s
+  first-order-theorem-pr pll      0.3 s0 naive            0.4548 10.5s
+  first-order-theorem-pr pll      0.3 s0 gibbs_warm       0.4956 488.1s
+  first-order-theorem-pr pll      0.3 s0 sem_warm         0.4814 497.3s
+  first-order-theorem-pr pll      0.3 s0 hard_em_warm     0.4962 136.4s
+  first-order-theorem-pr pll      0.3 s1 oracle           0.5612 9.6s
+  first-order-theorem-pr pll      0.3 s1 naive            0.4630 9.1s
+  first-order-theorem-pr pll      0.3 s1 gibbs_warm       0.5038 458.9s
+  first-order-theorem-pr pll      0.3 s1 sem_warm         0.4879 468.6s
+  first-order-theorem-pr pll      0.3 s1 hard_em_warm     0.5086 133.0s
+  first-order-theorem-pr pll      0.3 s2 oracle           0.5588 9.6s
+  first-order-theorem-pr pll      0.3 s2 naive            0.4347 9.3s
+  first-order-theorem-pr pll      0.3 s2 gibbs_warm       0.5021 458.1s
+  first-order-theorem-pr pll      0.3 s2 sem_warm         0.4808 467.8s
+  first-order-theorem-pr pll      0.3 s2 hard_em_warm     0.4979 133.0s
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+  [bỏ qua] spambase llp s0: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] spambase llp s1: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] spambase llp s2: n_train 2947 ≤ 4000 — dùng kết quả phần chính
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+  [bỏ qua] phoneme llp s0: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] phoneme llp s1: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] phoneme llp s2: n_train 3776 ≤ 4000 — dùng kết quả phần chính
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+  [bỏ qua] sick llp s0: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] sick llp s1: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] sick llp s2: n_train 2597 ≤ 4000 — dùng kết quả phần chính
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+  [bỏ qua] optdigits pll s0: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] optdigits pll s1: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] optdigits pll s2: n_train 3934 ≤ 4000 — dùng kết quả phần chính
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 oracle           0.9228 18.1s
+                satimage pll      0.3 s0 naive            0.8802 14.3s
+                satimage pll      0.3 s0 gibbs_warm       0.9036 357.6s
+                satimage pll      0.3 s0 sem_warm         0.9015 364.0s
+                satimage pll      0.3 s0 hard_em_warm     0.9067 189.8s
+                satimage pll      0.3 s1 oracle           0.9388 13.6s
+                satimage pll      0.3 s1 naive            0.8901 13.7s
+                satimage pll      0.3 s1 gibbs_warm       0.9233 304.4s
+                satimage pll      0.3 s1 sem_warm         0.9088 310.9s
+                satimage pll      0.3 s1 hard_em_warm     0.9155 190.3s
+                satimage pll      0.3 s2 oracle           0.9331 13.6s
+                satimage pll      0.3 s2 naive            0.8828 13.5s
+                satimage pll      0.3 s2 gibbs_warm       0.9160 304.7s
+                satimage pll      0.3 s2 sem_warm         0.9041 311.1s
+                satimage pll      0.3 s2 hard_em_warm     0.9196 190.3s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  [bỏ qua] first-order-theorem-proving pll s0: n_train 3945 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] first-order-theorem-proving pll s1: n_train 3945 ≤ 4000 — dùng kết quả phần chính
+  [bỏ qua] first-order-theorem-proving pll s2: n_train 3945 ≤ 4000 — dùng kết quả phần chính

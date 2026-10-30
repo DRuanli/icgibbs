@@ -1,5 +1,7 @@
 # G8 — phân tích xác nhận sơ bộ (29/10/2026)
 
+> **Đã có bản đủ dữ liệu: [G8_REPORT](G8_REPORT.md) (30/10/2026).** Kết luận không đổi. Bản này giữ lại làm hồ sơ.
+
 **Trạng thái dữ liệu.**
 - Phần chính (TFM): có 2.165/2.190 ô. Thiếu 25 ô vì OpenML trả lỗi 503 ở lượt L3 (PLL q = 0,6, seed 1, 5 dataset).
 - Baseline: đủ 3.492/3.492 ô.

@@ -1,0 +1,81 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp pu_sar   0.1 s1 gibbs_warm_prior1 0.8833 237.2s
+                kr-vs-kp pu_sar   0.1 s1 gibbs_warm_prior4 0.8795 243.6s
+                kr-vs-kp pu_sar   0.3 s0 gibbs_warm_prior1 0.9937 238.6s
+                kr-vs-kp pu_sar   0.3 s0 gibbs_warm_prior4 0.9937 239.2s
+                kr-vs-kp pu_sar   0.3 s2 gibbs_warm_prior1 0.9880 241.5s
+                kr-vs-kp pu_sar   0.3 s2 gibbs_warm_prior4 0.9880 253.6s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval pu_sar   0.1 s1 gibbs_warm_prior1 0.9172 58.6s
+         credit-approval pu_sar   0.1 s1 gibbs_warm_prior4 0.9160 58.0s
+         credit-approval pu_sar   0.3 s0 gibbs_warm_prior1 0.7373 58.4s
+         credit-approval pu_sar   0.3 s0 gibbs_warm_prior4 0.7374 54.2s
+         credit-approval pu_sar   0.3 s2 gibbs_warm_prior1 0.8815 59.8s
+         credit-approval pu_sar   0.3 s2 gibbs_warm_prior4 0.8284 61.3s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase pu_sar   0.1 s1 gibbs_warm_prior1 0.9243 600.6s
+                spambase pu_sar   0.1 s1 gibbs_warm_prior4 0.9243 590.0s
+                spambase pu_sar   0.3 s0 gibbs_warm_prior1 0.9671 575.8s
+                spambase pu_sar   0.3 s0 gibbs_warm_prior4 0.9675 572.9s
+                spambase pu_sar   0.3 s2 gibbs_warm_prior1 0.9712 561.8s
+                spambase pu_sar   0.3 s2 gibbs_warm_prior4 0.9713 572.0s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe pu_sar   0.1 s1 gibbs_warm_prior1 0.5789 46.5s
+             tic-tac-toe pu_sar   0.1 s1 gibbs_warm_prior4 0.6430 45.2s
+             tic-tac-toe pu_sar   0.3 s0 gibbs_warm_prior1 0.7426 44.6s
+             tic-tac-toe pu_sar   0.3 s0 gibbs_warm_prior4 0.7429 44.4s
+             tic-tac-toe pu_sar   0.3 s2 gibbs_warm_prior1 0.8359 43.8s
+             tic-tac-toe pu_sar   0.3 s2 gibbs_warm_prior4 0.8110 42.3s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 pu_sar   0.1 s1 gibbs_warm_prior1 0.7066 186.9s
+                     pc4 pu_sar   0.1 s1 gibbs_warm_prior4 0.6173 185.0s
+                     pc4 pu_sar   0.3 s0 gibbs_warm_prior1 0.9082 190.4s
+                     pc4 pu_sar   0.3 s0 gibbs_warm_prior4 0.9004 180.0s
+                     pc4 pu_sar   0.3 s2 gibbs_warm_prior1 0.8498 183.5s
+                     pc4 pu_sar   0.3 s2 gibbs_warm_prior4 0.8433 192.2s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme pu_sar   0.1 s1 gibbs_warm_prior1 0.8177 71.5s
+                 phoneme pu_sar   0.1 s1 gibbs_warm_prior4 0.8186 68.6s
+                 phoneme pu_sar   0.3 s0 gibbs_warm_prior1 0.8756 69.9s
+                 phoneme pu_sar   0.3 s0 gibbs_warm_prior4 0.8762 71.0s
+                 phoneme pu_sar   0.3 s2 gibbs_warm_prior1 0.8978 71.6s
+                 phoneme pu_sar   0.3 s2 gibbs_warm_prior4 0.8977 71.0s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg pu_sar   0.1 s1 gibbs_warm_prior1 0.5450 173.1s
+             qsar-biodeg pu_sar   0.1 s1 gibbs_warm_prior4 0.5529 169.6s
+             qsar-biodeg pu_sar   0.3 s0 gibbs_warm_prior1 0.9060 171.1s
+             qsar-biodeg pu_sar   0.3 s0 gibbs_warm_prior4 0.9062 169.8s
+             qsar-biodeg pu_sar   0.3 s2 gibbs_warm_prior1 0.8419 176.1s
+             qsar-biodeg pu_sar   0.3 s2 gibbs_warm_prior4 0.8638 161.6s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands pu_sar   0.1 s1 gibbs_warm_prior1 0.5912 79.5s
+          cylinder-bands pu_sar   0.1 s1 gibbs_warm_prior4 0.6288 78.9s
+          cylinder-bands pu_sar   0.3 s0 gibbs_warm_prior1 0.5900 78.3s
+          cylinder-bands pu_sar   0.3 s0 gibbs_warm_prior4 0.6211 102.5s
+          cylinder-bands pu_sar   0.3 s2 gibbs_warm_prior1 0.5673 107.9s
+          cylinder-bands pu_sar   0.3 s2 gibbs_warm_prior4 0.5499 106.2s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales pu_sar   0.1 s1 gibbs_warm_prior1 0.5176 45.7s
+           dresses-sales pu_sar   0.1 s1 gibbs_warm_prior4 0.5214 39.6s
+           dresses-sales pu_sar   0.3 s0 gibbs_warm_prior1 0.6077 40.7s
+           dresses-sales pu_sar   0.3 s0 gibbs_warm_prior4 0.6026 44.9s
+           dresses-sales pu_sar   0.3 s2 gibbs_warm_prior1 0.4859 43.6s
+           dresses-sales pu_sar   0.3 s2 gibbs_warm_prior4 0.4727 42.4s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick pu_sar   0.1 s1 gibbs_warm_prior1 0.9608 232.4s
+                    sick pu_sar   0.1 s1 gibbs_warm_prior4 0.9568 233.5s
+                    sick pu_sar   0.3 s0 gibbs_warm_prior1 0.9850 220.6s
+                    sick pu_sar   0.3 s0 gibbs_warm_prior4 0.9883 198.5s
+                    sick pu_sar   0.3 s2 gibbs_warm_prior1 0.9794 198.9s
+                    sick pu_sar   0.3 s2 gibbs_warm_prior4 0.9857 232.3s

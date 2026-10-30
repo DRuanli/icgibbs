@@ -1,5 +1,11 @@
 # G7 — kế hoạch chạy tập đánh giá (bản 29/10/2026)
 
+> **Trạng thái 30/10/2026:** mọi lượt đã chạy.
+> - Phần chính đủ 2.190/2.190 ô; baseline 3.492/3.492; R̂, RQ5, mọi ablation đủ.
+> - Còn thiếu 21/114 ô của ablation khởi động lạnh (OpenML 503 ở L5) → chạy lại L5 với output lần 1.
+> - LLP-Bench bỏ theo quy tắc §3 (deviation 14).
+> - Kết quả phân tích: [G8_REPORT](../G8/G8_REPORT.md).
+
 **Điều kiện bắt đầu:** thầy ký "Qua" ở [GATE_REVIEW_G6](../G6/GATE_REVIEW_G6.md). Từ lượt G7 đầu tiên trở đi, mọi số trên tập đánh giá là **kết quả xác nhận**: không đổi giao thức nữa, trừ deviation có lý do ghi ở giao thức §11, và kết quả phần đổi được gắn nhãn *exploratory*.
 
 **Tiêu chí qua cổng G7** (02 §G7): mọi ô (dataset × bối cảnh × mức × seed × phương pháp) trong giao thức đều có kết quả, hoặc có lý do ghi rõ (hết giờ, hết bộ nhớ, lỗi) và lý do đó được báo cáo trong bài.

@@ -1,0 +1,162 @@
+run_g7 · part=tfm · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/qualities/3. Retrying...
+  warn(
+[lỗi tải] 3: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/29. Retrying...
+  warn(
+[lỗi tải] 29: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/44. Retrying...
+  warn(
+[lỗi tải] 44: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/50. Retrying...
+  warn(
+[lỗi tải] 50: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1049. Retrying...
+  warn(
+[lỗi tải] 1049: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1489. Retrying...
+  warn(
+[lỗi tải] 1489: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1494. Retrying...
+  warn(
+[lỗi tải] 1494: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/6332. Retrying...
+  warn(
+[lỗi tải] 6332: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/23381. Retrying...
+  warn(
+[lỗi tải] 23381: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/38. Retrying...
+  warn(
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s1 oracle           0.9982 12.8s
+                    sick llp        8 s1 naive            0.9264 4.2s
+                    sick llp        8 s1 gibbs_warm       0.9955 253.0s
+                    sick llp        8 s1 sem_warm         0.9962 256.6s
+                    sick llp        8 s1 hard_em_warm     0.9545 108.9s
+                    sick llp       32 s1 oracle           0.9982 4.3s
+                    sick llp       32 s1 naive            0.5749 4.3s
+                    sick llp       32 s1 gibbs_warm       0.9397 220.7s
+                    sick llp       32 s1 sem_warm         0.9638 224.2s
+                    sick llp       32 s1 hard_em_warm     0.7834 78.8s
+                    sick pu_sar   0.3 s1 oracle           0.9982 4.3s
+                    sick pu_sar   0.3 s1 naive            0.9642 4.3s
+                    sick pu_sar   0.3 s1 gibbs_warm       0.9776 220.2s
+                    sick pu_sar   0.3 s1 sem_warm         0.9799 224.0s
+                    sick pu_sar   0.3 s1 hard_em_warm     0.9741 76.6s
+                    sick pu_sar   0.3 s1 gibbs_known_warm 0.9853 219.7s
+                    sick pu_scar  0.3 s1 oracle           0.9982 4.7s
+                    sick pu_scar  0.3 s1 naive            0.9884 4.5s
+                    sick pu_scar  0.3 s1 gibbs_warm       0.9913 214.2s
+                    sick pu_scar  0.3 s1 sem_warm         0.9907 217.8s
+                    sick pu_scar  0.3 s1 hard_em_warm     0.9912 75.1s
+                    sick ssl      0.2 s1 oracle           0.9982 4.7s
+                    sick ssl      0.2 s1 naive            0.9913 1.2s
+                    sick ssl      0.2 s1 gibbs_warm       0.9871 213.0s
+                    sick ssl      0.2 s1 sem_warm         0.9764 216.3s
+                    sick ssl      0.2 s1 hard_em_warm     0.9921 73.0s
+                    sick noisy    0.4 s1 oracle           0.9982 4.5s
+                    sick noisy    0.4 s1 naive            0.9703 4.3s
+                    sick noisy    0.4 s1 gibbs_warm       0.9489 222.1s
+                    sick noisy    0.4 s1 sem_warm         0.9419 225.6s
+                    sick noisy    0.4 s1 hard_em_warm     0.9548 74.2s
+                    sick noisy    0.4 s1 cl_tfm           0.9594 7.2s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.6 s1 oracle           0.9840 0.4s
+           balance-scale pll      0.6 s1 naive            0.7181 0.4s
+           balance-scale pll      0.6 s1 gibbs_warm       0.8989 29.5s
+           balance-scale pll      0.6 s1 sem_warm         0.8617 29.8s
+           balance-scale pll      0.6 s1 hard_em_warm     0.8883 9.9s
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.6 s1 oracle           0.9800 27.8s
+           mfeat-factors pll      0.6 s1 naive            0.1152 26.1s
+           mfeat-factors pll      0.6 s1 gibbs_warm       0.1002 1462.3s
+           mfeat-factors pll      0.6 s1 sem_warm         0.1002 1483.3s
+           mfeat-factors pll      0.6 s1 hard_em_warm     0.2805 459.7s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s1 oracle           0.9911 24.3s
+               optdigits pll      0.6 s1 naive            0.2313 22.8s
+               optdigits pll      0.6 s1 gibbs_warm       0.2942 634.2s
+               optdigits pll      0.6 s1 sem_warm         0.1957 645.0s
+               optdigits pll      0.6 s1 hard_em_warm     0.2942 350.6s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.6 s1 oracle           0.9590 9.0s
+                  splice pll      0.6 s1 naive            0.9290 10.3s
+                  splice pll      0.6 s1 gibbs_warm       0.9557 551.4s
+                  splice pll      0.6 s1 sem_warm         0.9579 560.1s
+                  splice pll      0.6 s1 hard_em_warm     0.9501 166.8s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.6 s1 oracle           0.9352 17.0s
+                satimage pll      0.6 s1 naive            0.8201 17.0s
+                satimage pll      0.6 s1 gibbs_warm       0.9020 396.2s
+                satimage pll      0.6 s1 sem_warm         0.8834 403.5s
+                satimage pll      0.6 s1 hard_em_warm     0.8885 255.3s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.6 s1 oracle           0.7557 0.7s
+              eucalyptus pll      0.6 s1 naive            0.3484 0.7s
+              eucalyptus pll      0.6 s1 gibbs_warm       0.6425 44.8s
+              eucalyptus pll      0.6 s1 sem_warm         0.6516 45.5s
+              eucalyptus pll      0.6 s1 hard_em_warm     0.4253 14.9s
+
+=== 458 analcatdata_authorship: n=841 (loại trùng 0), d=70, C=4, sha256=81996155218e
+  analcatdata_authorship pll      0.6 s1 oracle           1.0000 2.7s
+  analcatdata_authorship pll      0.6 s1 naive            0.8538 2.7s
+  analcatdata_authorship pll      0.6 s1 gibbs_warm       1.0000 298.4s
+  analcatdata_authorship pll      0.6 s1 sem_warm         1.0000 301.7s
+  analcatdata_authorship pll      0.6 s1 hard_em_warm     1.0000 91.2s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.6 s1 oracle           0.1737 0.3s
+        analcatdata_dmft pll      0.6 s1 naive            0.1677 0.3s
+        analcatdata_dmft pll      0.6 s1 gibbs_warm       0.1796 32.9s
+        analcatdata_dmft pll      0.6 s1 sem_warm         0.1916 33.2s
+        analcatdata_dmft pll      0.6 s1 hard_em_warm     0.1916 10.5s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.6 s1 oracle           0.5996 20.7s
+  first-order-theorem-pr pll      0.6 s1 naive            0.4116 20.4s
+  first-order-theorem-pr pll      0.6 s1 gibbs_warm       0.4601 567.2s
+  first-order-theorem-pr pll      0.6 s1 sem_warm         0.4465 577.9s
+  first-order-theorem-pr pll      0.6 s1 hard_em_warm     0.4140 301.2s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.6 s1 oracle           0.9933 9.1s
+   wall-robot-navigation pll      0.6 s1 naive            0.9145 8.9s
+   wall-robot-navigation pll      0.6 s1 gibbs_warm       0.9878 276.0s
+   wall-robot-navigation pll      0.6 s1 sem_warm         0.9823 280.8s
+   wall-robot-navigation pll      0.6 s1 hard_em_warm     0.9798 141.7s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.6 s1 oracle           0.9456 14.6s
+                 semeion pll      0.6 s1 naive            0.1046 19.1s
+                 semeion pll      0.6 s1 gibbs_warm       0.2971 947.9s
+                 semeion pll      0.6 s1 sem_warm         0.3096 961.6s
+                 semeion pll      0.6 s1 hard_em_warm     0.1025 295.6s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s1 oracle           1.0000 6.4s
+             MiceProtein pll      0.6 s1 naive            0.1235 5.3s
+             MiceProtein pll      0.6 s1 gibbs_warm       0.5617 420.2s
+             MiceProtein pll      0.6 s1 sem_warm         0.6420 425.8s
+             MiceProtein pll      0.6 s1 hard_em_warm     0.1235 121.5s
+
+=== 40975 car: n=1728 (loại trùng 0), d=6, C=4, sha256=172f09c22188
+                     car pll      0.6 s1 oracle           0.9884 0.7s
+                     car pll      0.6 s1 naive            0.7418 0.7s
+                     car pll      0.6 s1 gibbs_warm       0.9268 52.5s
+                     car pll      0.6 s1 sem_warm         0.9075 53.1s
+                     car pll      0.6 s1 hard_em_warm     0.7861 13.7s
+
+=== 40982 steel-plates-fault: n=1941 (loại trùng 0), d=27, C=7, sha256=a308bbebe29b
+      steel-plates-fault pll      0.6 s1 oracle           0.8045 3.1s
+      steel-plates-fault pll      0.6 s1 naive            0.2178 2.6s
+      steel-plates-fault pll      0.6 s1 gibbs_warm       0.6947 197.6s
+      steel-plates-fault pll      0.6 s1 sem_warm         0.7015 200.3s
+      steel-plates-fault pll      0.6 s1 hard_em_warm     0.5952 60.3s

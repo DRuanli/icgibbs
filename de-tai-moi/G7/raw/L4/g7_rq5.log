@@ -1,0 +1,423 @@
+run_g7 · part=tfm · split=eval · backend=tabicl_v2 · code=py-387059443932 · config=0156cccc5964a1a0
+
+=== RQ5 Lost: n=1122, d=108, Q=16
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+                    Lost pll_real  0.0 s0 oracle           0.9027 9.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s0 naive            0.4956 0.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s0 gibbs_warm       0.7434 84.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s0 sem_warm         0.6814 84.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s0 hard_em_warm     0.7345 27.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s1 oracle           0.8761 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s1 naive            0.4690 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s1 gibbs_warm       0.6460 84.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s1 sem_warm         0.5664 85.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s1 hard_em_warm     0.6814 27.4s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s2 oracle           0.8584 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s2 naive            0.4425 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s2 gibbs_warm       0.8142 85.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s2 sem_warm         0.7699 85.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s2 hard_em_warm     0.6903 27.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s3 oracle           0.8850 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s3 naive            0.4690 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s3 gibbs_warm       0.7434 85.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s3 sem_warm         0.7168 85.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s3 hard_em_warm     0.7257 27.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s4 oracle           0.9115 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s4 naive            0.3982 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s4 gibbs_warm       0.7611 85.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s4 sem_warm         0.7257 85.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s4 hard_em_warm     0.5929 27.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s5 oracle           0.8761 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s5 naive            0.4779 0.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s5 gibbs_warm       0.7345 85.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s5 sem_warm         0.7080 85.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s5 hard_em_warm     0.7080 27.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s6 oracle           0.9204 0.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s6 naive            0.5133 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s6 gibbs_warm       0.7699 85.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s6 sem_warm         0.7257 86.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s6 hard_em_warm     0.4956 27.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s7 oracle           0.8584 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s7 naive            0.5221 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s7 gibbs_warm       0.6991 84.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s7 sem_warm         0.7168 85.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s7 hard_em_warm     0.6283 27.4s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s8 oracle           0.9292 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s8 naive            0.4956 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s8 gibbs_warm       0.8142 84.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s8 sem_warm         0.7876 85.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s8 hard_em_warm     0.7080 27.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s9 oracle           0.8761 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s9 naive            0.5310 0.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s9 gibbs_warm       0.7699 84.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s9 sem_warm         0.7611 85.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                    Lost pll_real  0.0 s9 hard_em_warm     0.6814 27.6s
+
+=== RQ5 MSRCv2: n=1758, d=48, Q=23
+                  MSRCv2 pll_real  0.0 s0 oracle           0.8182 0.6s
+                  MSRCv2 pll_real  0.0 s0 naive            0.4716 0.6s
+                  MSRCv2 pll_real  0.0 s0 gibbs_warm       0.5852 72.3s
+                  MSRCv2 pll_real  0.0 s0 sem_warm         0.5909 72.9s
+                  MSRCv2 pll_real  0.0 s0 hard_em_warm     0.5909 23.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s1 oracle           0.8409 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s1 naive            0.4545 0.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s1 gibbs_warm       0.6364 71.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s1 sem_warm         0.6477 72.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s1 hard_em_warm     0.6648 23.1s
+                  MSRCv2 pll_real  0.0 s2 oracle           0.8352 0.6s
+                  MSRCv2 pll_real  0.0 s2 naive            0.5114 0.6s
+                  MSRCv2 pll_real  0.0 s2 gibbs_warm       0.5966 71.4s
+                  MSRCv2 pll_real  0.0 s2 sem_warm         0.6136 72.0s
+                  MSRCv2 pll_real  0.0 s2 hard_em_warm     0.6080 23.3s
+                  MSRCv2 pll_real  0.0 s3 oracle           0.7784 0.7s
+                  MSRCv2 pll_real  0.0 s3 naive            0.5284 0.6s
+                  MSRCv2 pll_real  0.0 s3 gibbs_warm       0.6250 71.6s
+                  MSRCv2 pll_real  0.0 s3 sem_warm         0.6136 72.2s
+                  MSRCv2 pll_real  0.0 s3 hard_em_warm     0.6136 23.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s4 oracle           0.8125 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s4 naive            0.5227 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s4 gibbs_warm       0.6534 70.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s4 sem_warm         0.6477 71.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s4 hard_em_warm     0.6591 22.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s5 oracle           0.8636 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s5 naive            0.4545 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s5 gibbs_warm       0.6250 70.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s5 sem_warm         0.6250 71.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s5 hard_em_warm     0.6080 23.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s6 oracle           0.8125 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s6 naive            0.5568 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s6 gibbs_warm       0.6591 70.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s6 sem_warm         0.6307 71.4s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s6 hard_em_warm     0.6307 23.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s7 oracle           0.8068 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s7 naive            0.4205 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s7 gibbs_warm       0.5625 70.7s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s7 sem_warm         0.5511 71.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s7 hard_em_warm     0.5568 22.8s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s8 oracle           0.8409 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s8 naive            0.4659 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s8 gibbs_warm       0.6705 70.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s8 sem_warm         0.6477 71.1s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s8 hard_em_warm     0.6705 22.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s9 oracle           0.8295 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s9 naive            0.5227 0.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s9 gibbs_warm       0.6648 70.9s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s9 sem_warm         0.6534 71.5s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                  MSRCv2 pll_real  0.0 s9 hard_em_warm     0.6705 23.0s
+
+=== RQ5 BirdSong: n=4998, d=38, Q=13
+                BirdSong pll_real  0.0 s0 oracle           0.8440 1.2s
+                BirdSong pll_real  0.0 s0 naive            0.6900 1.2s
+                BirdSong pll_real  0.0 s0 gibbs_warm       0.7560 66.5s
+                BirdSong pll_real  0.0 s0 sem_warm         0.7180 66.9s
+                BirdSong pll_real  0.0 s0 hard_em_warm     0.7360 47.9s
+                BirdSong pll_real  0.0 s1 oracle           0.8280 1.2s
+                BirdSong pll_real  0.0 s1 naive            0.6920 1.3s
+                BirdSong pll_real  0.0 s1 gibbs_warm       0.7580 81.1s
+                BirdSong pll_real  0.0 s1 sem_warm         0.7420 81.8s
+                BirdSong pll_real  0.0 s1 hard_em_warm     0.7300 47.7s
+                BirdSong pll_real  0.0 s2 oracle           0.8300 1.2s
+                BirdSong pll_real  0.0 s2 naive            0.7120 1.2s
+                BirdSong pll_real  0.0 s2 gibbs_warm       0.7620 81.2s
+                BirdSong pll_real  0.0 s2 sem_warm         0.7680 81.8s
+                BirdSong pll_real  0.0 s2 hard_em_warm     0.7240 47.8s
+                BirdSong pll_real  0.0 s3 oracle           0.8620 1.2s
+                BirdSong pll_real  0.0 s3 naive            0.7000 1.2s
+                BirdSong pll_real  0.0 s3 gibbs_warm       0.7780 81.2s
+                BirdSong pll_real  0.0 s3 sem_warm         0.7460 81.8s
+                BirdSong pll_real  0.0 s3 hard_em_warm     0.7720 48.0s
+                BirdSong pll_real  0.0 s4 oracle           0.8580 1.2s
+                BirdSong pll_real  0.0 s4 naive            0.6820 1.2s
+                BirdSong pll_real  0.0 s4 gibbs_warm       0.7740 81.4s
+                BirdSong pll_real  0.0 s4 sem_warm         0.7640 82.0s
+                BirdSong pll_real  0.0 s4 hard_em_warm     0.7040 47.7s
+                BirdSong pll_real  0.0 s5 oracle           0.8140 1.2s
+                BirdSong pll_real  0.0 s5 naive            0.7000 1.2s
+                BirdSong pll_real  0.0 s5 gibbs_warm       0.7320 61.6s
+                BirdSong pll_real  0.0 s5 sem_warm         0.7060 62.1s
+                BirdSong pll_real  0.0 s5 hard_em_warm     0.7060 51.8s
+                BirdSong pll_real  0.0 s6 oracle           0.8100 1.4s
+                BirdSong pll_real  0.0 s6 naive            0.6640 1.3s
+                BirdSong pll_real  0.0 s6 gibbs_warm       0.7580 90.2s
+                BirdSong pll_real  0.0 s6 sem_warm         0.7540 90.9s
+                BirdSong pll_real  0.0 s6 hard_em_warm     0.7120 51.2s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                BirdSong pll_real  0.0 s7 oracle           0.8380 1.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                BirdSong pll_real  0.0 s7 naive            0.6680 1.3s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                BirdSong pll_real  0.0 s7 gibbs_warm       0.7640 90.6s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                BirdSong pll_real  0.0 s7 sem_warm         0.7560 91.4s
+/usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+  warnings.warn(
+                BirdSong pll_real  0.0 s7 hard_em_warm     0.7140 51.8s
+                BirdSong pll_real  0.0 s8 oracle           0.8220 1.4s
+                BirdSong pll_real  0.0 s8 naive            0.6740 1.3s
+                BirdSong pll_real  0.0 s8 gibbs_warm       0.7300 91.1s
+                BirdSong pll_real  0.0 s8 sem_warm         0.7340 91.8s
+                BirdSong pll_real  0.0 s8 hard_em_warm     0.7400 51.2s
+                BirdSong pll_real  0.0 s9 oracle           0.8400 1.3s
+                BirdSong pll_real  0.0 s9 naive            0.7080 1.3s
+                BirdSong pll_real  0.0 s9 gibbs_warm       0.7740 93.5s
+                BirdSong pll_real  0.0 s9 sem_warm         0.7540 94.3s
+                BirdSong pll_real  0.0 s9 hard_em_warm     0.7640 51.1s

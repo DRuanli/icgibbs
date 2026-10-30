@@ -1,0 +1,509 @@
+{
+ "rhat": {
+  "n": 117,
+  "frac_gt_1_1_median_overall": 0.1192,
+  "metric_absdiff_median_overall": 0.016,
+  "metric_absdiff_max": 0.1844
+ },
+ "H5": {
+  "rank_position": {
+   "BirdSong": 1,
+   "Lost": 3,
+   "MSRCv2": 1,
+   "(gộp: nguồn PLL thật)": 1
+  },
+  "pass_pooled": true,
+  "pass_every_dataset": false,
+  "gibbs_vs_best_baseline": {
+   "BirdSong": {
+    "best_baseline": "glwspll_tun",
+    "mean_diff": 0.027600000000000024,
+    "wins": 8,
+    "losses": 2,
+    "p_uncorrected": 0.015625
+   },
+   "Lost": {
+    "best_baseline": "proden_tun",
+    "mean_diff": 0.0017699999999999938,
+    "wins": 5,
+    "losses": 5,
+    "p_uncorrected": 0.845703125
+   },
+   "MSRCv2": {
+    "best_baseline": "glwspll_def",
+    "mean_diff": 0.04545199999999999,
+    "wins": 8,
+    "losses": 2,
+    "p_uncorrected": 0.009765625
+   }
+  }
+ },
+ "tabicl_exploratory": {
+  "H2_llp8": {
+   "comparator": {
+    "n": 10,
+    "mean_diff": 0.05797699999999998,
+    "ci_lo": 0.028566116666666672,
+    "ci_hi": 0.09319504999999999,
+    "wins": 10,
+    "ties": 0,
+    "losses": 0,
+    "p": 0.001953125,
+    "p_holm": 0.00390625
+   },
+   "naive": {
+    "n": 10,
+    "mean_diff": 0.17551899999999998,
+    "ci_lo": 0.1249237083333333,
+    "ci_hi": 0.228124825,
+    "wins": 10,
+    "ties": 0,
+    "losses": 0,
+    "p": 0.001953125,
+    "p_holm": 0.00390625
+   },
+   "strongest": {
+    "name": "llpvat_tun",
+    "n": 10,
+    "mean_diff": 0.028181333333333326,
+    "ci_lo": 0.013149449999999972,
+    "ci_hi": 0.043768766666666625,
+    "wins": 9,
+    "ties": 0,
+    "losses": 1,
+    "p": 0.005859375
+   },
+   "n_datasets": 10,
+   "min_seeds": 3,
+   "means": {
+    "gibbs_warm": 0.8888103333333331,
+    "naive": 0.7132913333333334,
+    "hard_em_warm": 0.8858906666666666,
+    "dllplin_def": 0.8308333333333333,
+    "oracle": 0.9280903333333332
+   },
+   "pass_if_confirmatory": true
+  },
+  "H4_pll": {
+   "0.3": {
+    "comparator": {
+     "n": 14,
+     "mean_diff": 0.02945833333333336,
+     "ci_lo": 0.012711857142857162,
+     "ci_hi": 0.05127627380952384,
+     "wins": 12,
+     "ties": 0,
+     "losses": 2,
+     "p": 0.001220703125,
+     "p_holm": 0.003662109375
+    },
+    "naive": {
+     "n": 14,
+     "mean_diff": 0.06248190476190477,
+     "ci_lo": 0.03386253571428573,
+     "ci_hi": 0.09494235119047614,
+     "wins": 12,
+     "ties": 1,
+     "losses": 1,
+     "p": 0.0023655770533978757,
+     "p_holm": 0.0047311541067957515
+    },
+    "strongest": {
+     "name": "cc_tun",
+     "n": 14,
+     "mean_diff": 0.02945833333333336,
+     "ci_lo": 0.012711857142857162,
+     "ci_hi": 0.05127627380952384,
+     "wins": 12,
+     "ties": 0,
+     "losses": 2,
+     "p": 0.001220703125
+    },
+    "n_datasets": 14,
+    "min_seeds": 3,
+    "means": {
+     "gibbs_warm": 0.8539300000000001,
+     "naive": 0.7914480952380952,
+     "hard_em_warm": 0.8537561904761904,
+     "cc_tun": 0.8244716666666667,
+     "oracle": 0.8652395238095238
+    }
+   },
+   "0.6": {
+    "comparator": {
+     "n": 14,
+     "mean_diff": 0.03814261904761904,
+     "ci_lo": 0.012804321428571437,
+     "ci_hi": 0.07075776190476187,
+     "wins": 12,
+     "ties": 0,
+     "losses": 2,
+     "p": 0.008544921875,
+     "p_holm": 0.008544921875
+    },
+    "naive": {
+     "n": 14,
+     "mean_diff": 0.2620180952380952,
+     "ci_lo": 0.14637888095238094,
+     "ci_hi": 0.38967276190476174,
+     "wins": 14,
+     "ties": 0,
+     "losses": 0,
+     "p": 0.0001220703125,
+     "p_holm": 0.00048828125
+    },
+    "strongest": {
+     "name": "glwspll_tun",
+     "n": 14,
+     "mean_diff": 0.03551,
+     "ci_lo": 0.01023243452380953,
+     "ci_hi": 0.06719747619047618,
+     "wins": 12,
+     "ties": 0,
+     "losses": 2,
+     "p": 0.0107421875
+    },
+    "n_datasets": 14,
+    "min_seeds": 3,
+    "means": {
+     "gibbs_warm": 0.8311540476190478,
+     "naive": 0.5691359523809524,
+     "hard_em_warm": 0.790802142857143,
+     "cc_tun": 0.7930114285714284,
+     "oracle": 0.8652395238095238
+    }
+   },
+   "rule60": {
+    "vs_mean_strongest": {
+     "count": {
+      "0.3": 12,
+      "0.6": 12
+     },
+     "n": {
+      "0.3": 14,
+      "0.6": 14
+     },
+     "frac_per_level": {
+      "0.3": 0.8571428571428571,
+      "0.6": 0.8571428571428571
+     },
+     "frac_pooled": 0.8571428571428571,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_cc_tun": {
+     "count": {
+      "0.3": 12,
+      "0.6": 12
+     },
+     "n": {
+      "0.3": 14,
+      "0.6": 14
+     },
+     "frac_per_level": {
+      "0.3": 0.8571428571428571,
+      "0.6": 0.8571428571428571
+     },
+     "frac_pooled": 0.8571428571428571,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_max_tuned_per_dataset": {
+     "count": {
+      "0.3": 12,
+      "0.6": 11
+     },
+     "n": {
+      "0.3": 14,
+      "0.6": 14
+     },
+     "frac_per_level": {
+      "0.3": 0.8571428571428571,
+      "0.6": 0.7857142857142857
+     },
+     "frac_pooled": 0.8214285714285714,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_max_all_and_naive_per_dataset (quy tắc thí điểm RQ4)": {
+     "count": {
+      "0.3": 12,
+      "0.6": 11
+     },
+     "n": {
+      "0.3": 14,
+      "0.6": 14
+     },
+     "frac_per_level": {
+      "0.3": 0.8571428571428571,
+      "0.6": 0.7857142857142857
+     },
+     "frac_pooled": 0.8214285714285714,
+     "pass_per_level": true,
+     "pass_pooled": true
+    }
+   },
+   "all_tests_significant": true,
+   "any_reading_passes": true,
+   "weakest_reading_passes": true,
+   "n_datasets": 14
+  },
+  "H4_pll_S1": {
+   "0.3": {
+    "comparator": {
+     "n": 10,
+     "mean_diff": 0.03156000000000002,
+     "ci_lo": 0.01051532499999999,
+     "ci_hi": 0.05982035000000001,
+     "wins": 9,
+     "ties": 0,
+     "losses": 1,
+     "p": 0.009765625,
+     "p_holm": 0.029296875
+    },
+    "naive": {
+     "n": 10,
+     "mean_diff": 0.05135500000000002,
+     "ci_lo": 0.019820925000000027,
+     "ci_hi": 0.08753284166666667,
+     "wins": 8,
+     "ties": 1,
+     "losses": 1,
+     "p": 0.01171875,
+     "p_holm": 0.029296875
+    },
+    "strongest": {
+     "name": "cc_tun",
+     "n": 10,
+     "mean_diff": 0.03156000000000002,
+     "ci_lo": 0.01051532499999999,
+     "ci_hi": 0.05982035000000001,
+     "wins": 9,
+     "ties": 0,
+     "losses": 1,
+     "p": 0.009765625
+    },
+    "n_datasets": 10,
+    "min_seeds": 3,
+    "means": {
+     "gibbs_warm": 0.8015589999999999,
+     "naive": 0.750204,
+     "hard_em_warm": 0.8014323333333333,
+     "cc_tun": 0.769999,
+     "oracle": 0.815419
+    }
+   },
+   "0.6": {
+    "comparator": {
+     "n": 10,
+     "mean_diff": 0.04271233333333332,
+     "ci_lo": 0.014607766666666666,
+     "ci_hi": 0.08312927499999995,
+     "wins": 9,
+     "ties": 0,
+     "losses": 1,
+     "p": 0.009765625,
+     "p_holm": 0.029296875
+    },
+    "naive": {
+     "n": 10,
+     "mean_diff": 0.25337599999999993,
+     "ci_lo": 0.1084882,
+     "ci_hi": 0.4073817999999999,
+     "wins": 10,
+     "ties": 0,
+     "losses": 0,
+     "p": 0.001953125,
+     "p_holm": 0.0078125
+    },
+    "strongest": {
+     "name": "glwspll_tun",
+     "n": 10,
+     "mean_diff": 0.03913766666666666,
+     "ci_lo": 0.009793825000000011,
+     "ci_hi": 0.07910170833333333,
+     "wins": 9,
+     "ties": 0,
+     "losses": 1,
+     "p": 0.013671875
+    },
+    "n_datasets": 10,
+    "min_seeds": 3,
+    "means": {
+     "gibbs_warm": 0.7861923333333334,
+     "naive": 0.5328163333333333,
+     "hard_em_warm": 0.7588996666666668,
+     "cc_tun": 0.74348,
+     "oracle": 0.815419
+    }
+   },
+   "rule60": {
+    "vs_mean_strongest": {
+     "count": {
+      "0.3": 9,
+      "0.6": 9
+     },
+     "n": {
+      "0.3": 10,
+      "0.6": 10
+     },
+     "frac_per_level": {
+      "0.3": 0.9,
+      "0.6": 0.9
+     },
+     "frac_pooled": 0.9,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_cc_tun": {
+     "count": {
+      "0.3": 9,
+      "0.6": 9
+     },
+     "n": {
+      "0.3": 10,
+      "0.6": 10
+     },
+     "frac_per_level": {
+      "0.3": 0.9,
+      "0.6": 0.9
+     },
+     "frac_pooled": 0.9,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_max_tuned_per_dataset": {
+     "count": {
+      "0.3": 9,
+      "0.6": 9
+     },
+     "n": {
+      "0.3": 10,
+      "0.6": 10
+     },
+     "frac_per_level": {
+      "0.3": 0.9,
+      "0.6": 0.9
+     },
+     "frac_pooled": 0.9,
+     "pass_per_level": true,
+     "pass_pooled": true
+    },
+    "vs_max_all_and_naive_per_dataset (quy tắc thí điểm RQ4)": {
+     "count": {
+      "0.3": 9,
+      "0.6": 9
+     },
+     "n": {
+      "0.3": 10,
+      "0.6": 10
+     },
+     "frac_per_level": {
+      "0.3": 0.9,
+      "0.6": 0.9
+     },
+     "frac_pooled": 0.9,
+     "pass_per_level": true,
+     "pass_pooled": true
+    }
+   },
+   "all_tests_significant": true,
+   "any_reading_passes": true,
+   "weakest_reading_passes": true,
+   "n_datasets": 10
+  }
+ }
+}
+    setting  level  n  frac_gt_1_1_median  frac_gt_1_1_max  rhat_global_median  metric_absdiff_median  metric_absdiff_max
+0       llp   8.00  9              0.1133           0.2771              1.1063                 0.0409              0.0569
+1       llp  16.00  9              0.2125           0.4656              1.2417                 0.0305              0.0964
+2       llp  32.00  9              0.1138           0.6878              1.1701                 0.0234              0.1248
+3     noisy   0.20  9              0.0619           0.1232              1.0097                 0.0073              0.0166
+4     noisy   0.40  9              0.2847           0.4384              1.8864                 0.0265              0.1765
+5       pll   0.30  9              0.0627           0.1579              1.0512                 0.0060              0.0362
+6       pll   0.60  9              0.2052           0.2796              1.2974                 0.0160              0.0479
+7    pu_sar   0.10  9              0.0474           0.1525              1.2760                 0.0196              0.0641
+8    pu_sar   0.30  9              0.2941           0.5157              1.7911                 0.0131              0.0542
+9   pu_scar   0.10  9              0.0720           0.3924              1.1581                 0.0161              0.1844
+10  pu_scar   0.30  9              0.1871           0.4316              1.6987                 0.0267              0.0862
+11      ssl   0.05  9              0.2739           0.7688              2.1469                 0.0208              0.1217
+12      ssl   0.20  9              0.1179           0.2387              1.3552                 0.0078              0.1364
+             BirdSong   Lost  MSRCv2  (gộp: nguồn PLL thật)
+method                                                     
+gibbs_warm       1.20   4.05    1.20                   2.15
+naive            8.00   9.00    4.80                   7.27
+proden_def       9.70  10.00    9.95                   9.88
+proden_tun       5.85   3.70    5.80                   5.12
+glwspll_def      4.00   6.05    1.90                   3.98
+glwspll_tun      3.75   3.30    5.05                   4.03
+rc_def           4.80   4.90    8.30                   6.00
+rc_tun           6.35   4.15    5.20                   5.23
+cc_def           4.80   5.30    7.95                   6.02
+cc_tun           6.55   4.55    4.85                   5.32
+   ablation            variant setting  level   n metric  mean_diff  wins  ties  losses  mean_diff_logloss  n_datasets
+0    blocks     gibbs_warm_K20     llp    8.0   9    auc     0.0075     5     0       4             0.0236           3
+1    blocks     gibbs_warm_K20     pll    0.3   9    acc     0.0057     5     2       2            -0.0003           3
+2    blocks      gibbs_warm_K5     llp    8.0   9    auc    -0.0050     6     0       3             0.0058           3
+3    blocks      gibbs_warm_K5     pll    0.3   9    acc     0.0039     5     1       3             0.0091           3
+4    sweeps     gibbs_warm_S15     llp    8.0   9    auc     0.0052     4     0       5             0.0007           3
+5    sweeps     gibbs_warm_S15     pll    0.3   9    acc     0.0041     4     2       3            -0.0014           3
+6    sweeps     gibbs_warm_S60     llp    8.0   9    auc     0.0141     4     0       5            -0.0124           3
+7    sweeps     gibbs_warm_S60     pll    0.3   9    acc     0.0049     4     5       0             0.0089           3
+8        mh      gibbs_warm_mh     llp    8.0   9    auc     0.0103     4     0       5            -0.0187           3
+9        mh      gibbs_warm_mh     pll    0.3   9    acc     0.0063     4     3       2             0.0086           3
+10    trans   gibbs_warm_trans     llp    8.0  30    auc    -0.0132     7     0      23            -0.0423          10
+11     init         gibbs_cold     llp    8.0  30    auc    -0.0047    10     0      20            -0.0023          10
+12     init         gibbs_cold     pll    0.3  34    acc     0.0001     9    18       7             0.0002          13
+13     init         gibbs_cold     pll    0.6  29    acc     0.0122    10     5      14             0.0362          13
+14    prior  gibbs_warm_prior1  pu_sar    0.1  30    auc    -0.0016    15     3      12            -0.0154          10
+15    prior  gibbs_warm_prior1  pu_sar    0.3  30    auc     0.0011    10     1      19             0.0023          10
+16    prior  gibbs_warm_prior4  pu_sar    0.1  30    auc    -0.0041     7     9      14             0.0000          10
+17    prior  gibbs_warm_prior4  pu_sar    0.3  30    auc    -0.0011    10    12       8            -0.0164          10
+method                                      doi_thu_chinh  gibbs_warm  hard_em_warm  naive  oracle  sem_warm  n_train  gibbs_minus_comp  gibbs_minus_naive
+setting dataset                     size                                                                                                                  
+llp     phoneme                     1000            0.792       0.875         0.855  0.632   0.930     0.868     1000             0.083              0.243
+                                    2000            0.800       0.896         0.900  0.784   0.947     0.863     2000             0.096              0.112
+                                    500             0.786       0.830         0.853  0.589   0.913     0.825      500             0.043              0.240
+                                    đầy đủ          0.806       0.900         0.912  0.822   0.965       NaN     3776             0.094              0.078
+        sick                        1000            0.873       0.986         0.974  0.808   0.992     0.984     1000             0.113              0.178
+                                    2000            0.920       0.996         0.985  0.925   0.997     0.996     2000             0.076              0.070
+                                    500             0.857       0.976         0.973  0.871   0.984     0.959      500             0.119              0.105
+                                    đầy đủ          0.916       0.997         0.983  0.789   0.998       NaN     2597             0.081              0.208
+        spambase                    1000            0.944       0.981         0.980  0.848   0.985     0.979     1000             0.037              0.133
+                                    2000            0.965       0.984         0.984  0.862   0.989     0.982     2000             0.019              0.122
+                                    500             0.894       0.978         0.976  0.668   0.983     0.976      500             0.084              0.310
+                                    đầy đủ          0.966       0.986         0.987  0.840   0.991       NaN     2947             0.020              0.146
+pll     first-order-theorem-proving 1000            0.460       0.473         0.469  0.437   0.515     0.469     1000             0.013              0.036
+                                    2000            0.486       0.500         0.501  0.451   0.556     0.483     2000             0.015              0.050
+                                    500             0.406       0.445         0.442  0.415   0.480     0.421      500             0.040              0.030
+                                    đầy đủ          0.506       0.522         0.540  0.473   0.588       NaN     3945             0.015              0.048
+        optdigits                   1000            0.959       0.972         0.969  0.743   0.978     0.969     1000             0.014              0.229
+                                    2000            0.971       0.983         0.975  0.878   0.986     0.979     2000             0.012              0.105
+                                    500             0.935       0.961         0.945  0.402   0.967     0.952      500             0.026              0.560
+                                    đầy đủ          0.981       0.985         0.986  0.924   0.989       NaN     3934             0.004              0.061
+        satimage                    1000            0.868       0.892         0.890  0.850   0.901     0.885     1000             0.025              0.043
+                                    2000            0.873       0.905         0.901  0.877   0.914     0.896     2000             0.032              0.027
+                                    4000            0.894       0.914         0.914  0.884   0.932     0.905     4000             0.020              0.030
+                                    500             0.840       0.870         0.867  0.824   0.887     0.858      500             0.030              0.046
+                                    đầy đủ          0.898       0.913         0.918  0.882   0.932       NaN     4501             0.015              0.032
+                                     0       1       2
+setting                            llp     pll     pll
+level                              8.0     0.3     0.6
+n                                   10      14      14
+tabicl_gibbs_warm               0.8888  0.8539  0.8312
+tabpfn_gibbs_warm               0.8547   0.847  0.6609
+tabicl_naive                    0.7133  0.7914  0.5691
+tabpfn_naive                    0.7071  0.7476  0.4807
+tabicl_hard_em_warm             0.8859  0.8538  0.7908
+tabpfn_hard_em_warm             0.8542  0.8474  0.5731
+tabicl_oracle                   0.9281  0.8652  0.8652
+tabpfn_oracle                   0.9229  0.8633  0.8633
+comparator                 dllplin_def  cc_tun  cc_tun
+comparator_mean                 0.8308  0.8245   0.793
+tabicl_gibbs_minus_comp          0.058  0.0295  0.0381
+wins                                10      12      12
+losses                               0       2       2
+p_uncorrected                    0.002  0.0012  0.0085
+tabicl_gibbs_minus_naive        0.1755  0.0625   0.262
+wins_naive                          10      12      14
+tabicl_minus_tabpfn_gibbs       0.0341   0.007  0.1703

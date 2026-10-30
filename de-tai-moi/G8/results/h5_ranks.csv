@@ -1,0 +1,11 @@
+method,BirdSong,Lost,MSRCv2,(gộp: nguồn PLL thật)
+gibbs_warm,1.2,4.05,1.2,2.15
+naive,8.0,9.0,4.8,7.27
+proden_def,9.7,10.0,9.95,9.88
+proden_tun,5.85,3.7,5.8,5.12
+glwspll_def,4.0,6.05,1.9,3.98
+glwspll_tun,3.75,3.3,5.05,4.03
+rc_def,4.8,4.9,8.3,6.0
+rc_tun,6.35,4.15,5.2,5.23
+cc_def,4.8,5.3,7.95,6.02
+cc_tun,6.55,4.55,4.85,5.32

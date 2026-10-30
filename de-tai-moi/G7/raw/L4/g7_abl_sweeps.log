@@ -1,0 +1,49 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_warm_S15   0.9392 42.5s
+         credit-approval llp        8 s0 gibbs_warm_S60   0.9419 117.1s
+         credit-approval llp        8 s1 gibbs_warm_S15   0.9343 40.4s
+         credit-approval llp        8 s1 gibbs_warm_S60   0.9414 110.0s
+         credit-approval llp        8 s2 gibbs_warm_S15   0.9337 37.4s
+         credit-approval llp        8 s2 gibbs_warm_S60   0.9336 114.6s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_warm_S15   0.7139 68.3s
+          cylinder-bands llp        8 s0 gibbs_warm_S60   0.7099 204.6s
+          cylinder-bands llp        8 s1 gibbs_warm_S15   0.6273 69.0s
+          cylinder-bands llp        8 s1 gibbs_warm_S60   0.6532 201.2s
+          cylinder-bands llp        8 s2 gibbs_warm_S15   0.7001 65.9s
+          cylinder-bands llp        8 s2 gibbs_warm_S60   0.7265 200.2s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s0 gibbs_warm_S15   0.6180 23.0s
+           dresses-sales llp        8 s0 gibbs_warm_S60   0.6101 82.7s
+           dresses-sales llp        8 s1 gibbs_warm_S15   0.5278 28.5s
+           dresses-sales llp        8 s1 gibbs_warm_S60   0.5625 87.3s
+           dresses-sales llp        8 s2 gibbs_warm_S15   0.5087 29.9s
+           dresses-sales llp        8 s2 gibbs_warm_S60   0.5041 89.5s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s0 gibbs_warm_S15   0.9574 19.6s
+           balance-scale pll      0.3 s0 gibbs_warm_S60   0.9628 60.5s
+           balance-scale pll      0.3 s1 gibbs_warm_S15   0.9681 21.7s
+           balance-scale pll      0.3 s1 gibbs_warm_S60   0.9681 67.8s
+           balance-scale pll      0.3 s2 gibbs_warm_S15   0.9362 21.8s
+           balance-scale pll      0.3 s2 gibbs_warm_S60   0.9362 73.3s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s0 gibbs_warm_S15   0.6923 34.7s
+              eucalyptus pll      0.3 s0 gibbs_warm_S60   0.7014 103.9s
+              eucalyptus pll      0.3 s1 gibbs_warm_S15   0.7511 30.4s
+              eucalyptus pll      0.3 s1 gibbs_warm_S60   0.7557 104.0s
+              eucalyptus pll      0.3 s2 gibbs_warm_S15   0.6878 30.4s
+              eucalyptus pll      0.3 s2 gibbs_warm_S60   0.7059 95.4s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.3 s0 gibbs_warm_S15   0.1737 21.7s
+        analcatdata_dmft pll      0.3 s0 gibbs_warm_S60   0.1437 72.6s
+        analcatdata_dmft pll      0.3 s1 gibbs_warm_S15   0.1677 21.5s
+        analcatdata_dmft pll      0.3 s1 gibbs_warm_S60   0.1677 72.6s
+        analcatdata_dmft pll      0.3 s2 gibbs_warm_S15   0.1677 21.5s
+        analcatdata_dmft pll      0.3 s2 gibbs_warm_S60   0.1677 72.0s

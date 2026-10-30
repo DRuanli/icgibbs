@@ -1,0 +1,5 @@
+lượt L6 bắt đầu: Thu Oct 29 12:26:25 PM UTC 2026
+106 passed, 1 skipped, 9613 warnings in 523.61s (0:08:43)
+GPU1 xong tabicl_1: Thu Oct 29 01:44:01 PM UTC 2026
+GPU0 xong tabicl_0: Thu Oct 29 01:44:03 PM UTC 2026
+lượt L6 kết thúc: Thu Oct 29 01:44:03 PM UTC 2026

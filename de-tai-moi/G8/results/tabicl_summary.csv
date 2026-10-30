@@ -1,0 +1,4 @@
+setting,level,n,tabicl_gibbs_warm,tabpfn_gibbs_warm,tabicl_naive,tabpfn_naive,tabicl_hard_em_warm,tabpfn_hard_em_warm,tabicl_oracle,tabpfn_oracle,comparator,comparator_mean,tabicl_gibbs_minus_comp,wins,losses,p_uncorrected,tabicl_gibbs_minus_naive,wins_naive,tabicl_minus_tabpfn_gibbs
+llp,8.0,10,0.8888,0.8547,0.7133,0.7071,0.8859,0.8542,0.9281,0.9229,dllplin_def,0.8308,0.058,10,0,0.002,0.1755,10,0.0341
+pll,0.3,14,0.8539,0.847,0.7914,0.7476,0.8538,0.8474,0.8652,0.8633,cc_tun,0.8245,0.0295,12,2,0.0012,0.0625,12,0.007
+pll,0.6,14,0.8312,0.6609,0.5691,0.4807,0.7908,0.5731,0.8652,0.8633,cc_tun,0.793,0.0381,12,2,0.0085,0.262,14,0.1703

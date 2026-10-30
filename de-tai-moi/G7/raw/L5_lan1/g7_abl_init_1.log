@@ -1,0 +1,83 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                kr-vs-kp llp        8 s1 gibbs_cold       0.9984 235.2s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_cold       0.9435 49.6s
+         credit-approval llp        8 s2 gibbs_cold       0.9289 48.8s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s1 gibbs_cold       0.9869 561.6s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp        8 s0 gibbs_cold       0.7147 45.2s
+             tic-tac-toe llp        8 s2 gibbs_cold       0.7156 42.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s1 gibbs_cold       0.9484 180.2s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 gibbs_cold       0.9001 71.6s
+                 phoneme llp        8 s2 gibbs_cold       0.8797 72.7s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s1 gibbs_cold       0.9160 172.7s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_cold       0.6773 86.8s
+          cylinder-bands llp        8 s2 gibbs_cold       0.5463 81.0s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s1 gibbs_cold       0.5762 44.7s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s0 gibbs_cold       0.9977 227.8s
+                    sick llp        8 s2 gibbs_cold       0.9964 210.0s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s1 gibbs_cold       0.9574 40.4s
+           balance-scale pll      0.6 s0 gibbs_cold       0.8989 37.6s
+           balance-scale pll      0.6 s2 gibbs_cold       0.8777 42.0s
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.3 s1 gibbs_cold       0.9766 1478.8s
+           mfeat-factors pll      0.6 s0 gibbs_cold       0.0985 1585.5s
+           mfeat-factors pll      0.6 s2 gibbs_cold       0.1002 1575.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s1 gibbs_cold       0.9881 643.6s
+               optdigits pll      0.6 s0 gibbs_cold       0.9579 607.9s
+               optdigits pll      0.6 s2 gibbs_cold       0.6720 609.5s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.3 s1 gibbs_cold       0.9568 528.7s
+                  splice pll      0.6 s0 gibbs_cold       0.9601 550.6s
+                  splice pll      0.6 s2 gibbs_cold       0.9712 553.8s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s1 gibbs_cold       0.9181 376.8s
+                satimage pll      0.6 s0 gibbs_cold       0.8891 370.4s
+                satimage pll      0.6 s2 gibbs_cold       0.9041 381.4s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s1 gibbs_cold       0.7647 47.9s
+              eucalyptus pll      0.6 s0 gibbs_cold       0.6471 48.8s
+              eucalyptus pll      0.6 s2 gibbs_cold       0.6561 48.3s
+[lỗi tải] 458: OpenMLError('Dataset with data_id 458 not found.')
+[lỗi tải] 469: OpenMLError('Dataset with data_id 469 not found.')
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s1 gibbs_cold       0.5240 531.5s
+  first-order-theorem-pr pll      0.6 s0 gibbs_cold       0.4423 577.9s
+  first-order-theorem-pr pll      0.6 s2 gibbs_cold       0.4358 534.5s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.3 s1 gibbs_cold       0.9908 260.4s
+   wall-robot-navigation pll      0.6 s0 gibbs_cold       0.9835 257.1s
+   wall-robot-navigation pll      0.6 s2 gibbs_cold       0.9805 262.0s
+[lỗi tải] 1501: OpenMLError('Dataset with data_id 1501 not found.')
+[lỗi tải] 40966: OpenMLError('Dataset with data_id 40966 not found.')
+[lỗi tải] 40975: OpenMLError('Dataset with data_id 40975 not found.')
+[lỗi tải] 40982: OpenMLError('Dataset with data_id 40982 not found.')

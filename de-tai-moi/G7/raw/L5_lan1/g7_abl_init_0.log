@@ -1,0 +1,104 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp        8 s0 gibbs_cold       0.9995 236.1s
+                kr-vs-kp llp        8 s2 gibbs_cold       0.9988 221.3s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s1 gibbs_cold       0.9375 46.4s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 gibbs_cold       0.9847 554.6s
+                spambase llp        8 s2 gibbs_cold       0.9860 596.8s
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp        8 s1 gibbs_cold       0.7097 52.9s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s0 gibbs_cold       0.9199 180.0s
+                     pc4 llp        8 s2 gibbs_cold       0.9333 183.1s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s1 gibbs_cold       0.9085 72.9s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s0 gibbs_cold       0.8903 153.8s
+             qsar-biodeg llp        8 s2 gibbs_cold       0.8246 177.3s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s1 gibbs_cold       0.6098 98.9s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s0 gibbs_cold       0.6181 37.4s
+           dresses-sales llp        8 s2 gibbs_cold       0.4556 37.2s
+
+=== 38 sick: n=3711 (loại trùng 61), d=29, C=2, sha256=dfeecb8a65e4
+                    sick llp        8 s1 gibbs_cold       0.9950 222.1s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s0 gibbs_cold       0.9628 35.4s
+           balance-scale pll      0.3 s2 gibbs_cold       0.9362 35.9s
+           balance-scale pll      0.6 s1 gibbs_cold       0.8830 34.7s
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.3 s0 gibbs_cold       0.9900 1528.5s
+           mfeat-factors pll      0.3 s2 gibbs_cold       0.9716 1569.5s
+           mfeat-factors pll      0.6 s1 gibbs_cold       0.1002 1455.7s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.3 s0 gibbs_cold       0.9834 592.8s
+               optdigits pll      0.3 s2 gibbs_cold       0.9852 603.6s
+               optdigits pll      0.6 s1 gibbs_cold       0.9816 609.2s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.3 s0 gibbs_cold       0.9601 541.4s
+                  splice pll      0.3 s2 gibbs_cold       0.9678 532.0s
+                  splice pll      0.6 s1 gibbs_cold       0.9590 535.5s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.3 s0 gibbs_cold       0.9010 362.9s
+                satimage pll      0.3 s2 gibbs_cold       0.9171 371.5s
+                satimage pll      0.6 s1 gibbs_cold       0.8984 374.1s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s0 gibbs_cold       0.6878 48.6s
+              eucalyptus pll      0.3 s2 gibbs_cold       0.7014 48.4s
+              eucalyptus pll      0.6 s1 gibbs_cold       0.6471 47.5s
+
+=== 458 analcatdata_authorship: n=841 (loại trùng 0), d=70, C=4, sha256=81996155218e
+  analcatdata_authorship pll      0.3 s0 gibbs_cold       1.0000 216.5s
+  analcatdata_authorship pll      0.3 s2 gibbs_cold       1.0000 224.9s
+  analcatdata_authorship pll      0.6 s1 gibbs_cold       1.0000 225.8s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.3 s0 gibbs_cold       0.1317 32.7s
+        analcatdata_dmft pll      0.3 s2 gibbs_cold       0.1617 33.2s
+        analcatdata_dmft pll      0.6 s1 gibbs_cold       0.1437 35.4s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.3 s0 gibbs_cold       0.5068 511.1s
+  first-order-theorem-pr pll      0.3 s2 gibbs_cold       0.5399 526.4s
+  first-order-theorem-pr pll      0.6 s1 gibbs_cold       0.4571 523.1s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.3 s0 gibbs_cold       0.9914 254.0s
+   wall-robot-navigation pll      0.3 s2 gibbs_cold       0.9902 253.4s
+   wall-robot-navigation pll      0.6 s1 gibbs_cold       0.9866 261.4s
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/features/1501. Retrying...
+  warn(
+[lỗi tải] 1501: <HTTPError 503: 'Service Temporarily Unavailable'>
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.3 s0 gibbs_cold       0.9907 328.8s
+             MiceProtein pll      0.3 s2 gibbs_cold       0.9877 327.7s
+             MiceProtein pll      0.6 s1 gibbs_cold       0.4938 353.2s
+
+=== 40975 car: n=1728 (loại trùng 0), d=6, C=4, sha256=172f09c22188
+                     car pll      0.3 s0 gibbs_cold       0.9518 46.9s
+                     car pll      0.3 s2 gibbs_cold       0.9750 45.5s
+                     car pll      0.6 s1 gibbs_cold       0.9133 46.2s
+
+=== 40982 steel-plates-fault: n=1941 (loại trùng 0), d=27, C=7, sha256=a308bbebe29b
+      steel-plates-fault pll      0.3 s0 gibbs_cold       0.8165 179.4s
+      steel-plates-fault pll      0.3 s2 gibbs_cold       0.8148 180.4s
+      steel-plates-fault pll      0.6 s1 gibbs_cold       0.7376 184.0s

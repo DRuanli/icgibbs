@@ -28,10 +28,9 @@ def main():
     ap.add_argument("--raw", default="../../G7/raw")
     ap.add_argument("--out", default="../results")
     a = ap.parse_args()
-    tfm = pd.concat([pd.read_csv(f) for f in glob.glob(os.path.join(a.raw, "L[123]", "g7_tfm_*.csv"))])
-    base = pd.concat([pd.read_csv(f) for f in glob.glob(os.path.join(a.raw, "C[123]", "g7_base_*.csv"))])
-    d = pd.concat([tfm, base])
-    d = d[(d.status == "ok") & (d.setting == "pll")]
+    from g8_confirmatory import load
+    d = load(a.raw)
+    d = d[d.setting == "pll"]
     g = d[d.method == "gibbs_warm"].copy()
     p = g.extra.map(parse)
     g["avg_candidates"] = p.map(lambda o: float(o.get("avg_candidates", "nan")))

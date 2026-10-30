@@ -1,0 +1,31 @@
+run_g7 · part=ablation · split=eval · backend=tabpfn_v2 · code=py-387059443932 · config=df15c9043eabdf1c
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_warm_mh    0.9444 319.5s
+         credit-approval llp        8 s1 gibbs_warm_mh    0.9366 350.8s
+         credit-approval llp        8 s2 gibbs_warm_mh    0.9234 338.0s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_warm_mh    0.7157 1325.8s
+          cylinder-bands llp        8 s1 gibbs_warm_mh    0.6289 868.4s
+          cylinder-bands llp        8 s2 gibbs_warm_mh    0.8124 805.8s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s0 gibbs_warm_mh    0.6123 326.0s
+           dresses-sales llp        8 s1 gibbs_warm_mh    0.4714 360.9s
+           dresses-sales llp        8 s2 gibbs_warm_mh    0.5034 470.0s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s0 gibbs_warm_mh    0.9681 64.7s
+           balance-scale pll      0.3 s1 gibbs_warm_mh    0.9574 85.6s
+           balance-scale pll      0.3 s2 gibbs_warm_mh    0.9255 56.8s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s0 gibbs_warm_mh    0.7240 516.3s
+              eucalyptus pll      0.3 s1 gibbs_warm_mh    0.7466 542.4s
+              eucalyptus pll      0.3 s2 gibbs_warm_mh    0.6968 591.0s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.3 s0 gibbs_warm_mh    0.1677 647.1s
+        analcatdata_dmft pll      0.3 s1 gibbs_warm_mh    0.1677 653.1s
+        analcatdata_dmft pll      0.3 s2 gibbs_warm_mh    0.1677 643.3s
