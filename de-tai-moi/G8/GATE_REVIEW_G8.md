@@ -29,7 +29,7 @@ Mục 3a là **tự rà soát của người tạo**, không thay kiểm duyệt
 ## 3a. Phát hiện — tự rà soát
 | # | Mức | Mô tả | Đề xuất | Trạng thái |
 |---|---|---|---|---|
-| 1 | **Lớn** | H2-LLP và H4-PLL đều không đạt với TFM chính (TabPFN v2). Thành công tối thiểu không đạt, nên điều kiện chuyển sang phương án B đã thoả (RESEARCH_PLAN §5) | Thầy chọn ở Mục 4: phương án A (phương án B đã đăng ký) hay B′ (nghiên cứu xác nhận thứ hai) | Chờ quyết |
+| 1 | **Lớn** | H2-LLP và H4-PLL đều không đạt với TFM chính (TabPFN v2). Thành công tối thiểu không đạt, nên điều kiện chuyển sang phương án B đã thoả (RESEARCH_PLAN §5) | Thầy chọn ở Mục 4: hướng 1 (bài benchmark = phương án B đã đăng ký) hay hướng 2 (nghiên cứu xác nhận thứ hai) | **Thầy chọn hướng 2 (30/10, trao đổi trực tiếp)** — [S2_PLAN](../S2/S2_PLAN.md) |
 | 2 | **Lớn** | Với TabICL v2 (ablation đã đăng ký), mọi kiểm định của H2 và H4 đều đạt. Đây là kết quả chọn sau khi xem số, nên chỉ được dùng như kết quả thăm dò | Không đổi TFM chính của nghiên cứu 1. Nếu muốn khẳng định thì cần nghiên cứu 2 đăng ký trước, trên dữ liệu mới (G8_REPORT Mục 8) | Đã ghi (deviation 16) |
 | 3 | Lớn | Tập phát triển của PLL không có dataset ≥ 8 lớp, nên thí điểm không thấy kiểu lỗi sụp. Đây là điểm mù của thiết kế | Ghi ở phần giới hạn. Nếu làm nghiên cứu 2: tập phát triển phải phủ số lớp của tập đánh giá | Đề xuất |
 | 4 | Nhỏ | Tiêu chí 60% của H4 không nói rõ (a) tính theo từng mức hay gộp, (b) baseline mạnh nhất là một baseline chung hay tốt nhất mỗi dataset | Lấy cách đọc yếu nhất, theo nguyên tắc S1 (deviation 15). Nghiên cứu sau phải ghi rõ | Đã ghi |
@@ -45,9 +45,11 @@ Mục 3a là **tự rà soát của người tạo**, không thay kiểm duyệt
 ## 4. Quyết định
 **Hướng đi sau G8** (chọn một):
 
-☐ **A — Phương án B đã đăng ký.** Bài phân tích/benchmark, nhắm NeurIPS D&B 2027 hoặc TMLR. Sang G9.
+☐ **Hướng 1 — bài benchmark (phương án B đã đăng ký).** Bài phân tích/benchmark, nhắm NeurIPS D&B 2027 hoặc TMLR. Sang G9.
 
-☐ **B′ — Nghiên cứu xác nhận thứ hai.** TFM chính là TabICL v2, trên tập dataset mới chưa từng dùng; giao thức G5′ đóng băng trước khi chạm dữ liệu. Không đạt thì quay về A.
+☐ **Hướng 2 — giữ bài phương pháp bằng nghiên cứu xác nhận thứ hai.** TFM chính là TabICL v2, trên tập dataset mới chưa từng dùng; giao thức G5′ đóng băng trước khi chạm dữ liệu. Không đạt thì quay về hướng 1.
+
+> Ghi nhận: trong trao đổi ngày 30/10/2026 thầy chọn **hướng 2** ("chỉ tập trung vào hướng đầu tiên, làm mọi cách để cứu hướng A"). Ô chọn và chữ ký dưới đây vẫn để thầy điền khi kiểm duyệt.
 
 ☐ Khác: ____________
 

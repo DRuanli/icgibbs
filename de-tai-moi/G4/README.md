@@ -26,6 +26,18 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## S2 — đếm dataset mới (30/10/2026; chỉ đọc metadata, vài phút)
+
+Kế hoạch: [S2/S2_PLAN.md](../S2/S2_PLAN.md) §3. Script `code/s2_dataset_census.py` **chỉ dùng thư viện chuẩn của Python** và chỉ đọc metadata OpenML (không tải bảng dữ liệu).
+- **Cách 1 (máy thầy):** `python3 s2_dataset_census.py --out .`
+- **Cách 2 (Kaggle, CPU, Internet: On):** tải riêng tệp `s2_dataset_census.py` lên một dataset nhỏ (ví dụ `icgibbs-s2`), rồi một ô:
+```python
+!python /kaggle/input/icgibbs-s2/s2_dataset_census.py --out /kaggle/working
+```
+Gửi lại `s2_census_candidates.csv` và `s2_census_summary.txt`. OpenML hay trả lỗi 503: script tự thử lại, nếu vẫn lỗi thì chạy lại sau.
+
+**Chạy lại L5 (21 ô khởi động lạnh còn thiếu):** dùng đúng notebook G7 bên dưới với `LOT = "L5"` và **thêm output của lần L5 trước làm dữ liệu** (ô 1 tự chép các `g7_*` cũ vào `/kaggle/working`, các ô đã xong được bỏ qua). Không thêm output cũ thì lượt chạy lại từ đầu (khoảng 7,5 giờ).
+
 ## G7 trên Kaggle — dùng `g7_code_v1.zip` (chỉ sau khi thầy ký "Qua" ở G6/GATE_REVIEW_G6.md)
 
 Kế hoạch các lượt: [G7/G7_PLAN.md](../G7/G7_PLAN.md). Một notebook cho mỗi lượt; đổi `LOT` ở ô 2.

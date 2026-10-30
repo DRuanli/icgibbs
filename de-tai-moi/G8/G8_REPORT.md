@@ -193,10 +193,10 @@ Như bản sơ bộ, Mục 5 (số không đổi; D1 nay p = 0,039).
 | H3 | đạt |
 | → thành công tối thiểu | **không đạt** → điều kiện chuyển phương án B **đã thoả** |
 
-### Phương án A: phương án B đã đăng ký
+### Hướng 1 — bài benchmark (chính là "phương án B" đã đăng ký)
 Bài phân tích/benchmark "TFM học từ nhãn yếu tốt đến đâu", nhắm NeurIPS Datasets & Benchmarks 2027 hoặc TMLR. Dùng toàn bộ dữ liệu G7. Phát hiện về TFM (Mục 2, 5, 6.4) trở thành một kết quả chính của bài: lựa chọn TFM quyết định việc lấy mẫu posterior có thắng baseline chuyên biệt hay không.
 
-### Phương án B′: nghiên cứu xác nhận thứ hai, đăng ký trước (em đề xuất)
+### Hướng 2 — giữ bài phương pháp bằng nghiên cứu xác nhận thứ hai, đăng ký trước (em đề xuất; **thầy chọn 30/10**)
 Kiểm phát hiện thăm dò về TabICL trên **dữ liệu chưa từng dùng**, với giao thức đóng băng trước khi chạm vào dữ liệu đó.
 
 **Nội dung giao thức:**
@@ -205,7 +205,7 @@ Kiểm phát hiện thăm dò về TabICL trên **dữ liệu chưa từng dùng
 - Tập đánh giá mới: chọn bằng đúng tiêu chí §1.1 từ một bộ chuẩn khác ngoài CC18 (ví dụ TabArena, AMLB), loại mọi dataset trùng nguồn với dev và eval cũ.
 - **Điều kiện dừng ghi trước:** nếu không đủ ≥ 10 dataset nhị phân và ≥ 10 dataset đa lớp thì không làm.
 - Kết quả nghiên cứu 1 (TabPFN, không đạt) được báo cáo đầy đủ trong bài.
-- Nếu nghiên cứu 2 không đạt: quay về phương án A, dùng dữ liệu của cả hai nghiên cứu.
+- Nếu nghiên cứu 2 không đạt: quay về hướng 1, dùng dữ liệu của cả hai nghiên cứu.
 
 **Chi phí.** TabICL nhanh hơn TabPFN khoảng 3 lần, nên phần chính khoảng 12 giờ GPU, cộng baseline khoảng 100 giờ CPU. Tức khoảng một tuần Kaggle, chưa kể bước chọn dataset. Lịch NeurIPS 2027 (tháng 5/2027) còn dư nhiều; kế hoạch gốc đặt G7–G8 vào tháng 2–4/2027.
 
@@ -214,10 +214,10 @@ Kiểm phát hiện thăm dò về TabICL trên **dữ liệu chưa từng dùng
 - (ii) Lợi thế của TabICL ở đây có thể một phần do may. Kiểm điều này chính là mục đích của nghiên cứu 2.
 - (iii) Phản biện có thể nói "đổi TFM tới khi đạt". Cách giảm: công bố cả hai nghiên cứu, đăng ký có dấu thời gian (commit git; có thể thêm OSF) trước khi tải dữ liệu mới.
 
-**Vì sao em đề xuất B′.**
+**Vì sao em đề xuất hướng 2.**
 - Đây là cách chuẩn để kiểm một phát hiện thăm dò. Không đọc lại tiêu chí cũ, không đổi tiêu chí sau khi xem kết quả, và cũng không bỏ qua một tín hiệu mạnh (10/10 và 12/14 dataset, mọi p sau Holm < 0,01).
 - Chi phí thấp.
-- Không loại phương án A: A vẫn là đường dự phòng.
+- Không loại hướng 1: hướng 1 vẫn là đường dự phòng.
 
 **Không làm:**
 - Không đổi TFM chính của nghiên cứu 1 sang TabICL rồi tuyên bố H2/H4 đạt.
@@ -226,7 +226,6 @@ Kiểm phát hiện thăm dò về TabICL trên **dữ liệu chưa từng dùng
 ## 9. Việc tiếp
 - **Thầy:**
   - Chạy lại L5, thêm output L5 lần trước làm dữ liệu. Chỉ 21 ô khởi động lạnh còn thiếu sẽ chạy, khoảng 1–2 giờ GPU.
-  - Kiểm duyệt và quyết ở [GATE_REVIEW_G8](GATE_REVIEW_G8.md): A hay B′.
+  - Kiểm duyệt và quyết ở [GATE_REVIEW_G8](GATE_REVIEW_G8.md). **Thầy đã chọn hướng 2 (30/10)**; kế hoạch: [S2_PLAN](../S2/S2_PLAN.md).
 - **Em:**
-  - Nếu thầy chọn B′: viết giao thức nghiên cứu 2 (G5′) cùng quy tắc chọn dataset, và script đếm dataset đạt tiêu chí. Script này chỉ đọc metadata của OpenML, không xem nhãn yếu hay kết quả.
-  - Nếu thầy chọn A: viết dàn ý bài benchmark (G9).
+  - Hướng 2: viết kế hoạch nghiên cứu 2 cùng quy tắc chọn dataset và script đếm dataset (đã làm 30/10: [S2_PLAN](../S2/S2_PLAN.md), `G4/code/s2_dataset_census.py`).
