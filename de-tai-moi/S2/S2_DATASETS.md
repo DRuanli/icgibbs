@@ -1,6 +1,6 @@
 # S2 — tập đánh giá mới: kết quả đếm, rà tay, danh sách đề xuất (01/11/2026)
 
-**Trạng thái: chờ thầy duyệt.** Mọi quyết định ở đây chỉ dựa trên metadata và mô tả của OpenML. Chưa tải bảng dữ liệu nào, chưa sinh nhãn yếu, chưa chạy phương pháp nào trên các dataset này.
+**Trạng thái: thầy đã duyệt ngày 01/11/2026** (danh sách như đề xuất; S1 theo đề xuất ở Mục 4.2). Đóng băng cùng S2_PLAN. Mọi quyết định ở đây chỉ dựa trên metadata và mô tả của OpenML. Chưa tải bảng dữ liệu nào, chưa sinh nhãn yếu, chưa chạy phương pháp nào trên các dataset này.
 
 - **Nguồn đếm:** `census/` (do `G4/code/s2_dataset_census.py` tạo, thầy chạy ngày 01/11).
 - **Rà tay:** `s2_review.csv`.

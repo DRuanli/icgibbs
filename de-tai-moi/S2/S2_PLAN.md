@@ -9,7 +9,7 @@
 
 **Trạng thái:** bản nháp. Bản này đóng băng bằng một **commit đóng băng** trên nhánh main của kho, ghi mã commit vào đây và vào `S2/EXPERIMENT_LOG.md`, **trước khi tải bất kỳ bảng dữ liệu nào của tập đánh giá S2**. Môi trường của em không đẩy được git tag; thầy có thể tạo tag `s2-frozen` trên GitHub cho commit đó. Bước đếm dataset (§3) chỉ đọc metadata.
 
-**Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Chờ thầy duyệt danh sách và quyết định về S1 (§1).**
+**Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Thầy đã duyệt (01/11/2026): danh sách như đề xuất, quy tắc S1 mới.** Kế hoạch đóng băng ở commit ghi trong `S2/EXPERIMENT_LOG.md`.
 
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.
@@ -27,7 +27,7 @@
 
 - **Thành công của S2:** (H2-LLP′ hoặc H4-PLL′) cùng H3′. Thành công mạnh: cả hai.
 - **Độ nhạy kiểu S1:** khi rà tay (§3.3), gắn cờ các dataset có cấu trúc nhóm/chuỗi hoặc nhãn sinh từ quy tắc. Mọi kiểm định chạy hai lần, có và không có các dataset này. Nếu kết luận khác nhau, dùng kết luận yếu hơn.
-  - *Đề xuất, chờ thầy duyệt (01/11, trước khi tải dữ liệu):* nếu bỏ dataset gắn cờ làm một nhóm còn < 10 dataset (đa lớp: còn 8), Wilcoxon + Holm gần như không thể đạt ở cỡ đó (n = 8 phải thắng mọi dataset). Khi đó, với nhóm này, S1 được coi là "khác kết luận" nếu: chênh trung bình so với đối thủ chính **đổi dấu**, hoặc Gibbs thắng **< 60%** số dataset còn lại. p-value của S1 vẫn báo cáo.
+  - *Thầy duyệt 01/11, trước khi tải dữ liệu:* nếu bỏ dataset gắn cờ làm một nhóm còn < 10 dataset (đa lớp: còn 8), Wilcoxon + Holm gần như không thể đạt ở cỡ đó (n = 8 phải thắng mọi dataset). Khi đó, với nhóm này, S1 được coi là "khác kết luận" nếu: chênh trung bình so với đối thủ chính **đổi dấu**, hoặc Gibbs thắng **< 60%** số dataset còn lại. p-value của S1 vẫn báo cáo.
 - **Không chạy** PU, SSL, nhãn nhiễu. NC1 đã trả lời các bối cảnh này (D3). Bỏ chúng giảm chi phí và số phép so sánh.
 - Đối thủ chính giữ nguyên NC1 (`dllplin_def`, `cc_tun`). Hai đối thủ này được chọn bằng quy tắc trên tập phát triển cũ, không dựa vào kết quả.
 
