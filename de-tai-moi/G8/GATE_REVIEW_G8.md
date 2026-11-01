@@ -22,7 +22,7 @@ Mục 3a là **tự rà soát của người tạo**, không thay kiểm duyệt
 |---|---|---|
 | Bảng và hình tính bằng script từ kết quả thô | **Đạt**: 4 script, chỉ đọc `G7/raw/`; chạy lại cho cùng số | ☐ |
 | Phân tích thống kê đúng kế hoạch G5 | **Đạt**: H2, H3, H4, H5, D1–D3 đúng giao thức Mục 6. Câu tiêu chí 60% của H4 có nhiều cách đọc: báo cáo mọi cách đọc, kết luận theo cách đọc yếu nhất (deviation 15) | ☐ |
-| Ablation và phân tích độ nhạy | **Đạt một phần**: mọi ablation ở Mục 7 và S1 đã chạy; khởi động lạnh thiếu 21/114 ô (OpenML 503) — cần chạy lại L5 | ☐ |
+| Ablation và phân tích độ nhạy | **Đạt**: mọi ablation ở Mục 7 và S1 đã chạy đủ (khởi động lạnh đủ 114/114 sau L5 lần 2, 01/11) | ☐ |
 | Phân tích lỗi | **Đạt**: PLL q = 0,6 với dataset ≥ 8 lớp (G8_REPORT Mục 5); LLP tic-tac-toe | ☐ |
 | Mọi khẳng định được đánh dấu ủng hộ / một phần / không; khẳng định không được ủng hộ bị bỏ hoặc thu hẹp | **Đạt**: ma trận đã điền; #6 và #8 không được ủng hộ theo kiểm định xác nhận | ☐ |
 
@@ -34,7 +34,7 @@ Mục 3a là **tự rà soát của người tạo**, không thay kiểm duyệt
 | 3 | Lớn | Tập phát triển của PLL không có dataset ≥ 8 lớp, nên thí điểm không thấy kiểu lỗi sụp. Đây là điểm mù của thiết kế | Ghi ở phần giới hạn. Nếu làm nghiên cứu 2: tập phát triển phải phủ số lớp của tập đánh giá | Đề xuất |
 | 4 | Nhỏ | Tiêu chí 60% của H4 không nói rõ (a) tính theo từng mức hay gộp, (b) baseline mạnh nhất là một baseline chung hay tốt nhất mỗi dataset | Lấy cách đọc yếu nhất, theo nguyên tắc S1 (deviation 15). Nghiên cứu sau phải ghi rõ | Đã ghi |
 | 5 | Nhỏ | R̂: chuỗi chưa trộn hết ở mức nhãn (trung vị 5–29% mẫu có R̂ > 1,1), dù dự đoán của hai chuỗi thường gần nhau | Bài nói rõ: dự đoán ổn định, không khẳng định posterior đã hội tụ | Đề xuất |
-| 6 | Nhỏ | Ablation khởi động lạnh thiếu 21 ô | Chạy lại L5 với output cũ; nếu lỗi lặp lại thì ghi "thiếu, có lý do" (G7_PLAN §2) | Chờ chạy |
+| 6 | Nhỏ | Ablation khởi động lạnh thiếu 21 ô | Chạy lại L5 với output cũ | **Xong 01/11**: 21 ô bù đủ |
 | 7 | Nhỏ | H5 đạt theo đơn vị đã đăng ký ("nguồn"), không đạt nếu tính từng dataset (Lost: thứ 3) | Báo cáo cả hai cách | Đã ghi |
 
 ## 3b. Phát hiện — người kiểm duyệt

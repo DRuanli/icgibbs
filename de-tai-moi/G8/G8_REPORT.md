@@ -13,11 +13,11 @@ Báo cáo này thay [G8_PRELIM_REPORT](G8_PRELIM_REPORT.md). Mục 3.2 của b�
 | Ablation K, số vòng quét, sửa MH, chuyển nạp | 36, 36, 18, 30 | đủ |
 | Ablation prior η, TabICL | 120, 570 | đủ |
 | Ablation cỡ dữ liệu | TFM 285; đối thủ chính 57 | đủ |
-| **Ablation khởi tạo lạnh** | **93 / 114** | thiếu 21 ô: OpenML lỗi 503 khi chạy L5. Cần chạy lại L5 |
+| Ablation khởi động lạnh | 114 / 114 | L5 lần 1 thiếu 21 ô (OpenML lỗi 503); L5 lần 2 (01/11) bù đủ, các ô trùng giống hệt |
 
 - **Mã băm:**
   - Dữ liệu và lần chia khớp `docs/dataset_hashes.csv` ở cả 1.509 dòng mới.
-  - Code của L3 lần 2, L4, L5, L6 khớp kho (64/64 tệp).
+  - Code của L3 lần 2, L4, L5 (hai lần), L6 khớp kho (64/64 tệp).
   - SHA-256 tệp PLL thật khớp với lượt C3.
 - **Script:** chạy lại mọi bảng và hình bằng bốn lệnh trong `G8/analysis/`.
   - `g8_confirmatory.py`: kiểm định xác nhận.
@@ -126,7 +126,7 @@ Bayesian signed-rank (ROPE ±0,005) cho P(Gibbs tốt hơn) = 1,00 và P(ROPE) =
 **Khởi động lạnh (TabPFN) không chữa được.**
 - mfeat-factors vẫn 0,10 ở cả 3 seed.
 - optdigits đổi lưu vực theo seed: seed 1 từ 0,29 lên 0,98, nhưng seed 2 từ 0,92 xuống 0,67.
-- Dữ liệu khởi động lạnh của semeion và MiceProtein thiếu do lỗi 503.
+- semeion vẫn sụp (0,21–0,26 ở cả 3 seed); MiceProtein 0,49–0,69.
 
 ![Hình 2](figures/fig2_chain_monitor.png)
 
@@ -157,7 +157,7 @@ Mỗi biến thể so với `gibbs_warm` trên cùng ô; chênh dương nghĩa l
 | 15 / 60 vòng quét (mặc định 30) | +0,005 (4/5) / +0,014 (4/5) | +0,004 / +0,005 (4/5/0) | 60 vòng nhỉnh hơn nhất quán ở PLL (4 thắng, 0 thua) |
 | Khối có sửa MH (chính xác) | +0,010 (4/5) | +0,006 (4/3/2) | không khác biệt có hệ thống, khớp G6 |
 | Chuyển nạp (Bayes chính xác, Định lý 1c) | **−0,013 (7/23)**; log loss kém 0,042 | — | bản chính xác kém bản quy nạp |
-| Khởi động lạnh | −0,005 (10/20) | q 0,3: 0,000 (9/18/7); q 0,6: +0,012 (10/5/14) | thiếu 21 ô PLL (OpenML) |
+| Khởi động lạnh | −0,005 (10/20) | q 0,3: 0,000 (11/23/8); q 0,6: +0,012 (14/9/19) | đủ 114 ô (sau L5 lần 2) |
 | Prior η: N(0,1) / N(0,4²), mặc định N(0,2²) | PU-SAR: −0,002 tới +0,001 / −0,004 tới −0,001 AUC | — | không nhạy với prior |
 
 ### 6.3 Cỡ dữ liệu (Hình 3)
@@ -225,7 +225,7 @@ Kiểm phát hiện thăm dò về TabICL trên **dữ liệu chưa từng dùng
 
 ## 9. Việc tiếp
 - **Thầy:**
-  - Chạy lại L5, thêm output L5 lần trước làm dữ liệu. Chỉ 21 ô khởi động lạnh còn thiếu sẽ chạy, khoảng 1–2 giờ GPU.
+  - ~~Chạy lại L5~~ — xong 01/11 (21 ô bù đủ).
   - Kiểm duyệt và quyết ở [GATE_REVIEW_G8](GATE_REVIEW_G8.md). **Thầy đã chọn hướng 2 (30/10)**; kế hoạch: [S2_PLAN](../S2/S2_PLAN.md).
 - **Em:**
   - Hướng 2: viết kế hoạch nghiên cứu 2 cùng quy tắc chọn dataset và script đếm dataset (đã làm 30/10: [S2_PLAN](../S2/S2_PLAN.md), `G4/code/s2_dataset_census.py`).

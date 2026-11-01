@@ -7,7 +7,9 @@
 - Ablation TFM dùng TabICL v2 đạt mọi kiểm định. Nhưng đây là kết quả chọn sau khi đã xem số, nên chỉ là thăm dò (giao thức §11, deviation 16).
 - S2 kiểm đúng phát hiện thăm dò đó, đăng ký trước, trên dataset chưa từng dùng.
 
-**Trạng thái:** bản nháp. Bản này đóng băng bằng git tag `s2-frozen` **trước khi tải bất kỳ bảng dữ liệu nào của tập đánh giá S2**. Bước đếm dataset (§3) chỉ đọc metadata.
+**Trạng thái:** bản nháp. Bản này đóng băng bằng một **commit đóng băng** trên nhánh main của kho, ghi mã commit vào đây và vào `S2/EXPERIMENT_LOG.md`, **trước khi tải bất kỳ bảng dữ liệu nào của tập đánh giá S2**. Môi trường của em không đẩy được git tag; thầy có thể tạo tag `s2-frozen` trên GitHub cho commit đó. Bước đếm dataset (§3) chỉ đọc metadata.
+
+**Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Chờ thầy duyệt danh sách và quyết định về S1 (§1).**
 
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.
@@ -25,6 +27,7 @@
 
 - **Thành công của S2:** (H2-LLP′ hoặc H4-PLL′) cùng H3′. Thành công mạnh: cả hai.
 - **Độ nhạy kiểu S1:** khi rà tay (§3.3), gắn cờ các dataset có cấu trúc nhóm/chuỗi hoặc nhãn sinh từ quy tắc. Mọi kiểm định chạy hai lần, có và không có các dataset này. Nếu kết luận khác nhau, dùng kết luận yếu hơn.
+  - *Đề xuất, chờ thầy duyệt (01/11, trước khi tải dữ liệu):* nếu bỏ dataset gắn cờ làm một nhóm còn < 10 dataset (đa lớp: còn 8), Wilcoxon + Holm gần như không thể đạt ở cỡ đó (n = 8 phải thắng mọi dataset). Khi đó, với nhóm này, S1 được coi là "khác kết luận" nếu: chênh trung bình so với đối thủ chính **đổi dấu**, hoặc Gibbs thắng **< 60%** số dataset còn lại. p-value của S1 vẫn báo cáo.
 - **Không chạy** PU, SSL, nhãn nhiễu. NC1 đã trả lời các bối cảnh này (D3). Bỏ chúng giảm chi phí và số phép so sánh.
 - Đối thủ chính giữ nguyên NC1 (`dllplin_def`, `cc_tun`). Hai đối thủ này được chọn bằng quy tắc trên tập phát triển cũ, không dựa vào kết quả.
 
@@ -36,7 +39,7 @@
   - Ngữ cảnh ≤ 2.000, dự đoán quy nạp.
 - **Các phương pháp TFM chạy cùng:** TFM ngây thơ, hard-EM, SEM, oracle.
 - **Baseline:** mọi baseline LLP và PLL của NC1, bản mặc định và bản tune, cùng không gian tune và ngân sách (docs/tuning_spaces.md), cùng quy tắc `refit_best`.
-- Tiền xử lý, loại trùng, chia 80/20 phân tầng, seed 0–2, sinh nhãn yếu: giữ nguyên giao thức NC1 §2–§3.
+- Tiền xử lý, loại trùng, chia phân tầng 70/30 (`stratified_split`, như NC1), seed 0–2, sinh nhãn yếu: giữ nguyên giao thức NC1 §2–§3.
 - **Không đưa cải tiến nào vào phép thử chính.** Phép thử chính kiểm đúng cấu hình đã tạo ra phát hiện thăm dò. Các cải tiến ở §5 chỉ là nhánh phụ, và nhánh nào được đưa vào S2 phải ghi ở đây trước khi đóng băng.
 
 ## 3. Tập đánh giá mới
@@ -78,15 +81,18 @@ Bước 1–4 không tải bảng dữ liệu nào.
 
 ### 3.4 Kiểm sau đóng băng
 - Một lượt Kaggle CPU tải dữ liệu, ghi mã băm (bảng, lần chia) vào `S2/s2_dataset_hashes.csv` và kiểm lại tiêu chí sau khi loại trùng.
-- Dataset nào trượt tiêu chí sau loại trùng (ví dụ n < 500) thì bị loại theo đúng tiêu chí, ghi lý do. Không thay bằng dataset khác.
+- Dataset nào trượt tiêu chí sau loại trùng (ví dụ n < 500) thì bị loại theo đúng tiêu chí, ghi lý do.
+- **Bổ sung (ghi 01/11, trước khi tải dữ liệu):** nếu sau bước này một nhóm còn < 10 dataset, lấy thêm theo đúng thứ tự dự phòng trong `s2_selected.csv` (bậc kế tiếp, ID tăng dần) cho tới khi đủ 10. Nhóm vẫn ≥ 10 thì không bổ sung. Dataset dự phòng ở bậc ≥ 1 có n > 10.000 được lấy mẫu con 10.000 hàng (phân tầng, seed 0) trước khi chia.
+- **Trùng tên (sửa 01/11):** chỉ xét giữa các ứng viên đủ điều kiện cùng bậc (`s2_select.py`). Script đếm đánh dấu trùng với cả bản hồi quy của cùng dataset, vốn không bao giờ được chọn; cách đó làm mất oan bản phân loại (ví dụ socmob 934).
 
 ## 4. Thống kê, báo cáo, chạy
 - Thống kê như NC1 Mục 6: α = 0,05, Holm, chênh trung bình kèm CI bootstrap 95%, thắng/hoà/thua, điểm thô theo (dataset, mức, seed). Phân tích phụ: so với từng baseline, Holm trên mọi cặp.
 - **Script phân tích đã có**: `G8/analysis/g8_confirmatory.py`. Chỉ thêm tham số thư mục S2 và tên TFM, không đổi logic.
 - **Ước tính chi phí:**
-  - TFM (TabICL): chuỗi Gibbs trung vị 41 giây ở NC1, tổng khoảng 5–8 giờ GPU.
-  - Baseline LLP túi 8 và PLL hai mức: khoảng 25–35 giờ CPU, tức 2–3 phiên Kaggle song song trong khoảng 1 ngày.
+  - TFM (TabICL): 19 × 3 ô LLP túi 8 và 10 × 2 × 3 ô PLL, tổng 117 ô. Dataset của S2 lớn hơn NC1 (n tới 10.000), nên ước khoảng 6–8 giờ GPU, tức 3–4 giờ với 2 GPU.
+  - Baseline: khoảng 65–70 giờ CPU (LLP khoảng 60, PLL khoảng 6), chia 8 mảnh, 2 lượt × 4 phiên song song, mỗi phiên khoảng 9 giờ.
 - Lượt chạy, nhật ký, kiểm sau lượt: như G7 (`S2/EXPERIMENT_LOG.md`). Bộ test chạy đầu mỗi lượt.
+- **Code đã chuẩn bị (01/11, chưa chạy trên dữ liệu S2):** `run_g7.py --split s2` (bắt buộc `--eval-ok`; chỉ phần tfm và baselines); danh sách ở `icgibbs/g7/registry.py` (`S2_BINARY`, `S2_MULTICLASS`, `S2_RESERVE_MULTICLASS`, `S2_S1_EXCLUDE`), có test khớp với `s2_selected.csv`; `g6_dataset_hashes.py --split s2`; lượt `run_s2_lot.sh` S2D, S2T, S2C1, S2C2. Code NC1 đã chạy ở G7 vẫn giữ nguyên ở commit c5e55f7.
 
 ## 5. Làm bài mạnh hơn ngoài phép xác nhận (thăm dò, chỉ trên tập phát triển S2)
 
@@ -111,8 +117,9 @@ Bước 1–4 không tải bảng dữ liệu nào.
 
 | Thời gian | Việc |
 |---|---|
-| 31/10 – 02/11 | thầy chạy script đếm (Kaggle CPU, vài phút); chạy lại L5 (21 ô) |
-| 03 – 08/11 | rà tay ứng viên, thầy duyệt; đóng băng S2 (`s2-frozen`); lượt kiểm dữ liệu và mã băm |
+| 31/10 – 02/11 | thầy chạy script đếm; chạy lại L5 (21 ô) — **xong 01/11** |
+| 01/11 | rà tay xong ([S2_DATASETS](S2_DATASETS.md)) |
+| 02 – 05/11 | thầy duyệt; commit đóng băng S2; lượt S2D (kiểm dữ liệu, mã băm) |
 | 09 – 20/11 | chạy S2: TFM (GPU) và baseline (CPU) song song |
 | 21 – 30/11 | phân tích S2 bằng script có sẵn; lập GATE_REVIEW_S2 |
 | 11 – 12/2026 | lý thuyết 5.1, nhánh 5.2 (song song với S2) |

@@ -26,6 +26,38 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## S2 trên Kaggle — dùng `s2_code_v1.zip` (01/11/2026)
+
+Kế hoạch: [S2/S2_PLAN.md](../S2/S2_PLAN.md); danh sách: [S2/S2_DATASETS.md](../S2/S2_DATASETS.md). Một notebook cho mỗi lượt; đổi `LOT` ở ô 2.
+- **S2X** (GPU T4 × 2, Internet On, Secrets `TABPFN_TOKEN`): thăm dò ánh xạ phản ứng trên dataset **cũ** của NC1. Chạy được ngay, khoảng 1–1,5 giờ.
+- **S2D** (CPU): **chỉ sau khi thầy duyệt danh sách và em ghi commit đóng băng.** Tải dữ liệu S2, tính mã băm, kiểm tiêu chí. Vài phút.
+- **S2T** (GPU T4 × 2), **S2C1**, **S2C2** (CPU): chạy sau S2D, khi em đã kiểm `s2_dataset_hashes.csv`.
+
+1. Tải `s2_code_v1.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*. Bản zip có cả code G7, nên các notebook G7 cũ vẫn chạy nếu sửa đường dẫn.
+2. Ô 1: như ô 1 của G7 ở dưới, nhưng tìm `s2_code_v1/code/run_s2_lot.sh` và chép các tệp `s2_*` / `s2x_*` của lần trước (nếu chạy tiếp):
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v1/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for f in glob.glob("/kaggle/input/**/s2*_*.csv", recursive=True) + glob.glob("/kaggle/input/**/s2*_*.jsonl", recursive=True):
+    shutil.copy(f, "/kaggle/working/")
+```
+3. Ô 2:
+```python
+LOT = "S2X"
+%cd /kaggle/working/code
+!bash run_s2_lot.sh {LOT} /kaggle/working 2>&1 | tee /kaggle/working/s2_{LOT}_master_log.txt
+```
+4. Gửi lại mọi tệp `s2_*`, `s2x_*` trong /kaggle/working.
+
 ## S2 — đếm dataset mới (30/10/2026; chỉ đọc metadata, vài phút)
 
 Kế hoạch: [S2/S2_PLAN.md](../S2/S2_PLAN.md) §3. Script `code/s2_dataset_census.py` **chỉ dùng thư viện chuẩn của Python** và chỉ đọc metadata OpenML (không tải bảng dữ liệu).

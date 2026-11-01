@@ -15,19 +15,28 @@ import sys
 import numpy as np
 
 from icgibbs.g7.data import encode_tfm, load_openml, table_sha256
-from icgibbs.g7.registry import DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS
+from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, S2_BINARY, S2_MULTICLASS,
+                                 S2_RESERVE_MULTICLASS)
 from icgibbs.g7.splits import split_sha256, stratified_split
 
 FIELDS = ["split_set", "task", "did", "name", "version_expected", "version", "md5_openml", "n_raw",
           "n_missing_target", "n_duplicates_removed", "n", "d", "n_classes", "min_class_rate", "sha256_table",
-          "sha256_split_s0", "sha256_split_s1", "sha256_split_s2", "status"]
+          "sha256_split_s0", "sha256_split_s1", "sha256_split_s2", "pass_criteria", "status"]
+
+
+def s2_todo():
+    """S2 (S2_PLAN §3.4): tập chọn và mọi dự phòng, để bổ sung theo quy tắc mà không cần tải lại."""
+    return ([("s2", "binary", d, n, v) for d, (n, v) in S2_BINARY.items()] +
+            [("s2", "multiclass", d, n, v) for d, (n, v) in S2_MULTICLASS.items()] +
+            [("s2_reserve", "multiclass", d, n, v) for d, n, v in S2_RESERVE_MULTICLASS])
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="dataset_hashes.csv")
+    ap.add_argument("--split", choices=["nc1", "s2"], default="nc1")
     a = ap.parse_args()
-    todo = [("eval", "binary", d, n, v) for d, (n, v) in EVAL_BINARY.items()] + \
+    todo = s2_todo() if a.split == "s2" else [("eval", "binary", d, n, v) for d, (n, v) in EVAL_BINARY.items()] + \
            [("eval", "multiclass", d, n, v) for d, (n, v) in EVAL_MULTICLASS.items()] + \
            [("dev", "binary", d, n, None) for d, n in DEV_BINARY.items()] + \
            [("dev", "multiclass", d, n, None) for d, n in DEV_MULTICLASS.items()]
@@ -48,6 +57,10 @@ def main():
                     row[f"sha256_split_s{s}"] = split_sha256(*stratified_split(t.y, s))
                 if ver is not None and t.version != ver:
                     row["status"] = f"ok; phiên bản {t.version} khác DATASET_CARDS ({ver})"
+                # tiêu chí sau loại trùng (NC1 §1.1; S2_PLAN §3.4): n ≥ 500; nhị phân: lớp nhỏ nhất ≥ 10%
+                ok = len(t.y) >= 500 and (task != "binary" or rates.min() >= 0.10) and \
+                    (task != "multiclass" or 3 <= t.n_classes <= 10 or sset == "s2_reserve")
+                row["pass_criteria"] = bool(ok)
             except Exception as e:  # ghi lỗi, làm tiếp dataset khác
                 row["status"] = f"error: {e!r}"[:200]
             w.writerow(row)

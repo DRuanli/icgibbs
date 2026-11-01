@@ -2,7 +2,7 @@
 
 > **Trạng thái 30/10/2026:** mọi lượt đã chạy.
 > - Phần chính đủ 2.190/2.190 ô; baseline 3.492/3.492; R̂, RQ5, mọi ablation đủ.
-> - Còn thiếu 21/114 ô của ablation khởi động lạnh (OpenML 503 ở L5) → chạy lại L5 với output lần 1.
+> - Ablation khởi động lạnh: L5 lần 1 thiếu 21/114 ô (OpenML 503); L5 lần 2 (01/11) bù đủ. **G7 đủ mọi ô.**
 > - LLP-Bench bỏ theo quy tắc §3 (deviation 14).
 > - Kết quả phân tích: [G8_REPORT](../G8/G8_REPORT.md).
 

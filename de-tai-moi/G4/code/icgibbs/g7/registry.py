@@ -40,3 +40,27 @@ DEV_BINARY = {31: "credit-g", 37: "diabetes", 1464: "blood-transfusion-service-c
 DEV_MULTICLASS = {54: "vehicle", 36: "segment", 23: "cmc"}
 
 assert not (set(EVAL_BINARY) | set(EVAL_MULTICLASS)) & (set(DEV_BINARY) | set(DEV_MULTICLASS)), "tập phát triển và tập đánh giá phải rời nhau"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Nghiên cứu 2 (S2): tập đánh giá mới (de-tai-moi/S2/S2_DATASETS.md; chọn tất định bằng S2/s2_select.py từ kết quả đếm
+# metadata và bảng rà tay; bậc 0 = đúng tiêu chí NC1). ID OpenML → (tên, phiên bản OpenML lúc đếm, 01/11/2026).
+S2_BINARY = {
+    24: ("mushroom", 1), 312: ("scene", 1), 451: ("irish", 1), 470: ("profb", 1), 934: ("socmob", 2),
+    40536: ("SpeedDating", 1), 41143: ("jasmine", 1), 41145: ("philippine", 1), 41146: ("sylvine", 1),
+    41156: ("ada", 1), 44130: ("eye_movements", 7), 45026: ("heloc", 2), 45039: ("compas-two-years", 5),
+    46911: ("Bank_Customer_Churn", 1), 46927: ("Fitness_Club", 1), 46930: ("hazelnut-spread-contaminant-detection", 1),
+    46938: ("Is-this-a-good-customer", 2), 46940: ("Marketing_Campaign", 1), 46969: ("NATICUSdroid", 3),
+}
+S2_MULTICLASS = {
+    181: ("yeast", 1), 375: ("JapaneseVowels", 1), 1466: ("cardiotocography", 1), 23380: ("cjs", 3),
+    40498: ("wine-quality-white", 1), 46906: ("anneal", 18), 46941: ("maternal_health_risk", 3),
+    46960: ("students_dropout_and_academic_success", 1), 46963: ("website_phishing", 1), 46980: ("MIC", 3),
+}
+# Dự phòng đa lớp, đúng thứ tự dùng (S2_PLAN §3.4): chỉ dùng khi sau loại trùng nhóm đa lớp còn < 10 dataset
+S2_RESERVE_MULTICLASS = [(1476, "gas-drift", 1), (42, "soybean", 1), (1515, "micro-mass", 2), (41163, "dilbert", 1),
+                         (41164, "fabert", 1), (46933, "hiva_agnostic", 2)]
+# Độ nhạy kiểu S1 (S2_PLAN §1): cấu trúc nhóm/chuỗi (gas-drift chỉ khi được dùng)
+S2_S1_EXCLUDE = {40536, 44130, 375, 23380, 1476}
+_S2_ALL = set(S2_BINARY) | set(S2_MULTICLASS) | {d for d, _, _ in S2_RESERVE_MULTICLASS}
+_NC1_ALL = set(EVAL_BINARY) | set(EVAL_MULTICLASS) | set(DEV_BINARY) | set(DEV_MULTICLASS)
+assert not _S2_ALL & _NC1_ALL, "tập đánh giá S2 phải rời mọi dataset của NC1"

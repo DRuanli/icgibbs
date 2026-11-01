@@ -1,0 +1,39 @@
+group,role,order,step,did,name,n,d,n_classes,minority_frac,n_missing_values,s1_flag
+binary,chọn,1,0,24,mushroom,8124.0,22.0,2.0,0.482,2480.0,False
+binary,chọn,2,0,312,scene,2407.0,299.0,2.0,0.1791,0.0,False
+binary,chọn,3,0,451,irish,500.0,5.0,2.0,0.444,32.0,False
+binary,chọn,4,0,470,profb,672.0,9.0,2.0,0.3333,1200.0,False
+binary,chọn,5,0,934,socmob,1156.0,5.0,2.0,0.2215,0.0,False
+binary,chọn,6,0,40536,SpeedDating,8378.0,120.0,2.0,0.1647,18372.0,True
+binary,chọn,7,0,41143,jasmine,2984.0,144.0,2.0,0.5,0.0,False
+binary,chọn,8,0,41145,philippine,5832.0,308.0,2.0,0.5,0.0,False
+binary,chọn,9,0,41146,sylvine,5124.0,20.0,2.0,0.5,0.0,False
+binary,chọn,10,0,41156,ada,4147.0,48.0,2.0,0.2481,0.0,False
+binary,chọn,11,0,44130,eye_movements,7608.0,20.0,2.0,0.5,0.0,True
+binary,chọn,12,0,45026,heloc,10000.0,22.0,2.0,0.5,0.0,False
+binary,chọn,13,0,45039,compas-two-years,4966.0,11.0,2.0,0.5,0.0,False
+binary,chọn,14,0,46911,Bank_Customer_Churn,10000.0,10.0,2.0,0.2037,0.0,False
+binary,chọn,15,0,46927,Fitness_Club,1500.0,6.0,2.0,0.3027,20.0,False
+binary,chọn,16,0,46930,hazelnut-spread-contaminant-detection,2400.0,30.0,2.0,0.5,0.0,False
+binary,chọn,17,0,46938,Is-this-a-good-customer,1723.0,13.0,2.0,0.1138,0.0,False
+binary,chọn,18,0,46940,Marketing_Campaign,2240.0,25.0,2.0,0.1491,24.0,False
+binary,chọn,19,0,46969,NATICUSdroid,7491.0,86.0,2.0,0.3503,0.0,False
+binary,chưa rà (bậc 1),0,1,-1,,,,,,,False
+binary,chưa rà (bậc 2),0,2,-1,,,,,,,False
+binary,chưa rà (bậc 3),0,3,-1,,,,,,,False
+multiclass,chọn,1,0,181,yeast,1484.0,8.0,10.0,0.0034,0.0,False
+multiclass,chọn,2,0,375,JapaneseVowels,9961.0,14.0,9.0,0.0785,0.0,True
+multiclass,chọn,3,0,1466,cardiotocography,2126.0,35.0,10.0,0.0249,0.0,False
+multiclass,chọn,4,0,23380,cjs,2796.0,34.0,6.0,0.098,68100.0,True
+multiclass,chọn,5,0,40498,wine-quality-white,4898.0,11.0,7.0,0.001,0.0,False
+multiclass,chọn,6,0,46906,anneal,898.0,38.0,5.0,0.0089,0.0,False
+multiclass,chọn,7,0,46941,maternal_health_risk,1014.0,6.0,3.0,0.2682,0.0,False
+multiclass,chọn,8,0,46960,students_dropout_and_academic_success,4424.0,36.0,3.0,0.1795,0.0,False
+multiclass,chọn,9,0,46963,website_phishing,1353.0,9.0,3.0,0.0761,0.0,False
+multiclass,chọn,10,0,46980,MIC,1699.0,111.0,8.0,0.0071,6513.0,False
+multiclass,dự phòng,1,1,1476,gas-drift,13910.0,128.0,6.0,0.118,0.0,True
+multiclass,dự phòng,2,2,42,soybean,683.0,35.0,19.0,0.0117,2337.0,False
+multiclass,dự phòng,3,3,1515,micro-mass,571.0,1300.0,20.0,0.0193,0.0,False
+multiclass,dự phòng,4,3,41163,dilbert,10000.0,2000.0,5.0,0.1913,0.0,False
+multiclass,dự phòng,5,3,41164,fabert,8237.0,800.0,7.0,0.0609,0.0,False
+multiclass,dự phòng,6,3,46933,hiva_agnostic,3845.0,1617.0,3.0,0.0109,0.0,False

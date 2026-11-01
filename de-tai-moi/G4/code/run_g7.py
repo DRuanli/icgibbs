@@ -30,7 +30,7 @@ from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, Cell, bas
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
 from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, ABL_SMALL_EVAL,  # noqa: E402
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
-                                 RHAT_EVAL)
+                                 RHAT_EVAL, S2_BINARY, S2_MULTICLASS)
 from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
 from icgibbs.g7.weakgen import make_weak, real_pll_weak, weak_rng  # noqa: E402
 
@@ -134,7 +134,8 @@ def main(argv=None):
     ap.add_argument("--ablation", choices=sorted(ABLATIONS), default="", help="với --part ablation: một ablation")
     ap.add_argument("--n_train_max", type=int, default=0,
                     help="ablation cỡ dữ liệu: lấy mẫu con lồng nhau, phân tầng của train tới cỡ này (0 = không)")
-    ap.add_argument("--split", choices=["dev", "eval"], default="dev")
+    ap.add_argument("--split", choices=["dev", "eval", "s2"], default="dev",
+                    help="dev: tập phát triển; eval: tập đánh giá NC1 (G7); s2: tập đánh giá của nghiên cứu 2 (S2_PLAN)")
     ap.add_argument("--eval-ok", action="store_true", help="xác nhận chạy trên tập đánh giá (chỉ từ G7)")
     ap.add_argument("--source", choices=["openml", "synthetic"], default="openml")
     ap.add_argument("--synthetic_shape", default="", help='chỉ với --source synthetic: "ID=nxd[xC];..." (đo thời gian)')
@@ -162,15 +163,19 @@ def main(argv=None):
     shapes = parse_shapes(a.synthetic_shape)
     if shapes and a.source != "synthetic":
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
-    if a.split == "eval" and not a.eval_ok:
-        ap.error("tập đánh giá chỉ chạy ở G7: cần thêm --eval-ok")
+    if a.split in ("eval", "s2") and not a.eval_ok:
+        ap.error("tập đánh giá chỉ chạy khi đã mở (G7 cho eval, S2 sau khi đóng băng): cần thêm --eval-ok")
+    if a.split == "s2" and (a.part in ("rhat", "ablation") or a.n_train_max or a.mh_check or "pll_real" in a.settings):
+        ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1)")
     only = {m.strip() for m in a.only.split(",") if m.strip()}
     settings = [s.strip() for s in a.settings.split(",") if s.strip()]
     levels = parse_levels(a.levels)
     seeds = [int(s) for s in a.seeds.split(",")]
     si, sn = (int(v) for v in a.shard.split("/"))
-    binary_ids = dict(EVAL_BINARY if a.split == "eval" else {k: (v, None) for k, v in DEV_BINARY.items()})
-    multi_ids = dict(EVAL_MULTICLASS if a.split == "eval" else {k: (v, None) for k, v in DEV_MULTICLASS.items()})
+    binary_ids = dict({"eval": EVAL_BINARY, "s2": S2_BINARY}.get(a.split) or
+                      {k: (v, None) for k, v in DEV_BINARY.items()})
+    multi_ids = dict({"eval": EVAL_MULTICLASS, "s2": S2_MULTICLASS}.get(a.split) or
+                     {k: (v, None) for k, v in DEV_MULTICLASS.items()})
     if a.part == "rhat" and a.datasets == "all":            # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
         rs = RHAT_EVAL if a.split == "eval" else RHAT_DEV
         a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
