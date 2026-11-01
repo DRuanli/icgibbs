@@ -5,7 +5,7 @@
 ## Đóng băng
 | Ngày giờ (UTC) | Commit | Nội dung |
 |---|---|---|
-| 01/11/2026 | *(ghi ở dòng kế tiếp, sau khi có mã commit)* | S2_PLAN, S2_DATASETS, `s2_selected.csv`, code `G4/code` (run_g7 `--split s2`, registry S2, run_s2_lot.sh). Thầy duyệt danh sách và quy tắc S1. **Trước thời điểm này chưa tải bảng dữ liệu nào của tập đánh giá S2** |
+| 01/11/2026 15:19 | **aaee9fd** (nhánh main) | S2_PLAN, S2_DATASETS, `s2_selected.csv`, code `G4/code` (run_g7 `--split s2`, registry S2, run_s2_lot.sh). Thầy duyệt danh sách và quy tắc S1. **Trước thời điểm này chưa tải bảng dữ liệu nào của tập đánh giá S2.** Bản code gửi thầy `s2_code_v1.zip` trùng khớp với `G4/code` ở commit này (đã so từng tệp) |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |

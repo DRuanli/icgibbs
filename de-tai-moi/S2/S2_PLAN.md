@@ -9,7 +9,7 @@
 
 **Trạng thái:** bản nháp. Bản này đóng băng bằng một **commit đóng băng** trên nhánh main của kho, ghi mã commit vào đây và vào `S2/EXPERIMENT_LOG.md`, **trước khi tải bất kỳ bảng dữ liệu nào của tập đánh giá S2**. Môi trường của em không đẩy được git tag; thầy có thể tạo tag `s2-frozen` trên GitHub cho commit đó. Bước đếm dataset (§3) chỉ đọc metadata.
 
-**Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Thầy đã duyệt (01/11/2026): danh sách như đề xuất, quy tắc S1 mới.** Kế hoạch đóng băng ở commit ghi trong `S2/EXPERIMENT_LOG.md`.
+**Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Thầy đã duyệt (01/11/2026): danh sách như đề xuất, quy tắc S1 mới.** **Đóng băng ở commit `aaee9fd` (01/11/2026 15:19 UTC)**; xem `S2/EXPERIMENT_LOG.md`.
 
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.
