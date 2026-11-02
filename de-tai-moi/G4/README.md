@@ -26,7 +26,15 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
-## S2 trên Kaggle — dùng `s2_code_v2.zip` cho S2T, S2C1, S2C2 (02/11/2026; S2X và S2D đã chạy bằng `s2_code_v1.zip`)
+## S2 — lượt S2G (gas-drift) dùng `s2_code_v3.zip` (02/11/2026)
+
+S2T, S2C1, S2C2 đã chạy bằng `s2_code_v1.zip`, tức danh sách trước bước kiểm dữ liệu, nên **thiếu gas-drift**. Lượt **S2G** chỉ chạy gas-drift.
+- Phần cứng: một phiên GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`. Phương pháp TFM chạy trên GPU; baseline PLL chạy trên CPU của cùng phiên, song song. Khoảng 1–3 giờ.
+- Cách chạy: như các lượt S2 bên dưới, nhưng dùng **`s2_code_v3.zip`**: ô 1 tìm `s2_code_v3/code/run_s2_lot.sh`; ô 2 đặt `LOT = "S2G"`.
+- Nếu lỡ dùng bản cũ, lượt tự dừng và báo "BẢN CODE CŨ".
+- Gửi lại các tệp `s2_*`.
+
+## S2 trên Kaggle — các lượt S2X, S2D, S2T, S2C1, S2C2 (02/11/2026; S2X và S2D đã chạy bằng `s2_code_v1.zip`)
 
 Kế hoạch: [S2/S2_PLAN.md](../S2/S2_PLAN.md); danh sách: [S2/S2_DATASETS.md](../S2/S2_DATASETS.md). Một notebook cho mỗi lượt; đổi `LOT` ở ô 2.
 - **S2X** (GPU T4 × 2, Internet On, Secrets `TABPFN_TOKEN`): thăm dò ánh xạ phản ứng trên dataset **cũ** của NC1. Chạy được ngay, khoảng 1–1,5 giờ.

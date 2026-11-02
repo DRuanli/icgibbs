@@ -1,0 +1,18 @@
+..s..................................................................... [ 63%]
+.......................s..................                               [100%]
+=============================== warnings summary ===============================
+tests/test_baselines_ext.py: 29 warnings
+tests/test_baselines_g6.py: 4 warnings
+tests/test_g7_ablation.py: 7274 warnings
+tests/test_g7_runner.py: 2291 warnings
+tests/test_s2_split.py: 414 warnings
+tests/test_s2x_response_map.py: 20 warnings
+  /usr/local/lib/python3.13/dist-packages/sklearn/linear_model/_logistic.py:451: DeprecationWarning: scipy.optimize: The `disp` and `iprint` options of the L-BFGS-B solver are deprecated and will be removed in SciPy 1.18.0.
+    opt_res = optimize.minimize(
+
+tests/test_g7_runner.py: 15 warnings
+  /usr/local/lib/python3.13/dist-packages/sklearn/metrics/_ranking.py:379: UndefinedMetricWarning: Only one class is present in y_true. ROC AUC score is not defined in that case.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+112 passed, 2 skipped, 10047 warnings in 467.01s (0:07:47)

@@ -1,0 +1,5 @@
+lượt S2T bắt đầu: Mon Nov  2 02:36:22 AM UTC 2026
+112 passed, 2 skipped, 10047 warnings in 426.56s (0:07:06)
+GPU0 xong tfm_0: Mon Nov  2 04:07:41 AM UTC 2026
+GPU1 xong tfm_1: Mon Nov  2 04:11:54 AM UTC 2026
+lượt S2T kết thúc: Mon Nov  2 04:11:54 AM UTC 2026

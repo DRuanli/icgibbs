@@ -6,6 +6,9 @@
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
 #   S2T  (GPU T4 × 2): mọi phương pháp TFM với TabICL v2 (cấu hình F6, như lượt L6 của NC1), LLP túi 8 và PLL q 0,3/0,6
 #   S2C1, S2C2 (CPU) : mọi baseline LLP và PLL (mặc định và tune), 8 mảnh, mỗi lượt 4 mảnh song song
+#   S2G  (GPU T4 × 2): chỉ gas-drift (1476, dự phòng bổ sung theo S2_PLAN §3.4, lấy mẫu con 10.000 hàng): phương pháp TFM
+#                      trên GPU 0 và mọi baseline PLL trên CPU của cùng phiên (3 mảnh song song). Cần bản code có 1476
+#                      trong S2_MULTICLASS (s2_code_v3 trở đi)
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -48,6 +51,11 @@ case $LOT in
     echo "xong mã băm: $(date)"; tail -3 "$OUT/s2_dataset_hashes.log" ;;
   S2T)
     gpu 0 tfm_0 --part tfm --backend tabicl_v2 --shard 0/2 & gpu 1 tfm_1 --part tfm --backend tabicl_v2 --shard 1/2 & wait ;;
+  S2G)
+    python -c "from icgibbs.g7.registry import S2_MULTICLASS, S2_SUBSAMPLE; assert 1476 in S2_MULTICLASS and S2_SUBSAMPLE.get(1476) == 10000" \
+      || { echo "BẢN CODE CŨ: registry chưa có gas-drift — dùng s2_code_v3.zip"; exit 3; }
+    gpu 0 g_tfm --part tfm --backend tabicl_v2 --datasets 1476 &
+    for j in 0 1 2; do cpu "g_base_$j" --datasets 1476 --shard $j/3 & done; wait ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))
     for j in 0 1 2 3; do cpu "base_$((b+j))" --shard $((b+j))/8 & done; wait ;;

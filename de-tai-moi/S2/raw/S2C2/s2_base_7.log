@@ -1,0 +1,155 @@
+run_g7 · part=baselines · split=s2 · backend=tabpfn_v2 · code=py-e50044192202 · config=df15c9043eabdf1c
+
+=== 451 irish: n=470 (loại trùng 30), d=5, C=2, sha256=c36d23d752d5
+                   irish llp        8 s1 dllp_def         1.0000 4.1s
+                   irish llp        8 s1 dllp_tun         1.0000 32.6s
+                   irish llp        8 s1 dllplin_def      0.9998 1.5s
+                   irish llp        8 s1 dllplin_tun      1.0000 19.1s
+                   irish llp        8 s1 llpvat_def       1.0000 28.8s
+                   irish llp        8 s1 llpvat_tun       1.0000 100.1s
+                   irish llp        8 s1 easyllp_def      0.9347 2.2s
+                   irish llp        8 s1 easyllp_tun      0.9667 38.6s
+                   irish llp        8 s1 glws_def         1.0000 9.9s
+                   irish llp        8 s1 glws_tun         1.0000 174.6s
+
+=== 40536 SpeedDating: n=8378 (loại trùng 0), d=120, C=2, sha256=af9770f2cf66
+             SpeedDating llp        8 s0 dllp_def         0.7439 48.4s
+             SpeedDating llp        8 s0 dllp_tun         0.7878 918.6s
+             SpeedDating llp        8 s0 dllplin_def      0.7249 25.0s
+             SpeedDating llp        8 s0 dllplin_tun      0.7466 347.1s
+             SpeedDating llp        8 s0 llpvat_def       0.7263 746.8s
+             SpeedDating llp        8 s0 llpvat_tun       0.7065 2629.9s
+             SpeedDating llp        8 s0 easyllp_def      0.6447 42.4s
+             SpeedDating llp        8 s0 easyllp_tun      0.6827 563.0s
+             SpeedDating llp        8 s0 glws_def         0.7270 170.5s
+             SpeedDating llp        8 s0 glws_tun         0.8069 2276.1s
+
+=== 41145 philippine: n=5832 (loại trùng 0), d=308, C=2, sha256=9b98d778da59
+              philippine llp        8 s2 dllp_def         0.7214 30.2s
+              philippine llp        8 s2 dllp_tun         0.7212 1009.3s
+              philippine llp        8 s2 dllplin_def      0.6870 19.5s
+              philippine llp        8 s2 dllplin_tun      0.7218 209.7s
+              philippine llp        8 s2 llpvat_def       0.7324 361.4s
+              philippine llp        8 s2 llpvat_tun       0.7024 1359.0s
+              philippine llp        8 s2 easyllp_def      0.6416 32.1s
+              philippine llp        8 s2 easyllp_tun      0.7036 452.2s
+              philippine llp        8 s2 glws_def         0.7310 114.8s
+              philippine llp        8 s2 glws_tun         0.7405 1560.9s
+
+=== 44130 eye_movements: n=7608 (loại trùng 0), d=20, C=2, sha256=db8092aa34d1
+           eye_movements llp        8 s1 dllp_def         0.5335 27.8s
+           eye_movements llp        8 s1 dllp_tun         0.5000 696.6s
+           eye_movements llp        8 s1 dllplin_def      0.5593 20.6s
+           eye_movements llp        8 s1 dllplin_tun      0.5396 187.8s
+           eye_movements llp        8 s1 llpvat_def       0.5322 476.2s
+           eye_movements llp        8 s1 llpvat_tun       0.5000 1457.7s
+           eye_movements llp        8 s1 easyllp_def      0.5582 29.7s
+           eye_movements llp        8 s1 easyllp_tun      0.5520 524.2s
+           eye_movements llp        8 s1 glws_def         0.5320 134.4s
+           eye_movements llp        8 s1 glws_tun         0.5264 1870.5s
+
+=== 46911 Bank_Customer_Churn: n=10000 (loại trùng 0), d=10, C=2, sha256=ef9de26b662e
+     Bank_Customer_Churn llp        8 s0 dllp_def         0.8061 35.6s
+     Bank_Customer_Churn llp        8 s0 dllp_tun         0.8359 823.2s
+     Bank_Customer_Churn llp        8 s0 dllplin_def      0.7473 17.8s
+     Bank_Customer_Churn llp        8 s0 dllplin_tun      0.7622 250.3s
+     Bank_Customer_Churn llp        8 s0 llpvat_def       0.8069 392.4s
+     Bank_Customer_Churn llp        8 s0 llpvat_tun       0.8293 1850.0s
+     Bank_Customer_Churn llp        8 s0 easyllp_def      0.7659 24.6s
+     Bank_Customer_Churn llp        8 s0 easyllp_tun      0.7709 381.6s
+     Bank_Customer_Churn llp        8 s0 glws_def         0.8064 107.5s
+     Bank_Customer_Churn llp        8 s0 glws_tun         0.7981 1464.9s
+
+=== 46930 hazelnut-spread-contaminant-detection: n=2400 (loại trùng 0), d=30, C=2, sha256=7f091d8dfbba
+  hazelnut-spread-contam llp        8 s2 dllp_def         0.9337 5.7s
+  hazelnut-spread-contam llp        8 s2 dllp_tun         0.9540 137.4s
+  hazelnut-spread-contam llp        8 s2 dllplin_def      0.9355 4.5s
+  hazelnut-spread-contam llp        8 s2 dllplin_tun      0.9413 47.8s
+  hazelnut-spread-contam llp        8 s2 llpvat_def       0.9309 100.2s
+  hazelnut-spread-contam llp        8 s2 llpvat_tun       0.9406 297.1s
+  hazelnut-spread-contam llp        8 s2 easyllp_def      0.8763 6.1s
+  hazelnut-spread-contam llp        8 s2 easyllp_tun      0.8921 95.8s
+  hazelnut-spread-contam llp        8 s2 glws_def         0.9437 25.8s
+  hazelnut-spread-contam llp        8 s2 glws_tun         0.9212 343.7s
+
+=== 46969 NATICUSdroid: n=7491 (loại trùng 0), d=86, C=2, sha256=9d927c706e6e
+            NATICUSdroid llp        8 s1 dllp_def         0.9701 20.2s
+            NATICUSdroid llp        8 s1 dllp_tun         0.9791 555.3s
+            NATICUSdroid llp        8 s1 dllplin_def      0.9771 13.5s
+            NATICUSdroid llp        8 s1 dllplin_tun      0.9779 130.6s
+            NATICUSdroid llp        8 s1 llpvat_def       0.9645 333.1s
+            NATICUSdroid llp        8 s1 llpvat_tun       0.9796 1202.0s
+            NATICUSdroid llp        8 s1 easyllp_def      0.8652 21.6s
+            NATICUSdroid llp        8 s1 easyllp_tun      0.9526 326.7s
+            NATICUSdroid llp        8 s1 glws_def         0.9613 83.7s
+            NATICUSdroid llp        8 s1 glws_tun         0.9776 1355.8s
+
+=== 375 JapaneseVowels: n=9961 (loại trùng 0), d=14, C=9, sha256=2d14e76ef25e
+          JapaneseVowels pll      0.3 s0 proden_def       0.9599 14.2s
+          JapaneseVowels pll      0.3 s0 proden_tun       0.9839 321.0s
+          JapaneseVowels pll      0.3 s0 glwspll_def      0.9843 21.2s
+          JapaneseVowels pll      0.3 s0 glwspll_tun      0.9836 388.2s
+          JapaneseVowels pll      0.3 s0 rc_def           0.9384 7.5s
+          JapaneseVowels pll      0.3 s0 rc_tun           0.9803 285.4s
+          JapaneseVowels pll      0.3 s0 cc_def           0.9388 7.9s
+          JapaneseVowels pll      0.3 s0 cc_tun           0.9859 233.2s
+
+=== 1466 cardiotocography: n=2115 (loại trùng 11), d=35, C=10, sha256=c9071a83ecc6
+        cardiotocography pll      0.3 s2 proden_def       0.9764 3.0s
+        cardiotocography pll      0.3 s2 proden_tun       1.0000 70.8s
+        cardiotocography pll      0.3 s2 glwspll_def      1.0000 4.4s
+        cardiotocography pll      0.3 s2 glwspll_tun      1.0000 90.1s
+        cardiotocography pll      0.3 s2 rc_def           1.0000 1.6s
+        cardiotocography pll      0.3 s2 rc_tun           1.0000 55.7s
+        cardiotocography pll      0.3 s2 cc_def           1.0000 1.7s
+        cardiotocography pll      0.3 s2 cc_tun           1.0000 54.7s
+
+=== 23380 cjs: n=1811 (loại trùng 985), d=33, C=6, sha256=31357ae430b6
+                     cjs pll      0.6 s1 proden_def       0.3456 2.6s
+                     cjs pll      0.6 s1 proden_tun       0.9890 47.2s
+                     cjs pll      0.6 s1 glwspll_def      0.9632 3.9s
+                     cjs pll      0.6 s1 glwspll_tun      0.9853 61.1s
+                     cjs pll      0.6 s1 rc_def           0.9890 1.4s
+                     cjs pll      0.6 s1 rc_tun           0.9669 58.6s
+                     cjs pll      0.6 s1 cc_def           0.9963 1.4s
+                     cjs pll      0.6 s1 cc_tun           0.9779 50.5s
+
+=== 46906 anneal: n=886 (loại trùng 12), d=38, C=5, sha256=a4b29ee2e797
+                  anneal pll      0.3 s0 proden_def       0.8459 1.2s
+                  anneal pll      0.3 s0 proden_tun       0.9887 23.1s
+                  anneal pll      0.3 s0 glwspll_def      0.9211 1.8s
+                  anneal pll      0.3 s0 glwspll_tun      0.9925 30.5s
+                  anneal pll      0.3 s0 rc_def           0.9624 0.6s
+                  anneal pll      0.3 s0 rc_tun           0.9774 18.2s
+                  anneal pll      0.3 s0 cc_def           0.9624 0.6s
+                  anneal pll      0.3 s0 cc_tun           0.9887 17.9s
+
+=== 46941 maternal_health_risk: n=452 (loại trùng 562), d=6, C=3, sha256=053c060aedfb
+    maternal_health_risk pll      0.3 s2 proden_def       0.6397 0.6s
+    maternal_health_risk pll      0.3 s2 proden_tun       0.6838 8.7s
+    maternal_health_risk pll      0.3 s2 glwspll_def      0.6618 0.8s
+    maternal_health_risk pll      0.3 s2 glwspll_tun      0.6765 11.6s
+    maternal_health_risk pll      0.3 s2 rc_def           0.6397 0.3s
+    maternal_health_risk pll      0.3 s2 rc_tun           0.6985 8.2s
+    maternal_health_risk pll      0.3 s2 cc_def           0.6397 0.3s
+    maternal_health_risk pll      0.3 s2 cc_tun           0.6985 7.2s
+
+=== 46960 students_dropout_and_academic_success: n=4424 (loại trùng 0), d=36, C=3, sha256=6c21ca2493fc
+  students_dropout_and_a pll      0.6 s1 proden_def       0.7297 7.9s
+  students_dropout_and_a pll      0.6 s1 proden_tun       0.7402 137.8s
+  students_dropout_and_a pll      0.6 s1 glwspll_def      0.6679 11.8s
+  students_dropout_and_a pll      0.6 s1 glwspll_tun      0.7425 226.2s
+  students_dropout_and_a pll      0.6 s1 rc_def           0.7349 3.9s
+  students_dropout_and_a pll      0.6 s1 rc_tun           0.7364 195.8s
+  students_dropout_and_a pll      0.6 s1 cc_def           0.7319 3.8s
+  students_dropout_and_a pll      0.6 s1 cc_tun           0.7372 171.0s
+
+=== 46980 MIC: n=1699 (loại trùng 0), d=111, C=8, sha256=5bf25212269e
+                     MIC pll      0.3 s0 proden_def       0.8686 3.3s
+                     MIC pll      0.3 s0 proden_tun       0.8549 56.7s
+                     MIC pll      0.3 s0 glwspll_def      0.7431 4.5s
+                     MIC pll      0.3 s0 glwspll_tun      0.8686 81.3s
+                     MIC pll      0.3 s0 rc_def           0.7373 1.5s
+                     MIC pll      0.3 s0 rc_tun           0.8667 53.2s
+                     MIC pll      0.3 s0 cc_def           0.7804 1.6s
+                     MIC pll      0.3 s0 cc_tun           0.8667 49.5s

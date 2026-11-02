@@ -1,0 +1,165 @@
+run_g7 · part=baselines · split=s2 · backend=tabpfn_v2 · code=py-e50044192202 · config=df15c9043eabdf1c
+
+=== 24 mushroom: n=8124 (loại trùng 0), d=22, C=2, sha256=de6d36755fdc
+                mushroom llp        8 s2 dllp_def         1.0000 31.7s
+                mushroom llp        8 s2 dllp_tun         1.0000 1313.3s
+                mushroom llp        8 s2 dllplin_def      1.0000 22.6s
+                mushroom llp        8 s2 dllplin_tun      1.0000 239.7s
+                mushroom llp        8 s2 llpvat_def       1.0000 541.7s
+                mushroom llp        8 s2 llpvat_tun       1.0000 1980.7s
+                mushroom llp        8 s2 easyllp_def      0.9538 28.1s
+                mushroom llp        8 s2 easyllp_tun      0.9955 475.2s
+                mushroom llp        8 s2 glws_def         1.0000 150.1s
+                mushroom llp        8 s2 glws_tun         1.0000 2083.4s
+
+=== 470 profb: n=672 (loại trùng 0), d=9, C=2, sha256=8c01ec7f28fa
+                   profb llp        8 s1 dllp_def         0.5645 2.7s
+                   profb llp        8 s1 dllp_tun         0.5573 47.6s
+                   profb llp        8 s1 dllplin_def      0.5652 2.0s
+                   profb llp        8 s1 dllplin_tun      0.6010 19.7s
+                   profb llp        8 s1 llpvat_def       0.5583 42.6s
+                   profb llp        8 s1 llpvat_tun       0.6034 91.5s
+                   profb llp        8 s1 easyllp_def      0.5370 2.9s
+                   profb llp        8 s1 easyllp_tun      0.5332 43.8s
+                   profb llp        8 s1 glws_def         0.5006 12.1s
+                   profb llp        8 s1 glws_tun         0.4547 180.8s
+
+=== 41143 jasmine: n=2984 (loại trùng 0), d=144, C=2, sha256=89648a40e373
+                 jasmine llp        8 s0 dllp_def         0.7852 12.8s
+                 jasmine llp        8 s0 dllp_tun         0.8090 229.0s
+                 jasmine llp        8 s0 dllplin_def      0.7971 8.9s
+                 jasmine llp        8 s0 dllplin_tun      0.8240 108.8s
+                 jasmine llp        8 s0 llpvat_def       0.7888 199.7s
+                 jasmine llp        8 s0 llpvat_tun       0.8066 664.5s
+                 jasmine llp        8 s0 easyllp_def      0.7109 15.3s
+                 jasmine llp        8 s0 easyllp_tun      0.8032 169.7s
+                 jasmine llp        8 s0 glws_def         0.7796 57.0s
+                 jasmine llp        8 s0 glws_tun         0.7999 707.0s
+
+=== 41146 sylvine: n=5124 (loại trùng 0), d=20, C=2, sha256=f4ce01f4c241
+                 sylvine llp        8 s2 dllp_def         0.9518 19.5s
+                 sylvine llp        8 s2 dllp_tun         0.9624 538.5s
+                 sylvine llp        8 s2 dllplin_def      0.9581 14.0s
+                 sylvine llp        8 s2 dllplin_tun      0.9575 147.0s
+                 sylvine llp        8 s2 llpvat_def       0.9503 310.2s
+                 sylvine llp        8 s2 llpvat_tun       0.9537 836.7s
+                 sylvine llp        8 s2 easyllp_def      0.8765 20.1s
+                 sylvine llp        8 s2 easyllp_tun      0.9487 250.2s
+                 sylvine llp        8 s2 glws_def         0.9570 84.2s
+                 sylvine llp        8 s2 glws_tun         0.9449 1195.5s
+
+=== 45026 heloc: n=9444 (loại trùng 556), d=22, C=2, sha256=774487ba7196
+                   heloc llp        8 s1 dllp_def         0.6988 34.3s
+                   heloc llp        8 s1 dllp_tun         0.7906 824.0s
+                   heloc llp        8 s1 dllplin_def      0.7931 25.5s
+                   heloc llp        8 s1 dllplin_tun      0.7936 250.2s
+                   heloc llp        8 s1 llpvat_def       0.6826 606.9s
+                   heloc llp        8 s1 llpvat_tun       0.7905 1721.1s
+                   heloc llp        8 s1 easyllp_def      0.6945 37.4s
+                   heloc llp        8 s1 easyllp_tun      0.7904 630.2s
+                   heloc llp        8 s1 glws_def         0.7472 169.1s
+                   heloc llp        8 s1 glws_tun         0.7737 2551.1s
+
+=== 46927 Fitness_Club: n=1499 (loại trùng 1), d=6, C=2, sha256=83406fa91bc6
+            Fitness_Club llp        8 s0 dllp_def         0.6938 5.5s
+            Fitness_Club llp        8 s0 dllp_tun         0.6913 92.0s
+            Fitness_Club llp        8 s0 dllplin_def      0.6425 3.6s
+            Fitness_Club llp        8 s0 dllplin_tun      0.6551 49.8s
+            Fitness_Club llp        8 s0 llpvat_def       0.6897 90.4s
+            Fitness_Club llp        8 s0 llpvat_tun       0.7071 241.0s
+            Fitness_Club llp        8 s0 easyllp_def      0.6792 5.3s
+            Fitness_Club llp        8 s0 easyllp_tun      0.7030 83.8s
+            Fitness_Club llp        8 s0 glws_def         0.6387 27.9s
+            Fitness_Club llp        8 s0 glws_tun         0.6587 426.7s
+
+=== 46938 Is-this-a-good-customer: n=1723 (loại trùng 0), d=13, C=2, sha256=7e8f86a09e4e
+  Is-this-a-good-custome llp        8 s2 dllp_def         0.5877 6.6s
+  Is-this-a-good-custome llp        8 s2 dllp_tun         0.6714 111.0s
+  Is-this-a-good-custome llp        8 s2 dllplin_def      0.6079 4.6s
+  Is-this-a-good-custome llp        8 s2 dllplin_tun      0.5824 53.4s
+  Is-this-a-good-custome llp        8 s2 llpvat_def       0.5675 105.6s
+  Is-this-a-good-custome llp        8 s2 llpvat_tun       0.6066 314.3s
+  Is-this-a-good-custome llp        8 s2 easyllp_def      0.5787 6.7s
+  Is-this-a-good-custome llp        8 s2 easyllp_tun      0.6570 92.2s
+  Is-this-a-good-custome llp        8 s2 glws_def         0.5354 30.3s
+  Is-this-a-good-custome llp        8 s2 glws_tun         0.6322 347.9s
+
+=== 181 yeast: n=1453 (loại trùng 31), d=8, C=10, sha256=27d829fdcf7c
+                   yeast pll      0.3 s1 proden_def       0.5413 2.1s
+                   yeast pll      0.3 s1 proden_tun       0.5826 46.3s
+                   yeast pll      0.3 s1 glwspll_def      0.5436 2.9s
+                   yeast pll      0.3 s1 glwspll_tun      0.5872 53.9s
+                   yeast pll      0.3 s1 rc_def           0.5872 1.2s
+                   yeast pll      0.3 s1 rc_tun           0.5940 47.9s
+                   yeast pll      0.3 s1 cc_def           0.5894 1.3s
+                   yeast pll      0.3 s1 cc_tun           0.5940 43.1s
+
+=== 375 JapaneseVowels: n=9961 (loại trùng 0), d=14, C=9, sha256=2d14e76ef25e
+          JapaneseVowels pll      0.6 s0 proden_def       0.8973 14.3s
+          JapaneseVowels pll      0.6 s0 proden_tun       0.9783 406.6s
+          JapaneseVowels pll      0.6 s0 glwspll_def      0.9639 27.7s
+          JapaneseVowels pll      0.6 s0 glwspll_tun      0.9729 548.1s
+          JapaneseVowels pll      0.6 s0 rc_def           0.9351 10.1s
+          JapaneseVowels pll      0.6 s0 rc_tun           0.9736 331.8s
+          JapaneseVowels pll      0.6 s0 cc_def           0.9344 10.7s
+          JapaneseVowels pll      0.6 s0 cc_tun           0.9686 329.1s
+
+=== 1466 cardiotocography: n=2115 (loại trùng 11), d=35, C=10, sha256=c9071a83ecc6
+        cardiotocography pll      0.6 s2 proden_def       0.7496 4.4s
+        cardiotocography pll      0.6 s2 proden_tun       0.9969 97.2s
+        cardiotocography pll      0.6 s2 glwspll_def      0.9339 6.9s
+        cardiotocography pll      0.6 s2 glwspll_tun      1.0000 131.9s
+        cardiotocography pll      0.6 s2 rc_def           1.0000 2.5s
+        cardiotocography pll      0.6 s2 rc_tun           1.0000 72.4s
+        cardiotocography pll      0.6 s2 cc_def           1.0000 1.7s
+        cardiotocography pll      0.6 s2 cc_tun           1.0000 65.8s
+
+=== 40498 wine-quality-white: n=3961 (loại trùng 937), d=11, C=7, sha256=9a160ce08f6b
+      wine-quality-white pll      0.3 s1 proden_def       0.5357 6.4s
+      wine-quality-white pll      0.3 s1 proden_tun       0.5366 164.5s
+      wine-quality-white pll      0.3 s1 glwspll_def      0.4870 8.8s
+      wine-quality-white pll      0.3 s1 glwspll_tun      0.5408 223.6s
+      wine-quality-white pll      0.3 s1 rc_def           0.5324 4.0s
+      wine-quality-white pll      0.3 s1 rc_tun           0.5425 186.7s
+      wine-quality-white pll      0.3 s1 cc_def           0.5332 4.6s
+      wine-quality-white pll      0.3 s1 cc_tun           0.5408 169.3s
+
+=== 46906 anneal: n=886 (loại trùng 12), d=38, C=5, sha256=a4b29ee2e797
+                  anneal pll      0.6 s0 proden_def       0.7632 1.2s
+                  anneal pll      0.6 s0 proden_tun       0.9699 25.8s
+                  anneal pll      0.6 s0 glwspll_def      0.7744 1.7s
+                  anneal pll      0.6 s0 glwspll_tun      0.9662 30.6s
+                  anneal pll      0.6 s0 rc_def           0.8797 1.0s
+                  anneal pll      0.6 s0 rc_tun           0.9812 22.7s
+                  anneal pll      0.6 s0 cc_def           0.8797 0.7s
+                  anneal pll      0.6 s0 cc_tun           0.9737 24.5s
+
+=== 46941 maternal_health_risk: n=452 (loại trùng 562), d=6, C=3, sha256=053c060aedfb
+    maternal_health_risk pll      0.6 s2 proden_def       0.6176 0.8s
+    maternal_health_risk pll      0.6 s2 proden_tun       0.6471 11.5s
+    maternal_health_risk pll      0.6 s2 glwspll_def      0.6324 1.0s
+    maternal_health_risk pll      0.6 s2 glwspll_tun      0.6691 12.1s
+    maternal_health_risk pll      0.6 s2 rc_def           0.6324 0.4s
+    maternal_health_risk pll      0.6 s2 rc_tun           0.6471 11.1s
+    maternal_health_risk pll      0.6 s2 cc_def           0.6324 0.4s
+    maternal_health_risk pll      0.6 s2 cc_tun           0.6471 10.8s
+
+=== 46963 website_phishing: n=724 (loại trùng 629), d=9, C=3, sha256=9a6824bed6ca
+        website_phishing pll      0.3 s1 proden_def       0.7982 1.3s
+        website_phishing pll      0.3 s1 proden_tun       0.8073 25.9s
+        website_phishing pll      0.3 s1 glwspll_def      0.7798 1.3s
+        website_phishing pll      0.3 s1 glwspll_tun      0.8028 34.4s
+        website_phishing pll      0.3 s1 rc_def           0.7982 0.7s
+        website_phishing pll      0.3 s1 rc_tun           0.7982 24.6s
+        website_phishing pll      0.3 s1 cc_def           0.7982 0.5s
+        website_phishing pll      0.3 s1 cc_tun           0.7982 20.6s
+
+=== 46980 MIC: n=1699 (loại trùng 0), d=111, C=8, sha256=5bf25212269e
+                     MIC pll      0.6 s0 proden_def       0.8451 4.3s
+                     MIC pll      0.6 s0 proden_tun       0.8451 77.7s
+                     MIC pll      0.6 s0 glwspll_def      0.4235 7.7s
+                     MIC pll      0.6 s0 glwspll_tun      0.8667 123.7s
+                     MIC pll      0.6 s0 rc_def           0.6843 1.9s
+                     MIC pll      0.6 s0 rc_tun           0.8647 64.9s
+                     MIC pll      0.6 s0 cc_def           0.6824 1.9s
+                     MIC pll      0.6 s0 cc_tun           0.8647 67.9s
