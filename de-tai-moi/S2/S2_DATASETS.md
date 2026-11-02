@@ -88,3 +88,13 @@ Cơ sở để coi là "dữ liệu thật":
    - Bỏ 2 dataset đa lớp gắn cờ S1 thì còn 8. Với n = 8, Wilcoxon + Holm chỉ đạt khi thắng mọi dataset.
    - Em đề xuất: với nhóm này, S1 kiểm **chiều** của hiệu ứng (chênh trung bình không đổi dấu) và **độ rộng** (thắng ≥ 60% dataset), thay vì kiểm ý nghĩa thống kê.
    - Nếu thầy muốn giữ nguyên quy tắc S1 của NC1 thì vẫn được, nhưng khẳng định PLL có thể trượt chỉ vì cỡ mẫu.
+
+## 5. Danh sách cuối, sau lượt kiểm dữ liệu S2D (02/11/2026)
+Áp S2_PLAN §3.4, quy tắc ghi trước, bằng `s2_select.py --hashes raw/S2D/s2_dataset_hashes.csv`, ra `s2_final.csv`:
+- **Bỏ** irish (451): n = 470 sau loại trùng (30 dòng trùng). **Bỏ** maternal_health_risk (46941): n = 452 sau loại trùng (562 dòng trùng). Cả hai trượt n ≥ 500.
+- **Nhị phân: 18 dataset**, không cần bổ sung.
+- **Đa lớp: 9 + 1 = 10 dataset.** Bổ sung dự phòng 1 là **gas-drift** (1476; 6 lớp; S1, vì dữ liệu trôi theo thời gian). Bộ này có n = 13.910, nên lấy mẫu con 10.000 hàng, phân tầng, seed 0, sau loại trùng và trước khi chia.
+- Độ nhạy S1:
+  - nhị phân bỏ SpeedDating, eye_movements → còn 16;
+  - đa lớp bỏ JapaneseVowels, cjs, gas-drift → còn 7, nên dùng quy tắc S1 theo chiều và độ rộng của hiệu ứng (§1).
+- Vẫn còn **4 dataset ≥ 8 lớp**: yeast, JapaneseVowels, cardiotocography, MIC.

@@ -11,6 +11,10 @@
 
 **Cập nhật 01/11/2026:** đã đếm xong (`census/`). Danh sách đề xuất: [S2_DATASETS](S2_DATASETS.md), gồm 19 dataset nhị phân và 10 đa lớp, đều ở bậc 0 (đúng tiêu chí NC1). **Thầy đã duyệt (01/11/2026): danh sách như đề xuất, quy tắc S1 mới.** **Đóng băng ở commit `aaee9fd` (01/11/2026 15:19 UTC)**; xem `S2/EXPERIMENT_LOG.md`.
 
+**Cập nhật 02/11/2026:**
+- Lượt S2D xong. Áp §3.4, danh sách cuối là **18 dataset nhị phân + 10 dataset đa lớp** ([S2_DATASETS §5](S2_DATASETS.md)). Bước tiếp theo: chạy S2T, S2C1, S2C2.
+- Lượt S2X (thăm dò) xong: [S2X_REPORT](S2X_REPORT.md).
+
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.
 2. **Mọi lựa chọn của S2 viết ra trước khi chạm dữ liệu mới.** Gồm dataset, phương pháp, đối thủ, kiểm định, ngưỡng. Sau khi đã thấy kết quả S2 thì không đổi gì.
@@ -89,7 +93,7 @@ Bước 1–4 không tải bảng dữ liệu nào.
 - Thống kê như NC1 Mục 6: α = 0,05, Holm, chênh trung bình kèm CI bootstrap 95%, thắng/hoà/thua, điểm thô theo (dataset, mức, seed). Phân tích phụ: so với từng baseline, Holm trên mọi cặp.
 - **Script phân tích đã có**: `G8/analysis/g8_confirmatory.py`. Chỉ thêm tham số thư mục S2 và tên TFM, không đổi logic.
 - **Ước tính chi phí:**
-  - TFM (TabICL): 19 × 3 ô LLP túi 8 và 10 × 2 × 3 ô PLL, tổng 117 ô. Dataset của S2 lớn hơn NC1 (n tới 10.000), nên ước khoảng 6–8 giờ GPU, tức 3–4 giờ với 2 GPU.
+  - TFM (TabICL): 18 × 3 ô LLP túi 8 và 10 × 2 × 3 ô PLL, tổng 114 ô (danh sách cuối). Dataset của S2 lớn hơn NC1 (n tới 10.000), nên ước khoảng 6–8 giờ GPU, tức 3–4 giờ với 2 GPU.
   - Baseline: khoảng 65–70 giờ CPU (LLP khoảng 60, PLL khoảng 6), chia 8 mảnh, 2 lượt × 4 phiên song song, mỗi phiên khoảng 9 giờ.
 - Lượt chạy, nhật ký, kiểm sau lượt: như G7 (`S2/EXPERIMENT_LOG.md`). Bộ test chạy đầu mỗi lượt.
 - **Code đã chuẩn bị (01/11, chưa chạy trên dữ liệu S2):** `run_g7.py --split s2` (bắt buộc `--eval-ok`; chỉ phần tfm và baselines); danh sách ở `icgibbs/g7/registry.py` (`S2_BINARY`, `S2_MULTICLASS`, `S2_RESERVE_MULTICLASS`, `S2_S1_EXCLUDE`), có test khớp với `s2_selected.csv`; `g6_dataset_hashes.py --split s2`; lượt `run_s2_lot.sh` S2D, S2T, S2C1, S2C2. Code NC1 đã chạy ở G7 vẫn giữ nguyên ở commit c5e55f7.

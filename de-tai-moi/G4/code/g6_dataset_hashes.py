@@ -14,9 +14,9 @@ import sys
 
 import numpy as np
 
-from icgibbs.g7.data import encode_tfm, load_openml, table_sha256
+from icgibbs.g7.data import encode_tfm, load_openml, subsample_table, table_sha256
 from icgibbs.g7.registry import (DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, S2_BINARY, S2_MULTICLASS,
-                                 S2_RESERVE_MULTICLASS)
+                                 S2_RESERVE_MULTICLASS, S2_SUBSAMPLE)
 from icgibbs.g7.splits import split_sha256, stratified_split
 
 FIELDS = ["split_set", "task", "did", "name", "version_expected", "version", "md5_openml", "n_raw",
@@ -47,6 +47,8 @@ def main():
             row = dict(split_set=sset, task=task, did=did, name=name, version_expected=ver)
             try:
                 t = load_openml(did, binary=(task == "binary"))
+                if sset == "s2" and did in S2_SUBSAMPLE:        # như bộ chạy (S2_PLAN §3.4)
+                    t = subsample_table(t, S2_SUBSAMPLE[did], seed=0)
                 X = encode_tfm(t.X)
                 rates = np.bincount(t.y) / len(t.y)
                 row.update(version=t.version, md5_openml=t.md5_openml, n_raw=t.n_raw,

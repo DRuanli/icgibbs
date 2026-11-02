@@ -1,0 +1,5 @@
+lượt S2X bắt đầu: Sun Nov  1 05:32:01 PM UTC 2026
+112 passed, 2 skipped, 10047 warnings in 439.08s (0:07:19)
+GPU1 xong s2x_tabicl: Sun Nov  1 05:50:05 PM UTC 2026
+GPU0 xong s2x_tabpfn: Sun Nov  1 06:35:40 PM UTC 2026
+lượt S2X kết thúc: Sun Nov  1 06:35:40 PM UTC 2026

@@ -44,8 +44,9 @@ assert not (set(EVAL_BINARY) | set(EVAL_MULTICLASS)) & (set(DEV_BINARY) | set(DE
 # ---------------------------------------------------------------------------------------------------------------------
 # Nghiên cứu 2 (S2): tập đánh giá mới (de-tai-moi/S2/S2_DATASETS.md; chọn tất định bằng S2/s2_select.py từ kết quả đếm
 # metadata và bảng rà tay; bậc 0 = đúng tiêu chí NC1). ID OpenML → (tên, phiên bản OpenML lúc đếm, 01/11/2026).
+# Danh sách dưới đây là danh sách CUỐI (S2/s2_final.csv), sau bước kiểm dữ liệu S2D.
 S2_BINARY = {
-    24: ("mushroom", 1), 312: ("scene", 1), 451: ("irish", 1), 470: ("profb", 1), 934: ("socmob", 2),
+    24: ("mushroom", 1), 312: ("scene", 1), 470: ("profb", 1), 934: ("socmob", 2),
     40536: ("SpeedDating", 1), 41143: ("jasmine", 1), 41145: ("philippine", 1), 41146: ("sylvine", 1),
     41156: ("ada", 1), 44130: ("eye_movements", 7), 45026: ("heloc", 2), 45039: ("compas-two-years", 5),
     46911: ("Bank_Customer_Churn", 1), 46927: ("Fitness_Club", 1), 46930: ("hazelnut-spread-contaminant-detection", 1),
@@ -53,9 +54,14 @@ S2_BINARY = {
 }
 S2_MULTICLASS = {
     181: ("yeast", 1), 375: ("JapaneseVowels", 1), 1466: ("cardiotocography", 1), 23380: ("cjs", 3),
-    40498: ("wine-quality-white", 1), 46906: ("anneal", 18), 46941: ("maternal_health_risk", 3),
+    40498: ("wine-quality-white", 1), 46906: ("anneal", 18),
     46960: ("students_dropout_and_academic_success", 1), 46963: ("website_phishing", 1), 46980: ("MIC", 3),
+    1476: ("gas-drift", 1),
 }
+# Sau lượt S2D (02/11/2026), áp S2_PLAN §3.4 bằng S2/s2_select.py --hashes (ra S2/s2_final.csv): bỏ irish (451, n = 470
+# sau loại trùng) và maternal_health_risk (46941, n = 452) vì trượt n ≥ 500; nhóm đa lớp còn 9 nên bổ sung dự phòng 1,
+# gas-drift (1476), lấy mẫu con 10.000 hàng phân tầng, seed 0, sau loại trùng và trước khi chia.
+S2_SUBSAMPLE = {1476: 10000}
 # Dự phòng đa lớp, đúng thứ tự dùng (S2_PLAN §3.4): chỉ dùng khi sau loại trùng nhóm đa lớp còn < 10 dataset
 S2_RESERVE_MULTICLASS = [(1476, "gas-drift", 1), (42, "soybean", 1), (1515, "micro-mass", 2), (41163, "dilbert", 1),
                          (41164, "fabert", 1), (46933, "hiva_agnostic", 2)]

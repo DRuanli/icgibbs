@@ -22,7 +22,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from icgibbs.g7.data import (Preprocessor, Table, canonical_table, encode_tfm, load_openml,  # noqa: E402
+from icgibbs.g7.data import (Preprocessor, Table, canonical_table, encode_tfm, load_openml, subsample_table,  # noqa: E402
                              load_real_pll, table_sha256)
 from icgibbs.g7.io import ResultWriter, code_version, config_hash, weak_hash  # noqa: E402
 from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, Cell, baselines_for,  # noqa: E402
@@ -30,7 +30,7 @@ from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, Cell, bas
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
 from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, ABL_SMALL_EVAL,  # noqa: E402
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
-                                 RHAT_EVAL, S2_BINARY, S2_MULTICLASS)
+                                 RHAT_EVAL, S2_BINARY, S2_MULTICLASS, S2_SUBSAMPLE)
 from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
 from icgibbs.g7.weakgen import make_weak, real_pll_weak, weak_rng  # noqa: E402
 
@@ -243,6 +243,8 @@ def main(argv=None):
             print(f"[lỗi tải] {did}: {e!r}", flush=True)
             cell_no += n_cells
             continue
+        if a.split == "s2" and did in S2_SUBSAMPLE:          # S2_PLAN §3.4: sau loại trùng, trước khi chia
+            t = subsample_table(t, S2_SUBSAMPLE[did], seed=0)
         X_all = encode_tfm(t.X)
         sha_t = table_sha256(X_all, t.y)
         print(f"\n=== {did} {t.name}: n={len(t.y)} (loại trùng {t.n_duplicates_removed}), d={X_all.shape[1]}, "

@@ -1,0 +1,7 @@
+lượt S2D bắt đầu: Sun Nov  1 05:35:54 PM UTC 2026
+112 passed, 2 skipped, 10047 warnings in 495.70s (0:08:15)
+xong mã băm: Sun Nov  1 05:50:18 PM UTC 2026
+{'split_set': 's2_reserve', 'did': 41163, 'name': 'dilbert', 'n': 10000, 'n_duplicates_removed': 0, 'status': 'ok'}
+{'split_set': 's2_reserve', 'did': 41164, 'name': 'fabert', 'n': 8237, 'n_duplicates_removed': 0, 'status': 'ok'}
+{'split_set': 's2_reserve', 'did': 46933, 'name': 'hiva_agnostic', 'n': 3825, 'n_duplicates_removed': 20, 'status': 'ok'}
+lượt S2D kết thúc: Sun Nov  1 05:50:18 PM UTC 2026

@@ -138,6 +138,18 @@ def load_real_pll(path: str, name: str, expected_sha256: str | None = None):
     return t, S
 
 
+def subsample_table(t: Table, m: int, seed: int = 0) -> Table:
+    """Mẫu con m hàng, phân tầng theo y, seed cố định (S2_PLAN §3.4: dataset dự phòng có n > 10.000). Làm SAU loại trùng
+    và TRƯỚC khi chia train/test; thứ tự hàng giữ như bảng gốc."""
+    if len(t.y) <= m:
+        return t
+    from sklearn.model_selection import train_test_split
+    idx, _ = train_test_split(np.arange(len(t.y)), train_size=m, stratify=t.y, random_state=seed)
+    idx = np.sort(idx)
+    return Table(t.did, t.name, t.version, t.md5_openml, t.X.iloc[idx].reset_index(drop=True), t.y[idx], t.classes,
+                 t.n_raw, t.n_missing_target, t.n_duplicates_removed)
+
+
 def load_openml(did: int, binary: bool | None = None) -> Table:
     from sklearn.datasets import fetch_openml
     b = fetch_openml(data_id=did, as_frame=True, parser="auto")
