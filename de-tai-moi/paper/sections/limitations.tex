@@ -1,12 +1,21 @@
 \section{Limitations}\label{sec:limitations}
-% Real limitations (NeurIPS checklist Q2), each traceable to the "scope" column of the claim matrix:
-% 1. Dependence on the TFM: with TabPFN v2 the method did not beat the strongest baselines (Study 1). The two TFMs
-%    were compared on the same data only in Study 1 (exploratory) and in the response-map analysis.
-% 2. Theory vs practice: the default sampler (uncorrected blocks, bag-blocks for LLP) has no non-vacuous guarantee;
-%    the exact MH-corrected variant gives similar predictions (Study 1; Study 2 exploratory lot S2E).
-% 3. Mixing: label-level R-hat shows incomplete mixing (TabPFN, Study 1) although predictions of two chains agree.
-% 4. Effect size on PLL is modest (about one accuracy point over tuned CC), close to an oracle ceiling.
-% 5. Scope: LLP with bags of 8 and PLL only. No gain over specialised methods for PU-SCAR, class-dependent noise,
-%    SSL, or larger bags in Study 1 (explained by Props. 5-6). n <= 10,000; context capped at 2,000.
-% 6. Missing cells: PRODEN (default) failed deterministically on one Study 2 dataset (5 of 6 cells).
-\todo{limitations prose}
+% Each item traces to the "scope" column of G3/CLAIM_EVIDENCE_MATRIX.md.
+\paragraph{The TFM decides.} The same sampler did not beat the strongest specialised baselines with TabPFN~v2 (Study~1)
+and did with TabICL~v2 (Study~2). The two TFMs were compared on the same data only in Study~1, where TabICL~v2 was an
+ablation, and in the exploratory response-map analysis; the studies use different datasets, so they do not form a
+controlled comparison of TFMs. We do not claim the method works with any TFM; practitioners should check the response of
+their TFM to noisy context labels (\cref{fig:mechanism}) before relying on it.
+
+\paragraph{Theory and the default sampler.} Our guarantees cover the single-site, swap and MH-corrected samplers. The
+uncorrected block and bag-block samplers used by default have no non-vacuous guarantee (\cref{prop:blocks}); the exact
+variant gives similar predictions, but this is an empirical observation on a few datasets. Exactness also holds only
+with respect to the TFM's prior, and the exact transductive predictor was worse than the inductive one.
+
+\paragraph{Mixing.} Thirty sweeps give predictions that are stable across chains, but label-level $\widehat R$ shows that the
+chains have not mixed over individual labels, so the samples should not be read as draws from a converged posterior.
+
+\paragraph{Scope and size of the gains.} The claims cover LLP with bags of 8 and PLL. In Study~1, \ours{} did not improve
+on the naive TFM for PU with labels selected completely at random, class-dependent noise or semi-supervised learning,
+as \cref{prop:naive} predicts, and it was not significantly better than the primary comparator for bags of 16 or 32. On PLL the gain over tuned CC is about one
+accuracy point, close to an oracle ceiling. Datasets have at most 10{,}000 rows and contexts at most 2{,}000 points; one
+baseline (default PRODEN) failed deterministically on one Study~2 dataset.

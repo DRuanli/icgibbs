@@ -136,7 +136,7 @@ Bảng: `results/s2_per_baseline.csv`.
 ## 7. Chi phí (TabICL v2, Kaggle T4)
 - 114 chuỗi Gibbs; n_train tới 7.000.
 - Thời gian một chuỗi: trung vị 41 giây; LLP trung vị 80 giây, lớn nhất 5,3 phút; PLL trung vị 30 giây, lớn nhất 2,6 phút.
-- Đỉnh bộ nhớ GPU 3,8 GB trên 15 GB. Không huấn luyện lại.
+- Đỉnh bộ nhớ GPU 3,7 GiB (3.760 MiB) trên 15 GiB. Không huấn luyện lại.
 
 ## 8. Kiểm lại độc lập
 Em viết lại phép thử chính bằng một script riêng (`analysis/s2_verify_independent.py`), không dùng hàm nào của dự án: đọc thẳng `raw/`, tự tính Wilcoxon và Holm. Kết quả trùng khớp với `s2_confirmatory.py`:

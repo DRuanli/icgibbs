@@ -1,16 +1,90 @@
 \section{Theory}\label{sec:theory}
-% From G4/PROOFS.md. State assumptions explicitly; full proofs in Appendix A.
-% - Lemma 1: under exchangeability, p(y_i | y_{-i}, X) = p(y_i | x_i, D_{-i}).
-% - Theorem 1 (exactness): single-site Gibbs / swap-MH for LLP / MH-corrected blocks have the posterior of the latent
-%   labels as stationary distribution; transductive prediction converges to the Bayes posterior predictive under
-%   weak labels; inductive prediction does so when the prior is separable \claim{3}.
-% - Proposition 3: the predictor is Bayes-optimal for any strictly proper score, conditional on the prior \claim{10}.
-% - Theorem 2 (stability): with an approximate TFM q, the chain has a unique stationary distribution even when the
-%   conditionals of q are incompatible, and TV(pi_q, pi) <= tau(P) * mean conditional error; position against
-%   Schweitzer/Meyer/Seneta perturbation bounds and Liu et al. (2014) \claim{4}.
-% - Proposition 4: MH-corrected blocks are exact; error of uncorrected blocks.
-% - Propositions 5-6: when the naive TFM is rank-consistent; Fisher information lost by naive use \claim{12}.
-% SCOPE (must appear in the text, not only the appendix): the default configuration used in the experiments
-% (uncorrected K = 10 blocks; bag-blocks for LLP) is NOT covered by a non-vacuous bound (G4-5); Section 6 reports
-% the MH-corrected variant as evidence that the approximation does not hurt predictions.
-\todo{theory section}
+% Source: G4/PROOFS.md §1-§5, §7 (self-review + independent review, 26/10/2026). Full proofs: Appendix A.
+% Numbering here -> PROOFS.md: Lemma 1 = Bổ đề 1; Thm 1 = Định lý 1(a)(b)(c); Prop 1 = Mệnh đề 3;
+% Thm 2 = Định lý 2; Prop 2 = Mệnh đề 4; Prop 3 = Mệnh đề 5 + 6.
+
+We state what holds when the TFM is exact, what survives when it is not, and what the default sampler of
+\cref{alg:icg} is \emph{not} covered by. Proofs are in \cref{app:proofs}.
+
+\begin{lemma}[Full conditionals]\label{lem:fullcond}
+Under the exchangeable prior, \eqref{eq:lemma1} holds for every $i$ and every $y$ with $p(y_{-i}\mid X)>0$.
+\end{lemma}
+
+\begin{theorem}[Exactness]\label{thm:exact}
+Assume (A0)--(A3) and $\tfm=\ppd$. (a) For instance-level weak labels, single-site Gibbs updates
+$\pi(y_i=k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\lik_i(k)$ satisfy detailed balance with respect to $\pi$, and the
+chain is irreducible and aperiodic on $\mathrm{supp}(\pi)$, hence converges geometrically. (b) For LLP, the MH chain
+that swaps two differently labelled points of one bag, with acceptance ratio computed from two forward passes, is
+reversible and irreducible on $\mathrm{supp}(\pi)$. (c) The inductive estimator \eqref{eq:predict} converges almost
+surely to $\bar p(y_*\mid x_*)=\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, and
+$\lvert\bar p-p(y_*\mid x_*,X,\W)\rvert\le\TV\big(p(y\mid X,\W),\,p(y\mid x_*,X,\W)\big)$, which is zero when the prior
+is \emph{separable} (the distribution of the features carries no information about $p(y\mid x)$); the transductive chain converges to
+$p(y_*\mid x_*,X,\W)$ exactly.
+\end{theorem}
+
+\begin{proposition}[Bayes optimality under the prior]\label{prop:bayes}
+For any strictly proper scoring rule, $p(y_*\mid x_*,X,\W)$ uniquely minimises the Bayes risk over all measurable
+predictors of $(X,\W,x_*)$, the expectation being taken under the TFM's prior.
+\end{proposition}
+
+\Cref{thm:exact} and \cref{prop:bayes} say that, with an exact TFM, \ours{} computes the Bayes answer for weak labels
+under the TFM's prior \claim{3}\claim{10}. This is optimality \emph{on average over the prior}; on real data, which need
+not follow it, the evidence is empirical (\cref{sec:exp}). A real TFM is only approximately the PPD of any prior, and
+its conditionals need not even be compatible with a joint distribution. The next result is the one that applies to
+the sampler as run.
+
+\begin{theorem}[Stability under an approximate TFM]\label{thm:stability}
+Let $P$ be the kernel of the algorithm with the exact PPD (stationary distribution $\pi$) and $\tilde P$ the same algorithm
+with a TFM $\tfm>0$. Then $\tilde P$ has a unique stationary distribution $\tilde\pi$, even when the conditionals of $\tfm$
+are incompatible, and
+\begin{equation}\label{eq:stability}
+  \TV(\tilde\pi,\pi)\le\tau(P)\,\bar\varepsilon,\qquad
+  \tau(P)=\sum_{t\ge0}\delta(P^t),\quad \bar\varepsilon=\sum_y\tilde\pi(y)\,\TV\big(\tilde P(y,\cdot),P(y,\cdot)\big),
+\end{equation}
+where $\delta$ is Dobrushin's ergodicity coefficient. For the random-scan single-site kernel,
+$\bar\varepsilon\le\min\{1,2\kappa\,\varepsilon_{\TV}\}$, where $\varepsilon_{\TV}$ bounds the TV error of the TFM's conditionals and $\kappa$ depends only on $\lik$; for
+predictions, $\lvert\E_{\tilde\pi}\tfm(y_*\mid x_*,\cdot)-\bar p(y_*\mid x_*)\rvert\le\varepsilon'_{\TV}+\TV(\tilde\pi,\pi)$.
+\end{theorem}
+
+The form of \eqref{eq:stability} is classical perturbation theory for Markov chains
+\citep{schweitzer1968,meyer1980,seneta1988,cho2001}, and it is tight in general (equality on a two-state chain). What
+is specific to our setting is that the chain built from an incompatible TFM still has a unique stationary
+distribution (it shares the transition graph of the exact chain), and the error terms are expressed through
+quantities a TFM has, the TV error of its predictive. The bound reads as (integrated mixing time of the exact chain)
+$\times$ (error per step): a TFM error matters most where the exact chain mixes slowly \claim{4}. Unlike the analysis of
+iterative imputation by \citet{liu2014}, it is non-asymptotic and covers MH steps.
+
+\begin{proposition}[Blocks]\label{prop:blocks}
+(a) A block update whose proposal is the product of block-wise TFM predictives (for LLP, conditioned on bag counts),
+accepted with the MH ratio computed by Brook's lemma along the changed labels, leaves $\pi$ invariant when $\tfm=\ppd$.
+(b) Without the MH step, \cref{thm:stability} applies with an error $\bar\varepsilon_B$ that is bounded only under an
+extra stability assumption on the PPD, and the bound grows with $n$ for fixed $K$.
+\end{proposition}
+
+\paragraph{Scope.} The configuration used in our experiments, uncorrected blocks with $K=10$ and bag-blocks for LLP, is
+\emph{not} covered by a non-vacuous guarantee: \cref{thm:exact} and \cref{prop:bayes} apply to the single-site, swap and
+MH-corrected samplers, and the bound of \cref{prop:blocks}(b) is vacuous at our sizes. We therefore report the
+MH-corrected sampler as an ablation (\cref{sec:ablation}): it gives predictions that do not differ systematically from
+the default.
+
+\paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
+labels. Consider the naive target $\tilde\eta_k(x)=P(\tilde w=k\mid x)$, the function a consistent learner fitted on
+these naive labels approaches.
+
+\begin{proposition}[When the naive TFM suffices]\label{prop:naive}
+(a) If the naive label depends on $x$ only through $y$, with a channel whose off-diagonal entries are equal within each
+column, then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with $\lambda_k>0$: the naive target ranks points exactly as the true
+posterior $\eta_k(x)=p(y=k\mid x)$, and in the binary case, with class prior $\varpi$, $\mathrm{AUC}(\eta)-\mathrm{AUC}(s)\le\E\lvert s-\tilde\eta\rvert/(\lambda\varpi(1-\varpi))$
+for any score $s$. This covers PU-SCAR, class-dependent noise, missing-completely-at-random SSL, PLL with independent
+distractors and LLP with random bags. (b) If the naive labels are obtained from the observation by a kernel that does not
+depend on the parameter, their Fisher information is at most that of the observation, with equality iff the score of
+the observation is a function of the naive labels. Equality holds for PU-SCAR and label noise; for PLL and LLP the
+naive labels coarsen the observation and the loss is large (for LLP with bags of 8, about $3\%$ of the information in
+the bag counts in a logistic model; \cref{app:proofs}).
+\end{proposition}
+
+\Cref{prop:naive} sorts weak labels into those where the naive TFM already uses all the information in the
+observation, so that there is nothing for the sampler to recover through $\lik$ (PU-SCAR, class-dependent noise,
+SSL), and those where it discards information (PLL, LLP). It predicted, before evaluation, where \ours{} could
+outperform the naive TFM; analyses registered as exploratory in Study~1 agreed with this pattern \claim{12}
+(\cref{app:secondary}).

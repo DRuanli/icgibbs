@@ -1,0 +1,144 @@
+\section{Proofs}\label{app:proofs}
+% Translated from G4/PROOFS.md (self-reviewed; independently reviewed 26/10/2026: 0 critical, 4 major, 12 minor, all
+% addressed). Keep in sync with that file. Citations marked VERIFY in refs.bib must be checked (G4-6) before submission.
+
+\paragraph{Assumptions.} (A0) $\W\sim p(\W\mid X,y)$, independent of $(x_*,y_*)$ given $(X,y)$; nuisance parameters of
+the observation model, if any, are a priori independent of $(\phi,X,y)$. (A1) $\tfm(\cdot\mid x,D)=\ppd(\cdot\mid x,D)$ for
+every context the algorithm queries. (A2) $\ppd(k\mid x,D)>0$ for all $k$ and every context of positive probability.
+(A3) $\lik$ is known and $\sum_y p(y\mid X)\lik(y)>0$. For instance-level observations
+$\lik(y)=\prod_i\lik_i(y_i)$; the set of free points is $F=\{i:\lvert\{k:\lik_i(k)>0\}\rvert\ge2\}$.
+
+\subsection{Lemma 1}
+\begin{proof}[Proof of \cref{lem:fullcond}]
+Given $\phi$ the pairs $(x_j,y_j)$ are i.i.d., hence exchangeable, so the joint law of $(D_{-i},(x_i,y_i))$ equals that of
+$(D_{n-1},(x_*,y_*))$, a context of $n-1$ points and a query. The information $(X,y_{-i})$ coincides with $(x_i,D_{-i})$.
+Therefore $p(y_i\mid y_{-i},X)=p((x_i,y_i),D_{-i})/\sum_kp((x_i,k),D_{-i})=p(y_i\mid x_i,D_{-i})$.
+\end{proof}
+The PPD conditions on the query features $x_*$ as well, which may carry information about $\phi$; this is the quantity
+the PFN training loss targets, since $x_*$ is drawn from the prior together with the context \citep{muller2022pfn}.
+
+\begin{corollary}[Positivity]\label{cor:positivity}
+Under (A2), $p(y\mid X)>0$ for every $y\in[C]^n$.
+\end{corollary}
+\begin{proof}
+Some $y^0$ has $p(y^0\mid X)>0$. Change one coordinate at a time, $y^0\to y^1\to\dots\to y^m=y$, step $k$ changing
+point $s_k$. If $p(y^{k-1}\mid X)>0$, then $p(y^{k-1}_{-s_k}\mid X)>0$, the context $D^{k-1}_{-s_k}$ has positive
+probability, and by \cref{lem:fullcond} and (A2)
+$p(y^k\mid X)=p(y^{k-1}_{-s_k}\mid X)\,p(y^k_{s_k}\mid x_{s_k},D^{k-1}_{-s_k})>0$. Induct on $k$.
+\end{proof}
+
+\subsection{Theorem 1}
+\begin{proof}[Proof of \cref{thm:exact}(a)]
+The update of point $i$ is $P_i(y,y')=\pi_i(y'_i\mid y_{-i})\mathbb 1[y'_{-i}=y_{-i}]$ with
+$\pi_i(k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\lik_i(k)$. By \cref{lem:fullcond} and (A1),
+$\pi_i(k\mid y_{-i})\propto p(k\mid y_{-i},X)\lik_i(k)\propto\pi(k,y_{-i})$, the full conditional of $\pi$; hence
+$\pi(y)P_i(y,y')=\pi(y_{-i})\pi_i(y_i\mid y_{-i})\pi_i(y'_i\mid y_{-i})$ is symmetric in $(y,y')$. By
+\cref{cor:positivity}, $\pi(y)>0$ iff $\lik(y)>0$, a product set; any two of its points are joined by changing one
+coordinate at a time inside the set, each step with probability at least $\pi_i(\cdot\mid\cdot)/\lvert F\rvert>0$, so the
+random-scan kernel $P=\lvert F\rvert^{-1}\sum_{i\in F}P_i$ is irreducible, and aperiodic since $P(y,y)>0$. A finite,
+irreducible, aperiodic chain converges geometrically. The implementation sweeps the free points in a uniformly random
+order, $P_{\mathrm{sw}}=\frac1{\lvert F\rvert!}\sum_\sigma P_{\sigma(1)}\cdots P_{\sigma(\lvert F\rvert)}$; each factor
+preserves $\pi$, and $P_{\mathrm{sw}}$ is reversible because the adjoint of a product is the product in reverse order and
+the set of permutations is closed under reversal.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:exact}(b)]
+Choose a bag uniformly; if it is not pure, choose uniformly an ordered pair $(i,j)$ in it with $y_i\neq y_j$ and propose
+$y'$ by swapping their labels. Brook's lemma through the intermediate state $(y'_i,y_{-i})$ gives
+\[
+\frac{p(y'\mid X)}{p(y\mid X)}=\frac{p(y'_i\mid y_{-i},X)}{p(y_i\mid y_{-i},X)}\cdot\frac{p(y'_j\mid y'_i,y_{-ij},X)}{p(y_j\mid y'_i,y_{-ij},X)},
+\]
+and \cref{lem:fullcond} with (A1) turns the right-hand side into the ratio $R_{ij}$ of four TFM predictives that the
+algorithm computes with two forward passes. A swap preserves the counts, so $\lik(y')=\lik(y)$ and $R_{ij}=\pi(y')/\pi(y)$,
+independently of the order of $(i,j)$. The number of differently labelled pairs depends only on the counts, so the
+proposal is symmetric and the chain is Metropolis with stationary distribution $\pi$. Two assignments of a bag with
+the same counts are joined by a sequence of swaps preserving the counts, each with positive probability by
+\cref{cor:positivity}; bags are independent, so the product chain is irreducible (the lazy version is also aperiodic).
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:exact}(c)]
+(Inductive.) The ergodic theorem for a finite irreducible chain applied to the bounded function
+$y\mapsto p(y_*\mid x_*,(X,y))$, with (A1), gives almost sure convergence of \eqref{eq:predict} to $\bar p$.
+By the law of total probability and (A0), $p(y_*\mid x_*,X,\W)=\sum_yp(y\mid x_*,X,\W)\,p(y_*\mid x_*,(X,y))$; the
+difference of the expectations of one $[0,1]$-valued function under two measures is at most their TV distance.
+If the prior is separable, $\phi=(\phi_x,\phi_{y\mid x})$ independent a priori with $p(x\mid\phi)=p(x\mid\phi_x)$ and
+$p(y\mid x,\phi)=p(y\mid x,\phi_{y\mid x})$, then $p(y\mid x_*,X,\W)\propto\lik(y)\int p(y\mid X,\phi_{y\mid x})p(\phi_{y\mid x})d\phi_{y\mid x}$
+times a factor that does not depend on $y$, so $p(y\mid x_*,X,\W)=p(y\mid X,\W)$ and the bound is zero.
+(Transductive.) Adding $x_*$ as a free point with $\lik_*\equiv1$ gives a chain for $p(y,y_*\mid X,x_*,\W)$ that is exact by
+part (a) (for LLP, the swap chain combined with single-site updates of $x_*$, each preserving the target). By
+\cref{lem:fullcond}, the Rao--Blackwell term is $\tfm(y_*\mid x_*,(X,y^{(s)}))$, whose average converges to
+$p(y_*\mid x_*,X,\W)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:bayes}]
+By the tower property, $\E[S(f,y_*)]=\E\big[\E[S(f,y_*)\mid X,\W,x_*]\big]$. For each value of $(X,\W,x_*)$, $f$ is a fixed
+distribution and $y_*\sim p(\cdot\mid x_*,X,\W)$; strict propriety gives the unique minimiser
+$f=p(\cdot\mid x_*,X,\W)$. Its risk is finite (at most $\log C$ for the log score).
+\end{proof}
+
+\subsection{Theorem 2}
+\begin{proof}[Proof of \cref{thm:stability}]
+\emph{Existence and uniqueness.} The state space is finite, so $\tilde P$ has a stationary distribution. With $\tfm>0$
+every single-site update and every MH acceptance probability is positive, so $\tilde P$ has the transition graph of $P$
+and is irreducible; $\tilde\pi$ is unique. Compatibility of the conditionals of $\tfm$ is never used.
+\emph{Perturbation identity.} Let $\Delta=\tilde\pi-\pi$ and $\nu=\tilde\pi(\tilde P-P)$, so $\nu(\Omega)=0$. From
+$\tilde\pi=\tilde\pi\tilde P$ and $\pi=\pi P$, $\Delta=\nu+\Delta P$, and iterating, $\Delta=\sum_{t<T}\nu P^t+\Delta P^T$.
+\emph{Contraction.} For a signed measure $\mu$ with $\mu(\Omega)=0$, $\lVert\mu K\rVert_1\le\delta(K)\lVert\mu\rVert_1$.
+If $\tau(P)<\infty$ then $\delta(P^T)\to0$, the remainder vanishes, and $\lVert\Delta\rVert_1\le\lVert\nu\rVert_1\tau(P)$; if
+$\tau(P)=\infty$ there is nothing to prove (no aperiodicity is needed). Finally
+$\lVert\nu\rVert_1\le\sum_y\tilde\pi(y)\lVert\tilde P(y,\cdot)-P(y,\cdot)\rVert_1=2\bar\varepsilon$.
+\emph{Single-site error.} $\tilde P(y,\cdot)-P(y,\cdot)$ averages the differences of the single-site updates, and each is the
+TV distance between $\tfm\lik_i$ and $\ppd\lik_i$ after normalisation. With $Z_p=\sum_k\ppd(k)\lik_i(k)$,
+$2\,\TV(\tfm_\lik,\ppd_\lik)\le\big(\sum_k\lik_i(k)\lvert\tfm(k)-\ppd(k)\rvert+\lvert Z_q-Z_p\rvert\big)/Z_p\le4(\max_k\lik_i(k)/Z_p)\,\TV(\tfm,\ppd)$,
+so the error is at most $2\kappa\varepsilon_{\TV}$ with $\kappa=\sup\max_k\lik_i(k)/Z_p$.
+\emph{Prediction.} $\lvert\E_{\tilde\pi}\tfm-\E_\pi\ppd\rvert\le\lvert\E_{\tilde\pi}(\tfm-\ppd)\rvert+\lvert\E_{\tilde\pi}\ppd-\E_\pi\ppd\rvert\le\varepsilon'_{\TV}+\TV(\tilde\pi,\pi)$.
+\end{proof}
+\emph{Relation to classical bounds.} With $E=\tilde P-P$ and the fundamental matrix $Z$, $\tilde\pi-\pi=\nu Z$
+\citep{schweitzer1968,meyer1980}, which gives $\TV(\tilde\pi,\pi)\le\tau_1(Z)\bar\varepsilon$ with $\tau_1(Z)\le\tau(P)$
+\citep{seneta1988,cho2001}; \eqref{eq:stability} is the weaker, more interpretable form. It is attained by a two-state
+chain. For a single-site sweep the per-sweep error is at most $\lvert F\rvert$ times the per-update error; the MH swap
+kernel has error at most $4\varepsilon_\infty$, with $\varepsilon_\infty=\sup\lvert\log\tfm-\log\ppd\rvert$.
+
+\subsection{Proposition 2 (blocks)}
+\begin{proof}[Proof of \cref{prop:blocks}]
+(a) The proposal $Q_B$ depends only on $y_{-B}$, which the step does not change, so the update is MH-within-Gibbs with
+an independent proposal. Brook's lemma along the changed labels with \cref{lem:fullcond} gives the exact ratio
+$p(y'\mid X)/p(y\mid X)$, multiplied by the ratio of $\lik$ (one for LLP). The proposal is positive on the support of the
+block and acceptance is positive, so the chain is irreducible.
+(b) Let $P_{\mathrm{bG}}$ be exact block Gibbs. Under the stability assumption that adding one labelled point or one
+unlabelled feature to a context changes the PPD by at most $\beta$ in TV, the chain rule and a hybrid argument give
+$\TV\big(\prod_{i\in B\cap F}\ppd(\cdot\mid x_i,D_{-B}),\,p(y_{B\cap F}\mid y_{-(B\cap F)},X)\big)\le m_f(m-1)\beta$
+for a block of $m$ points of which $m_f$ are free, and after reweighting by $\lik$,
+$\bar\varepsilon_B\le2\kappa_B\,m_f(m-1)\beta$; \cref{thm:stability} with $P=P_{\mathrm{bG}}$ concludes.
+\end{proof}
+\emph{Why this is vacuous at our sizes.} With $\beta=O(1/n)$ and fixed $K$ ($m=n/K$), $m_f(m-1)\beta=O(n/K^2)$ grows
+with $n$. For bag-blocks, $\kappa_B$ is the inverse probability that all bags of a group match their counts under the
+product proposal: for $n\approx2{,}000$ and $K=10$, $\log_{10}\kappa_B\approx15.8$ for bags of 8. On an exactly solvable
+LLP problem (3 bags of 4), the uncorrected bag-block chain has $\TV(\tilde\pi,\pi)$ between 0 and about 0.6 depending on
+the prior and grouping, so the approximation is real at small $n$; at our sizes we measure its effect on predictions
+instead (\cref{sec:ablation}).
+
+\subsection{Proposition 3 (when the naive TFM suffices)}
+\begin{proof}[Proof of \cref{prop:naive}]
+(a) With $P(\tilde w=k\mid x,y)=M_{y,k}$ independent of $x$ and $M_{y,k}=b_k$ for $y\neq k$,
+$\tilde\eta_k=M_{k,k}\eta_k+b_k(1-\eta_k)=b_k+\lambda_k\eta_k$, $\lambda_k=M_{k,k}-b_k$. For PLL with each wrong class
+entering the candidate set independently with probability $q$ and the naive label chosen uniformly from the set,
+$M_{y,y}=a=\E[1/(1+N)]=\frac{1-(1-q)^C}{Cq}$ with $N\sim\mathrm{Bin}(C-1,q)$ and $b=(1-a)/(C-1)$, so $\lambda=(Ca-1)/(C-1)>0$
+for $q<1$. For LLP with random bags of size $k$, $P(\tilde w_i=1\mid x_i,y_i)=(y_i+(k-1)\varpi)/k$, so $\lambda=1/k$.
+A strictly increasing affine map preserves ranks, hence one-vs-rest AUC. For the binary bound, write
+$\varpi(1-\varpi)\mathrm{AUC}(s)=\E[\eta(X)(1-\eta(X'))h_s(X,X')]$ for independent copies, with
+$h_s=\mathbb 1[s(X)>s(X')]+\frac12\mathbb 1[s(X)=s(X')]$; symmetrising,
+$\varpi(1-\varpi)[\mathrm{AUC}(\eta)-\mathrm{AUC}(s)]=\frac12\E\big[\lvert\Delta\rvert(\mathbb 1[s\text{ reverses the pair}]+\frac12\mathbb 1[s\text{ ties},\Delta\neq0])\big]$
+with $\Delta=\eta(X)-\eta(X')$. With $t=(s-b)/\lambda$, which has the ranks of $s$, a reversed or tied pair has
+$\lvert\Delta\rvert\le\lvert\eta(X)-t(X)\rvert+\lvert\eta(X')-t(X')\rvert$, so the right-hand side is at most
+$\E\lvert s-\tilde\eta\rvert/\lambda$. For $\lambda=1$ this is a known AUC regret bound \citep[Corollary~12]{agarwal2014}.
+(b) $p_\theta(\tilde w)=\sum_Op_\theta(O)R(\tilde w\mid O)$ gives
+$\partial_\theta\log p_\theta(\tilde w)=\E_\theta[\partial_\theta\log p_\theta(O)\mid\tilde w]$, and Jensen's inequality for
+conditional expectations gives $I_{\tilde w}(\theta)\le I_O(\theta)$, with equality iff the score of $O$ is
+$\sigma(\tilde w)$-measurable.
+\end{proof}
+\emph{Information lost by the naive labels} (logistic model $\eta=\sigma(\theta x)$, $\theta=2$, $x\sim\mathcal N(0,I)$; per
+point). LLP: the Godambe information of the pointwise (composite) likelihood on naive labels, relative to the
+information of the bag counts, is 0.134, 0.060, 0.033, 0.017, 0.009 for bags of 2, 4, 8, 16, 32. PLL: the naive labels
+retain 0.24--0.26 of the information in the candidate sets at $q=0.3$ and 0.06--0.10 at $q=0.6$ ($C\in\{3,4,7\}$).
+For PU-SCAR and label noise the ratio is 1.

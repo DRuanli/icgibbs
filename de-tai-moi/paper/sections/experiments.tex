@@ -1,26 +1,50 @@
 \section{Experiments}\label{sec:exp}
 
 \subsection{Design: two pre-registered studies}\label{sec:design}
-% Outline (prose after results are stable):
-% - Settings in the main claims: LLP with bags of 8 (AUC) and PLL with candidate-set rate q in {0.3, 0.6}
-%   (accuracy). Secondary settings of Study 1 (LLP bags 16/32, PU-SCAR, PU-SAR, noisy labels, SSL) -> Appendix.
-% - Baselines: every peer-reviewed baseline of each setting, default and tuned (20 random configurations, same
-%   budget, validation loss on weak labels; docs/tuning_spaces.md). Primary comparators fixed by a rule on the
-%   development set before evaluation: linear DLLP (LLP), tuned CC (PLL).
-% - TFM-based methods with the same TFM: naive TFM, hard-EM, stochastic EM, oracle (true labels).
-% - Statistics: per-dataset mean over 3 seeds; two-sided Wilcoxon, Holm; bootstrap CIs; W/T/L; Bayesian
-%   signed-rank with ROPE for H3. Stratified 70/30 split; datasets with n <= 10,000.
-% - Study 1: protocol frozen (G5) before evaluation data were touched; 24 OpenML datasets (10 binary, 14 multiclass);
-%   TFM = TabPFN v2 as registered.
-% - Study 2: hypotheses, comparators, tests, dataset-selection rules frozen (commit timestamp, Appendix) before any
-%   evaluation table was downloaded; datasets from curated suites (OpenML100, AutoML Benchmark, Grinsztajn et al.,
-%   TabZilla, TabArena) excluding OpenML-CC18 and all Study 1 datasets; only change: TFM = TabICL v2.
-\todo{design prose; pre-registration timeline table in Appendix}
+% Sources: G5/EXPERIMENT_PROTOCOL.md (Study 1), S2/S2_PLAN.md (Study 2), docs/tuning_spaces.md.
+\paragraph{Settings and metrics.} The main claims concern LLP with random bags of 8 (ROC AUC) and PLL in which each wrong
+class enters the candidate set independently with probability $q\in\{0.3,0.6\}$ (accuracy). Weak labels are generated on
+the training part of stratified 70/30 splits with seeds 0--2; all methods share the splits and the weak labels.
+Datasets have 500 to 10{,}000 rows after removing duplicates (Study~2 subsamples one larger dataset to 10{,}000 by a
+rule written in advance).
+
+\paragraph{Baselines.} For each setting we run its peer-reviewed baselines, each in its published
+default and tuned by 20 random configurations scored on a validation split \emph{with weak labels only} (the method's
+own weak-label loss; for LLP the split is by bag). LLP: DLLP \citep{dllp} with an MLP or a linear model, LLP-VAT
+\citep{tsai2020llpvat}, EasyLLP \citep{easy_llp} and GLWS \citep{glws}. PLL: PRODEN \citep{proden}, GLWS/ILL
+\citep{glws,ill}, RC and CC \citep{feng2020provably}. \ours{} is not tuned per dataset. The \emph{primary comparator}
+of each setting was fixed by a rule on development datasets before any evaluation: linear DLLP for LLP and tuned CC for
+PLL.
+
+\paragraph{Hypotheses and tests.} H2 (LLP) and H4 (PLL) require \ours{} to beat both the primary comparator and the naive
+TFM (two-sided Wilcoxon signed-rank over datasets, each averaged over 3 seeds, Holm-adjusted), \emph{and} to beat the
+baseline with the best mean score on at least 70\% of datasets (LLP), or to match or beat it on at least 60\% of
+datasets at each level (PLL; Study~1 left the reading of this rule ambiguous, and we report its weakest reading). H3 compares \ours{} with hard-EM on log loss (Bayesian signed-rank test with a region of
+practical equivalence of $\pm0.005$ \citep{benavoli2017bayesian}). A sensitivity analysis repeats every test without
+datasets flagged in advance for group structure or rule-generated labels.
+
+\paragraph{Two studies.} \emph{Study 1} froze the protocol before any evaluation data were used and evaluated 24
+OpenML-CC18 datasets (\val{s1-n-binary} binary, \val{s1-n-multi} multiclass) with TabPFN~v2, the TFM registered as
+primary; it also registered TabICL~v2 as a TFM ablation, secondary weak-label settings, and real partial labels.
+\emph{Study 2} changed only the TFM. Its hypotheses (H2$'$, H3$'$, H4$'$, identical to Study~1), comparators, tests and
+dataset-selection rules were fixed in a timestamped commit before any of its evaluation tables was downloaded
+(\cref{app:prereg}). Its \val{s2-n-total} datasets (\val{s2-n-binary} binary, \val{s2-n-multi} multiclass) come from curated
+suites---OpenML100, the AutoML Benchmark, \citet{grinsztajn2022tree}, TabZilla and TabArena---after excluding OpenML-CC18,
+every Study~1 dataset, synthetic data, and datasets sharing a source with Study~1, and they satisfy the criteria of
+Study~1. All TFM methods ran on one NVIDIA T4 GPU per run.
 
 \subsection{Correctness on problems with an exact posterior}\label{sec:rq1}
-% RQ1 (G4/RQ1_REPORT): analytic PPD -> TV < 1e-13 (enumeration); learned PFN TV 0.012; Theorem 2 bound held in
-% 42/42 configurations; block size effect. Short paragraph + appendix figure.
-\todo{RQ1 paragraph}
+% Source: G4/RQ1_REPORT.md (E1-E5).
+We first checked the theory where the exact posterior can be enumerated ($n\le14$) and the PPD is analytic. With the exact
+PPD as $\tfm$, the stationary distributions of the single-site, swap and MH-corrected block kernels match $\pi$ to within
+$3\times10^{-14}$ in total variation for every weak-label type and for a prior in which features do or do not carry
+information about the labels; running the actual sampler for $10^5$ sweeps reaches the Monte Carlo floor. With small
+PFNs trained on the same prior, the stationary distribution is within $0.012$ (single-site) of $\pi$, and the bound of
+\cref{thm:stability} held in all 42 configurations, including 30 with deliberately incompatible conditionals, while being
+2--12 times loose. Blocking over all points with $K=10$ changes predictions by $1.7\times10^{-4}$ at $n=1{,}000$ on an
+exactly solvable pooled problem, but blocks of two points on tiny problems with informative features move the
+posterior by up to $0.04$ (\cref{app:rq1}).
+\todo{RQ1 numbers are typed from G4/RQ1\_REPORT; generate them by script (results/rq1/*.csv) before submission}
 
 \begin{table}[t]
 \centering
@@ -108,11 +132,44 @@ sampler never sees the true labels).}
 \end{figure}
 
 \subsection{Real weak labels}\label{sec:real}
-% RQ5/H5 (G8_REPORT §4): Lost, MSRCv2, BirdSong; TabICL v2 as registered; 10 random 90/10 splits; mean rank.
-\todo{real-PLL paragraph and table (numbers via make\_tables.py)}
+On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; TabICL~v2, as registered in
+Study~1 because these datasets have more than ten classes), \ours{} had the best mean accuracy on all three and the best
+mean rank among \val{s1-real-nmethods} methods (\val{s1-real-rank-pooled}; \cref{tab:real}). Its margin over the best
+baseline was \val{s1-real-bird-diff} on BirdSong (\val{s1-real-bird-wl} splits won/lost) and \val{s1-real-msrc-diff} on
+MSRCv2 (\val{s1-real-msrc-wl}), but only \val{s1-real-lost-diff} on Lost (\val{s1-real-lost-wl}), where it ranked
+\val{s1-real-lost-rankpos}rd by mean rank. Real candidate sets are small (2.2--3.2 labels on average).
 
-\subsection{Ablations and cost}\label{sec:ablation}
-% Study 1 (G8_REPORT §6): K, sweeps, MH correction, prior, warm vs cold start, transductive (worse: -0.013 AUC),
-% training-set size. Exploratory with TabICL (lot S2E, pending): R-hat and MH-corrected blocks.
-% Cost: no retraining; one T4; Study 2 chain median 41 s (max 5.3 min); peak GPU memory 3.8 GB.
-\todo{ablation and cost paragraph}
+\begin{table}[t]
+\centering
+\caption{Real partial labels (Study~1, TabICL~v2 for all TFM-based methods): accuracy averaged over 10 random 90/10
+splits, and mean rank over all splits of the three datasets among the ten ranked methods (\ours{}, naive TFM and eight
+baselines). Bold: best non-oracle accuracy.}
+\label{tab:real}
+\small
+\input{tables/real_pll}
+\end{table}
+
+\subsection{Ablations, mixing and cost}\label{sec:ablation}
+\paragraph{Exact versus approximate sampler.} The MH-corrected block sampler, which is exact when the TFM is
+(\cref{prop:blocks}), did not differ systematically from the default uncorrected sampler in Study~1:
+\val{s1-abl-mh-llp} AUC on LLP (\val{s1-abl-mh-llp-wtl} cells) and \val{s1-abl-mh-pll3} accuracy on PLL at $q=0.3$
+(\val{s1-abl-mh-pll3-wtl}). The transductive predictor, which converges to the exact Bayes predictive
+(\cref{thm:exact}(c)), was \emph{worse} than the inductive one on LLP (\val{s1-abl-trans-llp} AUC,
+\val{s1-abl-trans-llp-wtl}; log loss worse by \val{s1-abl-trans-llp-ll}): exactness with respect to the TFM's prior does
+not translate into accuracy when the TFM is only approximately the PPD of a prior that the data need not follow.
+\todo{add the TabICL v2 results of the exploratory lot S2E (MH-corrected blocks incl. $q=0.6$ and $\ge$8 classes)}
+
+\paragraph{Other components.} Changing the number of blocks ($K=5$ or 20), the number of sweeps (15 or 60) or the
+initialisation (cold start from $\lik$) changed AUC or accuracy by at most about $0.015$ on average (\cref{app:ablations}).
+
+\paragraph{Mixing.} With two chains per cell (TabPFN~v2, Study~1), the median fraction of training labels with
+$\widehat R>1.1$ \citep{vehtari2021rhat} was \val{s1-rhat-llp-frac} on LLP and \val{s1-rhat-pll3-frac}/\val{s1-rhat-pll6-frac}
+on PLL at $q=0.3/0.6$, against at most about 4.5\% for perfectly mixed chains, whereas the median difference between the
+test metrics of the two chains was \val{s1-rhat-llp-absdiff} (LLP) and \val{s1-rhat-pll3-absdiff}/\val{s1-rhat-pll6-absdiff} (PLL).
+Thirty sweeps thus give stable predictions, not samples from a converged posterior over labels.
+\todo{TabICL v2 R-hat from lot S2E}
+
+\paragraph{Cost.} No weight is trained. On one T4 GPU, a run of \ours{} took a median of \val{s2-cost-median-s}\,s
+(maximum \val{s2-cost-max-min}\,min) with TabICL~v2 in Study~2, for up to \val{s2-cost-ntrain-max} training points, and a
+median of \val{s1-cost-median-s}\,s (maximum \val{s1-cost-max-min}\,min) with TabPFN~v2 in Study~1; peak GPU memory was
+\val{s2-cost-gpu-gb}\,GiB and \val{s1-cost-gpu-gb}\,GiB \claim{11}.

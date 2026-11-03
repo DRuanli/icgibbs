@@ -1,5 +1,30 @@
 \section{Problem setup}\label{sec:setup}
-% From G4/PROOFS.md §0 and METHOD_SPEC §1, §3. Exchangeable prior over (X, y); weak observations W with a known
-% observation model l(w | y, x) (PLL: indicator of the candidate set; LLP: count constraint per bag);
-% target: predictive of y* for a new x* given (X, W). The TFM approximates the posterior predictive p(y | x, D).
-\todo{formal setup}
+% Source: G4/PROOFS.md §0, G4/METHOD_SPEC.md §1, §3.
+
+\paragraph{Data and prior.} We observe features $X=(x_1,\dots,x_n)$ whose labels $y=(y_1,\dots,y_n)\in[C]^n$ are
+latent. As in the prior-fitted networks that underlie tabular foundation models \citep{muller2022pfn}, we assume
+an exchangeable prior: a latent mechanism $\phi\sim p(\phi)$ and $(x_i,y_i)\overset{\text{iid}}{\sim}p(x,y\mid\phi)$,
+with a test pair $(x_*,y_*)$ drawn from the same mechanism. For a labelled context $D=\{(x_j,y_j)\}_j$, the
+\emph{posterior predictive distribution} (PPD) of the prior is $p(y_*\mid x_*,D)$; a TFM returns an approximation
+$\tfm(y_*\mid x_*,D)$ in a single forward pass.
+
+\paragraph{Weak labels.} Instead of $y$ we observe $\W\sim p(\W\mid X,y)$, independent of $(x_*,y_*)$ given
+$(X,y)$ (assumption A0), through a known observation model $\lik(y)=p(\W\mid X,y)$:
+\begin{itemize}
+  \item \emph{Partial labels (PLL):} each $x_i$ comes with a candidate set $S_i\ni y_i$, and
+        $\lik(y)=\prod_i\mathbb 1[y_i\in S_i]$ (the standard assumption that the probability of a candidate set does
+        not depend on which of its members is the true label).
+  \item \emph{Label proportions (LLP):} the points are split into disjoint bags $B_1,\dots,B_G$ and only the label
+        counts $w_g$ of each bag are observed: $\lik(y)=\prod_g\mathbb 1[\mathrm{counts}(y_{B_g})=w_g]$.
+\end{itemize}
+Positive-unlabelled data, class-dependent label noise and semi-supervised learning are further instance-level
+cases ($\lik(y)=\prod_i\lik_i(y_i)$); Study~1 evaluated them as secondary settings (\cref{app:secondary}).
+
+\paragraph{Goal.} The target of inference is the posterior over latent labels and the resulting predictive,
+\begin{equation}\label{eq:target}
+  \pi(y)=p(y\mid X,\W)\propto p(y\mid X)\,\lik(y),\qquad p(y_*\mid x_*,X,\W)=\sum_y p(y\mid x_*,X,\W)\,p(y_*\mid x_*,(X,y)).
+\end{equation}
+Neither factor of $\pi$ is available in closed form for a TFM's prior, and no weight of the TFM may be updated.
+Our analysis uses three assumptions: (A1) the TFM is exact, $\tfm=\ppd$, on every context the algorithm queries;
+(A2) the prior's PPD is positive; (A3) $\lik$ is known and $\sum_y p(y\mid X)\lik(y)>0$. Theorem~\ref{thm:stability}
+removes (A1).
