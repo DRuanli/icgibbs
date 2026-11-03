@@ -1,0 +1,16 @@
+\section{Theory}\label{sec:theory}
+% From G4/PROOFS.md. State assumptions explicitly; full proofs in Appendix A.
+% - Lemma 1: under exchangeability, p(y_i | y_{-i}, X) = p(y_i | x_i, D_{-i}).
+% - Theorem 1 (exactness): single-site Gibbs / swap-MH for LLP / MH-corrected blocks have the posterior of the latent
+%   labels as stationary distribution; transductive prediction converges to the Bayes posterior predictive under
+%   weak labels; inductive prediction does so when the prior is separable \claim{3}.
+% - Proposition 3: the predictor is Bayes-optimal for any strictly proper score, conditional on the prior \claim{10}.
+% - Theorem 2 (stability): with an approximate TFM q, the chain has a unique stationary distribution even when the
+%   conditionals of q are incompatible, and TV(pi_q, pi) <= tau(P) * mean conditional error; position against
+%   Schweitzer/Meyer/Seneta perturbation bounds and Liu et al. (2014) \claim{4}.
+% - Proposition 4: MH-corrected blocks are exact; error of uncorrected blocks.
+% - Propositions 5-6: when the naive TFM is rank-consistent; Fisher information lost by naive use \claim{12}.
+% SCOPE (must appear in the text, not only the appendix): the default configuration used in the experiments
+% (uncorrected K = 10 blocks; bag-blocks for LLP) is NOT covered by a non-vacuous bound (G4-5); Section 6 reports
+% the MH-corrected variant as evidence that the approximation does not hurt predictions.
+\todo{theory section}

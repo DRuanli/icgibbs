@@ -26,6 +26,17 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## S2 — lượt S2E (thăm dò cho bài) dùng `s2_code_v5.zip` (03/11/2026)
+
+Thầy duyệt D3 của [G9_PLAN](../G9/G9_PLAN.md) ngày 03/11. Lượt **S2E** chạy TabICL v2 trên **dataset cũ của NC1** (tập phát triển của S2), không chạm tập đánh giá S2. Kết quả là thăm dò.
+- **GPU 0, R̂ hai chuỗi:** 3 dataset nhỏ mỗi nhóm như NC1; thêm 4 dataset ≥ 8 lớp ở PLL q = 0,6.
+- **GPU 1, khối có sửa MH** (bản chính xác theo lý thuyết): LLP túi 8, PLL q = 0,3 và 0,6; thêm 4 dataset ≥ 8 lớp ở q = 0,6.
+- **Phần cứng:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`. Ước khoảng 1–3 giờ.
+- **Cách chạy:** như các lượt S2 bên dưới, nhưng dùng **`s2_code_v5.zip`**: ô 1 tìm `s2_code_v5/code/run_s2_lot.sh`; ô 2 đặt `LOT = "S2E"`. Không cần chép kết quả cũ vào.
+- Nếu lỡ dùng bản cũ, lượt tự dừng và báo "BẢN CODE CŨ".
+- Gửi lại các tệp `s2_*` và `s2e_*`.
+- Phân tích: `S2/analysis/s2e_report.py`, viết trước khi có kết quả.
+
 ## S2 — lượt S2R (chạy lại ô lỗi) dùng `s2_code_v4.zip` (03/11/2026)
 
 Lượt S2G có 5 ô lỗi: PRODEN mặc định trên gas-drift. Theo G7_PLAN §2, ô lỗi được chạy lại một lần. Lượt **S2R** chỉ chạy lại PRODEN mặc định trên gas-drift (6 ô).

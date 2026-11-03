@@ -1,0 +1,29 @@
+\section{Proofs}\label{app:proofs}
+\todo{from G4/PROOFS.md}
+
+\section{Pre-registration and timeline}\label{app:prereg}
+% Study 1: G5 freeze record; deviations 1-16 (G5/EXPERIMENT_PROTOCOL §11). Study 2: S2_PLAN frozen at commit
+% aaee9fd (2026-11-01 15:19 UTC), before any evaluation table was downloaded; post-check rule applied (S2_DATASETS §5);
+% one post-hoc fix of a floating-point tie in the analysis script (no conclusion changed; S2\_RESULTS §6).
+\todo{timeline table}
+
+\section{Study 1 with TabICL v2 (exploratory)}\label{app:s1-tabicl}
+\todo{G8\_REPORT §2, §6.4}
+
+\section{Study 2: sensitivity analysis and full results}\label{app:s2-s1}
+\begin{table}[h]
+\centering
+\caption{Study 2: mean score of every method (datasets averaged over 3 seeds). PRODEN (default) failed on gas-drift in
+5 of 6 cells (non-finite probabilities, reproduced on a rerun); its $q=0.3$ mean is over 9 datasets and its $q=0.6$
+gas-drift entry uses one seed.}
+\label{tab:s2means}
+\small
+\resizebox{\textwidth}{!}{\input{tables/s2_means}}
+\end{table}
+\todo{S1 sensitivity (S2\_RESULTS §1, §2), per-baseline comparisons (§4), per-dataset tables}
+
+\section{Datasets, baselines and tuning spaces}\label{app:data}
+\todo{dataset cards; docs/tuning\_spaces.md}
+
+\section{Secondary settings of Study 1}\label{app:secondary}
+\todo{LLP bags 16/32, PU-SCAR, PU-SAR, noisy labels, SSL; D1-D3}

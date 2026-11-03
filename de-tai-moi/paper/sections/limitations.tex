@@ -1,0 +1,12 @@
+\section{Limitations}\label{sec:limitations}
+% Real limitations (NeurIPS checklist Q2), each traceable to the "scope" column of the claim matrix:
+% 1. Dependence on the TFM: with TabPFN v2 the method did not beat the strongest baselines (Study 1). The two TFMs
+%    were compared on the same data only in Study 1 (exploratory) and in the response-map analysis.
+% 2. Theory vs practice: the default sampler (uncorrected blocks, bag-blocks for LLP) has no non-vacuous guarantee;
+%    the exact MH-corrected variant gives similar predictions (Study 1; Study 2 exploratory lot S2E).
+% 3. Mixing: label-level R-hat shows incomplete mixing (TabPFN, Study 1) although predictions of two chains agree.
+% 4. Effect size on PLL is modest (about one accuracy point over tuned CC), close to an oracle ceiling.
+% 5. Scope: LLP with bags of 8 and PLL only. No gain over specialised methods for PU-SCAR, class-dependent noise,
+%    SSL, or larger bags in Study 1 (explained by Props. 5-6). n <= 10,000; context capped at 2,000.
+% 6. Missing cells: PRODEN (default) failed deterministically on one Study 2 dataset (5 of 6 cells).
+\todo{limitations prose}

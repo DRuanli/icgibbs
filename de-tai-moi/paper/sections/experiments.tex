@@ -1,0 +1,118 @@
+\section{Experiments}\label{sec:exp}
+
+\subsection{Design: two pre-registered studies}\label{sec:design}
+% Outline (prose after results are stable):
+% - Settings in the main claims: LLP with bags of 8 (AUC) and PLL with candidate-set rate q in {0.3, 0.6}
+%   (accuracy). Secondary settings of Study 1 (LLP bags 16/32, PU-SCAR, PU-SAR, noisy labels, SSL) -> Appendix.
+% - Baselines: every peer-reviewed baseline of each setting, default and tuned (20 random configurations, same
+%   budget, validation loss on weak labels; docs/tuning_spaces.md). Primary comparators fixed by a rule on the
+%   development set before evaluation: linear DLLP (LLP), tuned CC (PLL).
+% - TFM-based methods with the same TFM: naive TFM, hard-EM, stochastic EM, oracle (true labels).
+% - Statistics: per-dataset mean over 3 seeds; two-sided Wilcoxon, Holm; bootstrap CIs; W/T/L; Bayesian
+%   signed-rank with ROPE for H3. Stratified 70/30 split; datasets with n <= 10,000.
+% - Study 1: protocol frozen (G5) before evaluation data were touched; 24 OpenML datasets (10 binary, 14 multiclass);
+%   TFM = TabPFN v2 as registered.
+% - Study 2: hypotheses, comparators, tests, dataset-selection rules frozen (commit timestamp, Appendix) before any
+%   evaluation table was downloaded; datasets from curated suites (OpenML100, AutoML Benchmark, Grinsztajn et al.,
+%   TabZilla, TabArena) excluding OpenML-CC18 and all Study 1 datasets; only change: TFM = TabICL v2.
+\todo{design prose; pre-registration timeline table in Appendix}
+
+\subsection{Correctness on problems with an exact posterior}\label{sec:rq1}
+% RQ1 (G4/RQ1_REPORT): analytic PPD -> TV < 1e-13 (enumeration); learned PFN TV 0.012; Theorem 2 bound held in
+% 42/42 configurations; block size effect. Short paragraph + appendix figure.
+\todo{RQ1 paragraph}
+
+\begin{table}[t]
+\centering
+\caption{Pre-registered confirmatory tests. $\Delta$: mean over datasets of (\ours{} $-$ comparator), each dataset
+averaged over 3 seeds; W/T/L: datasets won/tied/lost; $p_{\mathrm{Holm}}$: two-sided Wilcoxon signed-rank,
+Holm-adjusted within each hypothesis (2 tests for LLP, 4 for PLL). Bold: significant in favour of \ours{}.
+``Naive TFM'' uses the same TFM as the study. Study 1: \val{s1-n-binary} binary and \val{s1-n-multi} multiclass
+datasets; Study 2: \val{s2-n-binary} binary and \val{s2-n-multi} multiclass datasets disjoint from Study 1.
+H2/H4 additionally required winning against the strongest baseline on $\geq$70\%/$\geq$60\% of datasets
+(\cref{sec:s2}).}
+\label{tab:main}
+\setlength{\tabcolsep}{3.2pt}
+\resizebox{\textwidth}{!}{\input{tables/main_results}}
+\end{table}
+
+\subsection{Study 1: TabPFN v2}\label{sec:s1}
+Study~1 evaluated the frozen protocol with TabPFN~v2~\citep{tabpfn_nature} as the conditional (\cref{tab:main}, left). \ours{} improved on
+the naive use of the same TFM in both main settings, for example by \val{s1-llp-naive-diff} AUC on LLP, but it did not beat
+the strongest specialised baselines. On LLP with bags of 8 it was \val{s1-llp-cmp-diff} AUC ahead of linear DLLP
+(\val{s1-llp-cmp-wtl}, $p_{\mathrm{Holm}}\val{s1-llp-cmp-prel}$). On PLL it was ahead of tuned CC at $q=0.3$
+(\val{s1-pll3-cmp-diff}, $p_{\mathrm{Holm}}\val{s1-pll3-cmp-prel}$) and far behind at $q=0.6$
+(\val{s1-pll6-cmp-diff}), where the chains collapsed on the four datasets with at least eight classes
+(\cref{fig:mechanism}, bottom). Both pre-registered main hypotheses therefore failed; the mechanism hypothesis H3
+held (\cref{tab:h3}).
+
+\subsection{Study 2: a pre-registered replication with TabICL v2 on new datasets}\label{sec:s2}
+In an ablation of Study~1, replacing TabPFN~v2 by TabICL~v2~\citep{tabicl_v2} passed every test (\cref{app:s1-tabicl}). Because that
+TFM was chosen after seeing the results, we treated the finding as a hypothesis and tested it in Study~2, changing
+nothing but the TFM, on \val{s2-n-total} datasets disjoint from those of Study~1.
+All pre-registered tests passed (\cref{tab:main}, right; \cref{fig:s2gaps}).
+On LLP with bags of 8, \ours{} improved AUC over linear DLLP by \val{s2-llp-cmp-diff} \val{s2-llp-cmp-ci}
+(\val{s2-llp-cmp-wtl}, $p_{\mathrm{Holm}}\val{s2-llp-cmp-prel}$) and beat the strongest LLP baseline,
+\val{s2-llp-strongest-name}, on \val{s2-llp-strongest-wins} datasets (required: $\geq$70\%) \claim{6}.
+On PLL it improved accuracy over tuned CC by \val{s2-pll3-cmp-diff} at $q=0.3$ (\val{s2-pll3-cmp-wtl}) and by
+\val{s2-pll6-cmp-diff} at $q=0.6$ (\val{s2-pll6-cmp-wtl}; $p_{\mathrm{Holm}}\val{s2-pll6-cmp-prel}$ for both),
+and was at least as accurate as the strongest PLL baseline on \val{s2-pll3-rule60} and \val{s2-pll6-rule60}
+datasets (required: $\geq$60\% at each level) \claim{8}. Unlike in Study~1, it did not collapse on the four
+datasets with at least eight classes.
+The PLL gains are modest in absolute terms: \ours{} is within \val{s2-pll3-oracle-gap} and
+\val{s2-pll6-oracle-gap} accuracy points of an oracle trained on the true labels, so the room for improvement
+is small. Removing datasets flagged for group structure or temporal drift did not change any conclusion
+(\cref{app:s2-s1}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/s2_gaps}
+\caption{Study 2, per dataset: difference between \ours{} and the primary comparator (positive favours \ours{}),
+mean over 3 seeds. (a) LLP with bags of 8, AUC against linear DLLP. (b) PLL, accuracy against tuned CC at two
+candidate-set rates; a horizontal bar joins the two rates of a dataset.}
+\label{fig:s2gaps}
+\end{figure}
+
+\subsection{Why it works, and when it does not}\label{sec:mechanism}
+\paragraph{Sampling versus hard assignment.} With the same TFM and the same warm start, \ours{} had lower log loss
+than hard-EM in \val{s1-h3-frac} of \val{s1-h3-cells} cells in Study~1 and \val{s2-h3-frac} of \val{s2-h3-cells}
+cells in Study~2, and the advantage grew with the weakness of the labels (\cref{tab:h3}) \claim{7}.
+
+\paragraph{Robustness of the TFM to noisy context labels.} \Cref{fig:mechanism} (top) measures what one Gibbs sweep
+does to an assignment in which a fraction $r$ of the training labels is correct (PLL, $q=0.6$; exploratory, Study~1
+datasets only). With TabPFN~v2 the gain $\Phi(r)-r$ is negative over a range of $r$ on all four datasets with at
+least eight classes, so a chain that starts near the uninformative state is pushed back towards it; with TabICL~v2
+the gain is positive everywhere. The chains behave accordingly (bottom): TabPFN chains stay near chance on
+mfeat-factors and elsewhere escape slowly, or not at all, depending on the seed, whereas TabICL chains converge within about ten
+sweeps \claim{13}.
+\todo{link to the collapse-threshold analysis (G9\_PLAN D2), if a proposition is ready by 20/12}
+
+\begin{table}[t]
+\centering
+\caption{\ours{} versus hard-EM with the same TFM and warm start, log loss. A cell is a (dataset, weak-label level)
+pair; Bayesian signed-rank test with ROPE $\pm0.005$; Spearman correlation between weakness level and the gap.
+$^\dagger$Computed on PLL cells (LLP has a single level), as stated before the analysis was run.}
+\label{tab:h3}
+\small
+\input{tables/h3}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/mechanism}
+\caption{PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes. Top: gain $\Phi(r)-r$ of one Gibbs
+sweep started from an assignment with a fraction $r$ of correct labels (mean over 3 seeds; exploratory). Bottom:
+fraction of correct training labels along the chains of the main runs, one line per seed (diagnostic only; the
+sampler never sees the true labels).}
+\label{fig:mechanism}
+\end{figure}
+
+\subsection{Real weak labels}\label{sec:real}
+% RQ5/H5 (G8_REPORT §4): Lost, MSRCv2, BirdSong; TabICL v2 as registered; 10 random 90/10 splits; mean rank.
+\todo{real-PLL paragraph and table (numbers via make\_tables.py)}
+
+\subsection{Ablations and cost}\label{sec:ablation}
+% Study 1 (G8_REPORT §6): K, sweeps, MH correction, prior, warm vs cold start, transductive (worse: -0.013 AUC),
+% training-set size. Exploratory with TabICL (lot S2E, pending): R-hat and MH-corrected blocks.
+% Cost: no retraining; one T4; Study 2 chain median 41 s (max 5.3 min); peak GPU memory 3.8 GB.
+\todo{ablation and cost paragraph}

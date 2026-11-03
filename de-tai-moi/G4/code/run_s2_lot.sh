@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -11,6 +11,10 @@
 #                      trong S2_MULTICLASS (s2_code_v3 trở đi)
 #   S2R  (CPU)       : chạy lại một lần các ô lỗi của S2G (G7_PLAN §2): PRODEN mặc định trên gas-drift, đủ 6 ô. Cần
 #                      s2_code_v4 trở đi
+#   S2E  (GPU T4 × 2): THĂM DÒ (G9_PLAN O3, O4; thầy duyệt D3 ngày 03/11/2026), TabICL v2, chỉ trên dataset cũ của NC1
+#                      (tập phát triển của S2). GPU 0: R̂ hai chuỗi (3 dataset nhỏ mỗi nhóm như NC1; thêm 4 dataset ≥ 8
+#                      lớp ở PLL q 0,6). GPU 1: khối có sửa MH (LLP túi 8, PLL q 0,3 và 0,6; thêm 4 dataset ≥ 8 lớp ở
+#                      q 0,6). Cần s2_code_v5 trở đi
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -62,6 +66,22 @@ case $LOT in
     python -c "from icgibbs.g7.registry import S2_MULTICLASS, S2_SUBSAMPLE; assert 1476 in S2_MULTICLASS and S2_SUBSAMPLE.get(1476) == 10000" \
       || { echo "BẢN CODE CŨ: registry chưa có gas-drift — dùng s2_code_v4.zip"; exit 3; }
     cpu r_base --datasets 1476 --only proden_def ;;
+  S2E)
+    python -c "import run_g7; assert 'mh06' in run_g7.ABLATIONS" 2>/dev/null \
+      || { echo "BẢN CODE CŨ: chưa có ablation mh06 — dùng s2_code_v5.zip"; exit 3; }
+    MANY=12,28,1501,40966     # mfeat-factors, optdigits, semeion, MiceProtein: ≥ 8 lớp, nơi TabPFN sụp ở NC1
+    xg () {   # xg <số GPU> <tên> <đối số run_g7...>: tập đánh giá cũ của NC1, TabICL v2
+      local g=$1 tag=$2; shift 2
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py --split eval --eval-ok --backend tabicl_v2 "$@" \
+        --out "$OUT/s2e_${tag}.csv" >> "$OUT/s2e_${tag}.log" 2>&1
+      echo "GPU$g xong $tag: $(date)"
+    }
+    ( xg 0 rhat --part rhat --settings llp,pll --levels "llp=8;pll=0.3,0.6"
+      xg 0 rhat_many --part rhat --settings pll --levels "pll=0.6" --datasets $MANY ) &
+    ( xg 1 mh --part ablation --ablation mh
+      xg 1 mh06 --part ablation --ablation mh06
+      xg 1 mh06_many --part ablation --ablation mh06 --datasets $MANY ) &
+    wait ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))
     for j in 0 1 2 3; do cpu "base_$((b+j))" --shard $((b+j))/8 & done; wait ;;

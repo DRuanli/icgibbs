@@ -32,6 +32,7 @@ def test_nested_subsample_is_nested_stratified_deterministic():
 def test_rules_preregistered():
     assert run_g7.ABLATIONS["blocks"]["datasets"] == "small3"
     assert run_g7.ABLATIONS["init"]["levels"] == {"llp": [8], "pll": [0.3, 0.6]}
+    assert run_g7.ABLATIONS["mh06"] == dict(levels={"pll": [0.6]}, datasets="small3", variants=["gibbs_warm_mh"])
     from icgibbs.g7.registry import ABL_LARGE_EVAL, ABL_SMALL_EVAL, RHAT_EVAL
     assert ABL_SMALL_EVAL == RHAT_EVAL and ABL_LARGE_EVAL == {"binary": [1489, 44, 38], "multiclass": [182, 1475, 28]}
 

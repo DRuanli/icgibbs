@@ -1,0 +1,30 @@
+\section{Introduction}\label{sec:intro}
+% Order of the argument (draft outline; prose written after Sections 4-6):
+% 1. Weak labels are common in tabular data: label proportions per group (LLP; privacy, aggregated reporting),
+%    candidate sets (PLL; ambiguous annotation). Specialised learners exist for each type, each retrained per task.
+% 2. Tabular foundation models (TFMs: TabPFN, TabICL) predict p(y* | x*, D) in context, without training, and are
+%    strong on small tables -- but they need fully labelled context. Using them with weak labels naively (e.g.
+%    plugging candidate sets / bag labels in as if they were labels) throws away information (Prop. 5-6).
+% 3. Gap: no prior work uses an off-the-shelf TFM as the conditional of Bayesian inference over latent labels
+%    (G2 novelty scan; closest: In-Context PU pretrains a new PFN; GLWS/ILL train networks with EM assuming
+%    conditional independence; TabPFN-based imputation is single-pass) \claim{1}.
+% 4. Idea: if the TFM is the posterior predictive of its prior, then p(y_i | y_{-i}, X) = p(y_i | x_i, D_{-i}) (Lemma 1),
+%    so a Gibbs sampler over latent labels needs only forward passes of the TFM; weak labels enter through the
+%    observation model l(w | y, x).
+% 5. Contributions (each points to a section/table):
+\paragraph{Contributions.}
+\begin{itemize}
+  \item \textbf{Method} (\cref{sec:method}): \ours{}, a training-free sampler over latent labels that uses a frozen
+        TFM as its full conditional and handles instance-level (PLL) and group-level (LLP) weak labels with one
+        procedure \claim{2}.
+  \item \textbf{Theory} (\cref{sec:theory}): exactness when the TFM is the posterior predictive of its prior
+        \claim{3}; stability when it is only approximate, even if its conditionals are incompatible \claim{4};
+        and a characterisation of when the naive use of a TFM is already sufficient \claim{12}.
+  \item \textbf{Evidence from two pre-registered studies} (\cref{sec:exp}): with TabPFN v2 (Study 1) the method did
+        not beat the strongest specialised baselines; a pre-registered replication with TabICL v2 on
+        \val{s2-n-total} new datasets (Study 2) did, on both LLP and PLL (\cref{tab:main}) \claim{6}\claim{8}.
+  \item \textbf{Mechanism} (\cref{sec:mechanism}): the advantage comes from modelling dependence between latent labels
+        through the context \claim{7}, and whether it materialises depends on how robust the TFM is to noisy context
+        labels \claim{13}.
+\end{itemize}
+\todo{intro prose}

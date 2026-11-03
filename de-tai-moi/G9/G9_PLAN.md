@@ -28,7 +28,7 @@
 - "Vượt xa ở PLL".
 - Khẳng định cho PU, SSL, nhãn nhiễu, LLP túi 16 hoặc 32. Các bối cảnh này là kết quả phụ hoặc giới hạn của nghiên cứu 1.
 
-**Trình bày hai nghiên cứu** (mặc định, chờ thầy xác nhận ở D1):
+**Trình bày hai nghiên cứu** (thầy duyệt ở D1, 03/11):
 - Cả hai nằm trong bài chính, theo thứ tự thời gian.
   - **Study 1:** đăng ký trước, TabPFN v2, 24 dataset. Không đạt hai khẳng định chính; phân tích lỗi tìm ra kiểu sụp.
   - **Study 2:** đăng ký trước, đổi duy nhất TFM, 28 dataset mới. Đạt.
@@ -63,10 +63,10 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 |---|---|---|---|---|
 | Hình 1 | Sơ đồ phương pháp: nhãn yếu → chuỗi Gibbs theo khối, TFM làm xác suất có điều kiện → dự đoán | chính | mới | cần vẽ |
 | Bảng 1 | So sánh với công trình gần nhất (không huấn luyện lại, nhãn yếu cấp nhóm, suy luận Bayes, đảm bảo) | chính | G2 | cần làm |
-| Bảng 2 | Kết quả chính: Study 2 (H2′, H4′) đặt cạnh Study 1 | chính | S2_RESULTS §9, G8_REPORT §2 | có số; cần làm bảng |
-| Hình 2 | Chênh theo dataset ở Study 2 (LLP, PLL) | chính | `S2/analysis/s2_figures.py` | có; làm lại tiếng Anh |
-| Hình 3 | Cơ chế: (a) ánh xạ phản ứng TabPFN / TabICL ở q 0,6; (b) vết chuỗi sụp và thoát | chính | S2X, `G8/analysis/g8_figures.py` (fig2) | có; gộp, làm lại tiếng Anh |
-| Bảng 3 | Gibbs so với hard-EM (H3, H3′) và ablation chính | chính | G8_REPORT §3, §6; S2_RESULTS §3 | có số |
+| Bảng 2 | Kết quả chính: Study 2 (H2′, H4′) đặt cạnh Study 1 | chính | S2_RESULTS §9, G8_REPORT §2 | **xong 03/11** (`paper/tables/main_results.tex`) |
+| Hình 2 | Chênh theo dataset ở Study 2 (LLP, PLL) | chính | `S2/analysis/s2_figures.py` | **xong 03/11** (`paper/figures/s2_gaps.pdf`) |
+| Hình 3 | Cơ chế: (a) ánh xạ phản ứng TabPFN / TabICL ở q 0,6; (b) vết chuỗi sụp và thoát | chính | S2X, `G8/analysis/g8_figures.py` (fig2) | **xong 03/11** (`paper/figures/mechanism.pdf`) |
+| Bảng 3 | Gibbs so với hard-EM (H3, H3′) và ablation chính | chính | G8_REPORT §3, §6; S2_RESULTS §3 | **phần H3 xong 03/11** (`paper/tables/h3.tex`); ablation chờ S2E |
 | Bảng 4 | Nhãn yếu thật: Lost, MSRCv2, BirdSong | chính hoặc phụ lục | G8_REPORT §4 | có số |
 | Phụ lục | RQ1 (TV theo số mẫu, chặn của Định lý 2), cỡ dữ liệu, R̂, bối cảnh phụ D1–D3, bảng theo dataset, so với từng baseline | phụ lục | G4, G8, S2 | có số |
 
@@ -74,7 +74,7 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 
 | Thời gian | Việc | Sản phẩm |
 |---|---|---|
-| 04 – 15/11/2026 | thầy chốt D1–D5; dựng `paper/` (LaTeX, template NeurIPS hiện hành, đổi sang 2027 khi có); hình và bảng tiếng Anh | Hình 1–3, Bảng 2–3 |
+| 04 – 15/11/2026 | ~~thầy chốt D1–D5~~ (xong 03/11); dựng `paper/` (LaTeX, template NeurIPS hiện hành, đổi sang 2027 khi có); hình và bảng tiếng Anh | Hình 1–3, Bảng 2–3 |
 | 16/11 – 06/12 | mục 6 (kết quả), mục 4 (phương pháp) | bản nháp mục 4, 6 |
 | 16/11 – 20/12 | song song: lý thuyết ngưỡng sụp (S2_PLAN §5.1); quyết định đưa vào bài hay không trước 20/12 (D2) | mệnh đề, hoặc ghi chú cho Discussion |
 | 07/12 – 31/12 | mục 5 (lý thuyết) và chứng minh ở phụ lục; mục 3; đối chiếu trích dẫn trong chứng minh (việc mở G4-6) | bản nháp mục 3, 5, phụ lục A |
@@ -89,13 +89,15 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 |---|---|---|---|
 | O1 | Phạm vi của lý thuyết so với cấu hình thật | Khối K = 10 và bag-block xấp xỉ không có chặn khác rỗng (PROOFS §5, G4-5) | Mục 5 và mục 7 viết rõ. Bằng chứng thực nghiệm: so với khối có sửa MH, chênh ≤ 0,01 (NC1). Tuỳ chọn O4 |
 | O2 | Trích dẫn trong chứng minh và phần liên quan | Việc mở G4-6: đối chiếu số trang Schweitzer, Meyer, Seneta, Cho & Meyer, Liu et al. | Đối chiếu bản gốc khi viết mục 5 |
-| O3 | R̂ với TabICL | Mọi con số về trộn chuỗi hiện là của TabPFN (GATE_REVIEW_S2, phát hiện 9) | Tuỳ chọn: lượt R̂ thăm dò trên tập phát triển S2 (dataset cũ của NC1), khoảng 1–2 giờ GPU |
-| O4 | Khối có sửa MH với TabICL | Nối lý thuyết với cấu hình dùng trong Study 2 | Tuỳ chọn: thăm dò trên tập phát triển S2, LLP túi 8 và PLL; ghép chung lượt với O3 |
-| O5 | Template NeurIPS 2027 | Chưa công bố (thường khoảng tháng 3) | Viết trên template hiện hành, đổi khi có |
+| O3 | R̂ với TabICL | Mọi con số về trộn chuỗi hiện là của TabPFN (GATE_REVIEW_S2, phát hiện 9) | **Lượt S2E** (thầy duyệt D3; code ở `s2_code_v5.zip`, phân tích viết trước ở `S2/analysis/s2e_report.py`); chờ chạy |
+| O4 | Khối có sửa MH với TabICL | Nối lý thuyết với cấu hình dùng trong Study 2 | **Lượt S2E**, chung với O3: LLP túi 8, PLL q 0,3 và 0,6, thêm 4 dataset ≥ 8 lớp ở q 0,6; chờ chạy |
+| O5 | Template NeurIPS 2027 | Chưa công bố (thường khoảng tháng 3) | Tạm dùng `paper/neurips_placeholder.sty` (mô phỏng khổ trang); đổi sang style chính thức khi có |
 | O6 | Ẩn danh | Double-blind: kho code, tên file, lời cảm ơn | Kho ẩn danh khi nộp; bản công khai mở sau |
 | O7 | Khai báo dùng AI | Chính sách NeurIPS | Cập nhật `docs/AI_USAGE.md` theo từng cổng (đã thêm G7, G8, S2, G9) |
 
-## 6. Thầy cần quyết (mặc định là đề xuất của em; em làm theo mặc định nếu thầy không đổi)
+## 6. Quyết định của thầy
+
+**Thầy duyệt toàn bộ D1–D5 theo đề xuất ngày 03/11/2026** ("duyệt toàn bộ và hãy tiếp tục").
 
 | # | Câu hỏi | Mặc định đề xuất |
 |---|---|---|
@@ -111,3 +113,9 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 - [ ] Abstract và giới thiệu không khẳng định điều gì vượt ma trận khẳng định–bằng chứng; mỗi câu khẳng định có trỏ mục, bảng, hình hoặc định lý.
 - [ ] Phần Limitations có nội dung thật, gồm O1, phụ thuộc TFM, độ lớn hiệu ứng ở PLL.
 - [ ] NeurIPS Paper Checklist điền đủ.
+
+## 8. Tiến độ
+| Ngày | Việc |
+|---|---|
+| 03/11/2026 | Thầy duyệt D1–D5. Dựng `paper/`: khung LaTeX biên dịch được, khổ trang tạm; mọi con số lấy từ `numbers.tex` do `paper/scripts/make_tables.py` sinh. Xong Bảng 2, bảng H3, bảng trung bình của Study 2 (phụ lục), Hình 2, Hình 3. Bản nháp mục 6.3 (Study 1), 6.4 (Study 2), 6.5 (cơ chế). `refs.bib` là bản khung, mọi mục chờ đối chiếu. Chuẩn bị lượt S2E (O3, O4) |
+

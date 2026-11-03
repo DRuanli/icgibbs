@@ -46,6 +46,8 @@ ABLATIONS = {
     "trans": dict(levels={"llp": [8]}, datasets="all", variants=["gibbs_warm_trans"]),
     "mh": dict(levels={"llp": [8], "pll": [0.3]}, datasets="small3", variants=["gibbs_warm_mh"]),
     "prior": dict(levels={"pu_sar": [0.1, 0.3]}, datasets="all", variants=["gibbs_warm_prior1", "gibbs_warm_prior4"]),
+    # Thêm 03/11/2026 cho lượt thăm dò S2E (G9_PLAN O4, TabICL v2, dataset cũ của NC1); không thuộc giao thức NC1
+    "mh06": dict(levels={"pll": [0.6]}, datasets="small3", variants=["gibbs_warm_mh"]),
 }
 # Ablation cỡ dữ liệu (--n_train_max): LLP túi 8 trên 3 dataset nhị phân lớn nhất, PLL q = 0,3 trên 3 dataset đa lớp lớn
 # nhất; cỡ 500, 1.000, 2.000, 4.000; cỡ ≥ toàn bộ train thì bỏ qua ô (dùng kết quả phần chính)
