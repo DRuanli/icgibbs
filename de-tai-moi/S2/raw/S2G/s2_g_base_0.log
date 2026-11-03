@@ -1,0 +1,19 @@
+run_g7 · part=baselines · split=s2 · backend=tabpfn_v2 · code=py-52ee8a52d326 · config=df15c9043eabdf1c
+
+=== 1476 gas-drift: n=10000 (loại trùng 0), d=128, C=6, sha256=186c1b8cd5f6
+[lỗi] 1476 pll 0.3 s0 proden_def: ValueError('proden_def: xác suất không hữu hạn')
+               gas-drift pll      0.3 s0 proden_tun       0.9607 563.8s
+               gas-drift pll      0.3 s0 glwspll_def      0.9937 45.9s
+               gas-drift pll      0.3 s0 glwspll_tun      0.9937 765.0s
+               gas-drift pll      0.3 s0 rc_def           0.9840 16.3s
+               gas-drift pll      0.3 s0 rc_tun           0.9937 475.9s
+               gas-drift pll      0.3 s0 cc_def           0.9830 14.3s
+               gas-drift pll      0.3 s0 cc_tun           0.9940 436.5s
+               gas-drift pll      0.6 s0 proden_def       0.9430 23.0s
+               gas-drift pll      0.6 s0 proden_tun       0.9430 492.8s
+               gas-drift pll      0.6 s0 glwspll_def      0.9873 37.9s
+               gas-drift pll      0.6 s0 glwspll_tun      0.9853 646.1s
+               gas-drift pll      0.6 s0 rc_def           0.9703 11.1s
+               gas-drift pll      0.6 s0 rc_tun           0.9870 444.7s
+               gas-drift pll      0.6 s0 cc_def           0.9727 12.4s
+               gas-drift pll      0.6 s0 cc_tun           0.9883 438.2s

@@ -29,9 +29,18 @@ from scipy.stats import spearmanr
 HERE = os.path.dirname(os.path.abspath(__file__))
 S2 = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(S2, "..", "G8", "analysis"))
-from g8_confirmatory import CANDIDATES, bayes_signed_rank, compare, ds_table, holm  # noqa: E402
+from g8_confirmatory import CANDIDATES, bayes_signed_rank, compare, holm  # noqa: E402
+from g8_confirmatory import ds_table as _ds_table  # noqa: E402
 
 S1_FLAG = {40536, 44130, 375, 23380, 1476}
+
+
+def ds_table(d, setting, level, metric):
+    """Như G8, nhưng làm tròn trung bình theo seed tới 10 chữ số thập phân. Sửa 03/11/2026, sau khi đọc bảng kết quả:
+    trung bình 3 accuracy bằng nhau, cộng theo thứ tự khác nhau, có thể lệch 2e-16 (cjs, PLL q 0,3: Gibbs và CC tune
+    cùng 0,99693667) và bị đếm là thua. Làm tròn chỉ đổi những chênh nhỏ hơn 1e-10; S2_RESULTS ghi số trước và sau."""
+    t, n = _ds_table(d, setting, level, metric)
+    return t.round(10), n
 
 
 def load():
@@ -76,7 +85,7 @@ def h4(d, exclude=()):
         cands = [c for c in CANDIDATES["pll"] if c in t]
         best = t[cands].mean().idxmax()
         ge = int((g >= t[best]).sum())
-        r["strongest"] = dict(name=best, n_ge=ge, n=int(len(g)), frac_ge=ge / len(g), **compare(g, t[best], True))
+        r["strongest"] = dict(name=best, n_ge=ge, n_datasets_level=int(len(g)), frac_ge=ge / len(g), **compare(g, t[best], True))
         r["n_datasets"], r["min_seeds"] = int(t.shape[0]), int(n["gibbs_warm"].min())
         r["means"] = {k: float(v) for k, v in t[["gibbs_warm", "naive", "hard_em_warm", "cc_tun", best, "oracle"]].mean().items()}
         res[str(q)], tabs[q] = r, t
@@ -110,6 +119,23 @@ def h3(d):
                 pass_=bool(frac >= 0.7 and bsr["p_rope"] <= 0.9 and rho.statistic > 0)), c
 
 
+def per_baseline(d):
+    """Phân tích phụ đã đăng ký (S2_PLAN §4): Gibbs so với TỪNG baseline, Holm trên mọi cặp baseline × mức của bối cảnh."""
+    rows = []
+    for st, lvls, met in (("llp", [8.0], "auc"), ("pll", [0.3, 0.6], "acc")):
+        for lv in lvls:
+            t, _ = ds_table(d, st, lv, met)
+            for c in CANDIDATES[st]:
+                if c in t:
+                    rows.append(dict(setting=st, level=lv, baseline=c, n_missing=int(t[c].isna().sum()),
+                                     **compare(t["gibbs_warm"], t[c], True)))
+    per = pd.DataFrame(rows)
+    for st in per.setting.unique():
+        m = per.setting == st
+        per.loc[m, "p_holm"] = holm(per.loc[m, "p"].values)
+    return per
+
+
 def main():
     d, keep = load()
     out = {}
@@ -130,6 +156,10 @@ def main():
                                             or s1[q]["comparator"]["wins"] / s1[q]["comparator"]["n"] < 0.6 for q in ("0.3", "0.6")))
         out["H3"], cells = h3(d)
         cells.to_csv(os.path.join(S2, "results", "s2_h3_cells.csv"), index=False)
+        per = per_baseline(d)
+        per.to_csv(os.path.join(S2, "results", "s2_per_baseline.csv"), index=False)
+        out["per_baseline_all_holm_sig"] = {st: int(((g.p_holm < 0.05) & (g.mean_diff > 0)).sum()) for st, g in per.groupby("setting")}
+        out["per_baseline_n"] = {st: int(len(g)) for st, g in per.groupby("setting")}
     json.dump(out, open(os.path.join(S2, "results", "s2_confirmatory.json"), "w"), indent=1, default=float, ensure_ascii=False)
     print(json.dumps(out, indent=1, default=float, ensure_ascii=False))
 

@@ -1,0 +1,39 @@
+run_g7 · part=tfm · split=s2 · backend=tabicl_v2 · code=py-52ee8a52d326 · config=0156cccc5964a1a0
+
+=== 1476 gas-drift: n=10000 (loại trùng 0), d=128, C=6, sha256=186c1b8cd5f6
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+               gas-drift pll      0.3 s0 oracle           0.9983 13.6s
+               gas-drift pll      0.3 s0 naive            0.9947 4.7s
+               gas-drift pll      0.3 s0 gibbs_warm       0.9967 148.8s
+               gas-drift pll      0.3 s0 sem_warm         0.9947 151.1s
+               gas-drift pll      0.3 s0 hard_em_warm     0.9980 118.4s
+               gas-drift pll      0.3 s1 oracle           0.9983 4.8s
+               gas-drift pll      0.3 s1 naive            0.9920 4.8s
+               gas-drift pll      0.3 s1 gibbs_warm       0.9950 151.6s
+               gas-drift pll      0.3 s1 sem_warm         0.9943 153.8s
+               gas-drift pll      0.3 s1 hard_em_warm     0.9970 118.5s
+               gas-drift pll      0.3 s2 oracle           0.9977 4.8s
+               gas-drift pll      0.3 s2 naive            0.9937 4.8s
+               gas-drift pll      0.3 s2 gibbs_warm       0.9957 152.6s
+               gas-drift pll      0.3 s2 sem_warm         0.9950 154.8s
+               gas-drift pll      0.3 s2 hard_em_warm     0.9973 118.1s
+               gas-drift pll      0.6 s0 oracle           0.9983 4.8s
+               gas-drift pll      0.6 s0 naive            0.9193 4.8s
+               gas-drift pll      0.6 s0 gibbs_warm       0.9947 155.3s
+               gas-drift pll      0.6 s0 sem_warm         0.9970 157.5s
+               gas-drift pll      0.6 s0 hard_em_warm     0.9943 119.5s
+               gas-drift pll      0.6 s1 oracle           0.9983 4.8s
+               gas-drift pll      0.6 s1 naive            0.9533 4.8s
+               gas-drift pll      0.6 s1 gibbs_warm       0.9943 154.3s
+               gas-drift pll      0.6 s1 sem_warm         0.9943 156.6s
+               gas-drift pll      0.6 s1 hard_em_warm     0.9950 119.4s
+               gas-drift pll      0.6 s2 oracle           0.9977 4.8s
+               gas-drift pll      0.6 s2 naive            0.9170 4.8s
+               gas-drift pll      0.6 s2 gibbs_warm       0.9957 155.1s
+               gas-drift pll      0.6 s2 sem_warm         0.9923 157.4s
+               gas-drift pll      0.6 s2 hard_em_warm     0.9933 119.1s

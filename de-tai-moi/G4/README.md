@@ -26,6 +26,15 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## S2 — lượt S2R (chạy lại ô lỗi) dùng `s2_code_v4.zip` (03/11/2026)
+
+Lượt S2G có 5 ô lỗi: PRODEN mặc định trên gas-drift. Theo G7_PLAN §2, ô lỗi được chạy lại một lần. Lượt **S2R** chỉ chạy lại PRODEN mặc định trên gas-drift (6 ô).
+- Phần cứng: Kaggle **CPU**, Internet On. Khoảng 10–15 phút, phần lớn là bộ test.
+- Cách chạy: như các lượt S2 bên dưới, nhưng dùng **`s2_code_v4.zip`**: ô 1 tìm `s2_code_v4/code/run_s2_lot.sh`; ô 2 đặt `LOT = "S2R"`.
+- Không cần chép kết quả cũ vào.
+- Gửi lại các tệp `s2_*`.
+- Lượt này không ảnh hưởng kết luận nào của S2 (S2/S2_RESULTS.md §5); chạy khi tiện.
+
 ## S2 — lượt S2G (gas-drift) dùng `s2_code_v3.zip` (02/11/2026)
 
 S2T, S2C1, S2C2 đã chạy bằng `s2_code_v1.zip`, tức danh sách trước bước kiểm dữ liệu, nên **thiếu gas-drift**. Lượt **S2G** chỉ chạy gas-drift.

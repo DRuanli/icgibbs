@@ -15,6 +15,8 @@
 - Lượt S2D xong. Áp §3.4, danh sách cuối là **18 dataset nhị phân + 10 dataset đa lớp** ([S2_DATASETS §5](S2_DATASETS.md)). Bước tiếp theo: chạy S2T, S2C1, S2C2.
 - Lượt S2X (thăm dò) xong: [S2X_REPORT](S2X_REPORT.md).
 
+**Cập nhật 03/11/2026: S2 xong.** Mọi lượt đã chạy (S2X, S2D, S2T, S2C1, S2C2, S2G). **Kết quả: thành công mạnh**, cả H2-LLP′, H4-PLL′ và H3′ đều đạt; S1 không đổi kết luận ([S2_RESULTS](S2_RESULTS.md)). Còn lượt S2R: chạy lại một lần 5 ô lỗi của PRODEN mặc định trên gas-drift, không ảnh hưởng kết luận. Biên bản cổng: [GATE_REVIEW_S2](GATE_REVIEW_S2.md).
+
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.
 2. **Mọi lựa chọn của S2 viết ra trước khi chạm dữ liệu mới.** Gồm dataset, phương pháp, đối thủ, kiểm định, ngưỡng. Sau khi đã thấy kết quả S2 thì không đổi gì.
@@ -124,8 +126,8 @@ Bước 1–4 không tải bảng dữ liệu nào.
 | 31/10 – 02/11 | thầy chạy script đếm; chạy lại L5 (21 ô) — **xong 01/11** |
 | 01/11 | rà tay xong ([S2_DATASETS](S2_DATASETS.md)) |
 | 02 – 05/11 | thầy duyệt; commit đóng băng S2; lượt S2D (kiểm dữ liệu, mã băm) |
-| 09 – 20/11 | chạy S2: TFM (GPU) và baseline (CPU) song song |
-| 21 – 30/11 | phân tích S2 bằng script có sẵn; lập GATE_REVIEW_S2 |
+| 09 – 20/11 | chạy S2: TFM (GPU) và baseline (CPU) song song — **xong 02/11** |
+| 21 – 30/11 | phân tích S2 bằng script có sẵn; lập GATE_REVIEW_S2 — **xong sớm, 03/11** |
 | 11 – 12/2026 | lý thuyết 5.1, nhánh 5.2 (song song với S2) |
 | 12/2026 – 04/2027 | viết bài (G9), kiểm duyệt nội bộ (G10) |
 | tháng 5/2027 | nộp NeurIPS 2027 |

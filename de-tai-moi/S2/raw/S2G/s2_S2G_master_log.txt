@@ -1,0 +1,7 @@
+lượt S2G bắt đầu: Mon Nov  2 03:32:19 PM UTC 2026
+113 passed, 2 skipped, 10047 warnings in 462.83s (0:07:42)
+GPU0 xong g_tfm: Mon Nov  2 04:09:17 PM UTC 2026
+CPU xong g_base_0: Mon Nov  2 04:55:27 PM UTC 2026
+CPU xong g_base_1: Mon Nov  2 04:59:52 PM UTC 2026
+CPU xong g_base_2: Mon Nov  2 05:00:50 PM UTC 2026
+lượt S2G kết thúc: Mon Nov  2 05:00:50 PM UTC 2026

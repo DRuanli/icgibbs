@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -9,6 +9,8 @@
 #   S2G  (GPU T4 × 2): chỉ gas-drift (1476, dự phòng bổ sung theo S2_PLAN §3.4, lấy mẫu con 10.000 hàng): phương pháp TFM
 #                      trên GPU 0 và mọi baseline PLL trên CPU của cùng phiên (3 mảnh song song). Cần bản code có 1476
 #                      trong S2_MULTICLASS (s2_code_v3 trở đi)
+#   S2R  (CPU)       : chạy lại một lần các ô lỗi của S2G (G7_PLAN §2): PRODEN mặc định trên gas-drift, đủ 6 ô. Cần
+#                      s2_code_v4 trở đi
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -56,6 +58,10 @@ case $LOT in
       || { echo "BẢN CODE CŨ: registry chưa có gas-drift — dùng s2_code_v3.zip"; exit 3; }
     gpu 0 g_tfm --part tfm --backend tabicl_v2 --datasets 1476 &
     for j in 0 1 2; do cpu "g_base_$j" --datasets 1476 --shard $j/3 & done; wait ;;
+  S2R)
+    python -c "from icgibbs.g7.registry import S2_MULTICLASS, S2_SUBSAMPLE; assert 1476 in S2_MULTICLASS and S2_SUBSAMPLE.get(1476) == 10000" \
+      || { echo "BẢN CODE CŨ: registry chưa có gas-drift — dùng s2_code_v4.zip"; exit 3; }
+    cpu r_base --datasets 1476 --only proden_def ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))
     for j in 0 1 2 3; do cpu "base_$((b+j))" --shard $((b+j))/8 & done; wait ;;
