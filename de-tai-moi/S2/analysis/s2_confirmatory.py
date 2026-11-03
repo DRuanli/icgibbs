@@ -46,7 +46,8 @@ def ds_table(d, setting, level, metric):
 def load():
     fs = sorted(glob.glob(os.path.join(S2, "raw", "S2T*", "s2_tfm_*.csv"))) + \
         sorted(glob.glob(os.path.join(S2, "raw", "S2C*", "s2_base_*.csv"))) + \
-        sorted(glob.glob(os.path.join(S2, "raw", "S2G*", "s2_*.csv")))
+        sorted(glob.glob(os.path.join(S2, "raw", "S2G*", "s2_*.csv"))) + \
+        sorted(glob.glob(os.path.join(S2, "raw", "S2R*", "s2_*.csv")))
     d = pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
     d = d[d.status == "ok"].copy()
     d["level"] = d.level.astype(float)

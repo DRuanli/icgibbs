@@ -10,7 +10,7 @@
   - LLP túi 8: 18 dataset × 3 seed.
   - PLL q = 0,3 và 0,6: 10 dataset × 3 seed.
   - Lượt S2T, S2C1, S2C2 chạy bằng code đóng băng. Lượt S2G (gas-drift) chạy ở commit `40456af`.
-  - Mọi ô của phép thử chính đủ 3 seed. Chỉ thiếu 5 ô của PRODEN mặc định trên gas-drift (Mục 5).
+  - Mọi ô của phép thử chính đủ 3 seed. Chỉ thiếu 5 ô của PRODEN mặc định trên gas-drift; chạy lại ở lượt S2R vẫn lỗi y hệt (Mục 5).
 
 ![Chênh theo dataset](figures/s2_gap_by_dataset.png)
 
@@ -121,7 +121,7 @@ Bảng: `results/s2_per_baseline.csv`.
 - **Lỗi:** 5/6 ô (q = 0,3 cả 3 seed; q = 0,6 seed 1, 2) báo `ValueError('proden_def: xác suất không hữu hạn')`: mạng phân kỳ với siêu tham số mặc định. Các ô lỗi dừng sau vài giây.
 - **Ô chạy được** (q = 0,6, seed 0) cho accuracy 0,943. PRODEN tune thì chạy đủ, nhưng thấp: 0,848 và 0,811.
 - **Không ảnh hưởng phép thử chính:** PRODEN mặc định không phải đối thủ chính và không phải baseline mạnh nhất ở mức nào. Nó chỉ vào phân tích phụ; ở q = 0,3 tính trên 9 dataset.
-- **Theo G7_PLAN §2:** ô lỗi được chạy lại một lần (lượt **S2R**, CPU, khoảng 10 phút). Nếu lặp lại thì ghi "thiếu, có lý do" và báo cáo trong bài.
+- **Theo G7_PLAN §2:** ô lỗi được chạy lại một lần ở lượt **S2R** (03/11). Cả 5 ô lỗi lặp lại y hệt; ô chạy được cho đúng 0,9430 như lần đầu. Lỗi là tất định, nên 5 ô ghi **"thiếu, có lý do"** và báo cáo trong bài. Phân tích đọc cả `raw/S2R/`; mọi số không đổi.
 
 ## 6. Sửa lỗi làm tròn trong script phân tích (03/11/2026, sau khi đã thấy số)
 

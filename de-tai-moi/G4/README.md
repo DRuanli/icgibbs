@@ -33,7 +33,8 @@ Lượt S2G có 5 ô lỗi: PRODEN mặc định trên gas-drift. Theo G7_PLAN �
 - Cách chạy: như các lượt S2 bên dưới, nhưng dùng **`s2_code_v4.zip`**: ô 1 tìm `s2_code_v4/code/run_s2_lot.sh`; ô 2 đặt `LOT = "S2R"`.
 - Không cần chép kết quả cũ vào.
 - Gửi lại các tệp `s2_*`.
-- Lượt này không ảnh hưởng kết luận nào của S2 (S2/S2_RESULTS.md §5); chạy khi tiện.
+- Lượt này không ảnh hưởng kết luận nào của S2 (S2/S2_RESULTS.md §5).
+- **Đã chạy 03/11/2026:** lỗi lặp lại, 5 ô ghi "thiếu, có lý do".
 
 ## S2 — lượt S2G (gas-drift) dùng `s2_code_v3.zip` (02/11/2026)
 

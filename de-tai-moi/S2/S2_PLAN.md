@@ -15,7 +15,7 @@
 - Lượt S2D xong. Áp §3.4, danh sách cuối là **18 dataset nhị phân + 10 dataset đa lớp** ([S2_DATASETS §5](S2_DATASETS.md)). Bước tiếp theo: chạy S2T, S2C1, S2C2.
 - Lượt S2X (thăm dò) xong: [S2X_REPORT](S2X_REPORT.md).
 
-**Cập nhật 03/11/2026: S2 xong.** Mọi lượt đã chạy (S2X, S2D, S2T, S2C1, S2C2, S2G). **Kết quả: thành công mạnh**, cả H2-LLP′, H4-PLL′ và H3′ đều đạt; S1 không đổi kết luận ([S2_RESULTS](S2_RESULTS.md)). Còn lượt S2R: chạy lại một lần 5 ô lỗi của PRODEN mặc định trên gas-drift, không ảnh hưởng kết luận. Biên bản cổng: [GATE_REVIEW_S2](GATE_REVIEW_S2.md).
+**Cập nhật 03/11/2026: S2 xong.** Mọi lượt đã chạy (S2X, S2D, S2T, S2C1, S2C2, S2G). **Kết quả: thành công mạnh**, cả H2-LLP′, H4-PLL′ và H3′ đều đạt; S1 không đổi kết luận ([S2_RESULTS](S2_RESULTS.md)). Lượt S2R (03/11) chạy lại 5 ô lỗi của PRODEN mặc định trên gas-drift: lỗi lặp lại, ghi "thiếu, có lý do". **Thầy duyệt toàn bộ [GATE_REVIEW_S2](GATE_REVIEW_S2.md) ngày 03/11/2026: cổng S2 qua, sang G9** ([G9_PLAN](../G9/G9_PLAN.md)).
 
 ## 0. Nguyên tắc
 1. **Bài báo cáo cả hai nghiên cứu.** NC1 báo cáo đầy đủ, kể cả phần không đạt và phân tích lỗi. Không có kết quả nào của NC1 bị bỏ.

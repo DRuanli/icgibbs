@@ -1,0 +1,1 @@
+run_s2_lot.sh: line 25: nvidia-smi: command not found

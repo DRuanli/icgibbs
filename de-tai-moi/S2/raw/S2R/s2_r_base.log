@@ -1,0 +1,9 @@
+run_g7 · part=baselines · split=s2 · backend=tabpfn_v2 · code=py-52ee8a52d326 · config=df15c9043eabdf1c
+
+=== 1476 gas-drift: n=10000 (loại trùng 0), d=128, C=6, sha256=186c1b8cd5f6
+[lỗi] 1476 pll 0.3 s0 proden_def: ValueError('proden_def: xác suất không hữu hạn')
+[lỗi] 1476 pll 0.3 s1 proden_def: ValueError('proden_def: xác suất không hữu hạn')
+[lỗi] 1476 pll 0.3 s2 proden_def: ValueError('proden_def: xác suất không hữu hạn')
+               gas-drift pll      0.6 s0 proden_def       0.9430 19.5s
+[lỗi] 1476 pll 0.6 s1 proden_def: ValueError('proden_def: xác suất không hữu hạn')
+[lỗi] 1476 pll 0.6 s2 proden_def: ValueError('proden_def: xác suất không hữu hạn')

@@ -1,0 +1,4 @@
+lượt S2R bắt đầu: Tue Nov  3 04:26:28 AM UTC 2026
+113 passed, 2 skipped, 10047 warnings in 487.90s (0:08:07)
+CPU xong r_base: Tue Nov  3 04:36:56 AM UTC 2026
+lượt S2R kết thúc: Tue Nov  3 04:36:56 AM UTC 2026
