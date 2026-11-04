@@ -34,6 +34,7 @@ conditionally independent predictions.}
 \label{tab:related}
 \small
 \setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lccccc@{}}
 \toprule
  & no training & tabular & several weak-label & inference over latent & dependence among \\
@@ -45,5 +46,5 @@ TabPFN imputation \citep{sepin_mi} & \checkmark & \checkmark & -- (missing outco
 Noise immunity \citep{noise_immunity} & \checkmark & \checkmark & -- (label noise) & -- (measurement) & -- \\
 \textbf{\ours{} (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}

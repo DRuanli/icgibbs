@@ -8,6 +8,7 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs,multirow,threeparttable}
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{microtype}
 \usepackage{nicefrac}
@@ -17,7 +18,9 @@
 \usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
 \usepackage[capitalise,noabbrev]{cleveref}
 
+\setlength{\emergencystretch}{1.5em}
 \input{numbers}
+\input{numbers_appendix}
 \input{macros}
 
 \newif\iffinal \finalfalse
@@ -45,11 +48,13 @@
 \input{sections/limitations}
 \input{sections/conclusion}
 
-\iffinal\else\nocite{*}\fi   % draft: list every candidate reference
 \bibliographystyle{plainnat}
 \bibliography{refs}
 
 \appendix
 \input{sections/appendix}
+
+\clearpage
+\input{sections/checklist}
 
 \end{document}

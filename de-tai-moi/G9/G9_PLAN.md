@@ -108,11 +108,11 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 | D5 | Nơi viết LaTeX | Viết trong kho, thư mục `paper/` (em biên dịch kiểm tra được); thầy có thể đồng bộ sang Overleaf |
 
 ## 7. Qua cổng G9 khi (handbook 02 §G9)
-- [ ] Bản thảo LaTeX theo template của venue.
-- [ ] Có phần Data & Code Availability; khai báo AI, tài trợ, xung đột lợi ích, CRediT.
-- [ ] Abstract và giới thiệu không khẳng định điều gì vượt ma trận khẳng định–bằng chứng; mỗi câu khẳng định có trỏ mục, bảng, hình hoặc định lý.
-- [ ] Phần Limitations có nội dung thật, gồm O1, phụ thuộc TFM, độ lớn hiệu ứng ở PLL.
-- [ ] NeurIPS Paper Checklist điền đủ.
+- [x] Bản thảo LaTeX (khổ trang tạm, đổi sang style NeurIPS 2027 khi có). Phần chính 9 trang; 24 trang kể cả phụ lục và checklist.
+- [~] Có Data & Code Availability, Compute, Broader impacts, khai báo dùng LLM (phụ lục J). Còn thiếu: tài trợ, xung đột lợi ích, CRediT (D4, điền ở bản camera-ready vì bài ẩn danh); đối chiếu chính sách LLM của NeurIPS 2027.
+- [x] Abstract và giới thiệu không khẳng định điều gì vượt ma trận; mỗi khẳng định có trỏ mục, bảng, hình hoặc định lý (dấu `\claim{}` trong bản nháp).
+- [x] Limitations có nội dung thật: phụ thuộc TFM, lý thuyết so với bộ lấy mẫu mặc định, độ trộn, phạm vi và độ lớn hiệu ứng.
+- [x] NeurIPS Paper Checklist: bản nháp đủ 16 câu; còn xác nhận giấy phép của checkpoint TabICL v2, dữ liệu OpenML và PALM.
 
 ## 8. Tiến độ
 | Ngày | Việc |
@@ -121,3 +121,4 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 | 03/11/2026 (chiều) | Bản nháp mục 3 (thiết lập), 4 (phương pháp, Thuật toán 1), 5 (lý thuyết: Bổ đề 1, Định lý 1–2, Mệnh đề 1–3, có đoạn "Phạm vi" nói rõ cấu hình mặc định không có đảm bảo), 6.1 (thiết kế), 6.2 (RQ1), 6.6 (nhãn yếu thật, Bảng 3 sinh bằng script), 6.7 (ablation, R̂, chi phí), 7 (giới hạn); Phụ lục A (chứng minh đầy đủ, dịch từ PROOFS.md). Mọi số mới cũng sinh bằng `make_tables.py` (189 macro). **Độ dài:** phần chính đã khoảng 9 trang khi chưa có giới thiệu, công trình liên quan, abstract → phải cắt khoảng 2,5 trang (dự kiến: chuyển Bảng 3, chi tiết RQ1 và mã giả sang phụ lục, rút gọn mục 5). Số liệu RQ1 trong mục 6.2 còn gõ tay từ RQ1_REPORT; phải sinh bằng script trước khi nộp |
 | 04/11/2026 | Nhận kết quả S2E (thăm dò): R̂ và khối có sửa MH với TabICL ([S2E_REPORT](../S2/S2E_REPORT.md)). Sửa câu "bản chính xác cho dự đoán tương tự" thành "không dự đoán tốt hơn ở cùng số vòng quét, chậm hơn nhiều, và không tách được độ lệch của bản xấp xỉ với độ trộn chậm". Thêm Bảng 5 (phụ lục). Hết các `\todo` phụ thuộc S2E |
 | 04/11/2026 | Theo yêu cầu của thầy ("viết sao cho hay, đừng viết theo hướng kết quả âm"): viết mục 1 (giới thiệu), 2 (công trình liên quan, Bảng 1 định vị), abstract, kết luận; dựng lại mục 6 theo mạch tích cực — 6.2 kết quả chính (nghiên cứu xác nhận), 6.3 nguồn gốc lợi ích, 6.4 lợi ích phụ thuộc vào gì (Study 1 trình bày như nghiên cứu tìm ra điều kiện, đủ số liệu), 6.5 nhãn yếu thật, 6.6 tính chính xác, độ trộn, chi phí. Không bỏ số liệu nào của Study 1 (D1). **Phần chính vừa 9 trang** (kết luận kết thúc ở trang 9): chuyển bảng H3, bảng nhãn yếu thật, Mệnh đề về khối và chi tiết RQ1 sang phụ lục; rút gọn mục 3–5, 7 |
+| 04/11/2026 (tiếp) | Hoàn thành phụ lục bằng script `paper/scripts/make_appendix.py` (12 bảng: dòng thời gian đăng ký trước, Study 1 với TabICL, độ nhạy và mọi baseline của Study 2, kết quả theo dataset, RQ1, ablation, dataset của hai nghiên cứu, không gian tune, bối cảnh phụ). Số RQ1 nay sinh từ `G4/results/rq1/*.csv` (độ lỏng của chặn Định lý 2 theo từng cấu hình là 1,9–15 lần, trung vị 3,9; số 2–12 lần trước đây là trung bình theo seed). Viết checklist NeurIPS và các phần khai báo. **Đối chiếu 32 tài liệu tham khảo** ([REFERENCE_CHECK](REFERENCE_CHECK.md)): sửa 9 sai lệch, trong đó TabICLv2 đã đăng ICML 2026, DLLP là ICDM Workshops, và Hệ quả 12 của Agarwal chỉ phát biểu cho ước lượng xác suất lớp. Còn 3 `\todo`: ngưỡng sụp (D2, hạn 20/12), chính sách LLM của NeurIPS 2027, xác nhận giấy phép |

@@ -12,7 +12,8 @@ $\lik(y)=\prod_i\lik_i(y_i)$; the set of free points is $F=\{i:\lvert\{k:\lik_i(
 \begin{proof}[Proof of \cref{lem:fullcond}]
 Given $\phi$ the pairs $(x_j,y_j)$ are i.i.d., hence exchangeable, so the joint law of $(D_{-i},(x_i,y_i))$ equals that of
 $(D_{n-1},(x_*,y_*))$, a context of $n-1$ points and a query. The information $(X,y_{-i})$ coincides with $(x_i,D_{-i})$.
-Therefore $p(y_i\mid y_{-i},X)=p((x_i,y_i),D_{-i})/\sum_kp((x_i,k),D_{-i})=p(y_i\mid x_i,D_{-i})$.
+Therefore
+\[p(y_i\mid y_{-i},X)=\frac{p((x_i,y_i),D_{-i})}{\sum_kp((x_i,k),D_{-i})}=p(y_i\mid x_i,D_{-i}).\qedhere\]
 \end{proof}
 The PPD conditions on the query features $x_*$ as well, which may carry information about $\phi$; this is the quantity
 the PFN training loss targets, since $x_*$ is drawn from the prior together with the context \citep{muller2022pfn}.
@@ -140,7 +141,7 @@ $h_s=\mathbb 1[s(X)>s(X')]+\frac12\mathbb 1[s(X)=s(X')]$; symmetrising,
 $\varpi(1-\varpi)[\mathrm{AUC}(\eta)-\mathrm{AUC}(s)]=\frac12\E\big[\lvert\Delta\rvert(\mathbb 1[s\text{ reverses the pair}]+\frac12\mathbb 1[s\text{ ties},\Delta\neq0])\big]$
 with $\Delta=\eta(X)-\eta(X')$. With $t=(s-b)/\lambda$, which has the ranks of $s$, a reversed or tied pair has
 $\lvert\Delta\rvert\le\lvert\eta(X)-t(X)\rvert+\lvert\eta(X')-t(X')\rvert$, so the right-hand side is at most
-$\E\lvert s-\tilde\eta\rvert/\lambda$. For $\lambda=1$ this is a known AUC regret bound \citep[Corollary~12]{agarwal2014}.
+$\E\lvert s-\tilde\eta\rvert/\lambda$. For $\lambda=1$ and scores that are class-probability estimates, this is Corollary~12 of \citet{agarwal2014}.
 (b) $p_\theta(\tilde w)=\sum_Op_\theta(O)R(\tilde w\mid O)$ gives
 $\partial_\theta\log p_\theta(\tilde w)=\E_\theta[\partial_\theta\log p_\theta(O)\mid\tilde w]$, and Jensen's inequality for
 conditional expectations gives $I_{\tilde w}(\theta)\le I_O(\theta)$, with equality iff the score of $O$ is

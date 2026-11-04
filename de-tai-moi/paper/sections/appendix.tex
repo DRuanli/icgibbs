@@ -1,31 +1,142 @@
 \input{sections/appendix_proofs}
 
+\FloatBarrier
 \section{Pre-registration and timeline}\label{app:prereg}
-% Study 1: G5 freeze record; deviations 1-16 (G5/EXPERIMENT_PROTOCOL §11). Study 2: S2_PLAN frozen at commit
-% aaee9fd (2026-11-01 15:19 UTC), before any evaluation table was downloaded; post-check rule applied (S2_DATASETS §5);
-% one post-hoc fix of a floating-point tie in the analysis script (no conclusion changed; S2\_RESULTS §6).
-\todo{timeline table}
+Both studies were run under a written protocol with hypotheses, comparators, tests, datasets and decision rules fixed
+before any evaluation data were used; every later change was logged as a dated deviation. In the anonymised repository
+each freeze is a commit, and every result file records the hashes of the code that produced it.
 
-\section{Study 1 with TabICL v2 (exploratory)}\label{app:s1-tabicl}
-\todo{G8\_REPORT §2, §6.4}
-
-\section{Study 2: sensitivity analysis and full results}\label{app:s2-s1}
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
-\caption{Study 2: mean score of every method (datasets averaged over 3 seeds). PRODEN (default) failed on gas-drift in
+\caption{Timeline of the two studies (2026, UTC). ``Exploratory'' marks analyses that were not part of the registered
+tests.}
+\label{tab:timeline}
+\small
+\begin{tabular}{@{}lp{0.72\textwidth}@{}}
+\toprule
+Date & Event \\
+\midrule
+26 Oct & Study~1 protocol frozen (hypotheses H1--H5, datasets, baselines, tuning spaces, primary-comparator rule, tests,
+ablations, sensitivity analysis). Later changes were logged as dated deviations: all but three before the evaluation
+runs; the three made during the analysis (dropping an external LLP benchmark whose data were unavailable, fixing the
+reading of an ambiguous rule to its weakest form, labelling the TFM ablation exploratory) are reported. \\
+28 Oct--1 Nov & Study~1 runs on the evaluation datasets (TabPFN~v2; registered TabICL~v2 ablation; baselines). \\
+30 Oct & Study~1 analysis: H2 and H4 not met, H3 and H5 met; TFM ablation passes all tests (exploratory).
+Decision to run a confirmatory replication changing only the TFM. \\
+1 Nov & Study~2 dataset census and selection from metadata only; flags for the sensitivity analysis set by hand. \\
+1 Nov 15:19 & \textbf{Study~2 frozen} (commit), before any Study~2 table was downloaded. \\
+1--2 Nov & Data download and post-check rule applied (two datasets fail $n\ge500$ after de-duplication; first reserve
+added, subsampled to 10{,}000 rows). Exploratory response-map runs on Study~1 datasets only. \\
+2--3 Nov & Study~2 runs; confirmatory analysis with the pre-written script. One post-hoc fix of a floating-point tie in
+the analysis (a tie counted as a loss); no conclusion changed. Failed cells of one baseline rerun once. \\
+3 Nov & Exploratory runs on Study~1 datasets: $\widehat R$ and MH-corrected blocks with TabICL~v2. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+\section{Study 1 with TabICL v2 (registered TFM ablation)}\label{app:s1-tabicl}
+\Cref{tab:s1tabicl} applies the H2 and H4 tests of Study~1 to the registered TFM ablation, in which every TFM-based method
+uses TabICL~v2. With clean labels the two TFMs are equally accurate (oracle within 0.005); the difference appears only
+with weak labels. Because TabICL~v2 was promoted after these results were seen, they are exploratory; Study~2 is the
+confirmatory test.
+\begin{table}[!htbp]
+\centering
+\caption{Study~1 datasets, TabICL~v2 for all TFM-based methods (exploratory). Same tests and comparators as
+\cref{tab:main}.}
+\label{tab:s1tabicl}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s1_tabicl}}
+\end{table}
+
+\FloatBarrier
+\section{Study 2: sensitivity analysis, all baselines and per-dataset results}\label{app:s2-s1}
+\paragraph{Sensitivity.} Five datasets were flagged before any data were downloaded (repeated measurements of the same
+units, or temporal drift): SpeedDating and eye\_movements (binary); JapaneseVowels, cjs and gas-drift (multiclass).
+Without them, every conclusion is unchanged (\cref{tab:s2s1}). With seven multiclass datasets, Holm-adjusted Wilcoxon
+tests cannot reach $0.05$ unless every comparison is won; the registered rule for this case checks that the mean
+difference keeps its sign and that \ours{} still wins on at least 60\% of the remaining datasets, which holds at both
+levels.
+\begin{table}[!htbp]
+\centering
+\caption{Study~2 without the flagged datasets.}
+\label{tab:s2s1}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s2_s1}}
+\end{table}
+
+\paragraph{All baselines.} Against each baseline separately (Holm over all baseline--level pairs of a setting),
+\ours{} is significantly better than all ten LLP baselines; on PLL every mean difference is positive and 7 of 16 pairs are
+significant after this stricter correction (\cref{tab:s2perbase}). One baseline (default PRODEN) produced non-finite
+probabilities on 5 of 6 gas-drift cells, also on a rerun; its means use the remaining cells.
+\begin{table}[!htbp]
+\centering
+\caption{Study~2, \ours{} against every baseline. Bold: significant in favour of \ours{}.}
+\label{tab:s2perbase}
+\small
+\input{tables/app_s2_perbase}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Study~2, LLP with bags of 8: AUC per dataset (mean over 3 seeds). Bold: best non-oracle method among those
+shown.}
+\label{tab:s2llpds}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s2_llp_ds}}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Study~2, PLL: accuracy per dataset (mean over 3 seeds). Bold: best non-oracle method among those shown.}
+\label{tab:s2pllds}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s2_pll_ds}}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Study~2: mean score of every method (datasets averaged over 3 seeds). PRODEN (default) failed on gas-drift in
 5 of 6 cells (non-finite probabilities, reproduced on a rerun); its $q=0.3$ mean is over 9 datasets and its $q=0.6$
 gas-drift entry uses one seed.}
 \label{tab:s2means}
 \small
 \resizebox{\textwidth}{!}{\input{tables/s2_means}}
 \end{table}
-\todo{S1 sensitivity (S2\_RESULTS §1, §2), per-baseline comparisons (§4), per-dataset tables}
 
-\section{Correctness experiments (RQ1)}\label{app:rq1}
-\todo{E1--E5 tables and figure from G4/RQ1\_REPORT (generated from results/rq1/*.csv)}
+\FloatBarrier
+\section{Correctness experiments}\label{app:rq1}
+We enumerate every labelling of small problems ($n\le14$), build the exact transition matrix of each kernel with an
+analytic PPD as $\tfm$, and compare its stationary distribution with $\pi$. Two priors are used: one in which features
+carry no information about the label mechanism, and a three-component mixture in which they do. Across all
+\val{rq1-e1-n} configurations the TV distance is at most $\val{rq1-e1-tvmax}$ (\cref{tab:rq1e1}), and running the
+actual sampler for $10^5$ sweeps reaches the Monte Carlo floor of i.i.d.\ sampling. For \cref{thm:stability} we use
+conditionals with deliberate, incompatible perturbations (\val{rq1-e3-n} configurations) and small PFNs trained on the same
+prior; the bound held in \val{rq1-thm2-held} of \val{rq1-thm2-n} configurations and was \val{rq1-loose-min} to
+\val{rq1-loose-max} times loose (median \val{rq1-loose-median}; \cref{tab:rq1thm2}); a fully trained PFN gives TV
+\val{rq1-pfn-final-single} (single-site) and \val{rq1-pfn-final-swap} (swap). On an exactly solvable pooled problem with
+$n=\val{rq1-e5-nmax}$ and $K=10$, blocking over all points changes predictions by $\val{rq1-e5-pred-all-n1000}$, whereas
+blocking only the free points biases them by \val{rq1-e5-pred-free-n1000}, which is why blocks include fixed points.
+\begin{table}[!htbp]
+\centering
+\caption{Exactness (\cref{thm:exact}, \cref{prop:blocks}(a)): TV between the stationary distribution of the exact kernel
+and $\pi$.}
+\label{tab:rq1e1}
+\small
+\input{tables/app_rq1_e1}
+\end{table}
+\begin{table}[!htbp]
+\centering
+\caption{Stability (\cref{thm:stability}): actual TV between the stationary distributions of the approximate and exact
+chains, the bound $\tau(P)\bar\varepsilon$, and their ratio (looseness).}
+\label{tab:rq1thm2}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_rq1_thm2}}
+\end{table}
 
+\FloatBarrier
 \section{Ablations}\label{app:ablations}
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
 \caption{Mixing and the exact sampler, by TFM. TabPFN: Study~1 (registered ablations); TabICL: exploratory lot on the
 Study~1 datasets. ``3 small'': the three smallest datasets of each group, as registered for $\widehat R$. Columns 2--5:
@@ -33,12 +144,13 @@ medians over cells of the fraction of training labels with $\widehat R>1.1$ (two
 between the test metrics of the two chains. Columns 6--7: mean difference in AUC (LLP) or accuracy (PLL) between the
 MH-corrected and the default sampler at 30 sweeps, with the mean MH acceptance rate. In the last row, $\widehat R$ uses all
 four datasets with $\geq$8 classes, and the MH comparison only two of them (mfeat-factors, optdigits; 5 of 12 cells),
-because the corrected sampler exceeded the 12-hour compute session on optdigits.}
+because the corrected sampler ran out of the 12-hour compute session on optdigits.}
 \label{tab:s2e}
 \small
 \resizebox{\textwidth}{!}{\input{tables/s2e}}
 \end{table}
-\begin{table}[h]
+
+\begin{table}[!htbp]
 \centering
 \caption{\ours{} versus hard-EM with the same TFM and warm start, log loss. A cell is a (dataset, weak-label level)
 pair; Bayesian signed-rank test with ROPE $\pm0.005$; Spearman correlation between weakness level and the gap.
@@ -47,10 +159,19 @@ $^\dagger$Computed on PLL cells (LLP has a single level), as stated before the a
 \small
 \input{tables/h3}
 \end{table}
-\todo{full ablation table (G8/results/ablation\_summary.csv) and size curve}
 
+\begin{table}[!htbp]
+\centering
+\caption{Study~1 ablations (TabPFN~v2): each variant against the default on the same cells. Blocks, sweeps and MH: the
+three smallest datasets per group; transductive and cold start: all datasets.}
+\label{tab:ablation}
+\small
+\input{tables/app_ablation}
+\end{table}
+
+\FloatBarrier
 \section{Real partial labels}\label{app:real}
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
 \caption{Real partial labels (Study~1, TabICL~v2 for all TFM-based methods): accuracy averaged over 10 random 90/10
 splits, and mean rank over all splits of the three datasets among the ten ranked methods (\ours{}, naive TFM and eight
@@ -60,8 +181,95 @@ baselines). Bold: best non-oracle accuracy.}
 \input{tables/real_pll}
 \end{table}
 
-\section{Datasets, baselines and tuning spaces}\label{app:data}
-\todo{dataset cards; docs/tuning\_spaces.md}
+\FloatBarrier
+\section{Datasets, baselines and tuning}\label{app:data}
+\paragraph{Datasets.} Study~1 uses every OpenML-CC18 dataset with real (non-synthetic) data, 500 to 10{,}000 rows, at
+most 500 features and, for binary tasks, a minority class of at least 10\% (multiclass: 3--10 classes), one per source;
+Study~2 applies the same criteria to five curated suites after excluding OpenML-CC18 and Study~1
+(\cref{tab:datasets}). Duplicate rows are removed before splitting. TFMs receive ordinally encoded features; MLP
+baselines receive median-imputed, standardised features with one-hot encoded categories, fitted on the training split.
 
+\paragraph{Baselines and tuning.} Each baseline runs in the configuration of its original code or paper and tuned by 20
+random configurations (the default among them) from the spaces below, scored by the method's own loss on a 20\%
+validation split with weak labels only (split by bag for LLP); the best configuration is refit on the full training
+split. MLP-based learners (DLLP, LLP-VAT, EasyLLP, GLWS, PRODEN) search learning rate $\sim\mathrm{LogU}(10^{-4},10^{-2})$,
+weight decay $\sim\mathrm{LogU}(10^{-6},10^{-2})$, hidden layers in $\{(),(64),(128,128)\}$ and epochs in
+$\{100,200,400\}$, plus bags per batch for LLP, VAT parameters for LLP-VAT, the optimiser for PRODEN and the entropy
+term for GLWS/ILL; RC and CC use a linear model with the PRODEN space (\cref{tab:tuning}).
+
+\begin{table}[!htbp]
+\centering
+\caption{Search spaces (20 random configurations, the default included). LogU: log-uniform.}
+\label{tab:tuning}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lll@{}}
+\toprule
+Baseline & Default & Search space \\
+\midrule
+DLLP (MLP, linear), EasyLLP & lr $10^{-3}$, wd 0, 200 epochs & lr $\sim$ LogU($10^{-4},10^{-2}$); wd $\sim$ LogU($10^{-6},10^{-2}$); hidden $\in\{(),(64),(128,128)\}$; epochs $\in\{100,200,400\}$; bags/batch $\in\{8,32\}$ \\
+LLP-VAT & as DLLP + VAT defaults of the official code & as DLLP; $\xi\in\{10^{-6},10^{-3}\}$; $\epsilon\in\{0.1,0.5,1,2\}$; consistency weight $\sim$ LogU($10^{-2},1$) \\
+GLWS / ILL & official code, MLP backbone & lr, wd as DLLP; hidden $\in\{(64),(128),(128,128)\}$; epochs $\in\{100,200,400\}$; entropy term on/off (PLL) \\
+PRODEN & lr $10^{-3}$, wd $10^{-5}$, hidden $(128,128)$, 200 epochs, SGD & lr, wd, hidden, epochs as DLLP; optimiser $\in\{$SGD (momentum 0.9), Adam$\}$ \\
+RC, CC & linear model as in the original paper & as PRODEN \\
+SAR-EM (PU-SAR) & $C_f=C_e=1$ & $C_f,C_e\sim$ LogU($10^{-3},10^{3}$) \\
+nnPU, uPU, forward correction & lr $10^{-3}$, wd 0, hidden $(100)$, 200 epochs & lr $\sim$ LogU($10^{-4},10^{-2}$); wd $\sim$ LogU($10^{-6},10^{-2}$); hidden $\in\{(64),(128),(128,128)\}$; epochs $\in\{100,200,400\}$ \\
+VPU & official code & lr $\sim$ LogU($10^{-5},10^{-3}$); mixup $\lambda\in\{0.01,0.03,0.1,0.3\}$; $\alpha\in\{0.1,0.3,1\}$ \\
+Self-training & logistic regression, $C=1$, threshold 0.75 & $C\sim$ LogU($10^{-3},10^{3}$); threshold $\in\{0.6,0.75,0.9,0.95\}$ \\
+Label spreading & kNN, $k=7$, $\alpha=0.2$ & kernel $\in\{$kNN, RBF$\}$; $k\in\{3,5,7,11,15,21\}$; $\gamma\sim$ LogU($10^{-3},10$); $\alpha\in\{0.1,0.2,0.5,0.8\}$ \\
+VIME & official code & $p_m\in\{0.1,0.3,0.5\}$; $\alpha\in\{0.5,1,2\}$; $\beta\in\{0.1,1,10\}$; hidden $\in\{(64),(128)\}$ \\
+Confident learning + TFM & default (not tuned) & -- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Datasets ($n$ after removing duplicates; $^\ast$subsampled to 10{,}000 rows by the registered rule; S1:
+flagged for the sensitivity analysis).}
+\label{tab:datasets}
+\scriptsize
+\resizebox{\textwidth}{!}{\input{tables/app_datasets}}
+\end{table}
+
+\FloatBarrier
 \section{Secondary settings of Study 1}\label{app:secondary}
-\todo{LLP bags 16/32, PU-SCAR, PU-SAR, noisy labels, SSL; D1-D3}
+Study~1 also registered secondary settings (\cref{tab:secondary}). \ours{} improved strongly on the naive TFM for larger
+bags, as for bags of 8, but not for PU with labels selected completely at random, class-dependent noise or SSL, where its
+difference to the naive TFM was at most \val{s1-d3-max} AUC. This is the pattern \cref{prop:naive} predicts, and it was
+registered in advance as exploratory analyses D1--D3: the advantage over the naive TFM grows from $q=0.3$ to $q=0.6$ (D1,
+one-sided $p=\val{s1-d1-p}$) and from bags of 8 to 16 (D2, $p=\val{s1-d2-p}$), and stays below $+0.02$ AUC in the
+settings where the naive labels lose no information (D3, all six levels). Against the primary comparators of these
+settings no difference was significant except class-dependent noise at $r=0.4$, where confident learning combined with the
+TFM was better.
+
+\begin{table}[!htbp]
+\centering
+\caption{Study~1 secondary settings (TabPFN~v2). $\Delta$ positive favours \ours{}. $^\dagger$Log loss after matching the
+known class prior (sign flipped so that positive is better).}
+\label{tab:secondary}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s1_secondary}}
+\end{table}
+
+\FloatBarrier
+\section{Statements}\label{app:statements}
+\paragraph{Data and code availability.} All datasets are public (OpenML; the PALM collection for real partial labels).
+Code, frozen protocols, raw per-cell results with code and data hashes, and the scripts that generate every number,
+table and figure of this paper are available in an anonymised repository and will be released.
+
+\paragraph{Compute.} All runs used free Kaggle sessions with two NVIDIA T4 GPUs (TFM-based methods) or CPUs (baselines).
+Study~1 used about 42 hours of two-GPU sessions and 26 hours of four-process CPU sessions; Study~2 about 4 GPU-hours
+and 80 CPU process-hours (two sessions of about ten hours with four processes each); the exploratory lots about 13 hours
+of two-GPU sessions. Development and pilot runs before each freeze are not included.
+
+\paragraph{Broader impacts.} Learning from weak labels lowers the cost of annotation and makes coarse or ambiguous labels
+usable. Learning from label proportions also recovers individual-level predictions from data released only in
+aggregate; when aggregation was chosen to protect individuals, such models can weaken that protection, and releases of
+aggregated data should be assessed with this in mind.
+
+\paragraph{Use of large language models.} An AI assistant was used for writing code, drafting proofs that the authors
+checked, running analyses through the pre-written scripts, and drafting text. The authors designed the studies, approved
+every pre-registration and decision, ran all experiments and are responsible for all content.
+\todo{align with the venue's LLM policy; docs/AI\_USAGE.md}
+\FloatBarrier

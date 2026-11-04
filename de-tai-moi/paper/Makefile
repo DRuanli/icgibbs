@@ -3,6 +3,7 @@
 all: data pdf
 data:
 	python3 scripts/make_tables.py
+	python3 scripts/make_appendix.py
 	python3 scripts/make_figures.py
 pdf:
 	latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
