@@ -1,22 +1,13 @@
 \section{Limitations}\label{sec:limitations}
 % Each item traces to the "scope" column of G3/CLAIM_EVIDENCE_MATRIX.md.
-\paragraph{The TFM decides.} The same sampler did not beat the strongest specialised baselines with TabPFN~v2 (Study~1)
-and did with TabICL~v2 (Study~2). The two TFMs were compared on the same data only in Study~1, where TabICL~v2 was an
-ablation, and in the exploratory response-map analysis; the studies use different datasets, so they do not form a
-controlled comparison of TFMs. We do not claim the method works with any TFM; practitioners should check the response of
-their TFM to noisy context labels (\cref{fig:mechanism}) before relying on it.
-
-\paragraph{Theory and the default sampler.} Our guarantees cover the single-site, swap and MH-corrected samplers. The
-uncorrected block and bag-block samplers used by default have no non-vacuous guarantee (\cref{prop:blocks}); the exact
-variant does not predict better at the same budget, but it also mixes more slowly, so the bias of the approximation
-itself has not been measured on real data. Exactness also holds only
-with respect to the TFM's prior, and the exact transductive predictor was worse than the inductive one.
-
-\paragraph{Mixing.} Thirty sweeps give predictions that are stable across chains, but label-level $\widehat R$ shows that the
-chains have not mixed over individual labels, so the samples should not be read as draws from a converged posterior.
-
-\paragraph{Scope and size of the gains.} The claims cover LLP with bags of 8 and PLL. In Study~1, \ours{} did not improve
-on the naive TFM for PU with labels selected completely at random, class-dependent noise or semi-supervised learning,
-as \cref{prop:naive} predicts, and it was not significantly better than the primary comparator for bags of 16 or 32. On PLL the gain over tuned CC is about one
-accuracy point, close to an oracle ceiling. Datasets have at most 10{,}000 rows and contexts at most 2{,}000 points; one
-baseline (default PRODEN) failed deterministically on one Study~2 dataset.
+\textbf{Dependence on the TFM.} The method inherits its TFM's response to noisy context labels: with TabPFN~v2 it
+stalled under heavy ambiguity with many classes. The two TFMs were compared on the same data only in Study~1 and in the
+response-map analysis, so the cross-study contrast is not a controlled comparison of TFMs.
+\textbf{Theory versus the default sampler.} Our guarantees cover the single-site, swap and MH-corrected samplers; the
+uncorrected block samplers used by default have none that is non-vacuous. The exact sampler did not predict better overall,
+but it mixes more slowly, so the bias of the approximation has not been isolated on real data.
+\textbf{Mixing.} Thirty sweeps give stable predictions, not draws from a converged posterior over individual labels.
+\textbf{Scope.} The claims cover LLP with bags of 8 and PLL. As \cref{prop:naive} predicts, the sampler did not improve on
+the naive TFM for PU with labels selected completely at random, class-dependent noise or semi-supervised learning, and
+it was not significantly better than the primary comparator for bags of 16 or 32 (Study~1). On PLL the gain over tuned CC
+is about one accuracy point, close to the oracle ceiling. Tables have at most 10{,}000 rows and contexts at most 2{,}000.

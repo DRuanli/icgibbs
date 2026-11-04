@@ -1,30 +1,48 @@
 \section{Introduction}\label{sec:intro}
-% Order of the argument (draft outline; prose written after Sections 4-6):
-% 1. Weak labels are common in tabular data: label proportions per group (LLP; privacy, aggregated reporting),
-%    candidate sets (PLL; ambiguous annotation). Specialised learners exist for each type, each retrained per task.
-% 2. Tabular foundation models (TFMs: TabPFN, TabICL) predict p(y* | x*, D) in context, without training, and are
-%    strong on small tables -- but they need fully labelled context. Using them with weak labels naively (e.g.
-%    plugging candidate sets / bag labels in as if they were labels) throws away information (Prop. 5-6).
-% 3. Gap: no prior work uses an off-the-shelf TFM as the conditional of Bayesian inference over latent labels
-%    (G2 novelty scan; closest: In-Context PU pretrains a new PFN; GLWS/ILL train networks with EM assuming
-%    conditional independence; TabPFN-based imputation is single-pass) \claim{1}.
-% 4. Idea: if the TFM is the posterior predictive of its prior, then p(y_i | y_{-i}, X) = p(y_i | x_i, D_{-i}) (Lemma 1),
-%    so a Gibbs sampler over latent labels needs only forward passes of the TFM; weak labels enter through the
-%    observation model l(w | y, x).
-% 5. Contributions (each points to a section/table):
+
+Labels in tabular data often arrive weak: an annotator who cannot decide records a \emph{candidate set}, and data
+released under privacy constraints give only the \emph{proportion} of each label within groups. Each such form of weak supervision has its own family of learners,
+trained per task with a loss designed for that observation and tuned on validation splits that, too, carry only weak
+labels \citep{proden,feng2020provably,dllp,tsai2020llpvat,glws}.
+
+Tabular foundation models (TFMs) have changed what is possible on small tables with clean labels. TabPFN
+\citep{hollmann2023tabpfn,tabpfn_nature} and TabICL \citep{qu2025tabicl,tabicl_v2} predict the label of a query point
+in a single forward pass, conditioning on a labelled context, without any training or tuning. Weak labels do not fit
+this interface: the context must be labelled. The obvious workaround, filling the context with one plausible label per
+point, throws away much of what the weak labels say: for candidate sets and label proportions, the guessed labels carry only a
+fraction of the information in the observation (\cref{prop:naive}).
+
+\paragraph{A TFM is already a Gibbs sampler for unknown labels.} A TFM approximates the posterior predictive distribution
+(PPD) of its prior, $p(y_*\mid x_*,D)$ \citep{muller2022pfn}. Under the exchangeability built into that prior, the
+conditional distribution of one unknown label given all the others is precisely such a PPD, with the other points and
+their current labels as the context (\cref{lem:fullcond}). A forward pass of a frozen TFM is therefore the full
+conditional of a Gibbs sampler over the latent labels, and weak labels enter only through their likelihood. \ours{}
+exploits this: it samples the unknown labels block by block with forward passes, respecting candidate sets or bag counts,
+and predicts by averaging the TFM's predictions over the samples (\cref{sec:method}). No weight is updated, and the same
+procedure handles instance-level and group-level weak labels.
+
+\paragraph{Evidence from two pre-registered studies.} We evaluated the method in two studies whose hypotheses, comparators
+and tests were fixed before the evaluation data were touched. Study~1, with TabPFN~v2, showed large gains over the naive
+use of the TFM and located what limits them: on partial labels with high ambiguity and many classes, TabPFN~v2 reinforces
+an uninformative labelling, and the chains stall. In the registered TFM ablation with TabICL~v2, which pulls such labellings back
+towards the truth, the same sampler passed every test. Study~2 put this to a prospective test on \val{s2-n-total} new datasets, changing only
+the TFM (\cref{tab:main}). \ours{} outperformed the strongest specialised baselines for learning from label proportions,
+by \val{s2-llp-cmp-diff} AUC over DLLP on \val{s2-llp-cmp-w} of \val{s2-llp-cmp-n} datasets, and from partial labels, by
+about one accuracy point over tuned CC at both ambiguity levels, with no collapse on datasets with many classes. On three
+real partial-label datasets it had the highest accuracy on all three (\cref{sec:real}).
+
 \paragraph{Contributions.}
 \begin{itemize}
-  \item \textbf{Method} (\cref{sec:method}): \ours{}, a training-free sampler over latent labels that uses a frozen
-        TFM as its full conditional and handles instance-level (PLL) and group-level (LLP) weak labels with one
-        procedure \claim{2}.
-  \item \textbf{Theory} (\cref{sec:theory}): exactness when the TFM is the posterior predictive of its prior
-        \claim{3}; stability when it is only approximate, even if its conditionals are incompatible \claim{4};
-        and a characterisation of when the naive use of a TFM is already sufficient \claim{12}.
-  \item \textbf{Evidence from two pre-registered studies} (\cref{sec:exp}): with TabPFN v2 (Study 1) the method did
-        not beat the strongest specialised baselines; a pre-registered replication with TabICL v2 on
-        \val{s2-n-total} new datasets (Study 2) did, on both LLP and PLL (\cref{tab:main}) \claim{6}\claim{8}.
-  \item \textbf{Mechanism} (\cref{sec:mechanism}): the advantage comes from modelling dependence between latent labels
-        through the context \claim{7}, and whether it materialises depends on how robust the TFM is to noisy context
-        labels \claim{13}.
+  \item \textbf{Method} (\cref{sec:method}): \ours{}, which turns a frozen TFM into a sampler over latent labels for
+        instance-level and group-level weak labels, at the cost of a few hundred forward passes \claim{2}.
+  \item \textbf{Theory} (\cref{sec:theory}): with an exact TFM the sampler targets the Bayes posterior and its predictor
+        is Bayes-optimal under the TFM's prior \claim{3}; with an approximate TFM, even one whose conditionals are
+        incompatible, it has a unique stationary distribution whose error is bounded by the TFM's error times the mixing
+        time of the exact chain \claim{4}; and the naive use of a TFM loses information exactly for candidate sets and
+        bag counts \claim{12}.
+  \item \textbf{Evidence} (\cref{sec:exp}): a pre-registered confirmatory study in which \ours{} beats the strongest
+        specialised baselines on both settings \claim{6}\claim{8}, supported by real partial labels \claim{9}.
+  \item \textbf{Mechanism} (\cref{sec:mechanism,sec:tfm}): the gain comes from modelling the dependence among latent labels
+        \claim{7}, and it is realised when the TFM is robust to noisy context labels, which a one-sweep response map makes
+        visible \claim{13}.
 \end{itemize}
-\todo{intro prose}

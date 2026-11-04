@@ -252,6 +252,20 @@ def extra_numbers(v):
     v["s2-cost-ntrain-max"] = f"{int(t.n_train.max()):,}".replace(",", "{,}")
 
 
+def s1_collapse_numbers(v):
+    """Study 1, PLL q = 0.6: the deficit against CC (tuned) comes from the four datasets with >= 8 classes."""
+    t = pd.read_csv(os.path.join(G8, "table_pll_0.6.csv"), index_col=0)
+    d = (t.gibbs_warm - t.cc_tun).round(10)
+    four = ["mfeat-factors", "semeion", "MiceProtein", "optdigits"]
+    rest = d.drop(four)
+    v["s1-pll6-rest-diff"] = f3(rest.mean())
+    v["s1-pll6-rest-w"] = str(int((rest > 0).sum()))
+    v["s1-pll6-rest-n"] = str(len(rest))
+    t3 = pd.read_csv(os.path.join(G8, "tabicl_pll_0.6.csv"), index_col=0) if os.path.exists(os.path.join(G8, "tabicl_pll_0.6.csv")) else None
+    if t3 is not None and "gibbs_warm" in t3:
+        v["s1-tabicl-pll6-four-min"] = f"{t3.loc[four, 'gibbs_warm'].min():.2f}"
+
+
 def s2e_numbers_and_table(v):
     """exploratory lot S2E (TabICL v2 on Study 1 datasets): MH-corrected blocks and R-hat; appendix table."""
     mh = pd.read_csv(os.path.join(S2, "s2e_mh_summary.csv"))
@@ -340,6 +354,7 @@ def main():
     v = numbers(s1, s2)
     extra_numbers(v)
     s2e_numbers_and_table(v)
+    s1_collapse_numbers(v)
     write_numbers(v)
     real_pll_table()
     main_table(s1, s2)

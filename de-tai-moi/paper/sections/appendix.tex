@@ -38,7 +38,27 @@ because the corrected sampler exceeded the 12-hour compute session on optdigits.
 \small
 \resizebox{\textwidth}{!}{\input{tables/s2e}}
 \end{table}
+\begin{table}[h]
+\centering
+\caption{\ours{} versus hard-EM with the same TFM and warm start, log loss. A cell is a (dataset, weak-label level)
+pair; Bayesian signed-rank test with ROPE $\pm0.005$; Spearman correlation between weakness level and the gap.
+$^\dagger$Computed on PLL cells (LLP has a single level), as stated before the analysis was run.}
+\label{tab:h3}
+\small
+\input{tables/h3}
+\end{table}
 \todo{full ablation table (G8/results/ablation\_summary.csv) and size curve}
+
+\section{Real partial labels}\label{app:real}
+\begin{table}[h]
+\centering
+\caption{Real partial labels (Study~1, TabICL~v2 for all TFM-based methods): accuracy averaged over 10 random 90/10
+splits, and mean rank over all splits of the three datasets among the ten ranked methods (\ours{}, naive TFM and eight
+baselines). Bold: best non-oracle accuracy.}
+\label{tab:real}
+\small
+\input{tables/real_pll}
+\end{table}
 
 \section{Datasets, baselines and tuning spaces}\label{app:data}
 \todo{dataset cards; docs/tuning\_spaces.md}

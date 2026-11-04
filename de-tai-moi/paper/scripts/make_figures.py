@@ -48,7 +48,7 @@ def s2_gaps(out):
     gl = (l.gibbs_warm - l.dllplin_def).round(10).sort_values()
     p = {q: pd.read_csv(os.path.join(R, f"s2_table_pll_{q}.csv"), index_col=0) for q in (0.3, 0.6)}
     gp = pd.DataFrame({q: (p[q].gibbs_warm - p[q].cc_tun).round(10) for q in p}).sort_values(0.6)
-    fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.75), gridspec_kw=dict(width_ratios=[1.1, 1], wspace=0.75))
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.45), gridspec_kw=dict(width_ratios=[1.1, 1], wspace=0.75))
     ax = axes[0]
     y = np.arange(len(gl))
     ax.axvline(0, color=MUTED, lw=0.7)
@@ -93,7 +93,7 @@ def mechanism(out):
     mon = {"tabpfn_v2": monitors(sel(load_s1(raw))), "tabicl_v2": monitors(sel(load_files(raw, ["L6"], "g7_tabicl_*.csv")))}
     style = {"tabpfn_v2": dict(color=BLUE, marker="o", ls="-", label="TabPFN v2"),
              "tabicl_v2": dict(color=ORANGE, marker="D", ls="--", label="TabICL v2")}
-    fig, axes = plt.subplots(2, 4, figsize=(5.5, 2.9), sharex="row", sharey="row")
+    fig, axes = plt.subplots(2, 4, figsize=(5.5, 2.65), sharex="row", sharey="row")
     for col, ds in enumerate(COLLAPSE):
         C = int(x[x.dataset == ds].n_classes.iloc[0])
         ax = axes[0, col]

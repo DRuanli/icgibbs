@@ -13,16 +13,11 @@ labels therefore needs only forward passes of a frozen TFM, and the weak labels 
 
 \paragraph{Blocks.} One forward pass per label would cost $n$ passes per sweep. We instead partition all $n$ points
 at random into $K$ blocks in every sweep and, for each block $B$, query the TFM once with the context $D_{-B}$ (the other
-blocks, with their current labels) for all points of $B$:
-\begin{itemize}
-  \item \emph{Instance-level weak labels (PLL):} each free $y_i$, $i\in B$, is drawn from
-        $\propto\tfm(\cdot\mid x_i,D_{-B})\,\lik_i(\cdot)$. Blocks are formed over \emph{all} points, including those
-        whose label is fixed by $\lik$: blocking only the free points would bias the composition of the context.
-  \item \emph{Label proportions (LLP):} blocks are groups of whole bags (\emph{bag-blocks}). Within each bag,
-        $y_{B_g}$ is drawn from $\prod_{i\in B_g}\tfm(y_i\mid x_i,D_{-B})$ conditioned on the observed counts, exactly,
-        by dynamic programming over counts.
-\end{itemize}
-An optional Metropolis--Hastings (MH) correction accepts or rejects the whole block, which makes the block update exact
+blocks, with their current labels). For PLL, each free $y_i$, $i\in B$, is drawn from
+$\propto\tfm(\cdot\mid x_i,D_{-B})\,\lik_i(\cdot)$; blocks include the points whose label is fixed, since blocking only
+free points would bias the composition of the context. For LLP, blocks are groups of whole bags (\emph{bag-blocks}), and
+each bag's labels are drawn from $\prod_{i\in B_g}\tfm(y_i\mid x_i,D_{-B})$ conditioned on its counts, exactly, by dynamic
+programming. An optional Metropolis--Hastings (MH) correction accepts or rejects the whole block, which makes the block update exact
 (\cref{prop:blocks}); it costs one forward pass per changed label. Contexts larger than 2{,}000 points are subsampled
 uniformly at random.
 
@@ -34,9 +29,8 @@ average over $S$ evenly spaced samples,
 \begin{equation}\label{eq:predict}
   \hat p(y_*\mid x_*)=\frac1S\sum_{s=1}^S\tfm(y_*\mid x_*,(X,y^{(s)})),
 \end{equation}
-computed with the TFM's prediction ensemble. This \emph{inductive} predictor is our default. In the
-\emph{transductive} variant the test points join the chain as free points ($\lik_*\equiv1$), which is exact in the
-sense of \cref{thm:exact}(c) but enlarges the chain; we evaluate it as an ablation.
+computed with the TFM's prediction ensemble. This \emph{inductive} predictor is our default; a
+\emph{transductive} variant, in which test points join the chain, is evaluated as an ablation.
 
 \begin{algorithm}[t]
 \caption{\ours{} (block version; LLP uses bag-blocks). No TFM weight is updated.}
@@ -58,13 +52,12 @@ sense of \cref{thm:exact}(c) but enlarges the chain; we evaluate it as an ablati
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Cost and settings.} A run costs $TK$ forward passes with a single-estimator TFM plus $S$ passes for the final
-prediction, and no gradient step. All settings were fixed on development datasets before any evaluation and are the
-same for every dataset and both studies: $K=10$, $T=30$, $T_0=10$, $S=10$, i.e.\ 310 forward passes per run.
+\paragraph{Cost and settings.} A run costs $TK+S$ forward passes and no gradient step. All settings were fixed on
+development datasets before any evaluation and are shared by every dataset and both studies: $K=10$, $T=30$, $T_0=10$,
+$S=10$, i.e.\ 310 forward passes.
 
-\paragraph{Comparators built on the same TFM.} To isolate what the sampler adds, every study also runs, with the same
-TFM: the \emph{naive TFM}, conditioned on one label per point consistent with the weak labels (a uniformly chosen
-candidate for PLL; a random count-consistent assignment within each bag for LLP); \emph{hard-EM}, which uses the same
-warm start and blocks but assigns the constrained arg max instead of sampling (classification EM, 10 iterations,
-prediction from the final assignment); \emph{stochastic EM}, which predicts from the last sample of the same chain;
-and an \emph{oracle} conditioned on the true labels, as a ceiling.
+\paragraph{Comparators on the same TFM.} To isolate what the sampler adds, we also run with the same TFM: the
+\emph{naive TFM}, conditioned on one label per point consistent with the weak labels (a uniformly chosen candidate; a
+random count-consistent assignment per bag); \emph{hard-EM}, with the same warm start and blocks but the constrained
+arg max instead of sampling (10 iterations); \emph{stochastic EM}, which predicts from the last sample of the chain; and an
+\emph{oracle} given the true labels.

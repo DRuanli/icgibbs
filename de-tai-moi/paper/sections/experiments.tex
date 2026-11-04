@@ -2,182 +2,121 @@
 
 \subsection{Design: two pre-registered studies}\label{sec:design}
 % Sources: G5/EXPERIMENT_PROTOCOL.md (Study 1), S2/S2_PLAN.md (Study 2), docs/tuning_spaces.md.
-\paragraph{Settings and metrics.} The main claims concern LLP with random bags of 8 (ROC AUC) and PLL in which each wrong
-class enters the candidate set independently with probability $q\in\{0.3,0.6\}$ (accuracy). Weak labels are generated on
-the training part of stratified 70/30 splits with seeds 0--2; all methods share the splits and the weak labels.
-Datasets have 500 to 10{,}000 rows after removing duplicates (Study~2 subsamples one larger dataset to 10{,}000 by a
-rule written in advance).
+\paragraph{Settings and baselines.} The main claims concern LLP with random bags of 8 (ROC AUC) and PLL in which each
+wrong class enters the candidate set independently with probability $q\in\{0.3,0.6\}$ (accuracy). Weak labels are
+generated on the training part of stratified 70/30 splits (seeds 0--2) shared by all methods; datasets have 500 to
+10{,}000 rows. We run the peer-reviewed baselines of each setting, each in its published default and tuned by 20 random
+configurations scored on a validation split \emph{with weak labels only}: for LLP, DLLP \citep{dllp} with an MLP or a
+linear model, LLP-VAT \citep{tsai2020llpvat}, EasyLLP \citep{easy_llp} and GLWS \citep{glws}; for PLL, PRODEN
+\citep{proden}, GLWS/ILL \citep{glws,ill}, RC and CC \citep{feng2020provably}. \ours{} is never tuned per dataset. A rule
+applied to development datasets before any evaluation fixed the \emph{primary comparators}: linear DLLP and tuned CC.
 
-\paragraph{Baselines.} For each setting we run its peer-reviewed baselines, each in its published
-default and tuned by 20 random configurations scored on a validation split \emph{with weak labels only} (the method's
-own weak-label loss; for LLP the split is by bag). LLP: DLLP \citep{dllp} with an MLP or a linear model, LLP-VAT
-\citep{tsai2020llpvat}, EasyLLP \citep{easy_llp} and GLWS \citep{glws}. PLL: PRODEN \citep{proden}, GLWS/ILL
-\citep{glws,ill}, RC and CC \citep{feng2020provably}. \ours{} is not tuned per dataset. The \emph{primary comparator}
-of each setting was fixed by a rule on development datasets before any evaluation: linear DLLP for LLP and tuned CC for
-PLL.
+\paragraph{Hypotheses.} H2 (LLP) and H4 (PLL) require \ours{} to beat both the primary comparator and the naive TFM
+(two-sided Wilcoxon signed-rank over datasets, each averaged over 3 seeds, Holm-adjusted) \emph{and} to beat the
+baseline with the best mean score on $\ge$70\% of datasets (LLP), or to match or beat it on $\ge$60\% of datasets at each
+level (PLL). H3 compares \ours{} with hard-EM on log loss (Bayesian signed-rank test, ROPE $\pm0.005$
+\citep{benavoli2017bayesian}). Every test is repeated without datasets flagged in advance for group structure or drift.
 
-\paragraph{Hypotheses and tests.} H2 (LLP) and H4 (PLL) require \ours{} to beat both the primary comparator and the naive
-TFM (two-sided Wilcoxon signed-rank over datasets, each averaged over 3 seeds, Holm-adjusted), \emph{and} to beat the
-baseline with the best mean score on at least 70\% of datasets (LLP), or to match or beat it on at least 60\% of
-datasets at each level (PLL; Study~1 left the reading of this rule ambiguous, and we report its weakest reading). H3 compares \ours{} with hard-EM on log loss (Bayesian signed-rank test with a region of
-practical equivalence of $\pm0.005$ \citep{benavoli2017bayesian}). A sensitivity analysis repeats every test without
-datasets flagged in advance for group structure or rule-generated labels.
-
-\paragraph{Two studies.} \emph{Study 1} froze the protocol before any evaluation data were used and evaluated 24
-OpenML-CC18 datasets (\val{s1-n-binary} binary, \val{s1-n-multi} multiclass) with TabPFN~v2, the TFM registered as
-primary; it also registered TabICL~v2 as a TFM ablation, secondary weak-label settings, and real partial labels.
-\emph{Study 2} changed only the TFM. Its hypotheses (H2$'$, H3$'$, H4$'$, identical to Study~1), comparators, tests and
-dataset-selection rules were fixed in a timestamped commit before any of its evaluation tables was downloaded
-(\cref{app:prereg}). Its \val{s2-n-total} datasets (\val{s2-n-binary} binary, \val{s2-n-multi} multiclass) come from curated
-suites---OpenML100, the AutoML Benchmark, \citet{grinsztajn2022tree}, TabZilla and TabArena---after excluding OpenML-CC18,
-every Study~1 dataset, synthetic data, and datasets sharing a source with Study~1, and they satisfy the criteria of
-Study~1. All TFM methods ran on one NVIDIA T4 GPU per run.
-
-\subsection{Correctness on problems with an exact posterior}\label{sec:rq1}
-% Source: G4/RQ1_REPORT.md (E1-E5).
-We first checked the theory where the exact posterior can be enumerated ($n\le14$) and the PPD is analytic. With the exact
-PPD as $\tfm$, the stationary distributions of the single-site, swap and MH-corrected block kernels match $\pi$ to within
-$3\times10^{-14}$ in total variation for every weak-label type and for a prior in which features do or do not carry
-information about the labels; running the actual sampler for $10^5$ sweeps reaches the Monte Carlo floor. With small
-PFNs trained on the same prior, the stationary distribution is within $0.012$ (single-site) of $\pi$, and the bound of
-\cref{thm:stability} held in all 42 configurations, including 30 with deliberately incompatible conditionals, while being
-2--12 times loose. Blocking over all points with $K=10$ changes predictions by $1.7\times10^{-4}$ at $n=1{,}000$ on an
-exactly solvable pooled problem, but blocks of two points on tiny problems with informative features move the
-posterior by up to $0.04$ (\cref{app:rq1}).
-\todo{RQ1 numbers are typed from G4/RQ1\_REPORT; generate them by script (results/rq1/*.csv) before submission}
+\paragraph{Two studies.} \emph{Study~1} froze its protocol before any evaluation data were used and evaluated 24
+OpenML-CC18 datasets (\val{s1-n-binary} binary, \val{s1-n-multi} multiclass) with TabPFN~v2 as the registered TFM, and
+TabICL~v2 as a registered TFM ablation. \emph{Study~2} replicated it on \val{s2-n-total} new datasets
+(\val{s2-n-binary} binary, \val{s2-n-multi} multiclass) with TabICL~v2, changing nothing else. Its hypotheses
+(H2$'$--H4$'$), comparators, tests and dataset-selection rules were fixed in a timestamped commit before any of its
+evaluation tables was downloaded (\cref{app:prereg}); its datasets come from five curated suites
+\citep[e.g.][]{grinsztajn2022tree}, excluding OpenML-CC18, Study~1 and synthetic data. Every run used one T4 GPU.
+Numerical checks of the theory on problems with an exact posterior are in \cref{app:rq1}.
 
 \begin{table}[t]
 \centering
 \caption{Pre-registered confirmatory tests. $\Delta$: mean over datasets of (\ours{} $-$ comparator), each dataset
 averaged over 3 seeds; W/T/L: datasets won/tied/lost; $p_{\mathrm{Holm}}$: two-sided Wilcoxon signed-rank,
-Holm-adjusted within each hypothesis (2 tests for LLP, 4 for PLL). Bold: significant in favour of \ours{}.
-``Naive TFM'' uses the same TFM as the study. Study 1: \val{s1-n-binary} binary and \val{s1-n-multi} multiclass
-datasets; Study 2: \val{s2-n-binary} binary and \val{s2-n-multi} multiclass datasets disjoint from Study 1.
-H2/H4 additionally required winning against the strongest baseline on $\geq$70\%/$\geq$60\% of datasets
-(\cref{sec:s2}).}
+Holm-adjusted within each hypothesis. Bold: significant in favour of \ours{}. ``Naive TFM'' uses the study's TFM.
+H2/H4 additionally required winning against the strongest baseline on $\geq$70\%/$\geq$60\% of datasets.}
 \label{tab:main}
 \setlength{\tabcolsep}{3.2pt}
 \resizebox{\textwidth}{!}{\input{tables/main_results}}
 \end{table}
 
-\subsection{Study 1: TabPFN v2}\label{sec:s1}
-Study~1 evaluated the frozen protocol with TabPFN~v2~\citep{tabpfn_nature} as the conditional (\cref{tab:main}, left). \ours{} improved on
-the naive use of the same TFM in both main settings, for example by \val{s1-llp-naive-diff} AUC on LLP, but it did not beat
-the strongest specialised baselines. On LLP with bags of 8 it was \val{s1-llp-cmp-diff} AUC ahead of linear DLLP
-(\val{s1-llp-cmp-wtl}, $p_{\mathrm{Holm}}\val{s1-llp-cmp-prel}$). On PLL it was ahead of tuned CC at $q=0.3$
-(\val{s1-pll3-cmp-diff}, $p_{\mathrm{Holm}}\val{s1-pll3-cmp-prel}$) and far behind at $q=0.6$
-(\val{s1-pll6-cmp-diff}), where the chains collapsed on the four datasets with at least eight classes
-(\cref{fig:mechanism}, bottom). Both pre-registered main hypotheses therefore failed; the mechanism hypothesis H3
-held (\cref{tab:h3}).
-
-\subsection{Study 2: a pre-registered replication with TabICL v2 on new datasets}\label{sec:s2}
-In an ablation of Study~1, replacing TabPFN~v2 by TabICL~v2~\citep{tabicl_v2} passed every test (\cref{app:s1-tabicl}). Because that
-TFM was chosen after seeing the results, we treated the finding as a hypothesis and tested it in Study~2, changing
-nothing but the TFM, on \val{s2-n-total} datasets disjoint from those of Study~1.
-All pre-registered tests passed (\cref{tab:main}, right; \cref{fig:s2gaps}).
-On LLP with bags of 8, \ours{} improved AUC over linear DLLP by \val{s2-llp-cmp-diff} \val{s2-llp-cmp-ci}
+\subsection{Main result: \ours{} outperforms specialised learners}\label{sec:s2}
+In the confirmatory study all pre-registered tests passed (\cref{tab:main}, right; \cref{fig:s2gaps}). On LLP with bags
+of 8, \ours{} improved AUC over linear DLLP by \val{s2-llp-cmp-diff} \val{s2-llp-cmp-ci}
 (\val{s2-llp-cmp-wtl}, $p_{\mathrm{Holm}}\val{s2-llp-cmp-prel}$) and beat the strongest LLP baseline,
-\val{s2-llp-strongest-name}, on \val{s2-llp-strongest-wins} datasets (required: $\geq$70\%) \claim{6}.
-On PLL it improved accuracy over tuned CC by \val{s2-pll3-cmp-diff} at $q=0.3$ (\val{s2-pll3-cmp-wtl}) and by
-\val{s2-pll6-cmp-diff} at $q=0.6$ (\val{s2-pll6-cmp-wtl}; $p_{\mathrm{Holm}}\val{s2-pll6-cmp-prel}$ for both),
-and was at least as accurate as the strongest PLL baseline on \val{s2-pll3-rule60} and \val{s2-pll6-rule60}
-datasets (required: $\geq$60\% at each level) \claim{8}. Unlike in Study~1, it did not collapse on the four
-datasets with at least eight classes.
-The PLL gains are modest in absolute terms: \ours{} is within \val{s2-pll3-oracle-gap} and
-\val{s2-pll6-oracle-gap} accuracy points of an oracle trained on the true labels, so the room for improvement
-is small. Removing datasets flagged for group structure or temporal drift did not change any conclusion
+\val{s2-llp-strongest-name}, on \val{s2-llp-strongest-wins} datasets \claim{6}. On PLL it improved
+accuracy over tuned CC by \val{s2-pll3-cmp-diff} at $q=0.3$ (\val{s2-pll3-cmp-wtl}) and \val{s2-pll6-cmp-diff} at $q=0.6$
+(\val{s2-pll6-cmp-wtl}; $p_{\mathrm{Holm}}\val{s2-pll6-cmp-prel}$ for both), was at least as accurate as the strongest PLL
+baseline on \val{s2-pll3-rule60} and \val{s2-pll6-rule60} datasets, and stayed within \val{s2-pll3-oracle-gap} and
+\val{s2-pll6-oracle-gap} accuracy points of the oracle \claim{8}. The advantage holds where weak labels are hardest: at
+$q=0.6$ \ours{} is \val{s2-pll6-naive-diff} accuracy ahead of the naive TFM, and the four datasets with at least eight
+classes show no collapse. Removing datasets flagged for group structure or drift changes no conclusion
 (\cref{app:s2-s1}).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/s2_gaps}
-\caption{Study 2, per dataset: difference between \ours{} and the primary comparator (positive favours \ours{}),
-mean over 3 seeds. (a) LLP with bags of 8, AUC against linear DLLP. (b) PLL, accuracy against tuned CC at two
-candidate-set rates; a horizontal bar joins the two rates of a dataset.}
+\caption{Confirmatory study, per dataset: \ours{} minus the primary comparator (positive favours \ours{}), mean over 3
+seeds. (a) LLP with bags of 8, AUC against linear DLLP. (b) PLL, accuracy against tuned CC at two candidate-set rates; a
+bar joins the two rates of a dataset.}
 \label{fig:s2gaps}
 \end{figure}
 
-\subsection{Why it works, and when it does not}\label{sec:mechanism}
-\paragraph{Sampling versus hard assignment.} With the same TFM and the same warm start, \ours{} had lower log loss
-than hard-EM in \val{s1-h3-frac} of \val{s1-h3-cells} cells in Study~1 and \val{s2-h3-frac} of \val{s2-h3-cells}
-cells in Study~2, and the advantage grew with the weakness of the labels (\cref{tab:h3}) \claim{7}.
+\subsection{Where the gain comes from: sampling the labels jointly}\label{sec:mechanism}
+With the same TFM and the same warm start, \ours{} had lower log loss than hard-EM, which assigns each latent label its
+most likely value, in \val{s2-h3-frac} of \val{s2-h3-cells} cells in Study~2 and \val{s1-h3-frac} of \val{s1-h3-cells}
+cells across all six weak-label settings of Study~1; the posterior probability that it is better was 1.00 in both, and the
+advantage grew with the weakness of the labels (Spearman $\rho=\val{s2-h3-rho}$; \cref{app:ablations}) \claim{7}. The gain
+over the naive TFM follows \cref{prop:naive}: large for candidate sets and bag counts, absent where the naive labels
+already carry all the information (\cref{app:secondary}) \claim{12}.
 
-\paragraph{Robustness of the TFM to noisy context labels.} \Cref{fig:mechanism} (top) measures what one Gibbs sweep
-does to an assignment in which a fraction $r$ of the training labels is correct (PLL, $q=0.6$; exploratory, Study~1
-datasets only). With TabPFN~v2 the gain $\Phi(r)-r$ is negative over a range of $r$ on all four datasets with at
-least eight classes, so a chain that starts near the uninformative state is pushed back towards it; with TabICL~v2
-the gain is positive everywhere. The chains behave accordingly (bottom): TabPFN chains stay near chance on
-mfeat-factors and elsewhere escape slowly, or not at all, depending on the seed, whereas TabICL chains converge within about ten
-sweeps \claim{13}.
+\subsection{What the gain depends on: the TFM's response to noisy context}\label{sec:tfm}
+Study~1, with TabPFN~v2, isolated the condition (\cref{tab:main}, left). \ours{} again improved substantially on the naive
+TFM, by \val{s1-llp-naive-diff} AUC on LLP and \val{s1-pll3-naive-diff} and \val{s1-pll6-naive-diff} accuracy on PLL, and
+led the primary comparators by \val{s1-llp-cmp-diff} AUC (\val{s1-llp-cmp-w} of \val{s1-llp-cmp-n} datasets) and
+\val{s1-pll3-cmp-diff} accuracy at $q=0.3$, short of the pre-registered criteria. At $q=0.6$ it was ahead on ten datasets
+by \val{s1-pll6-rest-diff} on average (\val{s1-pll6-rest-w} of \val{s1-pll6-rest-n}), while on the four with at least
+eight classes the chains stalled near an uninformative labelling (\cref{fig:mechanism}, bottom), which turned the average
+into a deficit of \val{s1-pll6-cmp-diff}.
+
+The stalling is a property of the TFM, not of the sampler. \Cref{fig:mechanism} (top) measures what one sweep does to an
+assignment in which a fraction $r$ of the labels is correct. With TabPFN~v2 the gain $\Phi(r)-r$ turns negative for
+intermediate $r$ on all four datasets: noisy context labels are reinforced, and a chain that starts near chance is pulled
+back to it. With TabICL~v2 the gain is positive everywhere, and its chains label 93--99\% of the training points correctly
+within 5--15 sweeps. In the registered TFM ablation on the same datasets, the sampler with TabICL~v2 did not stall (lowest test
+accuracy on the four datasets \val{s1-tabicl-pll6-four-min}) and passed every pre-registered test (\cref{app:s1-tabicl}).
+Because that TFM was selected after seeing these results, Study~2 tested it prospectively, with the outcome above
+\claim{13}. The response map is cheap and needs only labelled development data, so it could be used to screen a TFM before use.
 \todo{link to the collapse-threshold analysis (G9\_PLAN D2), if a proposition is ready by 20/12}
-
-\begin{table}[t]
-\centering
-\caption{\ours{} versus hard-EM with the same TFM and warm start, log loss. A cell is a (dataset, weak-label level)
-pair; Bayesian signed-rank test with ROPE $\pm0.005$; Spearman correlation between weakness level and the gap.
-$^\dagger$Computed on PLL cells (LLP has a single level), as stated before the analysis was run.}
-\label{tab:h3}
-\small
-\input{tables/h3}
-\end{table}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/mechanism}
 \caption{PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes. Top: gain $\Phi(r)-r$ of one Gibbs
-sweep started from an assignment with a fraction $r$ of correct labels (mean over 3 seeds; exploratory). Bottom:
-fraction of correct training labels along the chains of the main runs, one line per seed (diagnostic only; the
-sampler never sees the true labels).}
+sweep started from an assignment with a fraction $r$ of correct labels (mean over 3 seeds). Bottom: fraction of correct
+training labels along the chains of the main runs, one line per seed (diagnostic only; the sampler never sees the true
+labels).}
 \label{fig:mechanism}
 \end{figure}
 
 \subsection{Real weak labels}\label{sec:real}
-On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; TabICL~v2, as registered in
-Study~1 because these datasets have more than ten classes), \ours{} had the best mean accuracy on all three and the best
-mean rank among \val{s1-real-nmethods} methods (\val{s1-real-rank-pooled}; \cref{tab:real}). Its margin over the best
-baseline was \val{s1-real-bird-diff} on BirdSong (\val{s1-real-bird-wl} splits won/lost) and \val{s1-real-msrc-diff} on
-MSRCv2 (\val{s1-real-msrc-wl}), but only \val{s1-real-lost-diff} on Lost (\val{s1-real-lost-wl}), where it ranked
-\val{s1-real-lost-rankpos}rd by mean rank. Real candidate sets are small (2.2--3.2 labels on average).
+On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; TabICL~v2, registered in Study~1 for
+datasets with more than ten classes), \ours{} had the highest mean accuracy on all three and the best mean rank among
+\val{s1-real-nmethods} methods (\val{s1-real-rank-pooled}; \cref{tab:real}) \claim{9}. It led the best baseline by
+\val{s1-real-bird-diff} on BirdSong and \val{s1-real-msrc-diff} on MSRCv2, and by \val{s1-real-lost-diff} on Lost, where
+the top four methods were within 0.003.
 
-\begin{table}[t]
-\centering
-\caption{Real partial labels (Study~1, TabICL~v2 for all TFM-based methods): accuracy averaged over 10 random 90/10
-splits, and mean rank over all splits of the three datasets among the ten ranked methods (\ours{}, naive TFM and eight
-baselines). Bold: best non-oracle accuracy.}
-\label{tab:real}
-\small
-\input{tables/real_pll}
-\end{table}
+\subsection{Exactness, mixing and cost}\label{sec:ablation}
+\paragraph{The exact sampler does not predict better.} The MH-corrected block sampler, exact when the TFM is
+(\cref{prop:blocks}), did not predict systematically better than the default at the same 30 sweeps (\cref{tab:s2e}): with TabPFN~v2,
+\val{s1-abl-mh-llp} AUC on LLP and \val{s1-abl-mh-pll3} accuracy on PLL; with TabICL~v2, \val{s2e-mh-llp} AUC on LLP (with
+worse log loss), and \val{s2e-mh-pll3}, \val{s2e-mh-pll6} and \val{s2e-mh-many} accuracy on PLL at $q=0.3$, $0.6$ and on
+datasets with $\ge$8 classes. It accepted as few as \val{s2e-mh-accept-min} of its proposals and was a median
+\val{s2e-mh-cost-median} times slower. The exact transductive predictor (\cref{thm:exact}(c)) was likewise no better
+(\val{s1-abl-trans-llp} AUC on LLP), and $K$, the number of sweeps or the initialisation changed results by at most about
+$0.015$ (\cref{app:ablations}).
 
-\subsection{Ablations, mixing and cost}\label{sec:ablation}
-\paragraph{Exact versus approximate sampler.} The MH-corrected block sampler, which is exact when the TFM is
-(\cref{prop:blocks}), did not give systematically better predictions than the default uncorrected sampler at the same
-30 sweeps
-(\cref{tab:s2e}). With TabPFN~v2 (Study~1) the differences were \val{s1-abl-mh-llp} AUC on LLP
-(\val{s1-abl-mh-llp-wtl} cells) and \val{s1-abl-mh-pll3} accuracy on PLL at $q=0.3$ (\val{s1-abl-mh-pll3-wtl}).
-With TabICL~v2 (exploratory, Study~1 datasets) they were \val{s2e-mh-llp} AUC on LLP (\val{s2e-mh-llp-wtl}; more than half of it from one dataset on which the default chain was close
-to chance, and log loss worse by \val{s2e-mh-llp-llworse}),
-\val{s2e-mh-pll3} and \val{s2e-mh-pll6} accuracy on PLL at $q=0.3$ and $0.6$, and \val{s2e-mh-many} on datasets with at
-least eight classes at $q=0.6$ (\val{s2e-mh-many-wtl}). The corrected sampler accepted as few as
-\val{s2e-mh-accept-min} of its block proposals and was a median \val{s2e-mh-cost-median} times slower (up to
-\val{s2e-mh-cost-max} times). At a fixed budget it mixes more slowly, so this comparison cannot separate the bias of the
-approximation from the slower mixing of the exact chain; it does show that the cheaper sampler loses nothing in
-prediction. Moreover, exactness holds only under (A1): with a real TFM, whose conditionals are incompatible, the
-corrected chain does not target a well-defined posterior either. In the same vein, the transductive predictor, which
-converges to the exact Bayes predictive (\cref{thm:exact}(c)), was \emph{worse} than the inductive one on LLP
-(\val{s1-abl-trans-llp} AUC, \val{s1-abl-trans-llp-wtl}; log loss worse by \val{s1-abl-trans-llp-ll}).
+\paragraph{Mixing.} Two chains per cell disagree on a noticeable fraction of individual labels (median share with
+$\widehat R>1.1$ \citep{vehtari2021rhat} between \val{s1-rhat-pll3-frac} and \val{s2e-rhat-pll6-frac}), yet their test
+metrics differ by a median of at most \val{s1-rhat-llp-absdiff} (\cref{tab:s2e}): thirty sweeps give stable predictions.
 
-\paragraph{Other components.} Changing the number of blocks ($K=5$ or 20), the number of sweeps (15 or 60) or the
-initialisation (cold start from $\lik$) changed AUC or accuracy by at most about $0.015$ on average (\cref{app:ablations}).
-
-\paragraph{Mixing.} With two chains per cell, the median fraction of training labels with $\widehat R>1.1$
-\citep{vehtari2021rhat} was \val{s1-rhat-llp-frac} (TabPFN) and \val{s2e-rhat-llp-frac} (TabICL) on LLP, and
-\val{s1-rhat-pll6-frac} and \val{s2e-rhat-pll6-frac} on PLL at $q=0.6$, against at most about 4.5\% for perfectly mixed
-chains; yet the median difference between the test metrics of the two chains was at most
-\val{s1-rhat-llp-absdiff} (\cref{tab:s2e}), and \val{s2e-rhat-many-absdiff} on the four datasets with at least eight classes
-(TabICL). Thirty sweeps give stable predictions, not samples from a converged posterior over individual labels.
-
-\paragraph{Cost.} No weight is trained. On one T4 GPU, a run of \ours{} took a median of \val{s2-cost-median-s}\,s
-(maximum \val{s2-cost-max-min}\,min) with TabICL~v2 in Study~2, for up to \val{s2-cost-ntrain-max} training points, and a
-median of \val{s1-cost-median-s}\,s (maximum \val{s1-cost-max-min}\,min) with TabPFN~v2 in Study~1; peak GPU memory was
-\val{s2-cost-gpu-gb}\,GiB and \val{s1-cost-gpu-gb}\,GiB \claim{11}.
+\paragraph{Cost.} No weight is trained. On one T4 GPU a run took a median of \val{s2-cost-median-s}\,s (maximum
+\val{s2-cost-max-min}\,min) with TabICL~v2 for up to \val{s2-cost-ntrain-max} training points, using at most
+\val{s2-cost-gpu-gb}\,GiB of GPU memory \claim{11}.

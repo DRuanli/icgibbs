@@ -1,5 +1,15 @@
 \begin{abstract}
-% Written LAST (handbook 09 §2.5). Structure: problem -> gap -> method -> results with numbers (Study 2) -> meaning.
-% Must not claim anything beyond CLAIM_EVIDENCE_MATRIX rows 1, 2, 6, 7, 8, 13 (with their scope column).
-\todo{abstract, written last}
+% Every number comes from numbers.tex. Claims: matrix rows 2, 3, 4, 6, 8, 9, 13 (scope column respected).
+Tabular foundation models (TFMs) predict labels in context without training, but they need labelled examples. We show
+that a frozen TFM can learn from weak labels, such as candidate sets or label proportions within bags, without any
+retraining. Under exchangeability, the distribution of one unknown label given all the others is a posterior predictive
+with the other points as context, which is what a TFM computes. \ours{} therefore samples the latent labels with forward
+passes of the TFM, brings in the weak labels through their likelihood, and predicts by averaging over the samples. We
+prove that, with an exact TFM, its exact variants target the Bayes posterior, and that the sampler remains well defined
+and stable when the TFM's conditionals are approximate or even mutually incompatible. In a pre-registered study on
+\val{s2-n-total} new datasets, \ours{} with TabICL~v2 outperformed the strongest specialised baselines both for learning
+from label proportions (\val{s2-llp-cmp-diff} AUC over DLLP, better on \val{s2-llp-cmp-w} of \val{s2-llp-cmp-n} datasets)
+and from partial labels (better than tuned CC at both ambiguity levels), and it had the highest accuracy on three real
+partial-label datasets. An earlier pre-registered study with TabPFN~v2, in which the same sampler stalled under heavy
+ambiguity, identifies the key requirement: the TFM must be robust to noisy context labels.
 \end{abstract}

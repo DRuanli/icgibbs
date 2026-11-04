@@ -99,7 +99,13 @@ so the error is at most $2\kappa\varepsilon_{\TV}$ with $\kappa=\sup\max_k\lik_i
 chain. For a single-site sweep the per-sweep error is at most $\lvert F\rvert$ times the per-update error; the MH swap
 kernel has error at most $4\varepsilon_\infty$, with $\varepsilon_\infty=\sup\lvert\log\tfm-\log\ppd\rvert$.
 
-\subsection{Proposition 2 (blocks)}
+\subsection{Block updates}
+\begin{proposition}[Blocks]\label{prop:blocks}
+(a) A block update whose proposal is the product of block-wise TFM predictives (for LLP, conditioned on bag counts),
+accepted with the MH ratio computed by Brook's lemma along the changed labels, leaves $\pi$ invariant when $\tfm=\ppd$.
+(b) Without the MH step, \cref{thm:stability} applies with an error $\bar\varepsilon_B$ that is bounded only under an
+extra stability assumption on the PPD, and the bound grows with $n$ for fixed $K$.
+\end{proposition}
 \begin{proof}[Proof of \cref{prop:blocks}]
 (a) The proposal $Q_B$ depends only on $y_{-B}$, which the step does not change, so the update is MH-within-Gibbs with
 an independent proposal. Brook's lemma along the changed labels with \cref{lem:fullcond} gives the exact ratio
@@ -118,8 +124,11 @@ LLP problem (3 bags of 4), the uncorrected bag-block chain has $\TV(\tilde\pi,\p
 the prior and grouping, so the approximation is real at small $n$; at our sizes we measure its effect on predictions
 instead (\cref{sec:ablation}).
 
-\subsection{Proposition 3 (when the naive TFM suffices)}
-\begin{proof}[Proof of \cref{prop:naive}]
+\subsection{When the naive TFM suffices}
+\paragraph{Complement to \cref{prop:naive}(a).} For binary labels with class prior $\varpi$, for any score $s$,
+$\mathrm{AUC}(\eta)-\mathrm{AUC}(s)\le\E\lvert s-\tilde\eta\rvert/(\lambda\varpi(1-\varpi))$: the AUC regret of a learner fitted
+to naive labels is its own estimation error, amplified by $1/\lambda$.
+\begin{proof}[Proof of \cref{prop:naive} and of the complement]
 (a) With $P(\tilde w=k\mid x,y)=M_{y,k}$ independent of $x$ and $M_{y,k}=b_k$ for $y\neq k$,
 $\tilde\eta_k=M_{k,k}\eta_k+b_k(1-\eta_k)=b_k+\lambda_k\eta_k$, $\lambda_k=M_{k,k}-b_k$. For PLL with each wrong class
 entering the candidate set independently with probability $q$ and the naive label chosen uniformly from the set,
