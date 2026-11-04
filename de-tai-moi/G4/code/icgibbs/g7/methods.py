@@ -142,9 +142,11 @@ def run_tfm_methods(cell: Cell, cond, cond_final, todo, emit, monitor=None, guar
         guard("cl_tfm", lambda: _cl_tfm(cell, cond_final, emit, state))
 
 
-def run_rhat(cell, cond, cond_final=None, seeds=(0, 1000)):
+def run_rhat(cell, cond, cond_final=None, seeds=(0, 1000), monitor=None, keep=None):
     """Hai chuỗi Gibbs ấm cùng điểm khởi động, khác seed lấy mẫu; split-R̂ trên trạng thái nhãn sau burn-in.
-    Có cond_final: trả thêm xác suất dự đoán trên test của từng chuỗi (cùng cách dự đoán như gibbs_warm)."""
+    Có cond_final: trả thêm xác suất dự đoán trên test của từng chuỗi (cùng cách dự đoán như gibbs_warm).
+    V2 (R4): monitor (chẩn đoán, không vào thuật toán) và keep (list nhận các đối tượng chuỗi, để lưu vết) là tuỳ
+    chọn; mặc định hành vi không đổi."""
     from ..sampler import InContextGibbs
     from .rhat import label_rhat
     P0, _ = warm_start(cell, cond)
@@ -152,12 +154,90 @@ def run_rhat(cell, cond, cond_final=None, seeds=(0, 1000)):
     for s in seeds:
         g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
                            burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed + s,
-                           init=P0).run(cell.Xtr)
+                           init=P0, monitor=monitor).run(cell.Xtr)
+        if keep is not None:
+            keep.append(g)
         chains.append(g.samples_)
         if cond_final is not None:
             preds.append(np.asarray(g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=GIBBS["n_use"]), float))
     st = label_rhat(*chains)
     return (st, preds) if cond_final is not None else st
+
+
+# =====================================================================================================
+# V2, giai đoạn 0 (V2/PHASE0_PREDICTIONS.md): nhiều điểm xuất phát + chọn bằng độ khớp nhãn yếu (WPLL)
+# Mỗi điểm xuất phát là MỘT chuỗi giống hệt gibbs_warm (K, số vòng quét, burn-in, ngữ cảnh, seed), chỉ khác trạng thái
+# ban đầu. Điểm xuất phát chỉ dùng nhãn yếu:
+#   warm — khởi động ấm của v1 (PLL: TFM ngây thơ tính chéo; LLP: DLLP tuyến tính)
+#   base — learner nhãn yếu đã tune, fit trong cùng lượt (PLL: CC tune; LLP: DLLP-MLP tune); P0 = dự đoán của nó trên train
+#   cold — y_i ~ ℓ_i chuẩn hoá (LLP: hoán vị ngẫu nhiên khớp số đếm)
+# =====================================================================================================
+V0_STARTS = ("warm", "base", "cold")
+V0_BASE = {"pll": "cc", "pll_real": "cc", "llp": "dllp"}
+
+
+def base_learner(cell: Cell):
+    """Learner nhãn yếu đã tune dùng làm điểm xuất phát 'base' (V2 W3)."""
+    w = cell.weak
+    if w.setting in ("pll", "pll_real"):
+        from ..baselines_ext import fit_pll
+        return fit_pll(V0_BASE[w.setting], cell.Mtr, w.S, seed=cell.seed, tune=True)
+    if w.setting == "llp":
+        from ..baselines_ext import fit_llp
+        return fit_llp(V0_BASE["llp"], cell.Mtr, w.bags, w.counts, seed=cell.seed, tune=True)
+    raise ValueError(f"giai đoạn 0 chỉ có PLL và LLP, không có {w.setting}")
+
+
+def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None, monitor=None):
+    """Chạy một chuỗi cho mỗi điểm xuất phát, phát ra gibbs_init_<start>, base_start (nếu có 'base') và gibbs_ms
+    (chuỗi có WPLL lớn nhất). Phần extra ghi wpll, r_start, r_final và vết monitor (chẩn đoán)."""
+    from ..sampler import InContextGibbs
+    guard = guard or (lambda m, fn: fn())
+    bad = [s for s in starts if s not in V0_STARTS]
+    if bad:
+        raise ValueError(f"điểm xuất phát không hợp lệ: {bad}")
+    if not (todo("gibbs_ms") or any(todo(f"gibbs_init_{s}") for s in starts) or ("base" in starts and todo("base_start"))):
+        return
+    res = {}
+
+    def _one(start):
+        t0 = time.time()
+        calls0 = 0
+        if start == "cold":
+            init = "lik"
+        elif start == "warm":
+            init, calls0 = warm_start(cell, cond)
+        else:
+            m = base_learner(cell)
+            init = np.asarray(m.predict_proba(cell.Mtr), float)
+            if todo("base_start"):
+                emit("base_start", Out(_P2(m.predict_proba(cell.Mte)), 0, tuned_extra(m)), time.time() - t0)
+        cond.n_calls = 0
+        g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
+                           burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed, init=init,
+                           monitor=monitor, collect_q=True).run(cell.Xtr)
+        calls = calls0 + cond.n_calls
+        cond_final.n_calls = 0
+        P = np.asarray(g.predict_proba(cell.Xtr, cell.Xte, cond=cond_final, n_use=GIBBS["n_use"]), float)
+        wpll = g.weak_fit()
+        info = f"start={start};wpll={wpll:.6f}"
+        if monitor is not None:
+            info += f";r_start={float(monitor(g.y0_)):.4f};r_final={g.trace_.monitor[-1]:.4f}"
+            info += ";monitor=" + "/".join(f"{x:.3f}" for x in g.trace_.monitor)
+        info += ";flips=" + "/".join(f"{f:.3f}" for f in g.trace_.flips)
+        out = Out(P, calls + cond_final.n_calls, info)
+        res[start] = (wpll, out)
+        if todo(f"gibbs_init_{start}"):
+            emit(f"gibbs_init_{start}", out, time.time() - t0)
+
+    for st in starts:          # chạy tiếp sau khi phiên bị ngắt: chạy lại điểm đã xong chỉ khi còn thiếu gibbs_ms
+        if todo(f"gibbs_init_{st}") or todo("gibbs_ms"):
+            guard(f"gibbs_init_{st}", lambda st=st: _one(st))
+    if todo("gibbs_ms") and len(res) == len(starts) and all(np.isfinite(v[0]) for v in res.values()):
+        best = max(res, key=lambda k: res[k][0])
+        wp = ",".join(f"{k}:{v[0]:.6f}" for k, v in res.items())
+        o = res[best][1]
+        emit("gibbs_ms", Out(o.P, sum(v[1].n_tfm_calls for v in res.values()), f"chosen={best};wpll={wp}"), 0.0)
 
 
 # =====================================================================================================

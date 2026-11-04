@@ -44,7 +44,8 @@ class InContextGibbs:
     def __init__(self, cond: ConditionalModel, weak: WeakModel, scheme: str = "auto", n_blocks: int = 10,
                  n_sweeps: int = 30, burn_in: int | None = None, keep_every: int = 1, mh_correct: bool = False,
                  swaps_per_sweep: int | None = None, max_context: int | None = None, mode: str = "sample",
-                 init: str = "lik", seed: int = 0, track=None, block_over: str = "all", monitor=None):
+                 init: str = "lik", seed: int = 0, track=None, block_over: str = "all", monitor=None,
+                 collect_q: bool = False):
         if scheme == "auto":
             scheme = "bag-block" if weak.is_group else "block"
         valid = ("swap", "bag-block") if weak.is_group else ("single", "block")
@@ -65,6 +66,9 @@ class InContextGibbs:
                                               # nhãn thật trên dữ liệu phát triển). Không ảnh hưởng thuật toán.
         self.block_over = block_over          # 'all': khối là tập con ngẫu nhiên của MỌI mẫu (ngữ cảnh không lệch
                                               # thành phần); 'free': chỉ chia các mẫu tự do (lệch — RQ1_REPORT §5)
+        self.collect_q = bool(collect_q)      # V2 (04/11/2026): cộng dồn dự đoán ngoài khối q(· | x_i, D_{-B(i)}) sau
+                                              # burn-in để tính weak_fit(). Chỉ ghi lại, không gọi thêm TFM, không
+                                              # dùng bộ sinh ngẫu nhiên — chuỗi giữ nguyên từng bước.
 
     # ------------------------------------------------------------------------------------------
     def _ctx(self, exclude: np.ndarray, n_total: int) -> np.ndarray:
@@ -96,6 +100,11 @@ class InContextGibbs:
             z[k] = y_new[k]
         return total
 
+    def _collect(self, sites, Q, sweep):
+        if self.collect_q and sweep >= self.burn_in:
+            self._qsum[sites] += Q
+            self._qcnt[sites] += 1
+
     def _record(self, sites, W, sweep):
         if self.track is None or sweep < self.burn_in:
             return
@@ -122,6 +131,10 @@ class InContextGibbs:
             else:                                           # vector nhãn cho sẵn
                 y = init.astype(int).copy()
         self.samples_, self.trace_ = [], Trace()
+        self.y0_ = y.copy()                                  # trạng thái ban đầu (chẩn đoán r_start của V2)
+        if self.collect_q:
+            self._qsum = np.zeros((n_total, C))
+            self._qcnt = np.zeros(n_total)
         if self.track is not None:
             self._track_pos = {int(s): k for k, s in enumerate(self.track)}
             self._rb_sum = np.zeros((len(self.track), C))
@@ -160,7 +173,9 @@ class InContextGibbs:
         if self.scheme == "single":
             for i in self.rng.permutation(free):
                 site = np.array([i])
-                W = self._q(X, y, site, site) * L[site]
+                Q = self._q(X, y, site, site)
+                self._collect(site, Q, sweep)
+                W = Q * L[site]
                 self._record(site, W, sweep)
                 y[i] = self._draw(W)[0]
             return y
@@ -172,7 +187,9 @@ class InContextGibbs:
             b = np.sort(blk[is_free[blk]])               # chỉ cập nhật mẫu tự do; cả khối bị loại khỏi ngữ cảnh
             if len(b) == 0:
                 continue
-            W = self._q(X, y, blk, b) * L[b]
+            Q = self._q(X, y, blk, b)
+            self._collect(b, Q, sweep)
+            W = Q * L[b]
             Wn = W / W.sum(1, keepdims=True)
             y_prop = self._draw(Wn)
             if not self.mh_correct or self.mode == "argmax":
@@ -240,6 +257,7 @@ class InContextGibbs:
             if len(sites) == 0:
                 continue
             P = self._q(X, y, sites, sites)
+            self._collect(sites, P, sweep)
             row = {s: r for r, s in enumerate(sites)}
             y_new = y.copy()
             for g in bg:
@@ -274,6 +292,34 @@ class InContextGibbs:
             if ok:
                 y = y_new
         return y
+
+    # ------------------------------------------------------------------------------------------
+    def weak_fit(self) -> float:
+        """V2: độ khớp nhãn yếu của dự đoán ngoài khối (WPLL), không cần nhãn thật. Cần collect_q=True.
+        Q̄_i = trung bình sau burn-in của q(· | x_i, D_{-B(i)}) (khối B(i) chứa i, nên i không nằm trong ngữ cảnh).
+        Cấp mẫu: trung bình trên các điểm tự do của log Σ_k Q̄_i(k) ℓ_i(k) (PLL: log khối xác suất trên tập ứng viên).
+        LLP: trung bình trên các túi của log P(số đếm của túi | Q̄ độc lập) / cỡ túi (DP Poisson–binomial chính xác)."""
+        if not self.collect_q:
+            raise ValueError("cần collect_q=True")
+        from .llp import count_constrained_log_normalizer
+        ok = self._qcnt > 0
+        Qbar = np.zeros_like(self._qsum)
+        Qbar[ok] = self._qsum[ok] / self._qcnt[ok, None]
+        weak = self.weak
+        if weak.is_group:
+            vals = []
+            for b, c in zip(weak.bags, weak.counts):
+                if len(b) and ok[b].all():
+                    P = np.clip(Qbar[b], 1e-12, None)
+                    P = P / P.sum(1, keepdims=True)
+                    vals.append(count_constrained_log_normalizer(P, c) / len(b))
+            return float(np.mean(vals)) if vals else float("nan")
+        L = weak.lik()
+        free = self.weak.free_sites()
+        free = free[ok[free]]
+        if len(free) == 0:
+            return float("nan")
+        return float(np.mean(np.log(np.maximum((Qbar[free] * L[free]).sum(1), 1e-300))))
 
     # ------------------------------------------------------------------------------------------
     def predict_proba(self, X_train, X_test, cond: ConditionalModel | None = None, n_use: int | None = None,

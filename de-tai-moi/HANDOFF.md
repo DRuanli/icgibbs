@@ -128,7 +128,7 @@
 
 1. **Chuẩn bị lượt Kaggle.**
    - Sửa code trong `G4/code`, thêm lượt vào `run_s2_lot.sh`, thêm test, chạy `python -m pytest -q tests`.
-   - Đóng gói thư mục `G4/code` (bỏ `__pycache__`) thành `s2_code_vN/code/` rồi nén `s2_code_vN.zip`. Bản gần nhất là v5 (S2E). Zip không nằm trong git (`.gitignore`).
+   - Đóng gói thư mục `G4/code` (bỏ `__pycache__`) thành `s2_code_vN/code/` rồi nén `s2_code_vN.zip`. Bản gần nhất là v6 (V0A, V0B của V2, 04/11). Zip không nằm trong git (`.gitignore`).
    - Gửi zip cho thầy kèm hướng dẫn chạy theo mẫu ở `G4/README.md`:
      - Ô 1: pip install `tabpfn==9.2.0 tabicl==2.2.0 …`, lấy secret, chép code vào `/kaggle/working/code`.
      - Ô 2: `bash run_s2_lot.sh <LOT> /kaggle/working`.

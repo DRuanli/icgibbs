@@ -26,6 +26,46 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## V2 giai đoạn 0 — lượt V0A và V0B dùng `s2_code_v6.zip` (04/11/2026)
+
+Thầy duyệt V2 ngày 04/11 ([V2_PLAN](../V2/V2_PLAN.md)). Dự đoán P1–P4 đã ghi trước ở [PHASE0_PREDICTIONS](../V2/PHASE0_PREDICTIONS.md), commit `1a8859f`. Cả hai lượt là **thăm dò**, chạy trên dataset cũ của NC1. Riêng R4 chạy trên tập đánh giá S2, nhưng không chạy lại theo nghĩa xác nhận.
+- **V0A** (GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`), ước khoảng 5 giờ:
+  - GPU 0, TabPFN v2: ánh xạ phản ứng PLL ở ρ cao và ánh xạ LLP (cho P2, P3); nhiều điểm xuất phát cho LLP túi 8 trên tic-tac-toe và cylinder-bands; ánh xạ với lỗi có cấu trúc.
+  - GPU 1, TabICL v2: R4, tức chuỗi thứ hai trên mọi ô của Study 2, có lưu vết vào `r4_traces/`.
+- **V0B** (GPU T4 × 2, như trên), ước khoảng 5 giờ:
+  - Hai GPU chia đôi phần nhiều điểm xuất phát PLL q = 0,6 với TabPFN v2 trên mfeat-factors, optdigits, MiceProtein, semeion. Mỗi chuỗi TabPFN mất 7–26 phút.
+  - Sau đó TabICL v2 chạy trên cùng các ô, cùng ánh xạ phản ứng của TabICL.
+- Hai lượt độc lập nhau, chạy song song được nếu quota cho phép.
+- **Cách chạy:** như các lượt S2 bên dưới, nhưng dùng **`s2_code_v6.zip`** và chép kết quả cũ theo mẫu mới:
+  - ô 1 tìm `s2_code_v6/code/run_s2_lot.sh`;
+  - ô 2 đặt `LOT = "V0A"` hoặc `"V0B"`.
+  - Nếu hết 12 giờ mà chưa xong, chạy lại đúng lượt đó với output cũ làm dữ liệu. Các ô đã xong được bỏ qua.
+  - Ô 1 cho V2 (chép cả `v0_*`, `v0x_*`, `s2r4_*` và thư mục `r4_traces` của lần trước):
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v6/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for pat in ("v0_*.csv", "v0x_*.csv", "s2r4_*.csv", "v0_*.jsonl", "s2r4_*.jsonl"):
+    for f in glob.glob(f"/kaggle/input/**/{pat}", recursive=True):
+        shutil.copy(f, "/kaggle/working/")
+os.makedirs("/kaggle/working/r4_traces", exist_ok=True)
+for f in glob.glob("/kaggle/input/**/r4_traces/*.npz", recursive=True):
+    shutil.copy(f, "/kaggle/working/r4_traces/")
+```
+- Nếu lỡ dùng bản cũ, lượt tự dừng và báo "BẢN CODE CŨ".
+- **Gửi lại:**
+  - mọi tệp `s2_V0A_*` / `s2_V0B_*`, `v0_*`, `v0x_*`, `s2r4_*`;
+  - thư mục `r4_traces/`, nén thành zip.
+- **Phân tích:** `V2/analysis/v0_report.py`, viết và commit trước khi có số.
+
 ## S2 — lượt S2E (thăm dò cho bài) dùng `s2_code_v5.zip` (03/11/2026)
 
 Thầy duyệt D3 của [G9_PLAN](../G9/G9_PLAN.md) ngày 03/11. Lượt **S2E** chạy TabICL v2 trên **dataset cũ của NC1** (tập phát triển của S2), không chạm tập đánh giá S2. Kết quả là thăm dò.

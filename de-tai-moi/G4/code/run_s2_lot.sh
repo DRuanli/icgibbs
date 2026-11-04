@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -15,6 +15,12 @@
 #                      (tập phát triển của S2). GPU 0: R̂ hai chuỗi (3 dataset nhỏ mỗi nhóm như NC1; thêm 4 dataset ≥ 8
 #                      lớp ở PLL q 0,6). GPU 1: khối có sửa MH (LLP túi 8, PLL q 0,3 và 0,6; thêm 4 dataset ≥ 8 lớp ở
 #                      q 0,6). Cần s2_code_v5 trở đi
+#   V0A  (GPU T4 × 2): V2 giai đoạn 0, THĂM DÒ (V2/PHASE0_PREDICTIONS.md; thầy duyệt V2 ngày 04/11/2026). GPU 0
+#                      (TabPFN v2, dataset cũ của NC1): ánh xạ phản ứng PLL ρ cao và LLP (cho P2, P3), nhiều điểm xuất phát
+#                      LLP túi 8 (P3, P4), ánh xạ lỗi có cấu trúc (W1). GPU 1 (TabICL v2): R4 — chuỗi thứ hai trên mọi ô của
+#                      Study 2, lưu vết vào r4_traces/. Cần s2_code_v6 trở đi
+#   V0B  (GPU T4 × 2): V2 giai đoạn 0. Hai GPU chia đôi nhiều điểm xuất phát PLL q 0,6 với TabPFN v2 (P1, P2, P4); sau đó
+#                      TabICL v2 trên cùng các ô (P4, kiểm v2 không hại TFM tốt) và ánh xạ phản ứng của TabICL
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -82,6 +88,42 @@ case $LOT in
       xg 1 mh06 --part ablation --ablation mh06
       xg 1 mh06_many --part ablation --ablation mh06 --datasets $MANY ) &
     wait ;;
+  V0A|V0B)
+    { [ -f v0_response_map.py ] && python run_g7.py --help 2>/dev/null | grep -q -- "--starts"; } \
+      || { echo "BẢN CODE CŨ: chưa có --part v0 — dùng s2_code_v6.zip"; exit 3; }
+    E1=(--split eval --eval-ok)          # dataset cũ của NC1 (tập phát triển của S2 và V2)
+    rm_ () {   # rm_ <số GPU> <tên> <đối số v0_response_map...>
+      local g=$1 tag=$2; shift 2
+      CUDA_VISIBLE_DEVICES=$g python v0_response_map.py "$@" --out "$OUT/v0x_${tag}.csv" >> "$OUT/v0x_${tag}.log" 2>&1
+      echo "GPU$g xong v0x_$tag: $(date)"
+    }
+    ms_ () {   # ms_ <số GPU> <tên> <đối số run_g7...>
+      local g=$1 tag=$2; shift 2
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py "${E1[@]}" --part v0 "$@" --out "$OUT/v0_${tag}.csv" >> "$OUT/v0_${tag}.log" 2>&1
+      echo "GPU$g xong v0_$tag: $(date)"
+    }
+    PLL4=12,28,40966,1501; LLP2=50,6332
+    if [ "$LOT" = V0A ]; then
+      ( rm_ 0 pll_hi_tabpfn --setting pll --plant uniform --backends tabpfn_v2 --datasets $PLL4 --rho 0.85,0.9,0.95
+        rm_ 0 llp_tabpfn --setting llp --backends tabpfn_v2 --datasets $LLP2 --rho u,0.1,0.2,0.3,0.45,0.6,0.8,0.9
+        ms_ 0 llp_tabpfn --backend tabpfn_v2 --settings llp --levels "llp=8" --datasets $LLP2 --starts warm,base,cold
+        rm_ 0 struct_tabpfn --setting pll --plant struct --backends tabpfn_v2 --datasets $PLL4,188,40982 \
+            --rho 0.2,0.45,0.6,0.8,0.9 ) &
+      ( CUDA_VISIBLE_DEVICES=1 python run_g7.py --split s2 --eval-ok --explore --part rhat --backend tabicl_v2 \
+            --settings llp,pll --levels "llp=8;pll=0.3,0.6" --trace_dir "$OUT/r4_traces" --out "$OUT/s2r4_tabicl.csv" \
+            >> "$OUT/s2r4_tabicl.log" 2>&1; echo "GPU1 xong s2r4_tabicl: $(date)" ) &
+      wait
+    else
+      ( ms_ 0 pll_tabpfn_0 --backend tabpfn_v2 --settings pll --levels "pll=0.6" --datasets $PLL4 --starts warm,base --shard 0/2
+        ms_ 0 pll_tabicl --backend tabicl_v2 --settings pll --levels "pll=0.6" --datasets $PLL4 --starts warm,base,cold
+        rm_ 0 struct_tabicl --setting pll --plant struct --backends tabicl_v2 --datasets $PLL4,188,40982 \
+            --rho 0.2,0.45,0.6,0.8,0.9 ) &
+      ( ms_ 1 pll_tabpfn_1 --backend tabpfn_v2 --settings pll --levels "pll=0.6" --datasets $PLL4 --starts warm,base --shard 1/2
+        ms_ 1 llp_tabicl --backend tabicl_v2 --settings llp --levels "llp=8" --datasets $LLP2 --starts warm,base,cold
+        rm_ 1 llp_tabicl --setting llp --backends tabicl_v2 --datasets $LLP2 --rho u,0.1,0.2,0.3,0.45,0.6,0.8,0.9
+        rm_ 1 pll_hi_tabicl --setting pll --plant uniform --backends tabicl_v2 --datasets $PLL4 --rho 0.85,0.9,0.95 ) &
+      wait
+    fi ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))
     for j in 0 1 2 3; do cpu "base_$((b+j))" --shard $((b+j))/8 & done; wait ;;

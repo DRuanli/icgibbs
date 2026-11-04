@@ -25,8 +25,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icgibbs.g7.data import (Preprocessor, Table, canonical_table, encode_tfm, load_openml, subsample_table,  # noqa: E402
                              load_real_pll, table_sha256)
 from icgibbs.g7.io import ResultWriter, code_version, config_hash, weak_hash  # noqa: E402
-from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, Cell, baselines_for,  # noqa: E402
-                                run_ablation, run_tfm_methods)
+from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, V0_STARTS, Cell, baselines_for,  # noqa: E402
+                                run_ablation, run_multistart, run_tfm_methods)
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
 from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, ABL_SMALL_EVAL,  # noqa: E402
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
@@ -132,7 +132,12 @@ def parse_levels(spec: str):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--part", choices=["tfm", "baselines", "rhat", "ablation"], required=True)
+    ap.add_argument("--part", choices=["tfm", "baselines", "rhat", "ablation", "v0"], required=True,
+                    help="v0: V2 giai đoạn 0 (V2/PHASE0_PREDICTIONS.md) — nhiều điểm xuất phát, chọn bằng WPLL")
+    ap.add_argument("--starts", default=",".join(V0_STARTS), help="với --part v0: các điểm xuất phát (warm,base,cold)")
+    ap.add_argument("--explore", action="store_true",
+                    help="THĂM DÒ (V2 W6, R4): cho phép --part rhat trên --split s2; mọi dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--trace_dir", default="", help="với --part rhat: lưu vết hai chuỗi (npz) vào thư mục này")
     ap.add_argument("--ablation", choices=sorted(ABLATIONS), default="", help="với --part ablation: một ablation")
     ap.add_argument("--n_train_max", type=int, default=0,
                     help="ablation cỡ dữ liệu: lấy mẫu con lồng nhau, phân tầng của train tới cỡ này (0 = không)")
@@ -167,8 +172,11 @@ def main(argv=None):
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
     if a.split in ("eval", "s2") and not a.eval_ok:
         ap.error("tập đánh giá chỉ chạy khi đã mở (G7 cho eval, S2 sau khi đóng băng): cần thêm --eval-ok")
-    if a.split == "s2" and (a.part in ("rhat", "ablation") or a.n_train_max or a.mh_check or "pll_real" in a.settings):
-        ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1)")
+    if a.split == "s2" and (a.part in ("ablation", "v0") or (a.part == "rhat" and not a.explore) or a.n_train_max
+                            or a.mh_check or "pll_real" in a.settings):
+        ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ thăm dò cần --explore")
+    if a.explore and not (a.part == "rhat" and a.split == "s2"):
+        ap.error("--explore chỉ dùng với --part rhat --split s2")
     only = {m.strip() for m in a.only.split(",") if m.strip()}
     settings = [s.strip() for s in a.settings.split(",") if s.strip()]
     levels = parse_levels(a.levels)
@@ -178,7 +186,7 @@ def main(argv=None):
                       {k: (v, None) for k, v in DEV_BINARY.items()})
     multi_ids = dict({"eval": EVAL_MULTICLASS, "s2": S2_MULTICLASS}.get(a.split) or
                      {k: (v, None) for k, v in DEV_MULTICLASS.items()})
-    if a.part == "rhat" and a.datasets == "all":            # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
+    if a.part == "rhat" and a.datasets == "all" and a.split != "s2":   # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
         rs = RHAT_EVAL if a.split == "eval" else RHAT_DEV
         a.datasets = ",".join(str(x) for x in rs["binary"] + rs["multiclass"])
     if a.part == "ablation":                               # thiết lập theo quy tắc ghi trước của từng ablation
@@ -278,7 +286,7 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
     Xtr, Xte, ytr, yte = X_all[itr], X_all[ite], t.y[itr], t.y[ite]
     wd = weak if weak is not None else make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
     cell = Cell(did, t.name, setting, level, seed, C, Xtr, Xte, Mtr, Mte, wd, prior=float(ytr.mean()) if C == 2 else None)
-    base = dict(backend=a.backend if a.part in ("tfm", "rhat", "ablation") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
+    base = dict(backend=a.backend if a.part in ("tfm", "rhat", "ablation", "v0") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
                 level=level, seed=seed, part=a.part, n_train=len(itr), n_test=len(ite), d=X_all.shape[1], n_classes=C,
                 pos_rate=round(float(ytr.mean()), 4) if C == 2 else "", n_duplicates_removed=t.n_duplicates_removed,
                 sha256_table=sha_t, sha256_split=split_sha256(itr, ite), weak_hash=weak_hash(wd), code=code,
@@ -321,7 +329,11 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                 from icgibbs.g7.methods import run_rhat
                 cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
                 fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)
-                st, Ps = run_rhat(cell, cond, fin)
+                keep = [] if a.trace_dir else None
+                st, Ps = run_rhat(cell, cond, fin, monitor=(lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr)))
+                                  if a.trace_dir else None, keep=keep)
+                if keep:
+                    _save_rhat_trace(a.trace_dir, t, setting, level, seed, keep, Ps, ytr, yte)
                 # metric chính trên test của từng chuỗi: sai khác do riêng ngẫu nhiên Monte Carlo (cùng dữ liệu, cùng
                 # nhãn yếu, cùng điểm khởi động); chuỗi a cùng seed với gibbs_warm của phần tfm
                 for nm, P in zip("ab", Ps):
@@ -332,6 +344,13 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                                   extra=";".join(f"{k}={v:.4f}" if isinstance(v, float) else f"{k}={v}" for k, v in st.items())))
                 print(f"  {t.name[:22]:>22s} {setting:7s} {str(level):>4s} s{seed} rhat {st}", flush=True)
             attempt("rhat", _rh)
+        return
+    if a.part == "v0":
+        cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
+        fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)
+        monitor = lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr))   # chẩn đoán, không vào thuật toán
+        starts = [x.strip() for x in a.starts.split(",") if x.strip()]
+        run_multistart(cell, cond, fin, starts, todo, emit, guard=attempt, monitor=monitor)
         return
     if a.part == "ablation":
         cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)
@@ -359,6 +378,21 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                     out = fn(cell)
                     emit(m, out, time.time() - t0)
                 attempt(m, _b)
+
+
+def _save_rhat_trace(trace_dir, t, setting, level, seed, chains, Ps, ytr, yte):
+    """V2 W6 (R3, R4, R8): vết của hai chuỗi — mẫu nhãn sau burn-in (int8), tỉ lệ đổi nhãn và monitor theo vòng quét,
+    xác suất dự đoán test, nhãn thật của train/test (dữ liệu công khai; chỉ dùng để chẩn đoán)."""
+    os.makedirs(trace_dir, exist_ok=True)
+    out = {}
+    for nm, g, P in zip("ab", chains, Ps):
+        out[f"samples_{nm}"] = np.asarray(g.samples_, np.int8)
+        out[f"y0_{nm}"] = np.asarray(g.y0_, np.int8)
+        out[f"flips_{nm}"] = np.asarray(g.trace_.flips, np.float32)
+        out[f"monitor_{nm}"] = np.asarray(g.trace_.monitor, np.float32)
+        out[f"pred_{nm}"] = np.asarray(P, np.float16)
+    np.savez_compressed(os.path.join(trace_dir, f"rhat_{t.did}_{setting}_{level}_s{seed}.npz"),
+                        ytr=np.asarray(ytr, np.int8), yte=np.asarray(yte, np.int8), **out)
 
 
 if __name__ == "__main__":
