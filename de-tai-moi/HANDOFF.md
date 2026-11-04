@@ -51,6 +51,7 @@
   - Reviewer ngoài 01 nhận xét "promising, cần major revision": lý thuyết không phủ bộ mặc định; chưa tách độ lệch xấp xỉ khỏi độ trộn; mixing; PLL thật ít, không có LLP thật; TFM chưa đối xứng; ngữ cảnh; riêng tư.
   - Đã đánh giá từng ý và sửa R9, R10 trong bài.
   - **R1–R8 chờ thầy chọn** (REVIEW_RESPONSE_PLAN §4).
+  - Thầy muốn phát triển đề tài mạnh hơn thay vì chấp nhận các giới hạn ở §7 của bài. Em đã lập [V2/V2_PLAN.md](V2/V2_PLAN.md): phân tích lại số liệu (thăm dò, `V2/analysis/v2_diagnosis.py`), lý thuyết động học của chuỗi, phương pháp v2 chạy từ nhiều điểm xuất phát, Study 3 đăng ký trước, giai đoạn 0 với dự đoán P1–P4. **Chờ thầy trả lời V-Q1–V-Q5** (V2_PLAN §10). Nếu thầy duyệt, V2 thay thế §4 của REVIEW_RESPONSE_PLAN.
 - **Quyết định của thầy:**
   - **D1–D5 (G9, 03/11):**
     - D1: cả hai nghiên cứu trong bài chính.
@@ -174,7 +175,8 @@
 
 | # | Việc | Hạn hoặc điều kiện | Trạng thái |
 |---|---|---|---|
-| 1 | Thầy chọn R1–R8 và trả lời Q1–Q5 (REVIEW_RESPONSE_PLAN §4). Đề xuất bắt đầu bằng R4 (1 phiên GPU), R1a (CPU) và R2 | ngay | chờ thầy |
+| 0 | Thầy trả lời V-Q1–V-Q5 của [V2_PLAN §10](V2/V2_PLAN.md). Nếu duyệt: giai đoạn 0, gồm ghi trước P1–P4, code `--init` và nhiều điểm xuất phát, cùng R4, chạy trong 1–2 phiên Kaggle; cổng V0 khoảng 17/11 | ngay | chờ thầy |
+| 1 | Thầy chọn R1–R8 và trả lời Q1–Q5 (REVIEW_RESPONSE_PLAN §4). Nếu V2 được duyệt thì mục này được thay bằng V2 W6 | ngay | chờ thầy |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
 | 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |
 | 4 | Xác nhận giấy phép: checkpoint TabICL v2, từng dataset OpenML, dữ liệu PALM. Rồi bỏ `\pending` ở checklist mục 12 | trước nộp | mở |
