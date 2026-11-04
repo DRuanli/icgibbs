@@ -1,6 +1,6 @@
 # V2: kế hoạch phát triển đề tài A thành một bài mạnh hơn (lập 04/11/2026)
 
-- **Trạng thái:** đề xuất, chờ thầy duyệt (§10). Chưa chạy gì mới.
+- **Trạng thái:** **thầy duyệt toàn bộ ngày 04/11/2026**, gồm V-Q1–V-Q5 theo đề xuất (§10). Giai đoạn 0 bắt đầu; dự đoán ghi trước ở [PHASE0_PREDICTIONS](PHASE0_PREDICTIONS.md).
 - **Kế thừa:** [S2_PLAN §5.1–5.2](../S2/S2_PLAN.md) (lý thuyết kiểu sụp; làm phương pháp bền hơn), [REVIEW_RESPONSE_PLAN](../G9/REVIEW_RESPONSE_PLAN.md) R1–R8, [G9_PLAN](../G9/G9_PLAN.md) D2. Kế hoạch này gom các việc đó quanh một mục tiêu chung và thêm những gì rút ra từ phân tích lại số liệu ngày 04/11.
 - **Số liệu:** mọi con số ở §2 sinh bằng [`V2/analysis/v2_diagnosis.py`](analysis/v2_diagnosis.py), kết quả ở [`V2/results/v2_diagnosis.txt`](results/v2_diagnosis.txt). Script chỉ đọc kết quả đã có, không chạy gì mới. Đây là **phân tích thăm dò trên dữ liệu đã dùng**, không phải kiểm định.
 
@@ -297,9 +297,9 @@ Các mục còn lại được xếp lại:
 - **Phạm vi phình to:** dùng danh sách cắt ở §8 và xem lại ở mỗi cổng.
 - **9 trang không chứa nổi ba nghiên cứu:** bài chính chỉ tóm tắt Study 1–2, chi tiết chuyển sang phụ lục.
 
-## 10. Việc thầy cần quyết
+## 10. Quyết định (thầy duyệt 04/11/2026: chấp nhận kế hoạch, mọi câu theo đề xuất)
 
-| # | Câu hỏi | Em đề xuất |
+| # | Câu hỏi | Quyết định |
 |---|---|---|
 | V-Q1 | Có duyệt hướng v2 không: phương pháp mới cùng Study 3 đăng ký trước | Duyệt |
 | V-Q2 | Có cho khởi động từ một learner nhãn yếu đã huấn luyện (hệ lai) không, hay chỉ khởi động bằng TFM | Cho phép, và báo cáo cả bản chỉ dùng TFM |
