@@ -235,6 +235,11 @@ def extra_numbers(v):
         v[f"s1-real-{t2}-diff"] = f3(g["mean_diff"])
         v[f"s1-real-{t2}-wl"] = f"{g['wins']}/{g['losses']}"
         v[f"s1-real-{t2}-rankpos"] = str(d["rank_position"][ds])
+    # Lost is a near tie: spread of mean accuracy among the three best methods (oracle excluded). Was typed by hand as
+    # "top four within 0.003", which is wrong: the fourth is 0.027 below the first (04/11/2026)
+    acc = pd.read_csv(os.path.join(G8, "rq5_acc.csv"), index_col=0).drop(index="oracle")["Lost"]
+    top = acc.sort_values(ascending=False).head(3)
+    v["s1-real-lost-top3"] = f"{top.iloc[0] - top.iloc[-1]:.3f}"
     m = load_s1(os.path.join(ROOT, "G7", "raw"))
     g = m[m.method == "gibbs_warm"]
     v["s1-cost-median-s"] = f"{g.seconds.median():.0f}"
@@ -250,6 +255,11 @@ def extra_numbers(v):
     v["s2-cost-max-min"] = f"{t.seconds.max() / 60:.1f}"
     v["s2-cost-gpu-gb"] = f"{t.peak_gpu_mb.max() / 1024:.1f}"
     v["s2-cost-ntrain-max"] = f"{int(t.n_train.max()):,}".replace(",", "{,}")
+    # Context cap of the sampler (GIBBS["max_context"] = 2000 in icgibbs/g7/methods.py): number of Study 2 datasets whose
+    # training set exceeds it, so that some context was subsampled (reviewer 01, item 14)
+    nt = t.groupby("dataset_id").n_train.max()
+    v["s2-ctxsub-n"] = str(int((nt > 2000).sum()))
+    v["s2-ndata"] = str(len(nt))
 
 
 def s1_collapse_numbers(v):

@@ -68,7 +68,7 @@ def s1_secondary():
     return dict(d1=ex["D1"], d2=ex["D2"], d3=d3)
 
 
-def s1_tabicl():
+def s1_tabicl(v):
     r = json.load(open(os.path.join(G8, "g8_descriptive.json")))["tabicl_exploratory"]
     s = pd.read_csv(os.path.join(G8, "tabicl_summary.csv"))
     rows = [("LLP, bag 8", r["H2_llp8"], "DLLP (linear)")] + [(f"PLL, $q={q}$", r["H4_pll"][q], "CC, tuned") for q in ("0.3", "0.6")]
@@ -81,6 +81,8 @@ def s1_tabicl():
                    f"{srow.tabicl_gibbs_warm:.3f} & {srow.tabpfn_gibbs_warm:.3f} & {srow.tabicl_oracle:.3f} \\\\")
     out += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s1_tabicl.tex", out)
+    # largest difference in oracle accuracy/AUC between the two TFMs (clean labels), quoted in the text of Appendix B
+    v["s1-tabicl-oracle-maxdiff"] = f"{(s.tabicl_oracle - s.tabpfn_oracle).abs().max():.3f}"
 
 
 def s2_sensitivity():
@@ -250,7 +252,7 @@ def main():
     os.makedirs(T, exist_ok=True)
     v = {}
     sec = s1_secondary()
-    s1_tabicl()
+    s1_tabicl(v)
     s2_sensitivity()
     s2_perbaseline()
     s2_per_dataset()

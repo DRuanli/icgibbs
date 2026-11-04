@@ -37,7 +37,7 @@ the analysis (a tie counted as a loss); no conclusion changed. Failed cells of o
 \FloatBarrier
 \section{Study 1 with TabICL v2 (registered TFM ablation)}\label{app:s1-tabicl}
 \Cref{tab:s1tabicl} applies the H2 and H4 tests of Study~1 to the registered TFM ablation, in which every TFM-based method
-uses TabICL~v2. With clean labels the two TFMs are equally accurate (oracle within 0.005); the difference appears only
+uses TabICL~v2. With clean labels the two TFMs are about equally accurate (oracle within \val{s1-tabicl-oracle-maxdiff}); the difference appears only
 with weak labels. Because TabICL~v2 was promoted after these results were seen, they are exploratory; Study~2 is the
 confirmatory test.
 \begin{table}[!htbp]
@@ -266,7 +266,8 @@ of two-GPU sessions. Development and pilot runs before each freeze are not inclu
 \paragraph{Broader impacts.} Learning from weak labels lowers the cost of annotation and makes coarse or ambiguous labels
 usable. Learning from label proportions also recovers individual-level predictions from data released only in
 aggregate; when aggregation was chosen to protect individuals, such models can weaken that protection, and releases of
-aggregated data should be assessed with this in mind.
+aggregated data should be assessed with this in mind. We have not measured how much individual-level information the
+sampler recovers from bag counts. \todo{quantify, or keep this sentence (G9/REVIEW\_RESPONSE\_PLAN R8)}
 
 \paragraph{Use of large language models.} An AI assistant was used for writing code, drafting proofs that the authors
 checked, running analyses through the pre-written scripts, and drafting text. The authors designed the studies, approved

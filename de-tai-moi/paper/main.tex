@@ -24,12 +24,16 @@
 \input{macros}
 
 \newif\iffinal \finalfalse
+% \pending{reason}: a checklist answer that is not yet established. Draft: shown in red. Final build: stops with an
+% error, so that no unverified answer can reach a submitted PDF (reviewer 01, item 17).
 \iffinal
   \newcommand{\claim}[1]{}
   \newcommand{\todo}[1]{}
+  \newcommand{\pending}[1]{\errmessage{Unresolved checklist answer: #1}}
 \else
   \newcommand{\claim}[1]{\textsuperscript{\textcolor{ForestGreen}{\sffamily[C#1]}}}
   \newcommand{\todo}[1]{\textcolor{BrickRed}{\sffamily\small[TODO: #1]}}
+  \newcommand{\pending}[1]{\textbf{\textcolor{BrickRed}{[Pending: #1]}}}
 \fi
 
 \title{In-Context Gibbs: Learning from Weak Labels with\\ Frozen Tabular Foundation Models}

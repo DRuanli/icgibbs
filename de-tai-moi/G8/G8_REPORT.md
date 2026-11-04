@@ -106,7 +106,7 @@ Bayesian signed-rank (ROPE ±0,005) cho P(Gibbs tốt hơn) = 1,00 và P(ROPE) =
 | **Hạng trung bình của Gibbs** trong 10 phương pháp (Gibbs, ngây thơ, 8 baseline) | **1,20 (thứ 1)** | 4,05 (thứ 3) | **1,20 (thứ 1)** |
 
 - **Gộp cả nguồn PLL thật:** hạng trung bình 2,15, thứ 1/10. Đơn vị của H5 đã đăng ký là "nguồn", nên H5 **đạt**.
-- **Tính từng dataset:** không đạt ở Lost (thứ 3). Ở Lost bốn phương pháp đầu chỉ cách nhau dưới 0,003 accuracy.
+- **Tính từng dataset:** không đạt ở Lost (thứ 3). Ở Lost **ba** phương pháp đầu chỉ cách nhau dưới 0,003 accuracy (Gibbs 0,7496; PRODEN tune 0,7478; GLWS tune 0,7469). Phương pháp thứ tư (CC tune, 0,7230) thấp hơn 0,027. *Sửa ngày 04/11/2026: bản trước ghi "bốn phương pháp", sai; câu trong bài cũng đã sửa và nay sinh bằng script, macro `s1-real-lost-top3`.*
 - LLP-Bench bị bỏ theo quy tắc ghi trước, vì không có dữ liệu Criteo khi xong L6 (giao thức §11).
 - Đáng chú ý: PLL thật có tập ứng viên nhỏ (trung bình 2,2–3,2 nhãn). Đây đúng là vùng PLL mà Gibbs làm tốt.
 

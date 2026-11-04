@@ -29,13 +29,13 @@ towards the truth, the same sampler passed every test. Study~2 put this to a pro
 the TFM (\cref{tab:main}). \ours{} outperformed the strongest specialised baselines for learning from label proportions,
 by \val{s2-llp-cmp-diff} AUC over DLLP on \val{s2-llp-cmp-w} of \val{s2-llp-cmp-n} datasets, and from partial labels, by
 about one accuracy point over tuned CC at both ambiguity levels, with no collapse on datasets with many classes. On three
-real partial-label datasets it had the highest accuracy on all three (\cref{sec:real}).
+real partial-label datasets it was the most accurate method (\cref{sec:real}).
 
 \paragraph{Contributions.}
 \begin{itemize}
   \item \textbf{Method} (\cref{sec:method}): \ours{}, which turns a frozen TFM into a sampler over latent labels for
         instance-level and group-level weak labels, at the cost of a few hundred forward passes \claim{2}.
-  \item \textbf{Theory} (\cref{sec:theory}): with an exact TFM the sampler targets the Bayes posterior and its predictor
+  \item \textbf{Theory} (\cref{sec:theory}): with an exact TFM the exact variants of the sampler target the Bayes posterior and their predictor
         is Bayes-optimal under the TFM's prior \claim{3}; with an approximate TFM, even one whose conditionals are
         incompatible, it has a unique stationary distribution whose error is bounded by the TFM's error times the mixing
         time of the exact chain \claim{4}; and the naive use of a TFM loses information exactly for candidate sets and

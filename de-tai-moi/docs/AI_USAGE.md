@@ -12,4 +12,4 @@ AI (Claude của Anthropic) **không phải tác giả**. Bảng dưới ghi cá
 | G7 | Viết bộ chạy, script lượt Kaggle, kiểm sau mỗi lượt, nhật ký | Chạy mọi lượt trên Kaggle |
 | G8 | Script phân tích xác nhận và mô tả, hình, báo cáo, biên bản tự rà soát | Chọn hướng sau G8 (hướng 2); duyệt cổng |
 | S2 | Soạn kế hoạch S2, script đếm dataset, đề xuất rà tay, code `--split s2`, phân tích xác nhận, kiểm lại độc lập, báo cáo | Duyệt danh sách và quy tắc S1 trước khi đóng băng; chạy mọi lượt trên Kaggle; duyệt cổng S2 (03/11/2026) |
-| G9 | (dự kiến) Soạn dàn ý, hình và bảng, bản nháp các mục | Quyết định trình bày; duyệt và chịu trách nhiệm toàn bộ nội dung |
+| G9 | Soạn dàn ý, script sinh số, bảng và hình, bản nháp mọi mục, đối chiếu tài liệu tham khảo; đối chiếu nhận xét của reviewer ngoài 01 và soạn kế hoạch sửa (04/11/2026) | Quyết định trình bày (D1–D5); chọn việc sửa theo nhận xét; duyệt và chịu trách nhiệm toàn bộ nội dung |

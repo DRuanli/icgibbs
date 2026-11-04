@@ -100,22 +100,23 @@ labels).}
 On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; TabICL~v2, registered in Study~1 for
 datasets with more than ten classes), \ours{} had the highest mean accuracy on all three and the best mean rank among
 \val{s1-real-nmethods} methods (\val{s1-real-rank-pooled}; \cref{tab:real}) \claim{9}. It led the best baseline by
-\val{s1-real-bird-diff} on BirdSong and \val{s1-real-msrc-diff} on MSRCv2, and by \val{s1-real-lost-diff} on Lost, where
-the top four methods were within 0.003.
+\val{s1-real-bird-diff} on BirdSong and \val{s1-real-msrc-diff} on MSRCv2; on Lost (\val{s1-real-lost-diff}) the top
+three were within \val{s1-real-lost-top3}.
 
 \subsection{Exactness, mixing and cost}\label{sec:ablation}
 \paragraph{The exact sampler does not predict better.} The MH-corrected block sampler, exact when the TFM is
 (\cref{prop:blocks}), did not predict systematically better than the default at the same 30 sweeps (\cref{tab:s2e}): with TabPFN~v2,
 \val{s1-abl-mh-llp} AUC on LLP and \val{s1-abl-mh-pll3} accuracy on PLL; with TabICL~v2, \val{s2e-mh-llp} AUC on LLP (with
 worse log loss), and \val{s2e-mh-pll3}, \val{s2e-mh-pll6} and \val{s2e-mh-many} accuracy on PLL at $q=0.3$, $0.6$ and on
-datasets with $\ge$8 classes. It accepted as few as \val{s2e-mh-accept-min} of its proposals and was a median
+datasets with $\ge$8 classes. It accepted as few as \val{s2e-mh-accept-min} of proposals and was a median
 \val{s2e-mh-cost-median} times slower. The exact transductive predictor (\cref{thm:exact}(c)) was likewise no better
-(\val{s1-abl-trans-llp} AUC on LLP), and $K$, the number of sweeps or the initialisation changed results by at most about
+(\val{s1-abl-trans-llp} AUC on LLP), and $K$, the number of sweeps or the initialisation changed results by at most
 $0.015$ (\cref{app:ablations}).
 
 \paragraph{Mixing.} Two chains per cell disagree on a noticeable fraction of individual labels (median share with
 $\widehat R>1.1$ \citep{vehtari2021rhat} between \val{s1-rhat-pll3-frac} and \val{s2e-rhat-pll6-frac}), yet their test
-metrics differ by a median of at most \val{s1-rhat-llp-absdiff} (\cref{tab:s2e}): thirty sweeps give stable predictions.
+metrics differ by a median of at most \val{s1-rhat-llp-absdiff} on the three smallest datasets of each group
+(\cref{tab:s2e}). Each seed of Study~2 runs its own chain, so the confirmatory tests include this Monte Carlo variation.
 
 \paragraph{Cost.} No weight is trained. On one T4 GPU a run took a median of \val{s2-cost-median-s}\,s (maximum
 \val{s2-cost-max-min}\,min) with TabICL~v2 for up to \val{s2-cost-ntrain-max} training points, using at most

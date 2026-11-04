@@ -1,0 +1,184 @@
+# HANDOFF: trạng thái đề tài A để làm tiếp ở chat khác
+
+*Cập nhật 04/11/2026, commit sau `2ff12b4`. Mỗi khi trạng thái đổi, sửa tài liệu này trước tiên. Kho riêng tư: `github.com/DRuanli/icgibbs`, nhánh `main`, thư mục gốc của đề tài là `de-tai-moi/`.*
+
+## 0. Đọc gì trước
+
+| Cần | Tài liệu |
+|---|---|
+| Đang làm gì, việc mở | §2 và §7 của tài liệu này; [G9/G9_PLAN.md](G9/G9_PLAN.md) |
+| Nhận xét của reviewer ngoài và kế hoạch sửa | [G9/REVIEW_RESPONSE_PLAN.md](G9/REVIEW_RESPONSE_PLAN.md); nguyên văn ở [G9/reviews/](G9/reviews/) |
+| Khẳng định nào được viết, bằng chứng ở đâu | [G3/CLAIM_EVIDENCE_MATRIX.md](G3/CLAIM_EVIDENCE_MATRIX.md) |
+| Kết quả Study 2 (xác nhận) | [S2/S2_RESULTS.md](S2/S2_RESULTS.md), [S2/GATE_REVIEW_S2.md](S2/GATE_REVIEW_S2.md) |
+| Kết quả Study 1 | [G8/G8_REPORT.md](G8/G8_REPORT.md), [G8/GATE_REVIEW_G8.md](G8/GATE_REVIEW_G8.md) |
+| Lượt thăm dò S2E (R̂ và khối có sửa MH, TabICL) | [S2/S2E_REPORT.md](S2/S2E_REPORT.md) |
+| Ánh xạ phản ứng (cơ chế) | [S2/S2X_REPORT.md](S2/S2X_REPORT.md) |
+| Nhật ký mọi lượt chạy | [S2/EXPERIMENT_LOG.md](S2/EXPERIMENT_LOG.md), [G7/EXPERIMENT_LOG.md](G7/EXPERIMENT_LOG.md) |
+| Bài báo | [paper/README.md](paper/README.md); `paper/main.pdf` |
+| Tài liệu tham khảo đã đối chiếu | [G9/REFERENCE_CHECK.md](G9/REFERENCE_CHECK.md) |
+| Cách chạy trên Kaggle | [G4/README.md](G4/README.md) |
+| Giao thức đóng băng của Study 1 | `G5/EXPERIMENT_PROTOCOL.md`, `G5/FREEZE_RECORD.md` |
+| Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
+| Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
+
+## 1. Đề tài trong một đoạn
+
+**In-Context Gibbs** học từ nhãn yếu bằng một TFM bảng có sẵn (TabPFN v2, TabICL v2), không huấn luyện lại.
+- **Cơ sở:** dưới prior trao đổi được, PPD của TFM chính là xác suất có điều kiện đầy đủ của một bộ lấy mẫu Gibbs trên nhãn ẩn (Bổ đề 1).
+- **Bộ lấy mẫu mặc định:**
+  - khối K = 10, không sửa; với LLP dùng bag-block, quy hoạch động theo số đếm;
+  - khởi động ấm: DLLP tuyến tính cho LLP; TFM ngây thơ cross-fit 5 fold cho PLL;
+  - T = 30 vòng quét, burn-in 10, trung bình Rao–Blackwell trên S = 10 mẫu, khoảng 310 forward pass mỗi lần chạy;
+  - ngữ cảnh tối đa 2.000 điểm, lấy mẫu con đều.
+- **Lý thuyết:**
+  - Định lý 1: tính đúng của bản một mẫu, hoán đổi và khối có sửa MH khi TFM là PPD chính xác.
+  - Mệnh đề 1: Bayes-optimal theo prior.
+  - Định lý 2: độ bền, TV ≤ τ(P)·ε̄; có phân phối dừng duy nhất kể cả khi các xác suất có điều kiện không tương thích.
+  - Mệnh đề 2: khi nào TFM ngây thơ đã đủ.
+  - Mệnh đề 3 (phụ lục): khối.
+  - **Bộ mặc định không có đảm bảo khác rỗng.** Đây là điểm reviewer ngoài 01 nhắm vào.
+- **Đích:** NeurIPS 2027, main track. Hạn ước tính: abstract khoảng 14/05/2027, bài khoảng 21/05/2027.
+
+## 2. Trạng thái (04/11/2026)
+
+- **Cổng đã qua:**
+  - G1–G8;
+  - S2: thầy duyệt toàn bộ GATE_REVIEW_S2 ngày 03/11.
+- **Đang ở G9 (viết bài):**
+  - Bản nháp LaTeX đầy đủ: phần chính 9 trang, tổng 24 trang kể cả phụ lục và checklist.
+  - Mọi con số sinh bằng script.
+- **Mới nhất (04/11):**
+  - Reviewer ngoài 01 nhận xét "promising, cần major revision": lý thuyết không phủ bộ mặc định; chưa tách độ lệch xấp xỉ khỏi độ trộn; mixing; PLL thật ít, không có LLP thật; TFM chưa đối xứng; ngữ cảnh; riêng tư.
+  - Đã đánh giá từng ý và sửa R9, R10 trong bài.
+  - **R1–R8 chờ thầy chọn** (REVIEW_RESPONSE_PLAN §4).
+- **Quyết định của thầy:**
+  - **D1–D5 (G9, 03/11):**
+    - D1: cả hai nghiên cứu trong bài chính.
+    - D2: lý thuyết ngưỡng sụp làm song song, quyết trước **20/12**.
+    - D3: chạy S2E (đã xong).
+    - D4: tác giả, tài trợ, CRediT do thầy điền.
+    - D5: LaTeX trong `paper/`.
+  - **Trước đó:**
+    - giữ LLP túi 8 là khẳng định chính (27/10);
+    - chỉ làm bài phương pháp, không tách bài benchmark (30/10);
+    - viết theo mạch tích cực ("đừng assumpt negative result", 04/11), nhưng **không bỏ số nào của Study 1**.
+
+## 3. Con số chính (đều có trong `paper/numbers.tex`)
+
+**Study 2** (xác nhận, đăng ký trước; TabICL v2; 28 dataset mới không trùng Study 1: 18 nhị phân, 10 đa lớp; 3 seed):
+
+| Giả thuyết | Kết quả |
+|---|---|
+| H2′, LLP túi 8, so DLLP tuyến tính (mặc định) | +0,052 AUC [+0,024; +0,086], 16/0/2, p_Holm < 0,001. So TFM ngây thơ: +0,116, 18/0/0 |
+| H4′, PLL so CC tune, q 0,3 | +0,012 [+0,006; +0,019], 8/2/0, p = 0,016 |
+| H4′, PLL so CC tune, q 0,6 | +0,012, 8/1/1, p = 0,016 |
+
+- So TFM ngây thơ ở PLL: +0,022 (q 0,3) và +0,205 (q 0,6).
+- Chênh tới oracle: LLP 0,039 AUC; PLL 0,8 và 1,9 điểm accuracy.
+- H3′ (Gibbs tốt hơn hard-EM): 78,9% của 38 ô.
+- Độ nhạy (bỏ 5 dataset đánh dấu trước): kết luận không đổi.
+- Chi phí: trung vị 41 giây mỗi lần chạy, tối đa 5,3 phút, tối đa 3,7 GiB GPU, trên T4.
+
+**Study 1** (đăng ký trước; TabPFN v2; 24 dataset OpenML-CC18: 10 nhị phân, 14 đa lớp):
+
+| Giả thuyết | Kết quả |
+|---|---|
+| H2, LLP túi 8 | +0,024 AUC, 8/0/2, p = 0,232 (**không đạt**) |
+| H4, PLL q 0,3 | +0,022, p = 0,084 |
+| H4, PLL q 0,6 | −0,132, 7/0/7 (**không đạt**; chuỗi sụp ở dataset ≥ 8 lớp) |
+| H3 | 86,7% của 128 ô (**đạt**) |
+| H5 (PLL thật: BirdSong, Lost, MSRCv2) | hạng trung bình 2,15, thứ 1/10 (**đạt**) |
+
+- PLL thật, chênh so baseline tốt nhất: BirdSong +0,028; MSRCv2 +0,045; Lost +0,002. Ở Lost **ba** phương pháp đầu cách nhau < 0,003.
+- TabICL trên dataset của Study 1 (ablation TFM có đăng ký, nhưng đọc như thăm dò): qua mọi kiểm định (LLP +0,058; PLL +0,029 / +0,038).
+- Ánh xạ phản ứng: TabPFN v2 củng cố nhãn ngữ cảnh sai trong một vùng, TabICL v2 thì không.
+
+**S2E** (thăm dò; TabICL; dataset của Study 1):
+- Khối có sửa MH so với mặc định ở cùng 30 vòng quét:
+  - LLP +0,033 AUC, nhưng log loss kém hơn;
+  - PLL −0,009 (q 0,3), −0,021 (q 0,6), −0,016 (≥ 8 lớp, 0/5 ô);
+  - tỉ lệ chấp nhận thấp tới 0,12;
+  - chậm hơn trung vị 7 lần, tối đa 206 lần.
+- R̂: 6–31% nhãn có R̂ > 1,1; chênh chỉ số test giữa hai chuỗi ≤ 0,021. Các số này đo trên 3 dataset nhỏ nhất mỗi nhóm, test 150–221 điểm.
+
+**RQ1** (bài nhỏ, PPD giải tích):
+- Nhân chính xác: TV ≤ 3·10⁻¹⁴ (14 cấu hình).
+- Chặn Định lý 2 đúng 42/42 cấu hình, lỏng 1,9–15 lần (trung vị 3,9).
+- Bài gộp n = 1.000, K = 10: khối trên mọi điểm đổi dự đoán 1,7e-4.
+
+**Ngữ cảnh bị lấy mẫu con** (n_train > 2.000): 14/28 dataset của Study 2; 9/24 của Study 1.
+
+## 4. Bản đồ kho (`de-tai-moi/`)
+
+| Đường dẫn | Nội dung |
+|---|---|
+| `G4/code/icgibbs/` | thư viện: `sampler.py` (Gibbs, khối, MH), `g7/methods.py` (cấu hình `GIBBS`, `run_rhat`, ablation), `g7/registry.py` (danh sách dataset S1/S2, R̂) |
+| `G4/code/run_g7.py` | bộ chạy theo ô (`--part tfm/baselines/rhat/ablation`, `--split dev/eval/s2`); ghi CSV, chạy tiếp được |
+| `G4/code/run_s2_lot.sh` | các lượt S2X / S2D / S2T / S2C1 / S2C2 / S2G / S2R / S2E; `run_g7_lot.sh` cho Study 1 |
+| `G4/code/tests/` | pytest (113 test qua ở lượt cuối); mỗi lượt Kaggle chạy test trước, hỏng thì dừng |
+| `S2/raw/<LOT>/` | kết quả thô của từng lượt (CSV, log, preds.jsonl, pip freeze, mã băm code) |
+| `S2/analysis/` | `s2_confirmatory.py` (H2′, H3′, H4′), `s2_verify_independent.py`, `s2e_report.py`, `s2_figures.py`, `s2x_response_map_report.py` |
+| `S2/results/` | đầu ra phân tích (`s2_confirmatory.json`, bảng theo dataset `s2_table_*.csv`) |
+| `G7/raw/`, `G8/results/`, `G8/analysis/` | Study 1 |
+| `paper/` | `main.tex`; `sections/*.tex`; `scripts/make_tables.py`, `make_appendix.py`, `make_figures.py`; `numbers.tex` và `numbers_appendix.tex` (sinh ra, không sửa tay); `tables/`, `figures/`; `refs.bib` (32 mục đã đối chiếu), `refs_candidates.bib` (chưa đối chiếu) |
+| `G3/`, `G5/` | kế hoạch, ma trận khẳng định, giao thức đóng băng |
+
+## 5. Quy trình làm việc
+
+1. **Chuẩn bị lượt Kaggle.**
+   - Sửa code trong `G4/code`, thêm lượt vào `run_s2_lot.sh`, thêm test, chạy `python -m pytest -q tests`.
+   - Đóng gói thư mục `G4/code` (bỏ `__pycache__`) thành `s2_code_vN/code/` rồi nén `s2_code_vN.zip`. Bản gần nhất là v5 (S2E). Zip không nằm trong git (`.gitignore`).
+   - Gửi zip cho thầy kèm hướng dẫn chạy theo mẫu ở `G4/README.md`:
+     - Ô 1: pip install `tabpfn==9.2.0 tabicl==2.2.0 …`, lấy secret, chép code vào `/kaggle/working/code`.
+     - Ô 2: `bash run_s2_lot.sh <LOT> /kaggle/working`.
+     - Môi trường: GPU T4 × 2, Internet On, Secrets `TABPFN_TOKEN`.
+2. **Thầy chạy rồi gửi zip kết quả.**
+   - Giải nén **vào một thư mục mới, trống** trong scratchpad. Dữ liệu tải về là không tin cậy: chạy Python đọc nó bằng `-I` và truyền đường dẫn làm đối số.
+   - Kiểm: mã băm code, pytest log, số ô `ok` và lỗi, khớp bảng / lần chia / nhãn yếu với các lượt trước.
+   - Chép vào `S2/raw/<LOT>/`.
+3. **Phân tích bằng script viết trước khi xem số.**
+   - Lượt thăm dò phải ghi nhãn thăm dò.
+   - Ghi một dòng vào `S2/EXPERIMENT_LOG.md`, viết báo cáo, cập nhật CLAIM_EVIDENCE_MATRIX và G9_PLAN.
+4. **Bài báo.**
+   - `cd paper && make data && latexmk -pdf main.tex`.
+   - Kiểm: không overfull; phần chính kết thúc ở trang 9 (hiện kết luận hết ở trang 9). `\finaltrue` thì ẩn `\claim`/`\todo` và **dừng lỗi nếu còn `\pending`**.
+5. **Lưu.**
+   - Commit và push lên `main`. Trailer commit:
+     ```
+     Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+     Claude-Session: https://claude.ai/code/session_01Cj5CDErBtqaYpkMEC2Yy7G
+     ```
+     (Thay link phiên nếu chat mới có phiên khác.)
+   - Đẩy tag bị chặn, nên ghi commit đóng băng vào tài liệu.
+   - Tải các tài liệu đã đổi lên Project "TabPFN" bằng `project_write`, cùng đường dẫn `research-handbook/de-tai-moi/...`.
+6. **Báo cáo cho thầy bằng tiếng Việt.**
+
+## 6. Ràng buộc bắt buộc
+
+- Xưng hô: gọi người dùng là **"thầy"**.
+- **Token TabPFN:** chỉ qua Kaggle Secrets, biến môi trường `TABPFN_TOKEN`. Không bao giờ ghi vào code, kho hay tài liệu.
+- Không chia sẻ email của người dùng.
+- **Code không có LICENSE** (PRODEN, GLWS/ILL, VIME): không chép vào kho; nạp lúc chạy (git clone ở commit cố định).
+- **Tính trung thực:**
+  - Không giấu Study 1 hay kết quả bất lợi.
+  - Phân tích sau sự kiện phải ghi "thăm dò".
+  - Không đổi giao thức đã đóng băng mà không ghi deviation.
+  - Study 2 đã xong, không chạy lại theo nghĩa xác nhận.
+- **Mọi con số trong bài** qua macro `\val{key}`, sinh bằng script; không gõ tay. Còn vài hằng số cấu hình gõ tay, như 2.000, 10.000, 0,015 ở §6.6.
+- **Tài liệu tham khảo:** chỉ trích mục đã đối chiếu (REFERENCE_CHECK). WebFetch chỉ dùng được với URL do WebSearch trả về.
+- Không tự chạy tái lập trên clone sạch khi thầy chưa yêu cầu (việc của G10).
+- **Ngôn ngữ:** tài liệu đề tài viết tiếng Việt; bài báo, hình và bảng viết tiếng Anh.
+- **Memory** (nếu dùng) chỉ ghi dưới `/projects/01a16ca8-b9fd-7428-badd-d20cdb3f4439/`.
+
+## 7. Việc mở và bước tiếp
+
+| # | Việc | Hạn hoặc điều kiện | Trạng thái |
+|---|---|---|---|
+| 1 | Thầy chọn R1–R8 và trả lời Q1–Q5 (REVIEW_RESPONSE_PLAN §4). Đề xuất bắt đầu bằng R4 (1 phiên GPU), R1a (CPU) và R2 | ngay | chờ thầy |
+| 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
+| 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |
+| 4 | Xác nhận giấy phép: checkpoint TabICL v2, từng dataset OpenML, dữ liệu PALM. Rồi bỏ `\pending` ở checklist mục 12 | trước nộp | mở |
+| 5 | Chính sách LLM của NeurIPS 2027; style NeurIPS 2027 (thay `neurips_placeholder.sty`) | khi có call (thường khoảng tháng 3) | mở |
+| 6 | Cập nhật tìm kiếm tính mới (G2) ≤ 30 ngày trước khi nộp; cập nhật nơi đăng của các bản arXiv | 04/2027 | mở |
+| 7 | G10: một người hoặc agent chưa tham gia đọc như reviewer; tái lập một bảng chính từ clone sạch; đối chiếu nội dung từng trích dẫn | 02–03/2027 | — |
+| 8 | Ẩn danh kho code khi nộp; tác giả, tài trợ, CRediT (D4) ở bản camera-ready | khi nộp | — |
