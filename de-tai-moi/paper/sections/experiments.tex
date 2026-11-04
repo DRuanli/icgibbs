@@ -151,23 +151,31 @@ baselines). Bold: best non-oracle accuracy.}
 
 \subsection{Ablations, mixing and cost}\label{sec:ablation}
 \paragraph{Exact versus approximate sampler.} The MH-corrected block sampler, which is exact when the TFM is
-(\cref{prop:blocks}), did not differ systematically from the default uncorrected sampler in Study~1:
-\val{s1-abl-mh-llp} AUC on LLP (\val{s1-abl-mh-llp-wtl} cells) and \val{s1-abl-mh-pll3} accuracy on PLL at $q=0.3$
-(\val{s1-abl-mh-pll3-wtl}). The transductive predictor, which converges to the exact Bayes predictive
-(\cref{thm:exact}(c)), was \emph{worse} than the inductive one on LLP (\val{s1-abl-trans-llp} AUC,
-\val{s1-abl-trans-llp-wtl}; log loss worse by \val{s1-abl-trans-llp-ll}): exactness with respect to the TFM's prior does
-not translate into accuracy when the TFM is only approximately the PPD of a prior that the data need not follow.
-\todo{add the TabICL v2 results of the exploratory lot S2E (MH-corrected blocks incl. $q=0.6$ and $\ge$8 classes)}
+(\cref{prop:blocks}), did not give systematically better predictions than the default uncorrected sampler at the same
+30 sweeps
+(\cref{tab:s2e}). With TabPFN~v2 (Study~1) the differences were \val{s1-abl-mh-llp} AUC on LLP
+(\val{s1-abl-mh-llp-wtl} cells) and \val{s1-abl-mh-pll3} accuracy on PLL at $q=0.3$ (\val{s1-abl-mh-pll3-wtl}).
+With TabICL~v2 (exploratory, Study~1 datasets) they were \val{s2e-mh-llp} AUC on LLP (\val{s2e-mh-llp-wtl}; more than half of it from one dataset on which the default chain was close
+to chance, and log loss worse by \val{s2e-mh-llp-llworse}),
+\val{s2e-mh-pll3} and \val{s2e-mh-pll6} accuracy on PLL at $q=0.3$ and $0.6$, and \val{s2e-mh-many} on datasets with at
+least eight classes at $q=0.6$ (\val{s2e-mh-many-wtl}). The corrected sampler accepted as few as
+\val{s2e-mh-accept-min} of its block proposals and was a median \val{s2e-mh-cost-median} times slower (up to
+\val{s2e-mh-cost-max} times). At a fixed budget it mixes more slowly, so this comparison cannot separate the bias of the
+approximation from the slower mixing of the exact chain; it does show that the cheaper sampler loses nothing in
+prediction. Moreover, exactness holds only under (A1): with a real TFM, whose conditionals are incompatible, the
+corrected chain does not target a well-defined posterior either. In the same vein, the transductive predictor, which
+converges to the exact Bayes predictive (\cref{thm:exact}(c)), was \emph{worse} than the inductive one on LLP
+(\val{s1-abl-trans-llp} AUC, \val{s1-abl-trans-llp-wtl}; log loss worse by \val{s1-abl-trans-llp-ll}).
 
 \paragraph{Other components.} Changing the number of blocks ($K=5$ or 20), the number of sweeps (15 or 60) or the
 initialisation (cold start from $\lik$) changed AUC or accuracy by at most about $0.015$ on average (\cref{app:ablations}).
 
-\paragraph{Mixing.} With two chains per cell (TabPFN~v2, Study~1), the median fraction of training labels with
-$\widehat R>1.1$ \citep{vehtari2021rhat} was \val{s1-rhat-llp-frac} on LLP and \val{s1-rhat-pll3-frac}/\val{s1-rhat-pll6-frac}
-on PLL at $q=0.3/0.6$, against at most about 4.5\% for perfectly mixed chains, whereas the median difference between the
-test metrics of the two chains was \val{s1-rhat-llp-absdiff} (LLP) and \val{s1-rhat-pll3-absdiff}/\val{s1-rhat-pll6-absdiff} (PLL).
-Thirty sweeps thus give stable predictions, not samples from a converged posterior over labels.
-\todo{TabICL v2 R-hat from lot S2E}
+\paragraph{Mixing.} With two chains per cell, the median fraction of training labels with $\widehat R>1.1$
+\citep{vehtari2021rhat} was \val{s1-rhat-llp-frac} (TabPFN) and \val{s2e-rhat-llp-frac} (TabICL) on LLP, and
+\val{s1-rhat-pll6-frac} and \val{s2e-rhat-pll6-frac} on PLL at $q=0.6$, against at most about 4.5\% for perfectly mixed
+chains; yet the median difference between the test metrics of the two chains was at most
+\val{s1-rhat-llp-absdiff} (\cref{tab:s2e}), and \val{s2e-rhat-many-absdiff} on the four datasets with at least eight classes
+(TabICL). Thirty sweeps give stable predictions, not samples from a converged posterior over individual labels.
 
 \paragraph{Cost.} No weight is trained. On one T4 GPU, a run of \ours{} took a median of \val{s2-cost-median-s}\,s
 (maximum \val{s2-cost-max-min}\,min) with TabICL~v2 in Study~2, for up to \val{s2-cost-ntrain-max} training points, and a

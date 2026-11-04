@@ -1,0 +1,5 @@
+group,setting,level,n,n_datasets,metric,mh_minus_approx,min,max,mh_better,ties,mh_worse,logloss_mh_better,accept_mean
+many,pll,0.6,5,2,acc,-0.0159,-0.0474,-0.0017,0,0,5,-0.2843,0.4693
+small3,llp,8.0,9,3,auc,0.033,-0.0177,0.1332,6,0,3,-0.0644,0.6848
+small3,pll,0.3,9,3,acc,-0.0093,-0.0299,0.018,3,0,6,0.0058,0.7752
+small3,pll,0.6,9,3,acc,-0.0205,-0.1041,0.0659,2,1,6,-0.1991,0.7222

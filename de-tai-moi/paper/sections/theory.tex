@@ -64,8 +64,8 @@ extra stability assumption on the PPD, and the bound grows with $n$ for fixed $K
 \paragraph{Scope.} The configuration used in our experiments, uncorrected blocks with $K=10$ and bag-blocks for LLP, is
 \emph{not} covered by a non-vacuous guarantee: \cref{thm:exact} and \cref{prop:bayes} apply to the single-site, swap and
 MH-corrected samplers, and the bound of \cref{prop:blocks}(b) is vacuous at our sizes. We therefore report the
-MH-corrected sampler as an ablation (\cref{sec:ablation}): it gives predictions that do not differ systematically from
-the default.
+MH-corrected sampler as an ablation (\cref{sec:ablation}): at the same number of sweeps it does not predict better than
+the default, and it is several times slower.
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
 labels. Consider the naive target $\tilde\eta_k(x)=P(\tilde w=k\mid x)$, the function a consistent learner fitted on

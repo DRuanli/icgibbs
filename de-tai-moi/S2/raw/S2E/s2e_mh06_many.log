@@ -1,0 +1,10 @@
+run_g7 · part=ablation · split=eval · backend=tabicl_v2 · code=py-1df46d2f4e63 · config=0156cccc5964a1a0
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.6 s0 gibbs_warm_mh    0.9833 3063.4s
+           mfeat-factors pll      0.6 s1 gibbs_warm_mh    0.9766 2451.8s
+           mfeat-factors pll      0.6 s2 gibbs_warm_mh    0.9733 2731.5s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s0 gibbs_warm_mh    0.9425 14429.6s
+               optdigits pll      0.6 s1 gibbs_warm_mh    0.9739 13763.4s

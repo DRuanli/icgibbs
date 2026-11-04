@@ -1,0 +1,6 @@
+lượt S2E bắt đầu: Tue Nov  3 05:16:30 AM UTC 2026
+113 passed, 2 skipped, 10047 warnings in 454.19s (0:07:34)
+GPU0 xong rhat: Tue Nov  3 05:38:46 AM UTC 2026
+GPU1 xong mh: Tue Nov  3 06:03:13 AM UTC 2026
+GPU0 xong rhat_many: Tue Nov  3 06:13:33 AM UTC 2026
+GPU1 xong mh06: Tue Nov  3 06:37:48 AM UTC 2026

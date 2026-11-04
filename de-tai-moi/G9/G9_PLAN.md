@@ -89,8 +89,8 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 |---|---|---|---|
 | O1 | Phạm vi của lý thuyết so với cấu hình thật | Khối K = 10 và bag-block xấp xỉ không có chặn khác rỗng (PROOFS §5, G4-5) | Mục 5 và mục 7 viết rõ. Bằng chứng thực nghiệm: so với khối có sửa MH, chênh ≤ 0,01 (NC1). Tuỳ chọn O4 |
 | O2 | Trích dẫn trong chứng minh và phần liên quan | Việc mở G4-6: đối chiếu số trang Schweitzer, Meyer, Seneta, Cho & Meyer, Liu et al. | Đối chiếu bản gốc khi viết mục 5 |
-| O3 | R̂ với TabICL | Mọi con số về trộn chuỗi hiện là của TabPFN (GATE_REVIEW_S2, phát hiện 9) | **Lượt S2E** (thầy duyệt D3; code ở `s2_code_v5.zip`, phân tích viết trước ở `S2/analysis/s2e_report.py`); chờ chạy |
-| O4 | Khối có sửa MH với TabICL | Nối lý thuyết với cấu hình dùng trong Study 2 | **Lượt S2E**, chung với O3: LLP túi 8, PLL q 0,3 và 0,6, thêm 4 dataset ≥ 8 lớp ở q 0,6; chờ chạy |
+| O3 | R̂ với TabICL | Mọi con số về trộn chuỗi hiện là của TabPFN (GATE_REVIEW_S2, phát hiện 9) | **Xong 04/11** (lượt S2E, [S2E_REPORT](../S2/S2E_REPORT.md)): TabICL cũng chưa trộn hết ở mức nhãn, dự đoán hai chuỗi gần nhau; đã đưa vào mục 6.7 và Bảng 5 (phụ lục) |
+| O4 | Khối có sửa MH với TabICL | Nối lý thuyết với cấu hình dùng trong Study 2 | **Xong 04/11** (thiếu 7/12 ô ≥ 8 lớp vì hết giờ): bản chính xác không dự đoán tốt hơn, chậm hơn trung vị 7 lần; mục 5 (Scope), 6.7 và 7 đã viết lại cho khớp |
 | O5 | Template NeurIPS 2027 | Chưa công bố (thường khoảng tháng 3) | Tạm dùng `paper/neurips_placeholder.sty` (mô phỏng khổ trang); đổi sang style chính thức khi có |
 | O6 | Ẩn danh | Double-blind: kho code, tên file, lời cảm ơn | Kho ẩn danh khi nộp; bản công khai mở sau |
 | O7 | Khai báo dùng AI | Chính sách NeurIPS | Cập nhật `docs/AI_USAGE.md` theo từng cổng (đã thêm G7, G8, S2, G9) |
@@ -119,4 +119,4 @@ Mọi hình và bảng sinh bằng script trong `paper/figures/` từ kết qu�
 |---|---|
 | 03/11/2026 | Thầy duyệt D1–D5. Dựng `paper/`: khung LaTeX biên dịch được, khổ trang tạm; mọi con số lấy từ `numbers.tex` do `paper/scripts/make_tables.py` sinh. Xong Bảng 2, bảng H3, bảng trung bình của Study 2 (phụ lục), Hình 2, Hình 3. Bản nháp mục 6.3 (Study 1), 6.4 (Study 2), 6.5 (cơ chế). `refs.bib` là bản khung, mọi mục chờ đối chiếu. Chuẩn bị lượt S2E (O3, O4) |
 | 03/11/2026 (chiều) | Bản nháp mục 3 (thiết lập), 4 (phương pháp, Thuật toán 1), 5 (lý thuyết: Bổ đề 1, Định lý 1–2, Mệnh đề 1–3, có đoạn "Phạm vi" nói rõ cấu hình mặc định không có đảm bảo), 6.1 (thiết kế), 6.2 (RQ1), 6.6 (nhãn yếu thật, Bảng 3 sinh bằng script), 6.7 (ablation, R̂, chi phí), 7 (giới hạn); Phụ lục A (chứng minh đầy đủ, dịch từ PROOFS.md). Mọi số mới cũng sinh bằng `make_tables.py` (189 macro). **Độ dài:** phần chính đã khoảng 9 trang khi chưa có giới thiệu, công trình liên quan, abstract → phải cắt khoảng 2,5 trang (dự kiến: chuyển Bảng 3, chi tiết RQ1 và mã giả sang phụ lục, rút gọn mục 5). Số liệu RQ1 trong mục 6.2 còn gõ tay từ RQ1_REPORT; phải sinh bằng script trước khi nộp |
-
+| 04/11/2026 | Nhận kết quả S2E (thăm dò): R̂ và khối có sửa MH với TabICL ([S2E_REPORT](../S2/S2E_REPORT.md)). Sửa câu "bản chính xác cho dự đoán tương tự" thành "không dự đoán tốt hơn ở cùng số vòng quét, chậm hơn nhiều, và không tách được độ lệch của bản xấp xỉ với độ trộn chậm". Thêm Bảng 5 (phụ lục). Hết các `\todo` phụ thuộc S2E |

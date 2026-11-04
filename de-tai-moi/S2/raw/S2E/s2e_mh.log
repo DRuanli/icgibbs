@@ -1,0 +1,37 @@
+run_g7 · part=ablation · split=eval · backend=tabicl_v2 · code=py-1df46d2f4e63 · config=0156cccc5964a1a0
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+         credit-approval llp        8 s0 gibbs_warm_mh    0.9289 101.0s
+         credit-approval llp        8 s1 gibbs_warm_mh    0.9321 112.7s
+         credit-approval llp        8 s2 gibbs_warm_mh    0.9268 94.8s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_warm_mh    0.7843 134.7s
+          cylinder-bands llp        8 s1 gibbs_warm_mh    0.6976 140.3s
+          cylinder-bands llp        8 s2 gibbs_warm_mh    0.7725 141.1s
+
+=== 23381 dresses-sales: n=500 (loại trùng 0), d=12, C=2, sha256=7c93505ceeb1
+           dresses-sales llp        8 s0 gibbs_warm_mh    0.5842 121.5s
+           dresses-sales llp        8 s1 gibbs_warm_mh    0.6459 155.8s
+           dresses-sales llp        8 s2 gibbs_warm_mh    0.5984 159.3s
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.3 s0 gibbs_warm_mh    0.9840 22.7s
+           balance-scale pll      0.3 s1 gibbs_warm_mh    0.9840 26.1s
+           balance-scale pll      0.3 s2 gibbs_warm_mh    0.9628 21.0s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.3 s0 gibbs_warm_mh    0.7149 129.5s
+              eucalyptus pll      0.3 s1 gibbs_warm_mh    0.7195 126.0s
+              eucalyptus pll      0.3 s2 gibbs_warm_mh    0.7104 139.5s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.3 s0 gibbs_warm_mh    0.1737 238.7s
+        analcatdata_dmft pll      0.3 s1 gibbs_warm_mh    0.1198 230.0s
+        analcatdata_dmft pll      0.3 s2 gibbs_warm_mh    0.1138 237.9s

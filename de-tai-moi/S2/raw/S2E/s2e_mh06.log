@@ -1,0 +1,16 @@
+run_g7 · part=ablation · split=eval · backend=tabicl_v2 · code=py-1df46d2f4e63 · config=0156cccc5964a1a0
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.6 s0 gibbs_warm_mh    0.9415 49.1s
+           balance-scale pll      0.6 s1 gibbs_warm_mh    0.9309 48.0s
+           balance-scale pll      0.6 s2 gibbs_warm_mh    0.8777 44.5s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.6 s0 gibbs_warm_mh    0.6561 359.9s
+              eucalyptus pll      0.6 s1 gibbs_warm_mh    0.5928 357.0s
+              eucalyptus pll      0.6 s2 gibbs_warm_mh    0.6516 349.3s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.6 s0 gibbs_warm_mh    0.2156 294.5s
+        analcatdata_dmft pll      0.6 s1 gibbs_warm_mh    0.1677 281.2s
+        analcatdata_dmft pll      0.6 s2 gibbs_warm_mh    0.1497 289.2s

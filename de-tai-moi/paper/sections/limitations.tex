@@ -8,7 +8,8 @@ their TFM to noisy context labels (\cref{fig:mechanism}) before relying on it.
 
 \paragraph{Theory and the default sampler.} Our guarantees cover the single-site, swap and MH-corrected samplers. The
 uncorrected block and bag-block samplers used by default have no non-vacuous guarantee (\cref{prop:blocks}); the exact
-variant gives similar predictions, but this is an empirical observation on a few datasets. Exactness also holds only
+variant does not predict better at the same budget, but it also mixes more slowly, so the bias of the approximation
+itself has not been measured on real data. Exactness also holds only
 with respect to the TFM's prior, and the exact transductive predictor was worse than the inductive one.
 
 \paragraph{Mixing.} Thirty sweeps give predictions that are stable across chains, but label-level $\widehat R$ shows that the

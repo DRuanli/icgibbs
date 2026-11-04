@@ -1,0 +1,122 @@
+{
+ "rhat": [
+  {
+   "group": "many",
+   "setting": "pll",
+   "level": 0.6,
+   "n": 12,
+   "frac_gt_1_1_median": 0.2235,
+   "frac_gt_1_1_max": 0.5828,
+   "rhat_global_median": 1.0709,
+   "metric_absdiff_median": 0.0017,
+   "metric_absdiff_max": 0.0401,
+   "tabpfn_frac_gt_1_1_median": NaN,
+   "tabpfn_metric_absdiff_median": NaN
+  },
+  {
+   "group": "small3",
+   "setting": "llp",
+   "level": 8.0,
+   "n": 9,
+   "frac_gt_1_1_median": 0.2767,
+   "frac_gt_1_1_max": 0.3486,
+   "rhat_global_median": 1.2277,
+   "metric_absdiff_median": 0.0183,
+   "metric_absdiff_max": 0.0978,
+   "tabpfn_frac_gt_1_1_median": 0.1133,
+   "tabpfn_metric_absdiff_median": 0.0409
+  },
+  {
+   "group": "small3",
+   "setting": "pll",
+   "level": 0.3,
+   "n": 9,
+   "frac_gt_1_1_median": 0.0622,
+   "frac_gt_1_1_max": 0.1071,
+   "rhat_global_median": 0.9971,
+   "metric_absdiff_median": 0.0181,
+   "metric_absdiff_max": 0.0319,
+   "tabpfn_frac_gt_1_1_median": 0.0627,
+   "tabpfn_metric_absdiff_median": 0.006
+  },
+  {
+   "group": "small3",
+   "setting": "pll",
+   "level": 0.6,
+   "n": 9,
+   "frac_gt_1_1_median": 0.3117,
+   "frac_gt_1_1_max": 0.4571,
+   "rhat_global_median": 1.368,
+   "metric_absdiff_median": 0.0213,
+   "metric_absdiff_max": 0.0299,
+   "tabpfn_frac_gt_1_1_median": 0.2052,
+   "tabpfn_metric_absdiff_median": 0.016
+  }
+ ],
+ "mh": [
+  {
+   "group": "many",
+   "setting": "pll",
+   "level": 0.6,
+   "n": 5,
+   "n_datasets": 2,
+   "metric": "acc",
+   "mh_minus_approx": -0.0159,
+   "min": -0.0474,
+   "max": -0.0017,
+   "mh_better": 0,
+   "ties": 0,
+   "mh_worse": 5,
+   "logloss_mh_better": -0.2843,
+   "accept_mean": 0.4693
+  },
+  {
+   "group": "small3",
+   "setting": "llp",
+   "level": 8.0,
+   "n": 9,
+   "n_datasets": 3,
+   "metric": "auc",
+   "mh_minus_approx": 0.033,
+   "min": -0.0177,
+   "max": 0.1332,
+   "mh_better": 6,
+   "ties": 0,
+   "mh_worse": 3,
+   "logloss_mh_better": -0.0644,
+   "accept_mean": 0.6848
+  },
+  {
+   "group": "small3",
+   "setting": "pll",
+   "level": 0.3,
+   "n": 9,
+   "n_datasets": 3,
+   "metric": "acc",
+   "mh_minus_approx": -0.0093,
+   "min": -0.0299,
+   "max": 0.018,
+   "mh_better": 3,
+   "ties": 0,
+   "mh_worse": 6,
+   "logloss_mh_better": 0.0058,
+   "accept_mean": 0.7752
+  },
+  {
+   "group": "small3",
+   "setting": "pll",
+   "level": 0.6,
+   "n": 9,
+   "n_datasets": 3,
+   "metric": "acc",
+   "mh_minus_approx": -0.0205,
+   "min": -0.1041,
+   "max": 0.0659,
+   "mh_better": 2,
+   "ties": 1,
+   "mh_worse": 6,
+   "logloss_mh_better": -0.1991,
+   "accept_mean": 0.7222
+  }
+ ]
+}

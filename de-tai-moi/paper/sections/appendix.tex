@@ -25,7 +25,20 @@ gas-drift entry uses one seed.}
 \todo{E1--E5 tables and figure from G4/RQ1\_REPORT (generated from results/rq1/*.csv)}
 
 \section{Ablations}\label{app:ablations}
-\todo{full ablation table (G8/results/ablation\_summary.csv) and size curve; TabICL lot S2E}
+\begin{table}[h]
+\centering
+\caption{Mixing and the exact sampler, by TFM. TabPFN: Study~1 (registered ablations); TabICL: exploratory lot on the
+Study~1 datasets. ``3 small'': the three smallest datasets of each group, as registered for $\widehat R$. Columns 2--5:
+medians over cells of the fraction of training labels with $\widehat R>1.1$ (two chains) and of the absolute difference
+between the test metrics of the two chains. Columns 6--7: mean difference in AUC (LLP) or accuracy (PLL) between the
+MH-corrected and the default sampler at 30 sweeps, with the mean MH acceptance rate. In the last row, $\widehat R$ uses all
+four datasets with $\geq$8 classes, and the MH comparison only two of them (mfeat-factors, optdigits; 5 of 12 cells),
+because the corrected sampler exceeded the 12-hour compute session on optdigits.}
+\label{tab:s2e}
+\small
+\resizebox{\textwidth}{!}{\input{tables/s2e}}
+\end{table}
+\todo{full ablation table (G8/results/ablation\_summary.csv) and size curve}
 
 \section{Datasets, baselines and tuning spaces}\label{app:data}
 \todo{dataset cards; docs/tuning\_spaces.md}
