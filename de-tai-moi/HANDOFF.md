@@ -176,7 +176,8 @@
 | # | Việc | Hạn hoặc điều kiện | Trạng thái |
 |---|---|---|---|
 | 0 | Giai đoạn 0 của V2 **xong 05/11** ([V2/V0_REPORT.md](V2/V0_REPORT.md)): P1 đúng, P2 sai, P3 đúng, P4 sai; cổng V0 qua một phần. R4 xong: H4′ q 0,6 nhạy với nhiễu Monte Carlo (chuỗi b p_Holm 0,074; trung bình hai chuỗi đạt) | — | xong |
-| 0b | Thầy duyệt đề xuất giai đoạn 1 (V0_REPORT §6): bộ gộp chuỗi (trung bình / stacking theo WPLL / có learner khởi động); đưa R4 vào §6.6 và Limitations của bài | ngay | chờ thầy |
+| 0b | Giai đoạn 1 (thầy duyệt 05/11): chọn bộ gộp chuỗi theo [V2/PHASE1_PLAN.md](V2/PHASE1_PLAN.md) (ghi trước); lượt V1A (TabPFN), V1B (TabICL) | sau khi có code | đang làm |
+| 0c | Đưa R4 vào §6.6 và Limitations của bài (thầy duyệt 05/11) | ngay | đang làm |
 | 1 | ~~Thầy chọn R1–R8, Q1–Q5~~: thay bằng V2 W6 (thầy duyệt 04/11) | — | thay thế |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
 | 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |
