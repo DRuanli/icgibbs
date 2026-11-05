@@ -220,5 +220,36 @@ def theory(eta=0.1, burn=20, eps=0.01, K=10, T_sweeps=60, h_max=0.1):
     print(t2.round(3).to_string(index=False))
 
 
+def partition_bound(total_fail=0.05, H=60, K=10, h_max=0.1, burn=20):
+    """Mệnh đề 4′(c′) (W1_R1A_REPORT §2.6) cho hai ánh xạ tuyến tính Φ = a + b·r: chọn p mỗi vòng = total_fail/(2H),
+    chia đều cho hai số hạng của p(ε, λ), tính ε, λ, rồi dải [r* − (bε + λ)/(1 − b), r* + (bε + λ)/(1 − b)]."""
+    d = pd.read_csv(os.path.join(OUT, "w1_drift_runs.csv"))
+    rows = []
+    for (n, name), g in d.groupby(["n", "map_name"]):
+        if not name.startswith("single"):
+            continue
+        _, S, _ = problem(n)
+        free = S.sum(1) >= 2
+        n_F, rho = int(free.sum()), float(free.mean())
+        bslope = 1 + (MAPS[name](0.5) - MAPS[name](0.4)) / 0.1          # Φ' = 1 + g'
+        a0 = MAPS[name](0.0)                                             # Φ(0) = a
+        r_star = a0 / (1 - bslope)
+        c = (1 - 1 / (rho * K)) ** 2 * min(2 / 9, 1 / (18 * h_max ** 2))
+        p = total_fail / (2 * H)
+        lam = np.sqrt(np.log(2 / p) / (2 * n_F))
+        eps = np.sqrt(np.log(6 * K / p) / (c * rho * n_F))
+        half = (bslope * eps + lam) / (1 - bslope)
+        late = np.concatenate([np.array([float(v) for v in t.split("/")])[burn:] for t in g.trace])
+        rows.append(dict(n=n, map_name=name, n_F=n_F, c=c, p_per_sweep=p, eps=eps, lam=lam, r_star=r_star,
+                         band_lo=max(0.0, r_star - half), band_hi=min(1.0, r_star + half),
+                         obs_q005=float(np.quantile(late, 0.005)), obs_q995=float(np.quantile(late, 0.995)),
+                         n_F_for_halfwidth_0_05=float((half * np.sqrt(n_F) / 0.05) ** 2)))   # ε, λ ∝ 1/√n_F khi p cố định
+    t = pd.DataFrame(rows)
+    t.to_csv(os.path.join(OUT, "w1_partition_bound.csv"), index=False)
+    pd.set_option("display.width", 250)
+    print(t.round(4).to_string(index=False))
+
+
 if __name__ == "__main__":
-    theory() if sys.argv[1:] == ["theory"] else main()
+    cmd = sys.argv[1:]
+    theory() if cmd == ["theory"] else partition_bound() if cmd == ["partition"] else main()

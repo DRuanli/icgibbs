@@ -6,6 +6,7 @@ KHÔNG phụ thuộc n; và dùng Định lý 2 với nhân khối chính xác l
     python r1a_block_bias.py tc       # E7a: KL(p(y_B | D_−B) ‖ Π_i p(y_i | D_−B)) chính xác, Dirichlet–multinomial, C lớp
     python r1a_block_bias.py thm2     # E7b: chuỗi gộp một ô (SSL, PU), khối trên mọi mẫu: TV(π̃, π) thật, ε̄, τ(P), chặn
     python r1a_block_bias.py decomp   # E7d (thăm dò): chặn Định lý 2 lỏng ở đâu — ε̄ so với khuyết một bước, τ₁(Z) so với khuếch đại thật
+    python r1a_block_bias.py llp      # E7e: LLP, bag-block không sửa, prior hai loại feature (giải chính xác trên histogram túi)
     python r1a_block_bias.py moments  # E7c (thăm dò): π̃ lệch π ở đâu — độ rộng hay vị trí — và vì sao TV không giảm theo n
 Kết quả: ../../results/r1a/*.csv
 """
@@ -282,5 +283,111 @@ def e7d():
     save(pd.DataFrame(rows), "e7d_bound_decomposition.csv")
 
 
+# ==================================================================================================
+# E7e — LLP: bag-block không sửa trên bài giải được chính xác có feature
+# ==================================================================================================
+def _compositions(total, parts):
+    """Mọi vector nguyên không âm dài `parts` có tổng `total`."""
+    if parts == 1:
+        return [(total,)]
+    out = []
+    for first in range(total + 1):
+        out += [(first,) + rest for rest in _compositions(total - first, parts - 1)]
+    return out
+
+
+def llp_chain(B, M, s0, s1, c, alpha=1.0):
+    """Mô hình: hai loại feature x ∈ {0, 1}, p_x ~ Beta(α, α) độc lập; B túi giống nhau, mỗi túi s0 điểm loại 0, s1 điểm
+    loại 1, đúng c dương. Cấu hình của một túi tóm bằng k = số dương loại 0 (k ∈ [max(0, c − s1), min(s0, c)]),
+    trọng số w(k) = C(s0, k)·C(s1, c − k). Do các túi giống nhau, chuỗi gộp được trên histogram h (số túi theo từng k).
+    Khối = M túi chọn đều (quét khối ngẫu nhiên, như E7b). Nhân XẤP XỈ: mỗi túi trong khối rút độc lập theo quy hoạch
+    động có ràng buộc số đếm với xác suất biên p̂_x của ngữ cảnh (mọi túi ngoài khối) — đúng như bag-block của bộ lấy
+    mẫu. Nhân CHÍNH XÁC: rút chung mọi túi của khối từ p(k_khối | phần còn lại). Trả về (states, π, P_xấp_xỉ, P_chính_xác,
+    hàm dự đoán)."""
+    ks = np.arange(max(0, c - s1), min(s0, c) + 1)
+    R = len(ks)
+    lw = gammaln(s0 + 1) - gammaln(ks + 1) - gammaln(s0 - ks + 1) + gammaln(s1 + 1) - gammaln(c - ks + 1) \
+        - gammaln(s1 - c + ks + 1)
+    states = _compositions(B, R)
+    index = {h: i for i, h in enumerate(states)}
+    H = np.array(states, float)
+    N0, N1 = B * s0, B * s1
+    K0 = H @ ks
+    K1 = B * c - K0
+    lmult = gammaln(B + 1) - gammaln(H + 1).sum(1)
+    lpi = lmult + H @ lw + betaln(K0 + alpha, N0 - K0 + alpha) + betaln(K1 + alpha, N1 - K1 + alpha)
+    pi = np.exp(lpi - logsumexp(lpi))
+    blocks = _compositions(M, R)
+    J = np.array(blocks, float)
+    SJ = J @ ks
+    lmultJ = gammaln(M + 1) - gammaln(J + 1).sum(1)
+    S = len(states)
+    Pap, Pex = np.zeros((S, S)), np.zeros((S, S))
+    for a, h in enumerate(states):
+        h = np.array(h)
+        for j in blocks:
+            j = np.array(j)
+            if np.any(j > h):
+                continue
+            lh = (gammaln(h + 1) - gammaln(j + 1) - gammaln(h - j + 1)).sum() - (gammaln(B + 1) - gammaln(M + 1) - gammaln(B - M + 1))
+            ph = np.exp(lh)                                            # siêu bội đa biến: histogram của khối
+            if ph < 1e-15:
+                continue
+            ctx = h - j
+            K0c, N0c = float(ctx @ ks), (B - M) * s0
+            K1c, N1c = (B - M) * c - K0c, (B - M) * s1
+            p0, p1 = (K0c + alpha) / (N0c + 2 * alpha), (K1c + alpha) / (N1c + 2 * alpha)
+            lq = lw + ks * np.log(p0) + (s0 - ks) * np.log1p(-p0) + (c - ks) * np.log(p1) + (s1 - c + ks) * np.log1p(-p1)
+            lq = lq - logsumexp(lq)
+            l_ap = lmultJ + J @ lq                                     # đa thức: các túi độc lập
+            l_ex = lmultJ + J @ lw + betaln(K0c + SJ + alpha, N0c + M * s0 - K0c - SJ + alpha) \
+                + betaln(K1c + M * c - SJ + alpha, N1c + M * s1 - K1c - M * c + SJ + alpha)
+            w_ap, w_ex = np.exp(l_ap - logsumexp(l_ap)), np.exp(l_ex - logsumexp(l_ex))
+            tgt = [index[tuple((ctx + jj).astype(int))] for jj in J.astype(int)]
+            np.add.at(Pap[a], tgt, ph * w_ap)
+            np.add.at(Pex[a], tgt, ph * w_ex)
+    pred = lambda w: (float(w @ ((K0 + alpha) / (N0 + 2 * alpha))), float(w @ ((K1 + alpha) / (N1 + 2 * alpha))))
+    return H, pi, Pap, Pex, pred, ks
+
+
+def e7e():
+    """Prior Beta(5, 5) cho mỗi p_x: với Beta(1, 1), hậu nghiệm của mô hình gộp hai loại dồn về cấu hình thuần (mọi
+    dương cùng một loại) hoặc hai mode đối xứng — không đại diện (đã thử, xem W1_R1A_REPORT §5.6).
+    Lưới: R = 2 (túi 4: (3, 1), c = 1) với B ∈ {20, …, 320} túi; R = 3 (túi 8: (6, 2) và (4, 4), c = 2) với
+    B ∈ {20, 40, 60}. K ∈ {5, 10, 20} khối (M = B/K túi mỗi khối)."""
+    rows = []
+    alpha = 5.0
+    grid = [("bag4_31_c1", 3, 1, 1, B) for B in (20, 40, 80, 160, 320)] \
+        + [("bag8_62_c2", 6, 2, 2, B) for B in (20, 40, 60)] \
+        + [("bag8_44_c2", 4, 4, 2, B) for B in (20, 40, 60)]
+    for name, s0, s1, c, B in grid:
+        for K in (5, 10, 20):
+            M = B // K
+            t0 = time.time()
+            H, pi, Pap, Pex, pred, ks = llp_chain(B, M, s0, s1, c, alpha=alpha)
+            pt, pe = stationary(Pap), stationary(Pex)
+            eps = float(sum(pt[a] * tv(Pap[a], Pex[a]) for a in range(len(pi))))
+            tz = tau1_Z(Pex, pi)
+            actual = tv(pt, pi)
+            w = pt @ (Pap - Pex)
+            defect = 0.5 * float(np.abs(w).sum())
+            (e0, e1), (a0, a1) = pred(pi), pred(pt)
+            K0 = H @ ks
+            if len(ks) == 2:                                           # số mode của π theo h₁ (R = 2)
+                modes = int(np.sum((pi[1:-1] > pi[:-2]) & (pi[1:-1] > pi[2:])) + (pi[0] > pi[1]) + (pi[-1] > pi[-2]))
+            else:
+                modes = np.nan
+            rows.append(dict(setting=name, alpha=alpha, bag_size=s0 + s1, B=B, n=B * (s0 + s1), K=K, bags_per_block=M,
+                             states=len(pi),
+                             tv_actual=actual, eps_bar=eps, defect=defect, tau1_Z=tz, bound_Z=tz * eps,
+                             looseness_Z=tz * eps / actual, tv_over_eps=actual / eps,
+                             check_exact_invariant=tv(pe, pi), pred_err_type0=abs(a0 - e0), pred_err_type1=abs(a1 - e1),
+                             sd_K0_pi=float(np.sqrt(pi @ (K0 - pi @ K0) ** 2)), sd_K0_tilde=float(np.sqrt(pt @ (K0 - pt @ K0) ** 2)),
+                             modes_pi=modes, seconds=round(time.time() - t0, 1)))
+            print({kk: (round(v, 6) if isinstance(v, float) else v) for kk, v in rows[-1].items()}, flush=True)
+            pd.DataFrame(rows).to_csv(os.path.join(OUT, "e7e_llp_bag_block.csv"), index=False)
+    save(pd.DataFrame(rows), "e7e_llp_bag_block.csv")
+
+
 if __name__ == "__main__":
-    {"tc": e7a, "thm2": e7b, "moments": e7c, "decomp": e7d}[sys.argv[1]]()
+    {"tc": e7a, "thm2": e7b, "moments": e7c, "decomp": e7d, "llp": e7e}[sys.argv[1]]()

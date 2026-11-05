@@ -25,6 +25,8 @@
 | R1a-E7b | 05/11 02:59 – 03:08 | như trên | như trên, n ∈ {50, 100, 200, 500} | CPU | khoảng 9 phút | ok | `G4/results/r1a/e7b_*` | lần chạy trước đó trong cùng phiên dùng nhân tham chiếu sai (bỏ mẫu có nhãn trong khối khỏi ngữ cảnh, không bất biến với π); đã sửa trước lượt này, kiểm bất biến ≤ 1e-12 |
 | R1a-E7c, E7d | 05/11 03:08 – 03:10 | như trên | mô-men của π̃ so với π; phân rã chặn | CPU | < 2 phút | ok | `G4/results/r1a/e7c_*`, `e7d_*` | thăm dò |
 | W1-delta | 05/11 | như trên | δ trên TFM thật, chỉ đọc dữ liệu V0 (`V2/analysis/w1_delta.py`) | CPU | < 1 phút | ok | `V2/results/w1_delta.csv` | thăm dò |
+| W1-partition | 05/11 trưa | như trên | hằng số Mệnh đề 4′ so với mô phỏng (`w1_drift_check.py partition`) | CPU | < 1 phút | ok | `G4/results/w1/w1_partition_bound.csv` | thăm dò |
+| R1a-E7e | 05/11 trưa | như trên | LLP: bag-block không sửa so với chính xác, hai loại feature, 33 ô (`r1a_block_bias.py llp`) | CPU | khoảng 6 phút | ok | `G4/results/r1a/e7e_*` | thăm dò; một lượt thử Beta(1, 1) trước đó chỉ chạy 3 ô kiểm tra hình dạng hậu nghiệm, không lưu |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

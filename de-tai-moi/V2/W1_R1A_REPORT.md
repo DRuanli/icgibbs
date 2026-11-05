@@ -12,8 +12,12 @@
      - (c) nếu Φ có một điểm hút, điểm cuối không phụ thuộc điểm xuất phát;
      - (d) nếu Φ có hai điểm hút, điểm xuất phát quyết định lưu vực, và thời gian thoát lưu vực dài theo hàm mũ của n_F.
    - Chứng minh đầy đủ cho lịch quét khối ngẫu nhiên, ở bài rút độc lập (PLL, SSL, PU). Chưa phủ LLP.
-   - Lịch quét mà bộ lấy mẫu thật dùng (chia hoán vị thành K khối mỗi vòng) mới có phác thảo (Bổ đề 3).
-   - **Tự rà bằng skill dm-paper-math-review** tìm ra 3 lỗi MAJOR ở bản đầu, đã sửa (`V2/reviews/W1_SELF_REVIEW_01.md`). Bản đầu so Φ tại r của cả trạng thái, đòi dung sai đều cho cả độ khó riêng của điểm, và ngụ ý phủ LLP. Còn mở: Bổ đề 3 đầy đủ, hằng số của thời gian thoát, và một lượt rà độc lập.
+   - **Lịch quét thật** (hoán vị rồi chia K khối mỗi vòng, đúng như `sampler.py`): chứng minh đầy đủ ở §2.6 (Bổ đề 3, Mệnh đề 4′, bổ sung 05/11 trưa).
+     - Không cần Φ đơn điệu hay Lipschitz, vì chứng minh dùng bao đơn điệu của Φ.
+     - Chuỗi trội một dãy lặp tất định kiểu Jacobi.
+     - Sàn và trần bất biến; thời gian thoát lưu vực tăng mũ theo n_F, có hằng số.
+     - Hằng số lỏng khoảng 10 lần so với mô phỏng.
+   - **Tự rà bằng skill dm-paper-math-review** tìm ra 3 lỗi MAJOR ở bản đầu, đã sửa (`V2/reviews/W1_SELF_REVIEW_01.md`). Bản đầu so Φ tại r của cả trạng thái, đòi dung sai đều cho cả độ khó riêng của điểm, và ngụ ý phủ LLP. Bổ đề 3 và hằng số của thời gian thoát đã viết xong ở §2.6. Lượt rà độc lập đang chạy (§6).
 2. **Mỗi phía của mệnh đề chỉ cần một phía của (H).**
    - Muốn kết luận "đi lên, ở lại trên", chỉ cần Φ_chuỗi ≥ Φ − δ.
    - Muốn kết luận "sụp, ở lại dưới", cần Φ_chuỗi ≤ Φ + δ.
@@ -32,6 +36,11 @@
    - Phân rã cho thấy phần lỏng chủ yếu nằm ở ε̄. Sai số theo từng hàng triệt tiêu khi lấy trung bình theo π̃, nhỏ đi 10–210 lần. Về thực nghiệm, TV(π̃, π)/ε̄ chỉ nằm trong 0,49–1,17.
    - TV trên vector nhãn cỡ 1/K (thực nghiệm K^−1,13) và **không giảm theo n**. Sai lệch dự đoán chỉ cỡ n^−0,9·K^−1,15.
    - R2 vì vậy nên phát biểu ở mức dự đoán, không ở mức TV của vector nhãn.
+   - **LLP (§5.6).** Bức tranh khác:
+     - TV giảm theo n khi bài nhận dạng được;
+     - sai lệch dự đoán lớn ở dữ liệu nhỏ: 0,02–0,05 ở n = 160, K = 10;
+     - TV/ε̄ = 3–18;
+     - khi bài không nhận dạng được (hai loại đối xứng), TV không giảm.
 
 ## 1. Thiết lập và ký hiệu
 
@@ -257,16 +266,7 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
      - sự độc lập với điểm xuất phát;
      - dải G_δ;
      - thang mũ theo n_F.
-2. **Lịch quét thật (Bổ đề 3, phác thảo, mức L2).**
-   - **Lịch quét.** Bộ lấy mẫu (`sampler.py`, dòng 182–183) mỗi vòng hoán vị mọi điểm rồi chia thành K khối. Mỗi điểm tự do được rút lại **đúng một lần** mỗi vòng.
-   - **Nhãn cũ biến mất sau một vòng quét:** R_{s+1} = (1/n_F) Σ_{i∈F} ξ_i.
-   - **Dưới (H⁻_δ):** R_{s+1} ≥ (1/n_F) Σ_k |B_k ∩ F|·(Φ(r_{−B_k}(Y_{s,k})) − δ) + Z_s.
-     - Ở đây Z_s là tổng martingale có proxy 1/(4n_F).
-     - Số hạng h biến mất **hoàn toàn**, vì Σ_k Σ_{B_k∩F} h_i = Σ_F h_i = 0.
-   - **Bước còn phải viết.** Giả sử Φ không giảm, L-Lipschitz, và g(R_s) ≥ δ + Lε. Cần chứng minh r_{−B_k}(Y_{s,k}) ≥ R_s − ε với mọi k, với xác suất ≥ 1 − 2e^{−cρ n_F ε²}. Bước này dùng bất đẳng thức cực đại cho mẫu không hoàn lại (Serfling 1974).
-   - **Từ đó:** R_{s+1} ≥ Φ(R_s) − δ − Lε − λ với xác suất cao. Nghĩa là trong pha **đi tới**, một vòng quét thật ít nhất bằng một bước Jacobi r ← Φ(r) − δ.
-   - **Phạm vi:** phác thảo không phủ pha "ở lại", nơi g nhỏ, và cần Φ không giảm.
-   - **Kiểm số:** §3 chạy đúng lịch quét này.
+2. **Lịch quét thật.** Đã chứng minh đầy đủ ở §2.6 (Bổ đề 3, Mệnh đề 4′). Bản đó chặt hơn Mệnh đề 4 về cấu trúc, nhưng hằng số lỏng hơn.
 3. **Hai phía của (H) dùng cho hai việc khác nhau.**
    - (a) và "ở lại trên" chỉ cần (H⁻).
    - (b) và kết luận "sụp" cần (H⁺).
@@ -283,6 +283,124 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
 6. **So với các phần khác của bài.**
    - Định lý 2 và Mệnh đề 3 nói về khoảng cách từ π̃ đến posterior.
    - Mệnh đề 4 nói về **động học** của chính chuỗi xấp xỉ: nó đi tới đâu và ở đó bao lâu. Đây là phần lý thuyết cho ánh xạ phản ứng (C3 trong V2_PLAN §3).
+
+### 2.6 Lịch quét thật: Bổ đề 3 và Mệnh đề 4′
+
+**Lịch quét.**
+- Bộ lấy mẫu (`sampler.py`, dòng 182–183) làm như sau ở mỗi vòng s: lấy một hoán vị đều của [n], độc lập với quá khứ, rồi chia thành K khối liên tiếp B_1, …, B_K. Mỗi khối có ≤ m = ⌈n/K⌉ điểm.
+- Với k = 1, …, K, các điểm tự do của B_k được rút lại độc lập, với ngữ cảnh là trạng thái hiện tại Y_{s,k−1} trên [n]∖B_k.
+- Mỗi điểm tự do được rút **đúng một lần** mỗi vòng.
+
+**Ký hiệu.**
+- f_k = |B_k ∩ F|.
+- r_k = r_{−B_k}(Y_{s,k−1}): tỉ lệ đúng của ngữ cảnh lúc cập nhật khối k.
+- U_k = F ∩ (B_1 ∪ … ∪ B_{k−1}): các điểm đã cập nhật trong vòng.
+- V_k = F ∩ (B_{k+1} ∪ … ∪ B_K): các điểm chưa cập nhật.
+- o_i = 1[Y_{s,0,i} đúng]: độ đúng ở đầu vòng.
+- **Bao đơn điệu của Φ:** Φ̲(x) = inf_{r∈[x,1]} Φ(r) và Φ̄(x) = sup_{r∈[0,x]} Φ(r). Ngoài [0, 1] thì kẹp về biên.
+  - Hai hàm này không giảm.
+  - Nếu Φ không giảm thì Φ̲ = Φ̄ = Φ.
+  - **Không cần giả sử Φ đơn điệu.**
+
+**Hằng số.** Với ε, λ > 0:
+
+  p(ε, λ) = e^{−2n_Fλ²} + 3K·e^{−c ρ n_F ε²},  c = (1 − 1/(ρK))²·min{2/9, 1/(18 h_max²)}.
+
+Nếu h_max = 0, lấy c = (1 − 1/(ρK))²·2/9.
+
+**Bổ đề 3 (một vòng quét).** Giả sử (H_δ) ở §2.1 và ρK > 1. Không cần Φ Lipschitz.
+
+- **(i) Sàn, chỉ cần (H⁻_δ).** Lấy x là một mức đo được theo 𝓕_s, với x ≤ R_s và Φ̲(x − ε) − δ ≥ x. Khi đó
+
+  P(R_{s+1} ≥ Φ̲(x − ε) − δ − λ | 𝓕_s) ≥ 1 − p(ε, λ).
+
+- **(ii) Trần, chỉ cần (H⁺_δ).** Lấy x ≥ R_s với Φ̄(x + ε) + δ ≤ x. Khi đó
+
+  P(R_{s+1} ≤ Φ̄(x + ε) + δ + λ | 𝓕_s) ≥ 1 − p(ε, λ).
+
+**Chứng minh (i).**
+
+1. **Phân tích r_k.** Vì |U_k| + |V_k| = n_F − f_k, ta có
+
+   (n_F − f_k)·r_k = Σ_{i∈U_k} ξ_i + Σ_{i∈V_k} o_i,
+
+   với ξ_i là độ đúng của lần rút mới.
+2. **Ba mảnh nhiễu.** Đặt N_k = Σ_{i∈U_k} h_i + Z_k + Σ_{i∈V_k} (o_i − R_s), với Z_k = Σ_{i∈U_k} (ξ_i − c_i). Đặt E = {N_k > −ε(n_F − m) với mọi k}.
+3. **Quy nạp theo k: trên E, r_k ≥ x − ε với mọi k.**
+   - Giả sử r_j ≥ x − ε với mọi j < k. Khi đó Φ(r_j) ≥ Φ̲(x − ε).
+   - Theo (H⁻) cho từng khối j < k:
+     Σ_{U_k} c_i ≥ Σ_{U_k} h_i + Σ_{j<k} f_j(Φ(r_j) − δ) ≥ Σ_{U_k} h_i + |U_k|·(Φ̲(x − ε) − δ) ≥ Σ_{U_k} h_i + |U_k|·x.
+   - Cộng với Σ_{V_k} o_i = |V_k|·R_s + Σ_{V_k}(o_i − R_s) ≥ |V_k|·x + Σ_{V_k}(o_i − R_s), được (n_F − f_k)·r_k ≥ (n_F − f_k)·x + N_k.
+   - Trên E: r_k > x − ε(n_F − m)/(n_F − f_k) ≥ x − ε.
+   - Trường hợp k = 1 (U_1 = ∅) là đúng bước này.
+4. **Cuối vòng.** Mọi điểm tự do được rút đúng một lần, nên
+   R_{s+1} = (1/n_F)(Σ_F c_i + Z), với Z = Σ_F (ξ_i − c_i).
+   Từ đó
+   R_{s+1} ≥ (1/n_F)(Σ_F h_i + Σ_k f_k(Φ(r_k) − δ)) + Z/n_F ≥ Φ̲(x − ε) − δ + Z/n_F.
+   Bất đẳng thức cuối dùng Σ_F h_i = 0, Σ_k f_k = n_F, và Φ(r_k) ≥ Φ̲(x − ε) trên E.
+5. **Xác suất.** Ở mỗi k, mỗi mảnh được cho phần ε(n_F − m)/3:
+   - **Σ_{U_k} h_i.** U_k được quyết định bởi hoán vị, độc lập với 𝓕_s. Mảnh này là tổng mẫu không hoàn lại cỡ ≤ n, từ tổng thể {h_i·1[i∈F]} có tổng 0 và biên độ 2h_max. Hoeffding (1963, §6) cho xác suất ≤ exp(−(ε(n_F − m)/3)²/(2n h_max²)).
+   - **Σ_{V_k}(o_i − R_s).** Mảnh này là tổng mẫu không hoàn lại, từ tổng thể {(o_i − R_s)·1[i∈F]} có tổng 0 và biên độ 1. Xác suất ≤ exp(−2(ε(n_F − m)/3)²/n).
+   - **Z_k.** Với lọc trong vòng, Z_k là martingale có ≤ n_F bước, mỗi bước trong một đoạn dài 1. Azuma–Hoeffding cho xác suất ≤ exp(−2(ε(n_F − m)/3)²/n_F).
+   - **Gộp.** Vì n_F − m = n_F(1 − 1/(ρK)) và n = n_F/ρ, cả ba chặn đều ≤ e^{−cρ n_F ε²}. Cộng trên k ≤ K và ba mảnh được P(E^c) ≤ 3K·e^{−cρ n_F ε²}.
+   - **Bước cuối.** Azuma cho Z: P(Z/n_F ≤ −λ) ≤ e^{−2n_Fλ²}. ∎
+
+(ii) chứng minh đối xứng, dùng Φ̄, vế (H⁺) và các mảnh nhiễu với dấu ngược lại.
+
+**Mệnh đề 4′ (lịch quét thật).** Đặt ψ(x) = Φ̲(x − ε) − δ − λ và ψ̄(x) = Φ̄(x + ε) + δ + λ. Cả hai không giảm. Viết p = p(ε, λ).
+
+- **(a′) Đi tới, chỉ cần (H⁻).**
+  - *Phát biểu.* Giả sử ψ(x) ≥ x + γ′ trên [r_0, b), với γ′ > 0. Đặt ρ_0 = r_0, ρ_{s+1} = ψ(ρ_s), và J là s đầu tiên có ρ_s ≥ b. Ta có J ≤ ⌈(b − r_0)/γ′⌉. Khi đó P(R_s ≥ ρ_s với mọi s ≤ J) ≥ 1 − J·p, và nói riêng P(R_J ≥ b) ≥ 1 − J·p.
+  - *Chứng minh.* Quy nạp theo s, áp (i) với x = ρ_s:
+    - x ≤ R_s theo giả thiết quy nạp;
+    - Φ̲(ρ_s − ε) − δ = ψ(ρ_s) + λ ≥ ρ_s;
+    - do đó R_{s+1} ≥ ψ(ρ_s) = ρ_{s+1}. ∎
+- **(b′) Sàn và trần bất biến.**
+  - Nếu ψ(x̲) ≥ x̲ và R_{s₀} ≥ x̲, thì P(R_s ≥ x̲ với mọi s ∈ [s₀, s₀ + H]) ≥ 1 − H·p. Áp (i) với x = x̲ ở mỗi vòng. Chỉ cần (H⁻).
+  - Đối xứng: nếu ψ̄(x̄) ≤ x̄ và R_{s₀} ≤ x̄, thì chuỗi ở dưới x̄. Chỉ cần (H⁺).
+- **(c′) Một điểm hút.**
+  - *Phát biểu.* Lấy hai mức x̲ < x̄ sao cho:
+    - ψ(x̲) ≥ x̲ và ψ̄(x̄) ≤ x̄;
+    - ψ(x) ≥ x + γ′ trên [0, x̲);
+    - ψ̄(x) ≤ x − γ′ trên (x̄, 1].
+  - *Kết luận.* Từ mọi r_0, với xác suất ≥ 1 − 2(⌈1/γ′⌉ + H)·p, chuỗi vào [x̲, x̄] trong ⌈1/γ′⌉ vòng quét, rồi ở đó H vòng quét.
+  - *Chứng minh.* Nếu r_0 < x̲:
+    - đi tới x̲ theo (a′);
+    - trong lúc đó trần x̄ đã giữ từ đầu theo (b′), vì R_0 < x̄;
+    - sau đó dùng (b′) cho cả sàn lẫn trần.
+    Trường hợp r_0 > x̄ đối xứng. ∎
+  - **So với Mệnh đề 4(c):**
+    - không có số hạng vượt O(1/K);
+    - không có thừa số HK;
+    - không cần δ_ctx, vì Bổ đề 3 làm việc thẳng với r_k của ngữ cảnh.
+  - **Dải giới hạn.** Khi Φ không giảm và L-Lipschitz, mọi x̲ < r* có g(x̲) ≥ δ + Lε + λ đều là sàn, và tương tự cho trần. Cho n_F → ∞ với ε, λ ~ √(log/n_F), dải co về G_δ quanh r*.
+- **(d′) Hai điểm hút: lưu vực và thời gian thoát (chặt).**
+  - *Phát biểu.* Giả sử ψ(u + η) ≥ u + η, tức u + η là một sàn, và R_{s₀} ≥ u + η. Khi đó P(chuỗi xuống dưới u + η trong H vòng quét) ≤ H·p.
+  - *Thời gian thoát.* Thời gian kỳ vọng để rời lưu vực trên ≥ 1/p.
+  - *Với Φ không giảm và L-Lipschitz:* điều kiện sàn thoả khi g(u + η) ≥ δ + Lε + λ. Chọn ε = λ = (g(u + η) − δ)/(L + 1) cho p ≤ (1 + 3K)·exp(−c′ρ n_F (g(u + η) − δ)²/(L + 1)²), với c′ = min(c, 2).
+  - Vậy thời gian thoát tăng theo hàm mũ của n_F. Điểm xuất phát quyết định lưu vực.
+  - Bản này thay phần "phác thảo" của Hệ quả (d).
+
+**Kiểm hằng số với mô phỏng ở §3.**
+
+Cách tính (`w1_drift_check.py partition`, bảng `results/w1/w1_partition_bound.csv`):
+- Lấy H = 60, xác suất tổng ≤ 0,05, và chia đều p cho hai số hạng.
+- Ánh xạ tuyến tính Φ = a + b·r có r* = a/(1 − b). Sàn lớn nhất là r* − (bε + λ)/(1 − b), trần nhỏ nhất là r* + (bε + λ)/(1 − b).
+
+| Ánh xạ | n | ε | λ | Dải chặn được | Khoảng 99% quan sát |
+|---|---|---|---|---|---|
+| 0,9 | 500 | 0,363 | 0,092 | [0,35; 1] | [0,850; 0,943] |
+| 0,6 | 500 | 0,363 | 0,092 | [0; 1] (rỗng) | [0,514; 0,689] |
+| 0,9 | 3.000 | 0,148 | 0,038 | [0,68; 1] | [0,880; 0,918] |
+| 0,6 | 3.000 | 0,148 | 0,038 | [0,28; 0,92] | [0,564; 0,636] |
+
+Đọc bảng:
+- Chặn **đúng** nhưng **lỏng**: ở n = 3.000, nửa dải chặn được là 0,22, trong khi quan sát chỉ cỡ 0,02, tức lỏng khoảng 10 lần.
+- Muốn nửa dải ≤ 0,05 thì cần n_F ≈ 6·10⁴ với ánh xạ 0,9 và ≈ 1,2·10⁵ với ánh xạ 0,6 (cột `n_F_for_halfwidth_0_05`).
+- **Nguồn lỏng thứ nhất:** ε trả cho trường hợp xấu nhất, khi mọi khối trong vòng cùng thấy ngữ cảnh lệch. Thật ra lệch của r_k có kỳ vọng 0 và được lấy trung bình qua K khối.
+- **Nguồn lỏng thứ hai:** Hoeffding dùng biên độ, không dùng phương sai.
+- Bản bậc hai, giống Nhận xét 4, dùng Bernstein và cách chia ε tối ưu, có thể thu dải về cỡ nhiễu √(r(1−r)/n_F). Bản đó chưa viết.
+- Phần định tính đã chặt ở mọi n: độc lập với điểm xuất phát, sàn và trần bất biến, thời gian thoát mũ.
 
 ## 3. Kiểm bằng TFM giả biết trước Φ
 
@@ -472,6 +590,48 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
   - TV ∝ n^{0,04…0,08}·K^{−1,13…−1,14};
   - sai lệch dự đoán ∝ n^{−0,86…−0,93}·K^{−1,15…−1,16}.
 
+### 5.6 E7e: LLP, bag-block không sửa (thăm dò, 05/11 trưa)
+
+**Mô hình** (`r1a_block_bias.py llp`, hàm `llp_chain`).
+- **Dữ liệu:**
+  - hai loại feature x ∈ {0, 1}, mỗi loại có p_x ~ Beta(5, 5) riêng;
+  - B túi giống nhau; mỗi túi có s0 điểm loại 0, s1 điểm loại 1, và đúng c dương.
+- **Trạng thái:** cấu hình một túi tóm bằng k, số dương loại 0. Vì các túi giống nhau, chuỗi gộp chính xác được trên histogram túi.
+- **Khối:** M = B/K túi, chọn đều mỗi bước.
+- **Nhân xấp xỉ** (đúng bag-block của bộ lấy mẫu): mỗi túi trong khối rút độc lập. Cách rút là quy hoạch động có ràng buộc số đếm, dùng xác suất biên p̂_x của ngữ cảnh, tức mọi túi ngoài khối.
+- **Nhân tham chiếu:** rút chung mọi túi của khối. Nhân này bất biến với π, sai số ≤ 7·10⁻¹⁰.
+- **Thiết lập:**
+  - túi 4 với (3, 1), c = 1, cho B từ 20 đến 320 (n = 80–1.280);
+  - túi 8 với (6, 2), c = 2, cho B ∈ {20, 40, 60} (n = 160–480);
+  - túi 8 với (4, 4), c = 2, là trường hợp **đối xứng**;
+  - K ∈ {5, 10, 20}, tổng cộng 33 ô.
+- **Vì sao chọn Beta(5, 5):** với Beta(1, 1), hậu nghiệm dồn hết về cấu hình thuần (mọi dương cùng một loại), hoặc thành hai mode đối xứng. Em đã thử và thấy không đại diện.
+
+**Kết quả** (`results/r1a/e7e_llp_bag_block.csv`).
+
+1. **Hai thiết lập bất đối xứng, tức nhận dạng được (24 ô):**
+   - **TV giảm theo n**, cỡ n^−0,6 đến n^−1,05, và theo K^−1,13 đến K^−1,24. Điều này **khác với SSL và PU** (§5.2), nơi TV không giảm theo n.
+   - Nguyên nhân có thể: hậu nghiệm của mô hình đồ chơi co về một cấu hình biên khi n tăng; sd(K0) giảm từ 3,1 xuống 0,29.
+   - **Sai lệch dự đoán lớn khi dữ liệu ít.** Ở K = 10:
+     - n = 80 (túi 4): 0,013 cho loại 0 và 0,031 cho loại 1;
+     - n = 160 (túi 8): 0,020 và 0,052;
+     - từ n ≥ 320 trở đi: ≤ 0,0024.
+     So với SSL và PU, nơi sai lệch luôn ≤ 0,0056, mức này lớn hơn hẳn ở dữ liệu nhỏ, rồi giảm nhanh theo n.
+   - **π̃ rộng hơn π:** sd(K0) lớn hơn 5–91%.
+   - **TV/ε̄ = 3–18, không còn ≈ 1 như ở SSL và PU.** Với bag-block, sai số theo hàng triệt tiêu ít hơn.
+   - **Định lý 2 với τ₁(Z):** chặn rỗng ở 21/24 ô, lỏng 10–12.000 lần.
+   - Từ B ≥ 160 (túi 4), hậu nghiệm có hai mode. Ở B = 320, τ₁(Z) ≈ 0,5–2·10⁵.
+2. **Thiết lập đối xứng (4, 4), 9 ô:**
+   - Hai loại hoán đổi được cho nhau, nên hậu nghiệm có hai mode, và sai lệch dự đoán bằng 0 do đối xứng.
+   - TV **không giảm** theo n, ở mức 0,04–0,20.
+   - τ₁(Z) tăng tới 7.000. Khi bài không nhận dạng được, độ lệch của bag-block không biến mất.
+
+**Hàm ý.**
+- Với LLP, độ lệch của bag-block **đáng kể ở dữ liệu nhỏ**: ít túi mỗi khối (M ≤ 2–4) và n ≤ 160.
+- Ở cỡ dữ liệu của bài (n_train hàng trăm đến hàng nghìn, túi 8, K = 10, tức hàng chục túi mỗi khối), mô hình đồ chơi cho sai lệch dự đoán ≤ 10⁻³.
+- Mô hình đồ chơi có hai loại feature, nên còn rất xa TFM thật. Đây không phải bằng chứng cho dữ liệu thật; R1b (GPU) mới đo được điều đó.
+- Mệnh đề 3(b) cho bag-block (hệ số κ_B) đang rỗng. Bằng chứng ở đây ủng hộ một phát biểu ở mức dự đoán có điều kiện "đủ túi mỗi khối", chứ không phải một chặn đều theo n.
+
 ### 5.5 Hàm ý cho R2 và Mệnh đề 3(b)
 
 1. **Phát biểu ở mức dự đoán.**
@@ -481,21 +641,20 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
    - Mảnh TC trên khối (§5.1) đã có giới hạn đóng.
    - Mảnh chuyển từ một khối sang π̃ phải tránh τ: dùng phỏng đoán TV ≲ C·ε̄ (§5.3), hoặc làm thẳng ở mức mô-men (§5.4).
    - Định lý 2 với Dobrushin τ chỉ nên giữ như kết quả tổng quát. Bài không nên dựa vào nó cho khối.
-3. **R1a còn thiếu.**
-   - Bag-block không sửa (LLP). Mô hình gộp của LLP suy biến, vì số dương đã cố định, nên cần prior hỗn hợp có feature mang thông tin.
-   - Bản có feature cho PLL và SSL.
+3. **R1a cho LLP đã làm (§5.6).**
+   - Kết luận khác với SSL và PU: TV giảm theo n khi bài nhận dạng được, nhưng sai lệch dự đoán lớn ở dữ liệu nhỏ, và TV/ε̄ ≫ 1.
+   - Vì vậy R2 cho LLP cần đi đường riêng.
+   - Bản có feature cho PLL và SSL không cần làm riêng: không có ràng buộc túi, hai loại feature tách thành hai chuỗi độc lập, nên kết quả như §5.2.
 
 ## 6. Việc tiếp theo
 
 1. **Toán của §2.**
    - Lần tự rà thứ nhất đã xong và đã sửa 3 lỗi MAJOR (`V2/reviews/W1_SELF_REVIEW_01.md`).
-   - Còn phải làm:
-     - viết đầy đủ Bổ đề 3 cho lịch quét thật;
-     - viết hằng số của thời gian thoát ở (d);
-     - viết bản số hạng ngữ cảnh không có log (Nhận xét 4).
-   - Sau đó cần một lượt rà độc lập, tức một agent chưa thấy bản nháp, rồi mới tính là đạt "Xong khi" của W1.
+   - Bổ đề 3 và Mệnh đề 4′ (lịch quét thật) đã chứng minh đầy đủ ở §2.6.
+   - Rà độc lập: một agent chưa thấy bản nháp, kết quả ở `V2/reviews/W1_REVIEW_INDEPENDENT_01.md`.
+   - Còn mở: bản bậc hai cho dải hẹp hơn (Nhận xét 4 và cuối §2.6), và LLP.
 2. **Đo Φ_chuỗi trên GPU.** Gieo lỗi theo Q̄ đã lưu của V1, rồi so với Φ_đều. Mục đích là kiểm δ⁺ và tiêu chí sai số điểm cuối ≤ 0,1. Cần thầy duyệt trước khi viết code: khoảng 1 phiên Kaggle.
-3. **R1a còn lại:** bag-block LLP và prior có feature, trên CPU.
+3. **R1a:** đã làm cả phần LLP (§5.6). Còn R1b trên GPU, theo kế hoạch của REVIEW_RESPONSE_PLAN.
 4. **Đưa vào bài, sau V1:**
    - Mệnh đề 4 vào mục lý thuyết, chứng minh ở phụ lục;
    - bảng δ̂ vào phần ánh xạ phản ứng;
@@ -510,8 +669,9 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
 | `G4/results/w1/w1_drift_runs.csv`, `w1_drift_summary.csv` | 720 chuỗi, vết từng vòng quét |
 | `G4/results/w1/w1_theory_check.csv`, `w1_hitting.csv` | dải dừng, G_δ, sd, thời gian tới |
 | `V2/analysis/w1_delta.py`, `V2/results/w1_delta.csv` | δ trên TFM thật, từ dữ liệu V0 |
-| `G4/code/experiments/r1a_block_bias.py` | E7a `tc`, E7b `thm2`, E7c `moments`, E7d `decomp` |
-| `G4/results/r1a/e7a_block_tc.csv`, `e7b_thm2_block_bound.csv`, `e7c_moments.csv`, `e7d_bound_decomposition.csv`, `e7b_log.txt` | kết quả R1a |
+| `G4/code/experiments/r1a_block_bias.py` | E7a `tc`, E7b `thm2`, E7c `moments`, E7d `decomp`, E7e `llp` |
+| `G4/results/r1a/e7a_block_tc.csv`, `e7b_thm2_block_bound.csv`, `e7c_moments.csv`, `e7d_bound_decomposition.csv`, `e7e_llp_bag_block.csv`, `e7b_log.txt`, `e7e_log.txt` | kết quả R1a |
+| `G4/results/w1/w1_partition_bound.csv` | hằng số của Mệnh đề 4′ so với mô phỏng |
 
 **Tài liệu dẫn** (đều là kết quả kinh điển; trước khi đưa vào bài phải kiểm theo REFERENCE_CHECK):
 - Hoeffding, W. (1963), *Probability inequalities for sums of bounded random variables*, JASA 58:13–30, §6 (mẫu không hoàn lại).
