@@ -1,0 +1,35 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-d09fd8d5de7e · config=df15c9043eabdf1c
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:75: RuntimeWarning: Invalid cache, redownloading file
+  warn("Invalid cache, redownloading file", RuntimeWarning)
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.6 s0 gibbs_init_warm  0.0985 1546.1s
+           mfeat-factors pll      0.6 s0 base_start       0.9482 61.6s
+           mfeat-factors pll      0.6 s0 gibbs_init_base  0.9750 1600.3s
+           mfeat-factors pll      0.6 s0 gibbs_ms         0.9750 0.0s
+           mfeat-factors pll      0.6 s2 gibbs_init_warm  0.1002 1436.2s
+           mfeat-factors pll      0.6 s2 base_start       0.9449 92.7s
+           mfeat-factors pll      0.6 s2 gibbs_init_base  0.9649 1502.8s
+           mfeat-factors pll      0.6 s2 gibbs_ms         0.9649 0.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s1 gibbs_init_warm  0.2942 636.3s
+               optdigits pll      0.6 s1 base_start       0.9715 334.0s
+               optdigits pll      0.6 s1 gibbs_init_base  0.9852 977.4s
+               optdigits pll      0.6 s1 gibbs_ms         0.9852 0.0s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.6 s0 gibbs_init_warm  0.2720 937.4s
+                 semeion pll      0.6 s0 base_start       0.8975 64.5s
+                 semeion pll      0.6 s0 gibbs_init_base  0.7657 1210.7s
+                 semeion pll      0.6 s0 gibbs_ms         0.7657 0.0s
+                 semeion pll      0.6 s2 gibbs_init_warm  0.3096 1029.8s
+                 semeion pll      0.6 s2 base_start       0.9247 60.5s
+                 semeion pll      0.6 s2 gibbs_init_base  0.8661 805.0s
+                 semeion pll      0.6 s2 gibbs_ms         0.8661 0.0s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s1 gibbs_init_warm  0.5617 204.8s
+             MiceProtein pll      0.6 s1 base_start       0.9167 34.4s
+             MiceProtein pll      0.6 s1 gibbs_init_base  0.9660 235.4s
+             MiceProtein pll      0.6 s1 gibbs_ms         0.9660 0.0s

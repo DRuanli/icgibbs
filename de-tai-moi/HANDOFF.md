@@ -51,7 +51,7 @@
   - Reviewer ngoài 01 nhận xét "promising, cần major revision": lý thuyết không phủ bộ mặc định; chưa tách độ lệch xấp xỉ khỏi độ trộn; mixing; PLL thật ít, không có LLP thật; TFM chưa đối xứng; ngữ cảnh; riêng tư.
   - Đã đánh giá từng ý và sửa R9, R10 trong bài.
   - **R1–R8 chờ thầy chọn** (REVIEW_RESPONSE_PLAN §4).
-  - Thầy muốn phát triển đề tài mạnh hơn thay vì chấp nhận các giới hạn ở §7 của bài. Em đã lập [V2/V2_PLAN.md](V2/V2_PLAN.md): phân tích lại số liệu (thăm dò, `V2/analysis/v2_diagnosis.py`), lý thuyết động học của chuỗi, phương pháp v2 chạy từ nhiều điểm xuất phát, Study 3 đăng ký trước, giai đoạn 0 với dự đoán P1–P4. **Thầy duyệt V2 ngày 04/11/2026**, mọi câu V-Q1–V-Q5 theo đề xuất. V2 thay §4 của REVIEW_RESPONSE_PLAN. Giai đoạn 0 đang làm; dự đoán ghi trước ở [V2/PHASE0_PREDICTIONS.md](V2/PHASE0_PREDICTIONS.md).
+  - Thầy muốn phát triển đề tài mạnh hơn thay vì chấp nhận các giới hạn ở §7 của bài. Em đã lập [V2/V2_PLAN.md](V2/V2_PLAN.md): phân tích lại số liệu (thăm dò, `V2/analysis/v2_diagnosis.py`), lý thuyết động học của chuỗi, phương pháp v2 chạy từ nhiều điểm xuất phát, Study 3 đăng ký trước, giai đoạn 0 với dự đoán P1–P4. **Thầy duyệt V2 ngày 04/11/2026**, mọi câu V-Q1–V-Q5 theo đề xuất. V2 thay §4 của REVIEW_RESPONSE_PLAN. Giai đoạn 0 **xong 05/11** ([V2/V0_REPORT.md](V2/V0_REPORT.md)): cổng V0 qua một phần. Khởi động từ baseline cứu được chuỗi TabPFN sụp (4 dataset ≥ 8 lớp: 0,399 lên 0,938, CC tune 0,947); WPLL chọn đúng ở PLL (16/16) nhưng không ở LLP (3/8). **R4: H4′ q 0,6 không đạt với chuỗi thứ hai (p_Holm 0,074)** — phải báo cáo trong bài.
 - **Quyết định của thầy:**
   - **D1–D5 (G9, 03/11):**
     - D1: cả hai nghiên cứu trong bài chính.
@@ -175,7 +175,8 @@
 
 | # | Việc | Hạn hoặc điều kiện | Trạng thái |
 |---|---|---|---|
-| 0 | Giai đoạn 0 của V2: P1–P4 đã ghi trước; code `--init`, nhiều điểm xuất phát, WPLL, ánh xạ phản ứng mở rộng, R4; thầy chạy lượt V0A và V0B; cổng V0 khoảng 17/11 | 17/11 | đang làm |
+| 0 | Giai đoạn 0 của V2 **xong 05/11** ([V2/V0_REPORT.md](V2/V0_REPORT.md)): P1 đúng, P2 sai, P3 đúng, P4 sai; cổng V0 qua một phần. R4 xong: H4′ q 0,6 nhạy với nhiễu Monte Carlo (chuỗi b p_Holm 0,074; trung bình hai chuỗi đạt) | — | xong |
+| 0b | Thầy duyệt đề xuất giai đoạn 1 (V0_REPORT §6): bộ gộp chuỗi (trung bình / stacking theo WPLL / có learner khởi động); đưa R4 vào §6.6 và Limitations của bài | ngay | chờ thầy |
 | 1 | ~~Thầy chọn R1–R8, Q1–Q5~~: thay bằng V2 W6 (thầy duyệt 04/11) | — | thay thế |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
 | 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |

@@ -1,0 +1,125 @@
+# E1. P4 theo bối cảnh (ô đủ điều kiện: chênh chỉ số test giữa các điểm xuất phát > 0,01)
+         đúng   ô
+setting          
+llp         3   8
+pll        16  16
+
+Ô chọn sai: khoảng r_final giữa các điểm xuất phát so với khoảng chỉ số test
+  backend        dataset setting  seed  spread  r_final_range chosen best
+tabicl_v2 cylinder-bands     llp     0   0.112          0.026   base warm
+tabicl_v2 cylinder-bands     llp     1   0.025          0.021   cold base
+tabpfn_v2    tic-tac-toe     llp     1   0.080          0.024   warm cold
+tabpfn_v2    tic-tac-toe     llp     2   0.054          0.081   cold warm
+tabpfn_v2 cylinder-bands     llp     0   0.214          0.037   warm cold
+
+Trung vị khoảng r_final: ô chọn đúng 0.304; ô chọn sai 0.026
+
+# E2. Dự đoán r_final bằng cách lặp ánh xạ phản ứng 30 lần từ r_start
+                            n  median_abserr  p90_abserr  frac_same_side_of_0_5
+plant   backend   setting                                                      
+struct  tabicl_v2 pll      36          0.018       0.077                  1.000
+        tabpfn_v2 pll      24          0.221       0.799                  0.708
+uniform tabicl_v2 llp      18          0.025       0.095                  1.000
+                  pll      36          0.018       0.065                  1.000
+        tabpfn_v2 llp      18          0.056       0.092                  1.000
+                  pll      24          0.080       0.629                  0.708
+
+Theo dataset (trung vị sai số tuyệt đối):
+plant                             struct  uniform
+backend   setting dataset                        
+tabicl_v2 llp     cylinder-bands     NaN    0.070
+                  tic-tac-toe        NaN    0.015
+          pll     MiceProtein      0.026    0.026
+                  mfeat-factors    0.017    0.017
+                  optdigits        0.010    0.010
+                  semeion          0.073    0.057
+tabpfn_v2 llp     cylinder-bands     NaN    0.026
+                  tic-tac-toe        NaN    0.067
+          pll     MiceProtein      0.151    0.162
+                  mfeat-factors    0.120    0.036
+                  optdigits        0.136    0.080
+                  semeion          0.575    0.405
+
+Ví dụ dự đoán so với thật (ánh xạ lỗi có cấu trúc, PLL):
+                               r_start   pred  r_final
+backend   dataset       start                         
+tabicl_v2 MiceProtein   base     0.957  1.000    0.989
+                        cold     0.210  1.000    0.973
+                        warm     0.235  1.000    0.956
+          mfeat-factors base     0.959  1.000    0.983
+                        cold     0.161  1.000    0.983
+                        warm     0.181  1.000    0.982
+          optdigits     base     0.976  1.000    0.990
+                        cold     0.170  1.000    0.990
+                        warm     0.196  1.000    0.990
+          semeion       base     0.910  0.861    0.937
+                        cold     0.164  0.861    0.925
+                        warm     0.214  0.861    0.938
+tabpfn_v2 MiceProtein   base     0.957  1.000    0.976
+                        warm     0.215  0.229    0.565
+          mfeat-factors base     0.959  0.882    0.954
+                        warm     0.166  0.000    0.171
+          optdigits     base     0.976  0.963    0.962
+                        warm     0.173  0.000    0.717
+          semeion       base     0.910  0.000    0.783
+                        warm     0.164  0.000    0.361 
+
+# E3. TabPFN v2, PLL q 0,6, bốn dataset ≥ 8 lớp: Study 1 so với v2
+               v1 (Study 1, gibbs_warm)  v2 (gibbs_ms)  CC tune (base_start)  v2 − CC tune
+dataset_id                                                                                
+mfeat-factors                    0.0996         0.9683                0.9510        0.0173
+optdigits                        0.7262         0.9804                0.9725        0.0079
+semeion                          0.2929         0.8354                0.9149       -0.0795
+MiceProtein                      0.4784         0.9691                0.9506        0.0185
+trung bình                       0.3993         0.9383                0.9473       -0.0090 
+
+# E4. R4: chênh hai chuỗi và bộ ước lượng trung bình hai chuỗi
+Kiểm: chuỗi a từ vết (float16) so với gibbs_warm đã đăng ký: |chênh| tối đa 0.0008
+Ô có |a − b| > 0,03: 9 / 114
+                dataset setting  level  seed      a      b     ab    gap
+                  profb     llp    8.0     2 0.6345 0.4688 0.5713 0.1658
+                  profb     llp    8.0     1 0.5592 0.4782 0.5196 0.0810
+Is-this-a-good-customer     llp    8.0     2 0.7017 0.6282 0.6760 0.0734
+                  scene     llp    8.0     1 0.9416 0.9858 0.9820 0.0442
+       compas-two-years     llp    8.0     0 0.6990 0.6552 0.6820 0.0437
+                  profb     llp    8.0     0 0.5474 0.5070 0.5353 0.0405
+     Marketing_Campaign     llp    8.0     2 0.8601 0.8249 0.8536 0.0352
+Is-this-a-good-customer     llp    8.0     0 0.6317 0.6643 0.6558 0.0327
+                    cjs     pll    0.6     2 1.0000 0.9688 1.0000 0.0312
+
+Phép thử của Study 2 với từng bộ ước lượng (Δ trung bình, p_Holm, đạt?) — a: chuỗi đã đăng ký; b: chuỗi thứ hai; ab: trung bình hai chuỗi
+  H2′ LLP vs DLLP-lin    a: +0.0522 p=0.0001 ĐẠT  b: +0.0459 p=0.0023 ĐẠT  ab: +0.0521 p=0.0003 ĐẠT
+  H4′ q0,3 vs CC tune    a: +0.0124 p=0.0156  b: +0.0126 p=0.0078  ab: +0.0126 p=0.0078
+  H4′ q0,6 vs CC tune    a: +0.0121 p=0.0156 ĐẠT  b: +0.0108 p=0.0742 KHÔNG  ab: +0.0129 p=0.0078 ĐẠT
+
+# E5. Chuỗi còn trôi ở vòng quét 30? (vết R4, TabICL v2, Study 2; nhãn thật chỉ dùng để chẩn đoán)
+         chains  drift_median  drift_p90  drift_max  flips_last5_median
+setting                                                                
+llp_8       108        0.0064     0.0210     0.0383              0.1342
+pll_0.3      60        0.0019     0.0100     0.0356              0.0381
+pll_0.6      60        0.0040     0.0196     0.0472              0.0478 
+
+# E6. Chọn theo WPLL so với trung bình dự đoán của mọi chuỗi (gợi ý cho giai đoạn 1)
+                     warm  select  average    best
+backend   setting                                 
+tabicl_v2 llp      0.8538  0.8444   0.8562  0.8669
+          pll      0.9662  0.9777   0.9777  0.9783
+tabpfn_v2 llp      0.6819  0.6743   0.6928  0.7080
+          pll      0.3993  0.9383   0.9353  0.9383
+
+Theo dataset:
+                                    warm  select  average    best
+backend   setting dataset                                        
+tabicl_v2 llp     cylinder-bands  0.7148  0.6932   0.7183  0.7382
+                  tic-tac-toe     0.9928  0.9956   0.9940  0.9956
+          pll     MiceProtein     0.9372  0.9846   0.9835  0.9846
+                  mfeat-factors   0.9811  0.9805   0.9816  0.9816
+                  optdigits       0.9931  0.9931   0.9931  0.9931
+                  semeion         0.9533  0.9526   0.9526  0.9540
+tabpfn_v2 llp     cylinder-bands  0.6582  0.6582   0.6660  0.6831
+                  tic-tac-toe     0.7057  0.6904   0.7197  0.7328
+          pll     MiceProtein     0.4784  0.9691   0.9691  0.9691
+                  mfeat-factors   0.0996  0.9683   0.9666  0.9683
+                  optdigits       0.7262  0.9804   0.9796  0.9804
+                  semeion         0.2929  0.8354   0.8257  0.8354 
+

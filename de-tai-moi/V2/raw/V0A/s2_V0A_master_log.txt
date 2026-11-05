@@ -1,0 +1,8 @@
+lượt V0A bắt đầu: Wed Nov  4 02:45:21 PM UTC 2026
+126 passed, 2 skipped, 13522 warnings in 534.46s (0:08:54)
+GPU0 xong v0x_pll_hi_tabpfn: Wed Nov  4 03:08:27 PM UTC 2026
+GPU0 xong v0x_llp_tabpfn: Wed Nov  4 03:10:26 PM UTC 2026
+GPU0 xong v0_llp_tabpfn: Wed Nov  4 03:34:33 PM UTC 2026
+GPU0 xong v0x_struct_tabpfn: Wed Nov  4 04:00:14 PM UTC 2026
+GPU1 xong s2r4_tabicl: Wed Nov  4 06:51:14 PM UTC 2026
+lượt V0A kết thúc: Wed Nov  4 06:51:14 PM UTC 2026

@@ -1,0 +1,34 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-d09fd8d5de7e · config=df15c9043eabdf1c
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+           mfeat-factors pll      0.6 s1 gibbs_init_warm  0.1002 1584.9s
+           mfeat-factors pll      0.6 s1 base_start       0.9599 110.7s
+           mfeat-factors pll      0.6 s1 gibbs_init_base  0.9649 1695.7s
+           mfeat-factors pll      0.6 s1 gibbs_ms         0.9649 0.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s0 gibbs_init_warm  0.9614 729.4s
+               optdigits pll      0.6 s0 base_start       0.9715 262.3s
+               optdigits pll      0.6 s0 gibbs_init_base  0.9816 945.6s
+               optdigits pll      0.6 s0 gibbs_ms         0.9816 0.0s
+               optdigits pll      0.6 s2 gibbs_init_warm  0.9229 726.3s
+               optdigits pll      0.6 s2 base_start       0.9745 329.9s
+               optdigits pll      0.6 s2 gibbs_init_base  0.9745 982.0s
+               optdigits pll      0.6 s2 gibbs_ms         0.9745 0.0s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.6 s1 gibbs_init_warm  0.2971 1029.7s
+                 semeion pll      0.6 s1 base_start       0.9226 81.1s
+                 semeion pll      0.6 s1 gibbs_init_base  0.8745 1037.5s
+                 semeion pll      0.6 s1 gibbs_ms         0.8745 0.0s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s0 gibbs_init_warm  0.4321 388.9s
+             MiceProtein pll      0.6 s0 base_start       0.9568 43.3s
+             MiceProtein pll      0.6 s0 gibbs_init_base  0.9691 441.1s
+             MiceProtein pll      0.6 s0 gibbs_ms         0.9691 0.0s
+             MiceProtein pll      0.6 s2 gibbs_init_warm  0.4414 386.8s
+             MiceProtein pll      0.6 s2 base_start       0.9784 47.3s
+             MiceProtein pll      0.6 s2 gibbs_init_base  0.9722 439.0s
+             MiceProtein pll      0.6 s2 gibbs_ms         0.9722 0.0s

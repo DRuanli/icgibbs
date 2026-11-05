@@ -11,5 +11,10 @@
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
 |---|---|---|---|---|---|---|---|---|
-| V0A | — | — | ánh xạ phản ứng (TabPFN), nhiều điểm xuất phát LLP (TabPFN), R4 (TabICL) | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V0A/` | |
-| V0B | — | — | nhiều điểm xuất phát PLL (TabPFN, 2 GPU), rồi TabICL | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V0B/` | |
+| V0A | 04/11 14:45 – 18:51 | 72 tệp khớp **commit b939041** (`s2_code_v6.zip`) | ánh xạ phản ứng (TabPFN), nhiều điểm xuất phát LLP (TabPFN), R4 (TabICL, 114 ô Study 2) | Kaggle 2 × T4 | 4 giờ 6 phút | ok | `V2/raw/V0A/` | bộ test 126 qua, 2 bỏ qua; 318/318 dòng ok, 0 lỗi. torch `2.11.0+cu130` (các lượt trước `+cu128`); kết quả vẫn tái tạo đúng từng số, nên không ảnh hưởng |
+| V0B | 04/11 11:57 – 16:43 | 72 tệp khớp **commit b939041** | nhiều điểm xuất phát PLL (TabPFN, 2 GPU), rồi TabICL (PLL, LLP, ánh xạ) | Kaggle 2 × T4 | 4 giờ 46 phút | ok | `V2/raw/V0B/` | bộ test 126 qua, 2 bỏ qua; 312/312 dòng ok, 0 lỗi |
+
+## Kiểm sau mỗi lượt
+| Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
+|---|---|---|---|---|---|---|
+| V0A + V0B | 318 + 312 | 318 + 312 | 0 | V0 so với Study 1: 18/18 ô khớp; R4 so với Study 2: 114/114 ô khớp | `gibbs_init_warm` = `gibbs_warm` của Study 1 ở 44/44 ô (chênh 0); chuỗi a của R4 = `gibbs_warm` của Study 2 (chênh tối đa 5·10⁻⁵) | Chấm bằng `v0_report.py`, không sửa sau khi xem số. Kết quả: [V0_REPORT](V0_REPORT.md). P1 đúng, P2 sai, P3 đúng, P4 sai (79,2%); cổng V0 qua một phần. Phân tích thăm dò viết sau khi xem số: `v0_explore.py` |

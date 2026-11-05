@@ -1,0 +1,35 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-d09fd8d5de7e · config=df15c9043eabdf1c
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+             tic-tac-toe llp        8 s0 gibbs_init_warm  0.7255 56.1s
+             tic-tac-toe llp        8 s0 base_start       0.8825 54.6s
+             tic-tac-toe llp        8 s0 gibbs_init_base  0.7265 96.5s
+             tic-tac-toe llp        8 s0 gibbs_init_cold  0.7147 41.6s
+             tic-tac-toe llp        8 s0 gibbs_ms         0.7265 0.0s
+             tic-tac-toe llp        8 s1 gibbs_init_warm  0.6293 47.7s
+             tic-tac-toe llp        8 s1 base_start       0.8569 60.5s
+             tic-tac-toe llp        8 s1 gibbs_init_base  0.6757 102.3s
+             tic-tac-toe llp        8 s1 gibbs_init_cold  0.7097 41.4s
+             tic-tac-toe llp        8 s1 gibbs_ms         0.6293 0.0s
+             tic-tac-toe llp        8 s2 gibbs_init_warm  0.7621 49.2s
+             tic-tac-toe llp        8 s2 base_start       0.8834 69.9s
+             tic-tac-toe llp        8 s2 gibbs_init_base  0.7077 111.5s
+             tic-tac-toe llp        8 s2 gibbs_init_cold  0.7156 40.9s
+             tic-tac-toe llp        8 s2 gibbs_ms         0.7156 0.0s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_init_warm  0.6033 84.2s
+          cylinder-bands llp        8 s0 base_start       0.7028 34.3s
+          cylinder-bands llp        8 s0 gibbs_init_base  0.4632 114.5s
+          cylinder-bands llp        8 s0 gibbs_init_cold  0.6773 79.9s
+          cylinder-bands llp        8 s0 gibbs_ms         0.6033 0.0s
+          cylinder-bands llp        8 s1 gibbs_init_warm  0.6194 81.4s
+          cylinder-bands llp        8 s1 base_start       0.6713 42.9s
+          cylinder-bands llp        8 s1 gibbs_init_base  0.6191 127.4s
+          cylinder-bands llp        8 s1 gibbs_init_cold  0.6098 83.3s
+          cylinder-bands llp        8 s1 gibbs_ms         0.6194 0.0s
+          cylinder-bands llp        8 s2 gibbs_init_warm  0.7523 92.1s
+          cylinder-bands llp        8 s2 base_start       0.7031 35.1s
+          cylinder-bands llp        8 s2 gibbs_init_base  0.7506 113.6s
+          cylinder-bands llp        8 s2 gibbs_init_cold  0.5463 80.4s
+          cylinder-bands llp        8 s2 gibbs_ms         0.7523 0.0s

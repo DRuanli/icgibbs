@@ -1,0 +1,242 @@
+{
+ "P1": {
+  "n_runs": 9,
+  "complete": true,
+  "r_final": {
+   "mfeat-factors": [
+    0.956,
+    0.953,
+    0.953
+   ],
+   "optdigits": [
+    0.963,
+    0.968,
+    0.954
+   ],
+   "MiceProtein": [
+    0.967,
+    0.971,
+    0.989
+   ]
+  },
+  "a_all_ge_0.80": true,
+  "b_per_dataset": {
+   "mfeat-factors": {
+    "gibbs_init_base": 0.9683,
+    "base_start": 0.951,
+    "ok": true
+   },
+   "optdigits": {
+    "gibbs_init_base": 0.9804,
+    "base_start": 0.9725,
+    "ok": true
+   },
+   "MiceProtein": {
+    "gibbs_init_base": 0.9691,
+    "base_start": 0.9506,
+    "ok": true
+   }
+  },
+  "b_all": true,
+  "verdict": "ĐÚNG"
+ },
+ "P2": {
+  "gains": {
+   "0.85": {
+    "r": 0.8472,
+    "gain": -0.0999
+   },
+   "0.9": {
+    "r": 0.8948,
+    "gain": -0.0951
+   },
+   "0.95": {
+    "r": 0.9492,
+    "gain": -0.0927
+   }
+  },
+  "r_start_mean": 0.9103,
+  "prediction": "sụp",
+  "r_final": [
+   0.763,
+   0.807,
+   0.779
+  ],
+  "verdict": "SAI"
+ },
+ "P3": {
+  "tic-tac-toe": {
+   "r_start": 0.7493,
+   "nearest_r": 0.7482,
+   "gain": -0.1073,
+   "auc_gibbs_init_base": 0.7033,
+   "auc_base_start": 0.8742,
+   "prediction": "Gibbs < start − 0,01",
+   "verdict": "ĐÚNG"
+  },
+  "cylinder-bands": {
+   "r_start": 0.619,
+   "nearest_r": 0.5961,
+   "gain": -0.0224,
+   "auc_gibbs_init_base": 0.611,
+   "auc_base_start": 0.6924,
+   "prediction": "Gibbs < start − 0,01",
+   "verdict": "ĐÚNG"
+  }
+ },
+ "P4": {
+  "n_cells": 36,
+  "n_eligible": 24,
+  "n_correct": 19,
+  "rate": 0.7916666666666666,
+  "verdict": "SAI",
+  "rate_all_cells": 0.8611111111111112
+ },
+ "gate_V0": "V0 QUA MỘT PHẦN: giữ nhiều điểm xuất phát, tìm tiêu chí chọn khác trên tập phát triển",
+ "R4": {
+  "n_cells": 114,
+  "expected_cells": 114,
+  "n_matched": 114,
+  "chain_a_vs_registered_maxabs": 4.999999999999449e-05,
+  "a_H2prime_chain_b": {
+   "pass_": true,
+   "comparator": {
+    "n": 18,
+    "mean_diff": 0.04586370370000002,
+    "ci_lo": 0.01471595369263892,
+    "ci_hi": 0.07973441202430558,
+    "wins": 15,
+    "ties": 0,
+    "losses": 3,
+    "p": 0.0023345947265625,
+    "p_holm": 0.0023345947265625
+   },
+   "naive": {
+    "n": 18,
+    "mean_diff": 0.10952388888333335,
+    "ci_lo": 0.07554875925333335,
+    "ci_hi": 0.1457670463,
+    "wins": 17,
+    "ties": 0,
+    "losses": 1,
+    "p": 1.52587890625e-05,
+    "p_holm": 3.0517578125e-05
+   },
+   "frac_wins_strongest": 0.8888888888888888
+  },
+  "a_H4prime_chain_b": {
+   "pass_": false,
+   "0.3": {
+    "comparator": {
+     "n": 10,
+     "mean_diff": 0.012621999999999977,
+     "ci_lo": 0.006874599993249972,
+     "ci_hi": 0.018963358330249987,
+     "wins": 9,
+     "ties": 1,
+     "losses": 0,
+     "p": 0.00390625,
+     "p_holm": 0.0078125
+    },
+    "naive": {
+     "n": 10,
+     "mean_diff": 0.022117333309999966,
+     "ci_lo": 0.012169291642999965,
+     "ci_hi": 0.03256086665024999,
+     "wins": 10,
+     "ties": 0,
+     "losses": 0,
+     "p": 0.001953125,
+     "p_holm": 0.0078125
+    }
+   },
+   "0.6": {
+    "comparator": {
+     "n": 10,
+     "mean_diff": 0.010789999989999988,
+     "ci_lo": 0.002578691656249997,
+     "ci_hi": 0.018242883336499982,
+     "wins": 8,
+     "ties": 1,
+     "losses": 1,
+     "p": 0.07421875,
+     "p_holm": 0.07421875
+    },
+    "naive": {
+     "n": 10,
+     "mean_diff": 0.20334166666,
+     "ci_lo": 0.09438675000325002,
+     "ci_hi": 0.3327893083329999,
+     "wins": 10,
+     "ties": 0,
+     "losses": 0,
+     "p": 0.001953125,
+     "p_holm": 0.0078125
+    }
+   }
+  },
+  "b_absdiff": {
+   "llp_8.0": {
+    "median": 0.0029,
+    "p90": 0.03895000000000001,
+    "max": 0.1656
+   },
+   "pll_0.3": {
+    "median": 0.0003,
+    "p90": 0.005450000000000002,
+    "max": 0.0092
+   },
+   "pll_0.6": {
+    "median": 0.00475,
+    "p90": 0.015330000000000003,
+    "max": 0.0312
+   }
+  },
+  "b_mcse_dataset_mean": {
+   "llp_8.0": {
+    "median": 0.0019193540222538171,
+    "max": 0.04449264608399409
+   },
+   "pll_0.3": {
+    "median": 0.0007999999999999952,
+    "max": 0.0024139640059914393
+   },
+   "pll_0.6": {
+    "median": 0.002387875025323275,
+    "max": 0.0091080245449335
+   }
+  },
+  "c_sign_flips": {
+   "llp_8.0": {
+    "n_datasets": 18,
+    "n_sign_flips": 3
+   },
+   "pll_0.3": {
+    "n_datasets": 10,
+    "n_sign_flips": 1
+   },
+   "pll_0.6": {
+    "n_datasets": 10,
+    "n_sign_flips": 2
+   }
+  },
+  "d_rhat": {
+   "llp_8.0": {
+    "frac_gt_1_1_median": 0.07295,
+    "frac_gt_1_1_p90": 0.23503000000000002,
+    "rhat_p90_median": 1.0731
+   },
+   "pll_0.3": {
+    "frac_gt_1_1_median": 0.0322,
+    "frac_gt_1_1_p90": 0.08788000000000003,
+    "rhat_p90_median": 1.0607
+   },
+   "pll_0.6": {
+    "frac_gt_1_1_median": 0.0997,
+    "frac_gt_1_1_p90": 0.45905000000000007,
+    "rhat_p90_median": 1.09395
+   }
+  },
+  "verdict": "đã tính (thăm dò)"
+ }
+}

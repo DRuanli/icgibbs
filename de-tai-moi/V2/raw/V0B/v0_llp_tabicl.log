@@ -1,0 +1,40 @@
+run_g7 · part=v0 · split=eval · backend=tabicl_v2 · code=py-d09fd8d5de7e · config=0156cccc5964a1a0
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+             tic-tac-toe llp        8 s0 gibbs_init_warm  0.9996 35.1s
+             tic-tac-toe llp        8 s0 base_start       0.8825 67.8s
+             tic-tac-toe llp        8 s0 gibbs_init_base  0.9996 86.9s
+             tic-tac-toe llp        8 s0 gibbs_init_cold  0.9909 19.2s
+             tic-tac-toe llp        8 s0 gibbs_ms         0.9996 0.0s
+             tic-tac-toe llp        8 s1 gibbs_init_warm  0.9857 27.1s
+             tic-tac-toe llp        8 s1 base_start       0.8569 80.0s
+             tic-tac-toe llp        8 s1 gibbs_init_base  0.9924 99.1s
+             tic-tac-toe llp        8 s1 gibbs_init_cold  0.9919 19.1s
+             tic-tac-toe llp        8 s1 gibbs_ms         0.9924 0.0s
+             tic-tac-toe llp        8 s2 gibbs_init_warm  0.9930 26.1s
+             tic-tac-toe llp        8 s2 base_start       0.8834 80.9s
+             tic-tac-toe llp        8 s2 gibbs_init_base  0.9948 98.8s
+             tic-tac-toe llp        8 s2 gibbs_init_cold  0.9893 18.8s
+             tic-tac-toe llp        8 s2 gibbs_ms         0.9948 0.0s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_init_warm  0.7012 26.7s
+          cylinder-bands llp        8 s0 base_start       0.7028 39.3s
+          cylinder-bands llp        8 s0 gibbs_init_base  0.5895 63.4s
+          cylinder-bands llp        8 s0 gibbs_init_cold  0.6267 24.5s
+          cylinder-bands llp        8 s0 gibbs_ms         0.5895 0.0s
+          cylinder-bands llp        8 s1 gibbs_init_warm  0.6921 25.7s
+          cylinder-bands llp        8 s1 base_start       0.6713 54.0s
+          cylinder-bands llp        8 s1 gibbs_init_base  0.7171 75.6s
+          cylinder-bands llp        8 s1 gibbs_init_cold  0.6941 21.6s
+          cylinder-bands llp        8 s1 gibbs_ms         0.6941 0.0s
+          cylinder-bands llp        8 s2 gibbs_init_warm  0.7509 26.2s
+          cylinder-bands llp        8 s2 base_start       0.7031 43.6s
+          cylinder-bands llp        8 s2 gibbs_init_base  0.7960 64.8s
+          cylinder-bands llp        8 s2 gibbs_init_cold  0.7901 21.6s
+          cylinder-bands llp        8 s2 gibbs_ms         0.7960 0.0s
