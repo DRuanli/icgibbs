@@ -11,6 +11,7 @@
 | 05/11/2026 02:34 UTC | **a8e355c** (main) | Code giai đoạn 1: `qbar()` trong sampler; `base_oof` và lưu npz trong `run_multistart`; `run_g7.py --save_dir --oof`, `--explore` cho v0 trên S2; lượt V1A/V1B; `tests/test_v1.py` (bộ test 127 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1_aggregate.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v7.zip` dựng bằng `git archive` từ commit này |
 | 05/11/2026 (sau khi nhận kết quả) | commit của V1_REPORT | **Deviation D-V1-1:** V1A thiếu 4 dataset LLP (31, 37, 23381, 38) do OpenML 503. Không đổi protocol: chạy bù đúng lượt V1A với output cũ làm dữ liệu (chỉ 12 ô thiếu chạy), rồi chạy lại `v1_aggregate.py` không sửa. Nếu vẫn lỗi sau 2 lần chạy bù: chốt trên 10/14 và ghi giới hạn ([V1_REPORT §3](V1_REPORT.md)) |
 | 05/11/2026 13:57 UTC | commit chốt cổng V1-A | **D-V1-1, bổ sung:** thầy quyết định **không chạy bù** V1A. Cổng V1-A chốt trên số hiện có: chọn A1; nhóm TabPFN LLP chỉ có 10/14 dataset, ghi thành giới hạn ([V1_REPORT §3, §6](V1_REPORT.md)) |
+| 05/11/2026 tối | commit W3/W4 | Code W3, W4 (không phải lượt chạy): backend `tabpfn_v3`, `tabpfn_v3_5`, `tabdpt`; `--weak_variant feat/inst` trong `run_g7.py` và `weakgen.py`. Mã cấu hình của mọi lượt cũ giữ nguyên (biến thể chỉ vào mã khi khác `iid`). Chưa có lượt GPU nào dùng code này; lượt thử sẽ được ghi trước ([W4_TFM_REPORT §4](W4_TFM_REPORT.md)) |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |

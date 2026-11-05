@@ -32,7 +32,7 @@ from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, A
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
                                  RHAT_EVAL, S2_BINARY, S2_MULTICLASS, S2_SUBSAMPLE)
 from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
-from icgibbs.g7.weakgen import make_weak, real_pll_weak, weak_rng  # noqa: E402
+from icgibbs.g7.weakgen import VARIANTS, make_weak, real_pll_weak, weak_rng  # noqa: E402
 
 LEVELS = {"llp": [8, 16, 32], "pu_sar": [0.1, 0.3], "pu_scar": [0.1, 0.3], "ssl": [0.05, 0.2], "noisy": [0.2, 0.4],
           "pll": [0.3, 0.6]}
@@ -66,7 +66,8 @@ def make_estimator(backend: str, n_estimators):
     if backend.startswith("tabpfn"):
         from tabpfn import TabPFNClassifier
         from tabpfn.constants import ModelVersion
-        version = {"tabpfn_v2": ModelVersion.V2, "tabpfn_v2_5": ModelVersion.V2_5}[backend]
+        version = {"tabpfn_v2": ModelVersion.V2, "tabpfn_v2_5": ModelVersion.V2_5,       # V2 W4: thêm v3, v3.5
+                   "tabpfn_v3": ModelVersion.V3, "tabpfn_v3_5": ModelVersion.V3_5}[backend]
         kw = {"ignore_pretraining_limits": True}
         if n_estimators is not None:
             kw["n_estimators"] = n_estimators
@@ -89,10 +90,62 @@ def make_estimator(backend: str, n_estimators):
         if n_estimators is not None:
             kw["n_estimators"] = n_estimators
         return CachedTabICL(**kw)
+    if backend == "tabdpt":
+        return TabDPTAdapter(n_ensembles=1 if n_estimators is None else int(n_estimators))
     raise ValueError(backend)
 
 
 _TABICL_CACHE: dict = {}
+_TABDPT_CACHE: dict = {}
+
+
+class TabDPTAdapter:
+    """V2 W4 (V2/W4_TFM_REPORT.md): bọc TabDPT (Layer6, `tabdpt` 1.3.1, Apache-2.0) theo giao diện fit/predict_proba
+    với `classes_`, như TabPFN/TabICL.
+    - TabDPTClassifier nạp trọng số trong __init__, nên giữ MỘT bản trong bộ nhớ cho mỗi tiến trình và gọi lại fit
+      (fit chỉ lưu ngữ cảnh và fit lại bộ chuẩn hoá, không đổi trọng số).
+    - TabDPT giả định nhãn là 0..k−1 và không có `classes_`: mã hoá nhãn của ngữ cảnh về 0..k−1 rồi trả cột theo
+      `classes_` = các nhãn có mặt; SklearnTFMConditional tự đặt cột về đúng lớp.
+    - Trên T4 (compute capability 7.5) không có FlashAttention: `use_flash` chỉ bật khi capability ≥ 8; tắt
+      torch.compile cho ổn định trên Kaggle.
+    - n_ensembles = 1: một forward, không hoán vị feature/lớp, tất định. n_ensembles > 1: ensemble_predict_proba với
+      seed 0 (hoán vị lớp và feature như cấu hình gốc của TabDPT).
+    - context_size = None: dùng toàn bộ ngữ cảnh; giới hạn ngữ cảnh do bộ lấy mẫu của ta đặt (max_context)."""
+
+    def __init__(self, n_ensembles: int = 1, seed: int = 0, factory=None):
+        self.n_ensembles, self.seed, self._factory = int(n_ensembles), int(seed), factory
+
+    def _model(self):
+        if self._factory is not None:                      # dùng trong test, không cần trọng số thật
+            key = ("test", id(self._factory))
+            if key not in _TABDPT_CACHE:
+                _TABDPT_CACHE[key] = self._factory()
+            return _TABDPT_CACHE[key]
+        if "real" not in _TABDPT_CACHE:
+            import torch
+            from tabdpt import TabDPTClassifier
+            cuda = torch.cuda.is_available()
+            flash = bool(cuda and torch.cuda.get_device_capability()[0] >= 8)
+            _TABDPT_CACHE["real"] = TabDPTClassifier(device="cuda" if cuda else "cpu", use_flash=flash,
+                                                     compile=False, verbose=False)
+        return _TABDPT_CACHE["real"]
+
+    def fit(self, X, y):
+        y = np.asarray(y).astype(int)
+        self.classes_ = np.unique(y)
+        self._m = self._model()
+        self._m.fit(np.asarray(X, dtype=np.float32), np.searchsorted(self.classes_, y))
+        return self
+
+    def predict_proba(self, X):
+        X = np.asarray(X, dtype=np.float32)
+        if self.n_ensembles <= 1:
+            P = self._m.predict_proba(X, context_size=None)
+        else:
+            P = self._m.ensemble_predict_proba(X, n_ensembles=self.n_ensembles, context_size=None, seed=self.seed)
+        P = np.asarray(P, dtype=float)
+        assert P.shape == (len(X), len(self.classes_)), P.shape
+        return P
 
 
 def synthetic_table(did: int, binary: bool, shape=None) -> Table:
@@ -138,6 +191,9 @@ def main(argv=None):
     ap.add_argument("--explore", action="store_true",
                     help="THĂM DÒ (V2): cho phép --part rhat (R4) hoặc --part v0 (giai đoạn 1) trên --split s2; với rhat dùng mọi "
                          "dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--weak_variant", default="iid", choices=["iid", "feat", "inst"],
+                    help="V2 W3: iid (mặc định, như Study 1–2); feat = LLP túi gom theo feature; inst = PLL phụ thuộc mẫu. "
+                         "Cột setting ghi thành llp_feat / pll_inst")
     ap.add_argument("--save_dir", default="", help="với --part v0: lưu Q̄ và dự đoán của mọi chuỗi mỗi ô (npz) vào thư mục này")
     ap.add_argument("--oof", action="store_true", help="với --part v0: thêm dự đoán ngoài fold của learner khởi động (cần 'base')")
     ap.add_argument("--trace_dir", default="", help="với --part rhat: lưu vết hai chuỗi (npz) vào thư mục này")
@@ -170,6 +226,8 @@ def main(argv=None):
     a.mh_settings = {x.strip() for x in a.mh_check.split(",") if x.strip()}
     if a.backend == "tabicl_v2" and a.final_est is None:   # giao thức §1.4: TabICL 1 trong chuỗi, 2 khi dự đoán cuối
         a.final_est = 2
+    if a.backend == "tabdpt" and a.final_est is None:      # V2 W4: 1 trong chuỗi, 8 khi dự đoán cuối (cấu hình gốc TabDPT)
+        a.final_est = 8
     shapes = parse_shapes(a.synthetic_shape)
     if shapes and a.source != "synthetic":
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
@@ -180,6 +238,10 @@ def main(argv=None):
         ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ và v0 thăm dò cần --explore")
     if a.explore and not (a.part in ("rhat", "v0") and a.split == "s2"):
         ap.error("--explore chỉ dùng với --part rhat hoặc v0, và --split s2")
+    if a.weak_variant != "iid":
+        bad = [x for x in a.settings.split(",") if x.strip() and a.weak_variant not in VARIANTS.get(x.strip(), ())]
+        if bad:
+            ap.error(f"--weak_variant {a.weak_variant} không dùng được với {bad} (feat chỉ cho llp, inst chỉ cho pll)")
     if (a.save_dir or a.oof) and a.part != "v0":
         ap.error("--save_dir và --oof chỉ dùng với --part v0")
     if a.oof and "base" not in a.starts.split(","):
@@ -220,7 +282,10 @@ def main(argv=None):
     preds = None if a.preds == "none" else (a.out.replace(".csv", "_preds.jsonl") if a.preds == "auto" else a.preds)
     writer = ResultWriter(a.out, FIELDS, preds)
     code = code_version()
-    cfg = config_hash(dict(GIBBS=GIBBS, backend=a.backend, gibbs_est=a.gibbs_est, final_est=a.final_est))
+    cfg_d = dict(GIBBS=GIBBS, backend=a.backend, gibbs_est=a.gibbs_est, final_est=a.final_est)
+    if a.weak_variant != "iid":                            # giữ nguyên mã cấu hình của mọi lượt cũ
+        cfg_d["weak_variant"] = a.weak_variant
+    cfg = config_hash(cfg_d)
     print(f"run_g7 · part={a.part} · split={a.split} · backend={a.backend} · code={code} · config={cfg}", flush=True)
 
     if "pll_real" in settings:                               # RQ5: PLL thật (không phụ thuộc --split)
@@ -291,9 +356,12 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
     prep = Preprocessor().fit(t.X.iloc[itr])
     Mtr, Mte = prep.transform(t.X.iloc[itr]), prep.transform(t.X.iloc[ite])
     Xtr, Xte, ytr, yte = X_all[itr], X_all[ite], t.y[itr], t.y[ite]
-    wd = weak if weak is not None else make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C)
+    variant = getattr(a, "weak_variant", "iid")
+    wd = weak if weak is not None else make_weak(setting, level, ytr, Xtr, weak_rng(seed, did, setting), n_classes=C,
+                                                 variant=variant)
+    slabel = setting if variant == "iid" or weak is not None else f"{setting}_{variant}"   # tên ghi ra CSV và tệp
     cell = Cell(did, t.name, setting, level, seed, C, Xtr, Xte, Mtr, Mte, wd, prior=float(ytr.mean()) if C == 2 else None)
-    base = dict(backend=a.backend if a.part in ("tfm", "rhat", "ablation", "v0") else "cpu", dataset_id=did, dataset=t.name, setting=setting,
+    base = dict(backend=a.backend if a.part in ("tfm", "rhat", "ablation", "v0") else "cpu", dataset_id=did, dataset=t.name, setting=slabel,
                 level=level, seed=seed, part=a.part, n_train=len(itr), n_test=len(ite), d=X_all.shape[1], n_classes=C,
                 pos_rate=round(float(ytr.mean()), 4) if C == 2 else "", n_duplicates_removed=t.n_duplicates_removed,
                 sha256_table=sha_t, sha256_split=split_sha256(itr, ite), weak_hash=weak_hash(wd), code=code,
@@ -340,7 +408,7 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                 st, Ps = run_rhat(cell, cond, fin, monitor=(lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr)))
                                   if a.trace_dir else None, keep=keep)
                 if keep:
-                    _save_rhat_trace(a.trace_dir, t, setting, level, seed, keep, Ps, ytr, yte)
+                    _save_rhat_trace(a.trace_dir, t, slabel, level, seed, keep, Ps, ytr, yte)
                 # metric chính trên test của từng chuỗi: sai khác do riêng ngẫu nhiên Monte Carlo (cùng dữ liệu, cùng
                 # nhãn yếu, cùng điểm khởi động); chuỗi a cùng seed với gibbs_warm của phần tfm
                 for nm, P in zip("ab", Ps):
@@ -360,7 +428,7 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
         save, force = None, False
         if a.save_dir:
             os.makedirs(a.save_dir, exist_ok=True)
-            path = os.path.join(a.save_dir, f"v1_{a.backend}_{did}_{setting}_{level}_s{seed}.npz")
+            path = os.path.join(a.save_dir, f"v1_{a.backend}_{did}_{slabel}_{level}_s{seed}.npz")
             force = not os.path.exists(path)
 
             def save(arrays, path=path):

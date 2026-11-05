@@ -49,10 +49,111 @@ def weak_rng(seed: int, did: int, setting: str):
     return np.random.default_rng(1000 * seed + did + OFFSET[setting])
 
 
-def make_weak(setting: str, level, y_tr: np.ndarray, X_tfm_tr: np.ndarray, rng, n_classes: int | None = None) -> WeakData:
+VARIANTS = {"llp": ("iid", "feat"), "pll": ("iid", "inst")}   # V2 W3: biến thể nhãn yếu cho Study 3
+FEAT_BAGS_PER_CLUSTER = 8      # túi gom theo feature: số túi trung bình mỗi cụm k-means
+INST_AUX_FOLDS = 5             # PLL phụ thuộc mẫu: số fold của mô hình phụ (dự đoán ngoài fold)
+
+
+def _std_features(X) -> np.ndarray:
+    """Feature số đã chuẩn hoá cho các bộ sinh phụ thuộc feature: NaN → trung vị cột, rồi z-score."""
+    X = np.asarray(X, float).copy()
+    med = np.nanmedian(X, axis=0)
+    med = np.where(np.isnan(med), 0.0, med)
+    bad = np.isnan(X)
+    X[bad] = np.take(med, np.nonzero(bad)[1])
+    sd = X.std(0)
+    return (X - X.mean(0)) / np.where(sd > 0, sd, 1.0)
+
+
+def feature_bags(X, bag_size: int, rng, y=None, n_classes: int = 2):
+    """LLP túi gom theo feature (V2 W3, V2_PLAN §5): k-means trên feature đã chuẩn hoá với
+    k = max(1, round(n / (bag_size · FEAT_BAGS_PER_CLUSTER))) cụm; trong mỗi cụm xáo trộn rồi cắt thành túi cỡ
+    bag_size; phần dư (< bag_size điểm) của mỗi cụm nhập vào túi cuối của cụm đó (túi cỡ bag_size..2·bag_size − 1),
+    hoặc thành một túi riêng nếu cụm có ít hơn bag_size điểm. Mọi điểm thuộc đúng một túi.
+    Trả về (bags, counts) cùng định dạng với weak.make_bags."""
+    from sklearn.cluster import KMeans
+    n = len(X)
+    Z = _std_features(X)
+    k = max(1, int(round(n / (bag_size * FEAT_BAGS_PER_CLUSTER))))
+    lab = KMeans(n_clusters=k, n_init=4, random_state=int(rng.integers(2**31 - 1))).fit_predict(Z) if k > 1 \
+        else np.zeros(n, int)
+    bags = []
+    for c in range(k):
+        idx = rng.permutation(np.flatnonzero(lab == c))
+        if len(idx) == 0:
+            continue
+        m = len(idx) // bag_size
+        if m == 0:
+            bags.append(idx)
+            continue
+        chunks = [idx[i * bag_size:(i + 1) * bag_size] for i in range(m)]
+        if len(idx) > m * bag_size:
+            chunks[-1] = np.concatenate([chunks[-1], idx[m * bag_size:]])
+        bags.extend(chunks)
+    counts = None if y is None else np.array([np.bincount(y[b], minlength=n_classes) for b in bags])
+    return bags, counts
+
+
+def instance_pll(X, y, q: float, rng, n_classes: int):
+    """PLL phụ thuộc mẫu (V2 W3, V2_PLAN §5), theo tinh thần Xu et al. (NeurIPS 2021): distractor đến từ các lớp mà
+    một mô hình phụ hay nhầm với lớp đúng.
+    - Mô hình phụ: hồi quy logistic đa lớp trên feature đã chuẩn hoá, dự đoán NGOÀI FOLD (INST_AUX_FOLDS fold phân
+      tầng) để xác suất lớp sai không bị co về 0 do học thuộc.
+    - Lớp sai j của điểm i vào tập ứng viên với xác suất ξ_ij = min(1, α·p_ij); α chọn bằng chia đôi sao cho trung
+      bình ξ trên mọi cặp (i, j ≠ y_i) bằng q. Như vậy số ứng viên trung bình bằng 1 + q(C − 1), đúng như PLL
+      gieo đều cùng mức q, chỉ khác ở chỗ lớp nào làm distractor.
+    Trả về (S, xi): S (n, C) bool, xi (n, C) xác suất vào tập ứng viên (0 ở lớp đúng; để kiểm, không đưa vào phương pháp)."""
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.model_selection import StratifiedKFold
+    y = np.asarray(y).astype(int)
+    n, C = len(y), int(n_classes)
+    Z = _std_features(X)
+    P = np.zeros((n, C))
+    folds = min(INST_AUX_FOLDS, int(np.bincount(y, minlength=C)[np.bincount(y, minlength=C) > 0].min()))
+    folds = max(2, folds)
+    skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=int(rng.integers(2**31 - 1)))
+    for tr, te in skf.split(Z, y):
+        m = LogisticRegression(max_iter=1000).fit(Z[tr], y[tr])
+        P[np.ix_(te, m.classes_.astype(int))] = m.predict_proba(Z[te])
+    P = np.clip(P, 1e-12, None)
+    wrong = np.ones((n, C), bool)
+    wrong[np.arange(n), y] = False
+    pw = P[wrong]
+
+    def mean_xi(alpha):
+        return float(np.minimum(1.0, alpha * pw).mean())
+
+    lo, hi = 0.0, 1.0
+    while mean_xi(hi) < q:
+        hi *= 2.0
+    for _ in range(100):
+        mid = 0.5 * (lo + hi)
+        lo, hi = (mid, hi) if mean_xi(mid) < q else (lo, mid)
+    xi = np.zeros((n, C))
+    xi[wrong] = np.minimum(1.0, hi * pw)
+    S = rng.uniform(size=(n, C)) < xi
+    S[np.arange(n), y] = True
+    return S, xi
+
+
+def make_weak(setting: str, level, y_tr: np.ndarray, X_tfm_tr: np.ndarray, rng, n_classes: int | None = None,
+              variant: str = "iid") -> WeakData:
     y = np.asarray(y_tr).astype(int)
     n = len(y)
     C = n_classes or int(y.max()) + 1
+    if variant != "iid":
+        if variant not in VARIANTS.get(setting, ()):
+            raise ValueError(f"biến thể {variant!r} không dùng được với {setting!r}")
+        if variant == "feat":
+            bags, counts = feature_bags(X_tfm_tr, int(level), rng, y, n_classes=C)
+            sizes = np.array([len(b) for b in bags])
+            return WeakData(setting, int(level), C, bags=bags, counts=counts,
+                            extra=f"n_bags={len(bags)};variant=feat;bag_size_min={sizes.min()};bag_size_max={sizes.max()}")
+        if variant == "inst":
+            S, xi = instance_pll(X_tfm_tr, y, float(level), rng, C)
+            pseudo = np.array([rng.choice(np.flatnonzero(s)) for s in S])
+            return WeakData(setting, float(level), C, S=S, naive_pll=pseudo,
+                            extra=f"avg_candidates={S.sum(1).mean():.2f};variant=inst", meta={"xi": xi})
     if setting == "pu_scar":
         c = float(level)
         s = ((y == 1) & (rng.uniform(size=n) < c)).astype(int)
