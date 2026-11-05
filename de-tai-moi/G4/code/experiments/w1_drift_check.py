@@ -277,8 +277,9 @@ def refined_band(n_F, rho, K, h_max, a, b, p_sweep, method):
     """Nửa dải bất biến của Mệnh đề 4′(b′) cho Φ = a + b·r (δ = 0, không điểm xấu, ngữ cảnh đầy đủ), theo ba cách lấy
     hằng số của Bổ đề 3 (W1_R1A_REPORT §2.7):
       'hoeffding3' — bản gốc: chia ν đều cho ba mảnh, cộng trên K khối cho cả ba;
-      'split'      — Hoeffding, chia ν tối ưu, Ville cho mảnh Z (không có thừa số K);
-      'bernstein'  — như 'split' nhưng Bernstein/Freedman với phương sai cục bộ v trong dải (lặp tới điểm bất động)."""
+      'split'      — Hoeffding, chia xác suất thất bại đều cho các mảnh (không phải chia ν tối ưu), Ville cho mảnh Z;
+      'bernstein'  — như 'split' nhưng Bernstein/Freedman với phương sai một phía (phía sàn): v = max c(1−c) trên
+                     c ∈ [Φ(lo − ν) − h_max, 1] và max R(1−R) trên [lo, 1], lặp tới điểm bất động (W1_R1A_REPORT §2.7)."""
     n = n_F / rho
     a_m = (n_F - np.ceil(n / K)) / n_F
     r_star = a / (1 - b)
@@ -305,9 +306,12 @@ def refined_band(n_F, rho, K, h_max, a, b, p_sweep, method):
         half = (b * nu + lam) / (1 - b)
         if method == "split":
             break
-        lo, hi = max(0.0, r_star - half), min(1.0, r_star + half)
-        rr = np.linspace(lo, hi, 201)
-        cc = np.clip(np.r_[a + b * rr - h_max, a + b * rr + h_max], 0, 1)
+        # Phía sàn (IR2-MAJOR-1): biến cố sàn chỉ cho r_k ≥ lo − ν và R_s ≥ lo. Theo Jensen, Σ c_i(1−c_i) ≤ f·c̄(1−c̄)
+        # với c̄ ∈ [Φ(lo − ν) − h_max, 1]; phương sai tổng thể của o là ρ·R_s(1−R_s) với R_s ∈ [lo, 1].
+        lo = max(0.0, r_star - half)
+        c_lo = max(0.0, a + b * (lo - nu) - h_max)
+        cc = np.linspace(c_lo, 1.0, 401)
+        rr = np.linspace(lo, 1.0, 401)
         v_new = float(max(np.max(rr * (1 - rr)), np.max(cc * (1 - cc))))
         if abs(v_new - v) < 1e-6:
             break

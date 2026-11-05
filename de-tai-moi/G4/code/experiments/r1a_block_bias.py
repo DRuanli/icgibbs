@@ -456,6 +456,20 @@ def e7f():
                                  n_times_pred_err=abs(m_ap - m_ex) * n / (n + 2.0)))
     t = pd.DataFrame(rows)
     save(t, "e7f_affine_closed_form.csv")
+    # Dạng đóng gọn (W1_REVIEW_INDEPENDENT_02, Phụ lục A): E_π̃ k = U(L + α′)/(n_lab + 2α′), α′ = αK(n−1)/((K−1)n);
+    # E_π k = U(L + α)/(n_lab + 2α). Kiểm với ssl_affine_means trên nhiều α, λ, p, K, n (C = 2).
+    rows = []
+    for alpha in (0.5, 1.0, 3.0):
+        for n, lam, pp, K in [(100, 0.1, 0.3, 10), (1000, 0.05, 0.2, 10), (5000, 0.2, 0.8, 20), (400, 0.3, 0.1, 5),
+                              (100000, 0.1, 0.3, 10)]:
+            nl = int(round(lam * n)); L = int(round(pp * nl)); U = n - nl; M = n // K
+            m_ex, m_ap = ssl_affine_means(L, nl, U, M, alpha=alpha, design="all")
+            a2 = alpha * K * (n - 1) / ((K - 1) * n)
+            f_ex, f_ap = U * (L + alpha) / (nl + 2 * alpha), U * (L + a2) / (nl + 2 * a2)
+            asym = alpha * (1 - nl / n) * (1 - 2 * L / nl) / ((nl / n) * (K - 1) * n)
+            rows.append(dict(alpha=alpha, n=n, lam=nl / n, p=L / nl, K=K, diff_pi=abs(m_ex - f_ex), diff_tilde=abs(m_ap - f_ap),
+                             pred_bias_exact=(m_ap - m_ex) / (n + 2 * alpha), pred_bias_asym=asym))
+    save(pd.DataFrame(rows), "e7f_alpha_prime_check.csv")
     for (lf, pf), g in t[t.n >= 1000].groupby(["lab_frac", "pos_frac"]):
         X = np.column_stack([np.ones(len(g)), np.log(g.n), np.log(g.K)])
         bcoef = np.linalg.lstsq(X, np.log(g.pred_err), rcond=None)[0]

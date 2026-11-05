@@ -21,9 +21,13 @@
      - Chuỗi trội một dãy lặp tất định kiểu Jacobi.
      - Sàn và trần bất biến ở ranh giới vòng quét; thời gian thoát lưu vực tăng mũ theo n_F, có hằng số.
      - Hằng số lỏng khoảng 10 lần so với mô phỏng.
-   - **Mở rộng (§2.7, 05/11 chiều):** Bổ đề 3* phủ ngữ cảnh lấy mẫu con max_context: thời gian thoát chứng minh được bão hoà ở cỡ e^{c·M_c}, nhưng mô phỏng cho thấy ảnh hưởng thật rất nhỏ ở cỡ dữ liệu của bài. Bổ đề 3* cũng dùng một giả định yếu hơn, theo "tập điểm xấu". Hằng số tinh chỉnh giảm n_F cần thiết 2–3 lần.
+   - **Mở rộng (§2.7, 05/11 chiều):** Bổ đề 3* phủ ngữ cảnh lấy mẫu con max_context.
+     - Thời gian thoát chứng minh được bão hoà ở cỡ e^{c·M_c}.
+     - Mô phỏng ở n = 3.000 cho thấy ảnh hưởng thật nhỏ hơn chặn. Ở cỡ dữ liệu của bài, đây chỉ là **dự đoán theo xấp xỉ AR(1)**, chưa kiểm.
+     - Bổ đề 3* cũng dùng một giả định "tập điểm xấu". Giả định này yếu hơn về logic, nhưng với hằng số hiện có chỉ rẻ hơn khi n_F ≳ 1,2·10⁴ [IR2-MAJOR-2].
+     - Hằng số tinh chỉnh giảm n_F cần thiết 1,7–1,8 lần (chặt), và khoảng 3 lần với bản Bernstein/Freedman (đã bổ sung ba bước thiếu theo IR2-MAJOR-1).
    - **Mệnh đề 6 (§2.8, 05/11 tối):** khi Φ affine, trung bình và phương sai dừng của R ở lịch quét thật có **dạng đóng chính xác**, tính bằng một đệ quy K bước.
-     - Khớp mô phỏng trong ±1,5% (sd) ở cả 4 ô; dải 99% khớp tới 3 chữ số.
+     - Khớp mô phỏng trong ±1,5% (sd) ở cả 4 ô; dải 99% theo Gauss khớp trong ±0,005 (±0,001 ở n = 3.000). Rà độc lập lần 2 xác nhận ở mức L5.
      - Xấp xỉ Jacobi cũ thấp hơn 18–21%; Mệnh đề 6 giải thích vì sao.
    - **Tự rà bằng skill dm-paper-math-review** tìm ra 3 lỗi MAJOR ở bản đầu, đã sửa (`V2/reviews/W1_SELF_REVIEW_01.md`). Bản đầu so Φ tại r của cả trạng thái, đòi dung sai đều cho cả độ khó riêng của điểm, và ngụ ý phủ LLP. Bổ đề 3 và hằng số của thời gian thoát đã viết xong ở §2.6.
    - **Rà độc lập** (agent chưa thấy bản nháp, `V2/reviews/W1_REVIEW_INDEPENDENT_01.md`) tìm 1 BLOCKING, 2 MAJOR, 8 MINOR. **Đã sửa hết**; xem nhãn [IR-…] trong bài.
@@ -51,10 +55,10 @@
    - Phân rã cho thấy phần lỏng chủ yếu nằm ở ε̄. Sai số theo từng hàng triệt tiêu khi lấy trung bình theo π̃, nhỏ đi 10–210 lần. Về thực nghiệm, TV(π̃, π)/ε̄ chỉ nằm trong 0,49–1,17.
    - TV trên vector nhãn cỡ 1/K (thực nghiệm K^−1,13) và **không giảm theo n**. Sai lệch dự đoán chỉ cỡ n^−0,9·K^−1,15.
    - R2 vì vậy nên phát biểu ở mức dự đoán, không ở mức TV của vector nhãn.
-   - **R2, Mệnh đề 5 (§5.7, 05/11 tối):** trong mô hình liên hợp SSL, sai lệch dự đoán = (lệch kỳ vọng mỗi bước)/(tốc độ hồi phục của trung bình), không phụ thuộc total correlation.
-     - Khối chỉ gồm điểm tự do: dự đoán **đúng tuyệt đối**, dù TV ≍ 1/K.
-     - Khối trên mọi điểm (mặc định): sai lệch = α(1−λ)(1−Cp_c)/(λ(K−1)n) + O(n⁻²), một dạng đóng đã kiểm khớp mọi chữ số với ma trận chuyển.
-     - Phát biểu này đủ để thay Mệnh đề 3(b) đang rỗng.
+   - **R2, Mệnh đề 5 (§5.7, 05/11 tối):** trong mô hình liên hợp gộp **SSL**, với lịch khối ngẫu nhiên, sai lệch dự đoán = (lệch kỳ vọng mỗi bước)/(tốc độ hồi phục của trung bình), không phụ thuộc total correlation.
+     - Khối chỉ gồm điểm tự do: dự đoán **đúng tuyệt đối**, dù TV đo được không giảm theo n.
+     - Khối trên mọi điểm: chuỗi cho **đúng trung bình hậu nghiệm với prior α′ = αK(n−1)/((K−1)n)**, tức sai lệch ≈ α(1−λ)(1−Cp_c)/(λ(K−1)n).
+     - Phạm vi chỉ là SSL: với PU, khối free lệch tới 0,07. Vì vậy Mệnh đề 5 là một mệnh đề riêng, **không thay** Mệnh đề 3(b) tổng quát; nó thay đoạn "Why this is vacuous" [IR2-BLOCKING-1].
    - **LLP (§5.5).** Bức tranh khác:
      - TV giảm theo n khi bài nhận dạng được;
      - sai lệch dự đoán lớn ở dữ liệu nhỏ: 0,02–0,05 ở n = 160, K = 10;
@@ -472,7 +476,7 @@ Mục này xử lý ba việc mở ở §6:
 - bản "điển hình" của (H) cho lịch quét thật [IR-MAJOR-1];
 - hằng số của Bổ đề 3.
 
-Mục này chưa qua rà độc lập.
+Mục này đã qua rà độc lập lần 2 (`V2/reviews/W1_REVIEW_INDEPENDENT_02.md`): 2 MAJOR và một số MINOR, đã sửa; mỗi chỗ sửa ghi nhãn [IR2-…].
 
 **Thiết lập.** Lịch quét như §2.6, với hai thay đổi:
 - **Ngữ cảnh.** Ở khối k, ngữ cảnh là C_k ⊆ [n]∖B_k.
@@ -493,12 +497,24 @@ Ghi chú:
 - Phía trên đối xứng.
 - Với η₀ = 0 và ngữ cảnh đầy đủ, (H*) chính là (H⁻_δ) của §2.1.
 
-**Vì sao đây là giả định yếu hơn.**
-- (H) theo mọi khối buộc δ chịu cả khối xấu nhất. Nếu một tỉ lệ η₀ điểm có thể lệch tới D, thì khối xấu nhất chứa min(m, η₀n_F) điểm như vậy, nên δ ≥ D·min(1, η₀n_F/m).
-- (H*) chỉ trả **D·η₀·H̃_K**, như Bổ đề 3* cho thấy.
-- **Ví dụ:** 2% điểm có thể lệch tuỳ ý (D = 1,1), với K = 10.
-  - (H) cần δ ≥ 0,22.
-  - (H*) chỉ trả 1,1 × 0,02 × 2,93 ≈ 0,064.
+**(H*) yếu hơn về logic, nhưng chưa chắc rẻ hơn về hằng số** [IR2-MAJOR-2].
+- **Yếu hơn về logic:** (H⁻_δ) kéo theo (H*) với Bad = ∅.
+- **Giá phải trả:**
+  - (H) theo mọi khối buộc δ chịu cả khối xấu nhất. Nếu một tỉ lệ η₀ điểm có thể lệch tới D, thì δ ≥ D·min(1, η₀n_F/m), và dải bị nới δ/(1 − b) với Φ tuyến tính độ dốc b.
+  - (H*) trả β_bad = D(η₀H̃_K + ν_b) **hai lần**: một lần ngoài Φ̲, và một lần bên trong qua ν′. Dải bị nới β_bad(1 + b/a_m)/(1 − b).
+  - Số hạng D·ν_b không nhỏ ở n vừa phải: ν_b phải cỡ √(K ln(K/q)/(2ρn_F)).
+- **Ví dụ** (2% điểm lệch tới D = 1,1; K = 10; b = 0,5; tính theo lượt rà độc lập):
+
+  | n_F | Giá trên dải, (H*) | Giá trên dải, (H) |
+  |---|---|---|
+  | 3.000 | 0,68 | 0,44 |
+  | 10.000 | 0,46 | 0,44 |
+  | 30.000 | 0,35 | 0,44 |
+  | ∞ | 0,20 | 0,44 |
+
+  Vậy (H*) chỉ có lợi khi n_F ≳ 1,2·10⁴, và lợi khoảng 2,2 lần ở giới hạn.
+- **Cách cải thiện** (chưa làm): thay Hoeffding cho |B_k ∩ Bad| bằng Bernstein hoặc Chernoff siêu bội. Phương sai thật cỡ m·η₀H̃_K/K, nhỏ hơn nhiều biên độ 1 mà Hoeffding dùng, nên ν_b sẽ giảm hẳn.
+- **Phạm vi của chặn H̃_K:** lượt rà dựng được một tập Bad thích nghi, luôn nằm trong các điểm chưa dùng, đạt gần đúng chặn này. Vậy thừa số H̃_K không lỏng ở trường hợp xấu nhất.
 
 **Hằng số.**
 - m = ⌈n/K⌉, m₋ = ⌊n/K⌋, a_m = (n_F − m)/n_F.
@@ -512,9 +528,9 @@ Ghi chú:
 
   P(R_{s+1} ≥ Φ̲(x − ν′) − δ − β_bad − λ | 𝓕_s) ≥ 1 − p*.
 
-Bản trần đối xứng: dùng phía trên của (H*) và Φ̄(x + ν′) + δ ≤ x.
+Bản trần đối xứng: dùng phía trên của (H*) và Φ̄(x + ν′) + δ ≤ x. Bản này chưa viết ra; tập Bad của phía trên có thể khác của phía dưới (mức L2).
 
-**Chứng minh.** Chứng minh giống Bổ đề 3, chỉ thêm hai biến cố. Gọi 𝓖_{s,k−1} là thông tin đến trước khối k: 𝓕_s, B_1, …, B_{k−1} và mọi lần rút trước đó.
+**Chứng minh.** Chứng minh giống Bổ đề 3, chỉ thêm hai biến cố. Gọi 𝓖_{s,k−1} là thông tin đến trước khối k: 𝓕_s, B_1, …, B_{k−1}, các ngữ cảnh C_1, …, C_{k−1} và mọi lần rút trước đó [IR2-COSMETIC-1]. Thật ra chỉ cần Bad(Y_{s,k−1}) đo được theo 𝓖_{s,k−1}, không nhất thiết chỉ phụ thuộc y.
 
 1. **Luật của khối và của ngữ cảnh.**
    - Biết 𝓖_{s,k−1}, B_k là tập con đều cỡ |B_k| của tập điểm chưa dùng A_k, với |A_k| ≥ (K − k + 1)·m₋. Lý do: array_split của một hoán vị đều.
@@ -545,50 +561,56 @@ Bản trần đối xứng: dùng phía trên của (H*) và Φ̄(x + ν′) + �
 
 **Mô phỏng: ảnh hưởng thật của max_context nhỏ hơn chặn** (`w1_drift_check.py context --h 0.02`, n = 3.000, 10 lần lặp, `results/w1/w1_context_cap_h002.csv`)
 
-| M_c | sd theo thời gian, ánh xạ 0,9 | so với ngữ cảnh đầy đủ | Dự đoán √(1 + n_F·Φ′²/(K·M_c)) | Hai điểm hút, từ 0,55: vào lưu vực trên |
-|---|---|---|---|---|
-| 100 | 0,0098 | ×1,32 | ×1,32 | 9/10 |
-| 300 | 0,0082 | ×1,11 | ×1,12 | 9/10 |
-| 1.000 | 0,0081 | ×1,09 | ×1,04 | 10/10 |
-| đầy đủ (3.000) | 0,0074 | ×1 | ×1 | 10/10 |
+| M_c | sd theo thời gian, ánh xạ 0,9 | so với ngữ cảnh đầy đủ | Dự đoán √(1 + n_F·Φ′²/(K·M_c)) | Dự đoán có hệ số tổng thể hữu hạn (1 − M_c/(n − m)) | Hai điểm hút, từ 0,55: vào lưu vực trên |
+|---|---|---|---|---|---|
+| 100 | 0,0098 | ×1,32 | ×1,32 | ×1,31 | 9/10 |
+| 300 | 0,0082 | ×1,11 | ×1,12 | ×1,10 | 9/10 |
+| 1.000 | 0,0081 | ×1,09 | ×1,04 | ×1,02 | 10/10 |
+| đầy đủ (3.000) | 0,0074 | ×1 | ×1 | ×1 | 10/10 |
 
 **Đọc bảng.**
-- **Dự đoán.** Mỗi vòng quét lấy trung bình qua K khối, mỗi khối có một mẫu con riêng. Vì vậy phương sai thêm vào chỉ cỡ Φ′²·r(1−r)/(K·M_c), so với r(1−r)/n_F của nhiễu rút. Dự đoán từ công thức này khớp mô phỏng: ×1,32 với ×1,32, và ×1,12 với ×1,11.
+- **Dự đoán** (xấp xỉ AR(1), mức L1). Mỗi vòng quét lấy trung bình qua K khối, mỗi khối có một mẫu con riêng. Vì vậy phương sai thêm vào chỉ cỡ Φ′²·r(1−r)/(K·M_c), so với r(1−r)/n_F của nhiễu rút.
+  - Dự đoán khớp ở M_c = 100 và 300.
+  - Ở M_c = 1.000 thì không khớp: dự đoán ×1,02–1,04, quan sát ×1,09. Có thể do nhiễu với 10 lần lặp, nhưng chưa kiểm [IR2-MINOR-9].
 - **Lưu vực.** Mẫu con nhỏ làm chuỗi sát u lẫn lưu vực hơn: 1/10 chuỗi rơi xuống lưu vực dưới khi M_c ≤ 300.
 - **Hàm ý cho cấu hình thật** (M_c = 2.000, K = 10): phần thêm vào là n_F·Φ′²/20.000.
   - Với n_train ≤ 7.000, như Study 2, độ rộng dải tăng ≤ 16% ngay cả khi Φ′ = 1, và chỉ khoảng 4% khi Φ′ = 0,5. Đây là dự đoán theo xấp xỉ AR(1), chưa chứng minh.
   - Như vậy max_context gần như không đổi động học ở cỡ dữ liệu của bài. Chặn chứng minh được (theo từng khối, xấu nhất) bảo thủ hơn nhiều.
 
-**Hằng số tinh chỉnh của Bổ đề 3** (`w1_drift_check.py refined`, `results/w1/w1_partition_bound_refined.csv`). Có hai cải tiến, đều chặt về toán:
-1. **Chia ν tối ưu và dùng Ville cho mảnh Z.** Z_k là các tiền tố của một martingale trong vòng, nên không cần thừa số K. Xác suất thành
+**Hằng số tinh chỉnh của Bổ đề 3** (`w1_drift_check.py refined`, `results/w1/w1_partition_bound_refined.csv`). Có hai cải tiến:
+1. **Chia xác suất thất bại cho từng mảnh, dùng Ville cho mảnh Z** (chặt, mức L3). Z_k là các tiền tố của một martingale trong vòng, nên không cần thừa số K. Xác suất thành
    P(𝓔^c) ≤ e^{−2a_m²n_Fν_Z²} + K·e^{−2a_m²ρn_Fν_o²} + K·e^{−a_m²ρn_Fν_h²/(2h_max²)},  với ν = ν_Z + ν_o + ν_h.
-2. **Bernstein/Freedman thay Hoeffding.**
-   - Freedman (1975) cho martingale có biến thiên bậc hai khả đoán ≤ n_F·v.
-   - Với mẫu không hoàn lại, Bernstein vẫn đúng nhờ định lý trội lồi của Hoeffding (1963).
-   - Ở đây v là chặn của c(1−c) và r(1−r) trong dải, lặp tới điểm bất động. Bản này chỉ dùng cho dải bất biến (b′), vì phương sai cục bộ chỉ đúng trong dải.
+   Code chia đều xác suất thất bại cho các mảnh; đây chưa phải phép chia ν tối ưu [IR2-MINOR-10].
+2. **Bernstein/Freedman thay Hoeffding** [IR2-MAJOR-1]. Bản đầu thiếu ba bước, giờ đã viết đủ (mức L3, chưa rà lại):
+   - **(i) Dừng.** Dừng martingale Z tại khối đầu tiên mà r_k < x − ν. Martingale dừng có biến thiên bậc hai khả đoán ≤ n_F·v_Z luôn đúng, nên Freedman (1975) áp được. Trên giao các biến cố còn lại, việc dừng không xảy ra.
+   - **(ii) Jensen.** (H) chỉ khống chế trung bình khối, không khống chế từng c_i. Vì c(1−c) lõm, Σ_{i∈B∩F} c_i(1−c_i) ≤ f·c̄(1−c̄), với c̄ là trung bình khối. Trước thời điểm dừng, c̄ ≥ Φ̲(x − ν) − δ − h_max.
+   - **(iii) Phương sai một phía.** v_Z = max c(1−c) trên c ∈ [Φ̲(x − ν) − δ − h_max, 1]. Mảnh o là mẫu không hoàn lại có phương sai tổng thể ρR_s(1−R_s), với R_s ≥ x; ta lấy v_o = max R(1−R) trên [x, 1]. Bernstein cho mẫu không hoàn lại đúng nhờ định lý trội lồi của Hoeffding (1963, Định lý 4).
+   - Code đã sửa theo (iii): bản đầu lấy v trên dải hai phía và bỏ lề ν. Số gần như không đổi (19.100 → 19.800).
 
 | Ánh xạ | Cách lấy hằng số | Nửa dải ở n_F = 3.000 | n_F cần để nửa dải ≤ 0,05 |
 |---|---|---|---|
 | 0,9 | bản gốc (§2.6) | 0,224 | 60.000 |
 | 0,9 | chia tối ưu + Ville | 0,172 | 36.000 |
-| 0,9 | + Bernstein/Freedman | 0,155 | 19.000 |
+| 0,9 | + Bernstein/Freedman | 0,155 | 19.800 |
 | 0,6 | bản gốc | 0,316 | 122.000 |
 | 0,6 | chia tối ưu + Ville | 0,239 | 69.000 |
-| 0,6 | + Bernstein/Freedman | 0,245 | 69.000 (r(1−r) ≈ 0,24, gần như không lợi) |
+| 0,6 | + Bernstein/Freedman | 0,245 (kém bản trên; lấy min của hai bản) | 69.000 (v = 1/4, không lợi) |
 
 **Kết luận về hằng số.**
-- Tinh chỉnh cắt n_F cần thiết đi 2–3 lần. Nhưng ở n_F = 3.000, chặn vẫn rộng hơn quan sát (≈ 0,02) khoảng 8 lần.
+- Phần đã chặt từ trước (chia + Ville) cắt n_F cần thiết 1,7–1,8 lần. Bản Bernstein/Freedman cắt khoảng 3 lần với ánh xạ 0,9.
+- So sánh đúng đối tượng [IR2-MINOR-3]: dải của 4′ là dải **đều theo thời gian** trên H = 60 vòng quét. Đối chứng phải là khoảng [min, max] quan sát trên 60 vòng quét, ≈ [0,874; 0,924], tức nửa dải ≈ 0,025. Vậy ở n_F = 3.000, chặn 0,155 rộng hơn khoảng 6 lần.
 - Phần lỏng còn lại **có cấu trúc, không phải do hằng số**: chặn trả lề ν cho *mọi* khối cùng lúc, trong khi lệch của r_k có kỳ vọng 0 và được lấy trung bình qua K khối.
-- Muốn sát mô phỏng thì phải có lập luận bậc hai, tức tuyến tính hoá quanh r* rồi xét một AR(1) ở mức vòng quét. Khi đó sd ≈ √(r*(1−r*)/(n_F(1 − Φ′²))), mà §3 cho thấy khớp trong khoảng 6–22%.
-- Lập luận đó **chưa viết**. Em đề xuất để bài báo dùng chặn hiện có cho phần định tính (sàn, trần, lưu vực, thời gian thoát), và dùng xấp xỉ AR(1) như một dự đoán có kiểm bằng số, ghi rõ là xấp xỉ.
+- Mô-men dừng chính xác cho Φ affine đã có ở §2.8 (Mệnh đề 6) [IR2-COSMETIC-5]. Bài báo nên dùng chặn hiện có cho phần định tính (sàn, trần, lưu vực, thời gian thoát) và Mệnh đề 6 cho độ rộng dải.
 
 ### 2.8 Mệnh đề 6: mô-men dừng chính xác ở lịch quét thật khi Φ affine (05/11 tối)
 
-Mục này là lập luận bậc hai đã hứa ở §2.7. Thay vì chặn đuôi, mục này tính **đúng** trung bình và phương sai dừng của R. Mục này chưa qua rà độc lập.
+Mục này là lập luận bậc hai đã hứa ở §2.7. Thay vì chặn đuôi, mục này tính **đúng** trung bình và phương sai dừng của R.
+
+Rà độc lập lần 2 xác nhận ở mức L5. Lượt rà kiểm bằng ba cách: một quy hoạch động độc lập khớp đệ quy tới 2·10⁻¹⁵ trên 20 cấu hình; ma trận chuyển đầy đủ khớp tới 10 chữ số; và `InContextGibbs` thật với 40.000 vòng quét khớp trong sai số Monte Carlo. Các sửa đổi ghi nhãn [IR2-…].
 
 **Thiết lập.**
 - Lịch quét thật, ngữ cảnh đầy đủ, ρ = 1 (mọi điểm tự do), K khối bằng nhau cỡ m = n/K.
-- Xác suất rút đúng của mỗi điểm trong khối k là c_k = c₀ + b·r_k, với r_k = r_{−B_k}(Y_{s,k−1}). Nghĩa là (H) đúng với h ≡ 0, δ = 0, và Φ(r) = c₀ + b·r affine, không bị cắt trên [0, 1].
+- Xác suất rút đúng của mỗi điểm trong khối k là c_k = c₀ + b·r_k, với r_k = r_{−B_k}(Y_{s,k−1}). Nghĩa là (H) đúng với h ≡ 0, δ = 0, và Φ(r) = c₀ + b·r affine **trên toàn [0, 1]**, với Φ([0, 1]) ⊆ [0, 1]. Đòi hỏi trên toàn đoạn là cần thiết: chuỗi bất khả quy, nên r_k có thể đạt mọi giá trị trên lưới {j/(n − m)} [IR2-MINOR-4].
 - Đây đúng là hai ánh xạ một điểm hút của TFM giả §3, chỉ khác là bỏ h. Lượt chính có h_max = 0,02, nên ảnh hưởng của h ở cỡ h_max² ≈ 4·10⁻⁴.
 
 **Mệnh đề 6.**
@@ -598,6 +620,7 @@ Mục này là lập luận bậc hai đã hứa ở §2.7. Thay vì chặn đu�
   - Var R = (q₀ + q₁r* + q₂r*²)/(1 − α₁² − q₂);
   - tự tương quan trễ 1 bằng α₁.
 - Không có xấp xỉ, không có hằng số chưa xác định.
+- Các mẫu số đều dương [IR2-COSMETIC-3]: α₁ ≠ 1, và 1 − α₁² − q₂ > 0 vì Var R·(1 − α₁² − q₂) = q(r*) > 0 khi c_k ∈ (0, 1).
 
 **Chứng minh.**
 1. **Ký hiệu.** Gọi S = nR_s. Đặt O_j là số điểm đúng *cũ* trong khối j, và N_k là số điểm đúng *mới* rút ở khối k.
@@ -617,35 +640,39 @@ Mục này là lập luận bậc hai đã hứa ở §2.7. Thay vì chặn đu�
 
 **Kiểm với mô phỏng** (`w1_drift_check.py second --h 0.02`, `results/w1/w1_second_order_h002.csv`; sd gộp mọi chuỗi và mọi vòng quét ≥ 20)
 
-| Ánh xạ | n | sd chính xác (Mệnh đề 6) | sd quan sát | Tỉ số | sd Jacobi (cũ) | α₁ chính xác | α₁ quan sát (đã trừ chệch chuỗi ngắn) | Dải 99% theo Gauss | Dải 99% quan sát |
+| Ánh xạ | n | sd chính xác (Mệnh đề 6) | sd quan sát | Tỉ số | sd Jacobi (cũ) | α₁ chính xác | α₁ quan sát (trong ngoặc: α₁ chính xác trừ chệch chuỗi ngắn) | Dải 99% theo Gauss | Dải 99% quan sát |
 |---|---|---|---|---|---|---|---|---|---|
 | 0,9 | 500 | 0,01898 | 0,01908 | 1,005 | 0,0155 | 0,355 | 0,285 (dự đoán 0,296) | [0,851; 0,949] | [0,844; 0,944] |
 | 0,9 | 3.000 | 0,00775 | 0,00772 | 0,996 | 0,0063 | 0,355 | 0,300 (0,296) | [0,880; 0,920] | [0,880; 0,919] |
 | 0,6 | 500 | 0,03465 | 0,03412 | 0,985 | 0,0274 | 0,456 | 0,380 (0,387) | [0,511; 0,689] | [0,512; 0,686] |
 | 0,6 | 3.000 | 0,01416 | 0,01432 | 1,011 | 0,0112 | 0,456 | 0,400 (0,387) | [0,564; 0,636] | [0,563; 0,636] |
 
-Cột α₁ quan sát dùng chuỗi dài 40 vòng quét. Ước lượng tự tương quan trên chuỗi ngắn chệch xuống khoảng (1 + 4α₁)/40, nên số trong ngoặc là giá trị chính xác đã trừ phần chệch đó.
+Cột α₁ quan sát là số thô, ước lượng trên chuỗi dài L = 41 vòng quét. Số trong ngoặc là α₁ chính xác trừ đi phần chệch (1 + 4α₁)/L. Đó là công thức chệch của ước lượng Yule–Walker; code dùng hệ số Pearson theo từng chuỗi, nên chệch khác một chút ở chữ số thứ ba [IR2-COSMETIC-2].
 
 **Đọc bảng.**
-- **Độ khớp.** sd chính xác khớp mô phỏng trong ±1,5% ở cả 4 ô. Dải 99% theo Gauss khớp dải quan sát tới 3 chữ số, trừ đầu dưới ở ô (0,9; 500), nơi phân phối hơi lệch.
+- **Độ khớp.** sd chính xác khớp mô phỏng trong ±1,5% ở cả 4 ô. Dải 99% theo Gauss khớp dải quan sát trong ±0,005, và trong ±0,001 ở n = 3.000 [IR2-MINOR-2]. Lệch lớn nhất ở đầu dưới của ô (0,9; 500), nơi phân phối hơi lệch.
 - **Vì sao xấp xỉ Jacobi cũ thấp hơn 18–21%.** Có hai hiệu ứng ngược chiều trong một vòng quét:
   - quét theo khối (Gauss–Seidel) làm tự tương quan giữa các vòng **nhỏ hơn** Jacobi: 0,355 so với b = 0,5;
   - nhưng nhiễu của các khối đầu lan qua ngữ cảnh sang các khối sau, nên nhiễu mỗi vòng **lớn hơn**.
   Hiệu ứng thứ hai thắng.
-- **So với chặn của Mệnh đề 4′.** Ở n = 3.000, ánh xạ 0,9: 4′ cho nửa dải 0,155–0,224 (§2.7), còn Mệnh đề 6 cho đúng 2,576·σ = 0,020. Hai kết quả bổ sung cho nhau:
+- **So với chặn của Mệnh đề 4′** [IR2-MINOR-3]. Hai kết quả nói về hai đối tượng khác nhau.
+  - 4′ cho dải đều theo thời gian (nửa dải 0,155–0,224 ở n = 3.000, ánh xạ 0,9, §2.7).
+  - Mệnh đề 6 cho σ chính xác của phân phối dừng tại một thời điểm. Dải 2,576·σ = 0,020 là phân vị Gauss, tức xấp xỉ.
+  - Hai kết quả bổ sung cho nhau:
   - 4′ bảo đảm chuỗi **tới** và **ở lại**, từ mọi điểm xuất phát, không cần Φ affine;
   - 6 cho **đúng độ rộng** của phân phối dừng.
 
 **Giới hạn.**
 1. Chỉ chính xác khi Φ affine trên vùng chuỗi đi qua, h ≡ 0, δ = 0 và ρ = 1.
-   - Với ρ < 1, các điểm cố định chỉ thêm hằng số vào r_k, nên đệ quy vẫn đúng; em chưa cài.
+   - Với ρ < 1, kết luận vẫn đúng nhưng **không** vì lý do bản đầu viết ("điểm cố định chỉ thêm hằng số vào r_k") [IR2-MINOR-1]. r_k chỉ tính trên F∖B_k, nên điểm cố định làm cỡ tự do f_k của khối ngẫu nhiên, và mẫu số n_F − f_k của r_k cũng ngẫu nhiên. Lý do đúng: khi điều kiện theo vector (f_1, …, f_K), vốn độc lập với trạng thái, đệ quy affine–bậc hai đúng với các hệ số phụ thuộc f; trộn theo f vẫn cho E affine và Var bậc hai. Lượt rà đã kiểm bằng quy hoạch động chính xác; em chưa cài vào code.
+   - Khi K không chia hết n, dạng đóng như đã viết không áp dụng. Mô phỏng của lượt rà cho thấy sd đổi trơn theo n.
    - Với h ≠ 0, cần theo dõi thêm Σ h_i·o_i; ảnh hưởng ở cỡ h_max².
 2. Với Φ không affine, tuyến tính hoá quanh r* cho xấp xỉ có sai số do độ cong, cỡ ‖Φ″‖·σ² ở trung bình. Mức L2, chưa chặn.
 3. Mệnh đề 6 cho mô-men, không cho đuôi.
    - Chặn đuôi chặt chẽ lấy từ Chebyshev, P(|R − r*| ≥ t) ≤ σ²/t², yếu.
    - Dải 99% theo Gauss là xấp xỉ, dựa trên định lý giới hạn trung tâm; khớp tốt trong mô phỏng nhưng không phải định lý.
 
-**Ý nghĩa cho bài.** Bài có thể nói: "khi ánh xạ phản ứng gần affine quanh điểm hút, độ dao động của độ chính xác nhãn của chuỗi có dạng đóng". Công thức này có thể kiểm trên TFM thật khi có Φ_chuỗi đo trên GPU: đo b = Φ′(r*) rồi so sd dự đoán với sd quan sát của các chuỗi V1.
+**Ý nghĩa cho bài.** Bài có thể nói: "khi ánh xạ phản ứng affine (không bị cắt), độ dao động dừng của độ chính xác nhãn có dạng đóng; khi gần affine, dạng đóng là xấp xỉ bậc hai chưa có chặn sai số" [IR2-MINOR-4]. Công thức này có thể kiểm trên TFM thật khi có Φ_chuỗi đo trên GPU: đo b = Φ′(r*) rồi so sd dự đoán với sd quan sát của các chuỗi V1.
 
 ## 3. Kiểm bằng TFM giả biết trước Φ
 
@@ -900,15 +927,17 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
 
 ### 5.7 R2 ở mức dự đoán: Mệnh đề 5 (05/11 tối)
 
-Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3.R2 bằng một kết quả **ở mức dự đoán**. Kết quả này chính xác trong mô hình liên hợp. Mục này chưa qua rà độc lập.
+Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3.R2 bằng một kết quả **ở mức dự đoán**. Kết quả chính xác trong mô hình liên hợp **SSL**.
+
+Rà độc lập lần 2 xác nhận (a)–(c) ở mức L4–L5, nhưng câu đề xuất cho bài ở bản đầu **sai** [IR2-BLOCKING-1]; đã sửa ở cuối mục.
 
 **Thiết lập.**
 - **Mô hình:** mô hình gộp Dirichlet–categorical C lớp, prior Dir(α, …, α).
 - **Dữ liệu:** n_lab điểm có nhãn, với L_c điểm thuộc lớp c, và U điểm tự do không bị nghiêng (SSL). Đặt λ = n_lab/n và p_c = L_c/n_lab.
 - **Trạng thái:** vector số đếm k = (k_c) của các điểm tự do theo lớp.
-- **Lịch quét:** khối ngẫu nhiên, theo một trong hai kiểu:
+- **Lịch quét:** **khối ngẫu nhiên mỗi bước**, không phải hoán vị và chia K khối như bộ lấy mẫu thật [IR2-MINOR-5]. Khối theo một trong hai kiểu:
   - **free:** khối gồm u điểm tự do;
-  - **all:** khối là tập con đều cỡ M = n/K của mọi điểm. Đây là mặc định của bộ lấy mẫu; ngữ cảnh bỏ cả khối, kể cả các điểm có nhãn nằm trong khối.
+  - **all:** khối là tập con đều cỡ M = n/K của mọi điểm. Kiểu khối này giống mặc định `block_over="all"` của bộ lấy mẫu: ngữ cảnh bỏ cả khối, kể cả các điểm có nhãn nằm trong khối.
 - **Hai nhân:**
   - P: Gibbs khối chính xác, rút chung các điểm tự do của khối khi biết mọi nhãn còn lại;
   - P̃: không sửa, rút độc lập theo dự đoán của ngữ cảnh.
@@ -920,22 +949,36 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
 
     E_π̃[k_c] − E_π[k_c] = π̃(d_c)/a.
 
-  - **Chứng minh.** Dưới π̃, E_P̃[k′ − k] = 0, tức π̃(A_c − a·k_c + d_c) = 0. Ngoài ra E_π k_c = A_c/a. ∎
-  - **Ý nghĩa.** Sai lệch dự đoán bằng **(lệch kỳ vọng mỗi bước) × (thời gian hồi phục của trung bình, 1/a)**. Đây là bản ở mức dự đoán của Định lý 2: TV được thay bằng mô-men bậc nhất, và τ(P) được thay bằng 1/a. Nó **không** phụ thuộc vào việc phân phối chung của khối khác tích các biên bao nhiêu, tức total correlation.
+  - **Chứng minh.** π̃ là phân phối dừng của P̃, nên E_P̃[k′ − k] = 0 dưới π̃, tức π̃(A_c − a·k_c + d_c) = 0. Ngoài ra E_π k_c = A_c/a. Chỉ cần a ≠ 0; không cần π̃ duy nhất. ∎
+  - **Ý nghĩa.** Sai lệch dự đoán bằng π̃(d_c)/(a(n + Cα)), tức **(lệch kỳ vọng mỗi bước) × (thời gian hồi phục của trung bình, 1/a)**, chia cho n + Cα [IR2-COSMETIC-4]. Đây là bản ở mức dự đoán của Định lý 2: TV được thay bằng mô-men bậc nhất, và τ(P) được thay bằng 1/a. Nó **không** phụ thuộc vào việc phân phối chung của khối khác tích các biên bao nhiêu, tức total correlation.
 - **(b) Khối free: dự đoán đúng tuyệt đối.**
   - Với kiểu free, cả hai nhân rút u điểm với cùng ngữ cảnh cỡ n − u.
   - Dirichlet–multinomial và tích các categorical có cùng biên. Do đó E[j′_c | ngữ cảnh] = u(L_c + k_c − j_c + α)/(n − u + Cα) cho cả hai, tức d ≡ 0.
-  - Vậy **π̃(f_c) = π(f_c) với mọi n, K**. Điều này đúng dù TV(π̃, π) không giảm theo n: 0,003–0,011 ở SSL-asym (E5c, cột tv_free).
+  - Vậy **π̃(f_c) = π(f_c) với mọi n, K**. Điều này đúng dù TV(π̃, π) đo được không giảm theo n: 0,003–0,023 ở SSL-asym (E5c, cột tv_free) [IR2-COSMETIC-5].
+  - Lượt rà thấy bằng số rằng kết luận này cũng đúng cho lịch quét hệ thống (mức L2).
 - **(c) Khối all (mặc định): dạng đóng và tiệm cận.**
   - Cả hai drift đều affine. Ví dụ, với nhân chính xác:
     A_c = E_l[u(L_c + α)/(n − u + Cα)] và a = E_l[u/U − u(1 − u/U)/(n − u + Cα)],
     với l ~ siêu bội là số điểm có nhãn trong khối và u = M − l.
   - Với nhân không sửa, mẫu số là n − M + Cα, và L_c được thay bằng L_c − l·L_c/n_lab.
-  - Vậy E_π̃ k_c = Ã_c/ã chính xác. Từ đó:
+  - Vậy E_π̃ k_c = Ã_c/ã chính xác.
+  - **Dạng đóng gọn** (rút gọn đại số của lượt rà độc lập, Phụ lục A của `W1_REVIEW_INDEPENDENT_02.md`; em đã kiểm lại):
 
-    **π̃(f_c) − π(f_c) = α(1 − λ)(1 − C·p_c) / (λ(K − 1)·n) + O(n⁻²).**
+    E_π k_c = U(L_c + α)/(n_lab + Cα),  E_π̃ k_c = U(L_c + α′)/(n_lab + Cα′),  **α′ = α·K(n − 1)/((K − 1)n)**.
 
-  - Tiệm cận được tìm bằng khai triển Taylor bậc hai theo phân phối siêu bội của l (sympy) và kiểm số: ở n = 10⁶, sai khác giữa dạng đóng và công thức < 0,1% trên 6 tổ hợp (λ, p, α, K).
+    Nghĩa là **chuỗi không sửa có đúng trung bình hậu nghiệm của một prior mạnh hơn khoảng K/(K − 1) lần**. Từ đó, với N = n_lab:
+
+    π̃(f_c) − π(f_c) = U(α′ − α)(N − C·L_c) / ((n + Cα)(N + Cα′)(N + Cα)),  với α′ − α = α(n − K)/((K − 1)n).
+
+  - **Tiệm cận:**
+
+    **π̃(f_c) − π(f_c) = α(1 − λ)(1 − C·p_c)/(λ(K − 1)·n)·[1 − (K + Cα + Cα/λ + Cα′/λ)/n + O(n⁻²)].**
+
+    Hằng số của phần dư lớn khi λ nhỏ [IR2-MINOR-6]: khoảng −54/n khi λ = 0,1, K = 10. Nghĩa là phần dư ≈ 5% ở n = 1.000. Ở n nhỏ nên dùng dạng đóng gọn, không dùng tiệm cận.
+  - **Kiểm** [IR2-MINOR-7]:
+    - `G4/results/r1a/e7f_alpha_prime_check.csv`: dạng đóng gọn khớp `ssl_affine_means` tới ≤ 1,5·10⁻¹¹ với α ∈ {0,5; 1; 3} và 5 tổ hợp (n, λ, p, K);
+    - `V2/analysis/r2_asymptotic.py` (sympy, chạy lại được) cho số hạng chính với C tổng quát;
+    - lượt rà độc lập kiểm thêm C = 3 bằng ma trận chuyển đầy đủ, khớp tới 10 chữ số.
   - **Đọc công thức.**
     - Bỏ điểm có nhãn trong khối khỏi ngữ cảnh làm chuỗi **co về trung bình prior 1/C**, với trọng số ∝ α/(λ(K − 1)).
     - Sai lệch ∝ 1/n, ∝ 1/(K − 1), ∝ độ mạnh của prior, và ∝ tỉ lệ điểm tự do trên điểm có nhãn.
@@ -945,7 +988,7 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
 - Trung bình dừng dạng đóng khớp trung bình tính từ ma trận chuyển (E7b, E7c) **tới mọi chữ số in ra**, ở 9 ô SSL-asym, cho cả π lẫn π̃, cả kiểu all lẫn free.
 - Ở kiểu free, π̃ và π có cùng trung bình ở mọi ô.
 - Hồi quy trên dạng đóng với n từ 1.000 đến 10⁶ cho sai lệch ∝ n^{−0,97…−1,00}·K^{−1,10}. Số mũ của K bằng −1,10 chứ không phải −1, vì công thức có (K − 1).
-- Con số thực nghiệm cũ (E5c, n ≤ 1.000) là n^{−0,86…−0,93}·K^{−1,15…−1,16}. Nó chính là đoạn đầu chưa tiệm cận của cùng công thức.
+- Con số thực nghiệm cũ của **SSL-asym** (E5c, n ≤ 1.000) là n^{−0,86}·K^{−1,15}. Nó là đoạn đầu chưa tiệm cận của cùng công thức. Con số của PU (n^{−0,94}) không thuộc phạm vi của dạng đóng [IR2-MINOR-8].
 
 **Phạm vi và giới hạn.**
 1. Kết quả chỉ chính xác cho **mô hình liên hợp gộp** và **nhãn yếu không nghiêng** (SSL).
@@ -956,10 +999,15 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
 4. **TFM thật** không liên hợp. Cơ chế "ngữ cảnh mất các điểm có nhãn của khối, nên co về prior" vẫn có, nhưng α hiệu dụng của TFM không biết.
 5. Kết quả cho TFM chính xác (q = p). Khi q ≠ p, cộng thêm sai số của Định lý 2.
 
-**Đề xuất cho bài: thay Mệnh đề 3(b).**
-- **Câu mới:** "(b) Không có bước MH, π̃ lệch π một lượng TV ≍ 1/K không giảm theo n (đo được). Nhưng ở mức dự đoán, trong mô hình liên hợp: khối chỉ gồm điểm tự do cho dự đoán đúng tuyệt đối, còn khối trên mọi điểm (mặc định) cho sai lệch α(1−λ)(1−Cp_c)/(λ(K−1)n) + O(n⁻²). Đồng nhất thức (a) giải thích vì sao: cái quyết định là mô-men bậc nhất của bước cập nhật, không phải total correlation của khối."
-- Đây là một phát biểu khác rỗng, có dạng đóng, kiểm được, và trả lời đúng câu hỏi của reviewer (REVIEW_EXTERNAL_01, mục 5).
-- Câu "Why this is vacuous" ở phụ lục được thay bằng E7b và E7d, cho thấy chặn TV rỗng **vì sao**.
+**Đề xuất cho bài** (bản sửa theo IR2-BLOCKING-1).
+- **Bản đầu sai.** Bản đầu viết "trong mô hình liên hợp, khối free cho dự đoán đúng tuyệt đối" và "đủ để thay Mệnh đề 3(b)". Hai câu đó sai:
+  - mô hình gộp Beta–Bernoulli với PU **cũng** liên hợp, và ở đó khối free lệch dự đoán 0,02–0,07 (E5c);
+  - Mệnh đề 3(b) là phát biểu cho mọi loại nhãn yếu, kể cả bag-block của LLP.
+- **Giữ 3(b) tổng quát.** Chỉ thay đoạn "Why this is vacuous" bằng E7b và E7d, tức giải thích **vì sao** chặn TV rỗng.
+- **Thêm một mệnh đề riêng có phạm vi rõ.** Câu đề xuất: "Trong mô hình liên hợp gộp **SSL** (điểm tự do không có nhãn yếu), với lịch khối ngẫu nhiên: (i) khối chỉ gồm điểm tự do cho trung bình dừng của dự đoán đúng tuyệt đối; (ii) khối trên mọi điểm cho đúng trung bình hậu nghiệm với prior α′ = αK(n−1)/((K−1)n), tức sai lệch α(1−λ)(1−Cp_c)/(λ(K−1)n)·(1 + O(1/n)). Đồng nhất thức (a) cho thấy cái quyết định là mô-men bậc nhất của bước cập nhật, không phải total correlation của khối."
+- **Nhận xét thực nghiệm, tách khỏi mệnh đề** [IR2-MINOR-11]: TV(π̃, π) đo được cỡ K^{−1,13} và không giảm theo n.
+- **Hệ quả nên nói thẳng.** Với SSL, kiểu `free` tốt hơn mặc định ở mức dự đoán. Với PU thì ngược lại; đó là lý do mặc định là `all`.
+- **Với lịch quét thật:** số hạng chính trùng với lịch khối ngẫu nhiên theo số (tỉ số 1,000–1,010, lượt rà độc lập). Đó là bằng chứng số, không phải chứng minh.
 
 ## 6. Việc tiếp theo
 
@@ -974,7 +1022,7 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
      - hằng số tinh chỉnh (chia tối ưu, Ville, Bernstein/Freedman);
      - mô phỏng max_context.
    - **Đã làm thêm 05/11 tối:** Mệnh đề 6, mô-men dừng chính xác (§2.8); Mệnh đề 5, R2 ở mức dự đoán (§5.7).
-   - **Rà độc lập lần 2** cho §2.7, §2.8 và §5.7: `V2/reviews/W1_REVIEW_INDEPENDENT_02.md`.
+   - **Rà độc lập lần 2** cho §2.7, §2.8 và §5.7 (`V2/reviews/W1_REVIEW_INDEPENDENT_02.md`): 1 BLOCKING (câu đề xuất cho bài ở §5.7), 2 MAJOR, 11 MINOR, 5 COSMETIC. **Đã sửa hết.** Các kết quả toán đều đứng vững; Mệnh đề 6 và Mệnh đề 5(a)–(c) ở mức L4–L5.
    - **Còn mở, không phụ thuộc V1:**
      - thời gian thoát ở (d) cho lịch quét khối ngẫu nhiên (đã có bản chặt (d′) cho lịch quét thật);
      - Mệnh đề 6 với h ≠ 0 và ρ < 1;
@@ -986,7 +1034,7 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
 4. **Đưa vào bài, sau V1:**
    - Mệnh đề 4′ (lịch quét thật) vào mục lý thuyết, chứng minh ở phụ lục. Mệnh đề 4 (lịch quét ngẫu nhiên) chỉ cần nếu bài muốn chặn ở từng bước;
    - bảng δ̂ vào phần ánh xạ phản ứng;
-   - viết lại Mệnh đề 3(b) theo Mệnh đề 5 (§5.7);
+   - giữ Mệnh đề 3(b) tổng quát, thay đoạn "Why this is vacuous" bằng E7b và E7d, và thêm Mệnh đề 5 như một mệnh đề riêng có phạm vi SSL (§5.7);
    - Mệnh đề 6 vào phần ánh xạ phản ứng, kèm phép kiểm trên TFM thật khi có Φ_chuỗi.
 
 ## 7. Tệp
@@ -1001,7 +1049,9 @@ Mục này thay hướng "total correlation + TV" của REVIEW_RESPONSE_PLAN §3
 | `G4/results/w1/w1_context_cap_h002.csv`, `w1_context_cap_runs_h002.csv`, `w1_context_cap_log.txt` | mô phỏng max_context (§2.7) |
 | `G4/results/w1/w1_partition_bound_refined.csv` | hằng số tinh chỉnh của Bổ đề 3 (§2.7) |
 | `G4/results/w1/w1_second_order_h002.csv` | Mệnh đề 6 so với mô phỏng (§2.8) |
-| `G4/results/r1a/e7f_affine_check.csv`, `e7f_affine_closed_form.csv` | Mệnh đề 5: kiểm dạng đóng và tiệm cận (§5.7) |
+| `G4/results/r1a/e7f_affine_check.csv`, `e7f_affine_closed_form.csv`, `e7f_alpha_prime_check.csv` | Mệnh đề 5: kiểm dạng đóng, dạng α′ và tiệm cận (§5.7) |
+| `V2/analysis/r2_asymptotic.py` | sympy: số hạng chính của Mệnh đề 5(c), C tổng quát |
+| `V2/reviews/W1_REVIEW_INDEPENDENT_02.md` | rà độc lập lần 2 (§2.7, §2.8, §5.7) kèm phản hồi |
 | `V2/analysis/w1_delta.py`, `V2/results/w1_delta.csv` | δ trên TFM thật, từ dữ liệu V0 |
 | `G4/code/experiments/r1a_block_bias.py` | E7a `tc`, E7b `thm2`, E7c `moments`, E7d `decomp`, E7e `llp` |
 | `G4/results/r1a/e7a_block_tc.csv`, `e7b_thm2_block_bound.csv`, `e7c_moments.csv`, `e7d_bound_decomposition.csv`, `e7e_llp_bag_block.csv`, `e7b_log.txt`, `e7e_log.txt` | kết quả R1a |

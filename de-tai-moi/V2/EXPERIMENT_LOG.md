@@ -32,6 +32,7 @@
 | W1-refined | 05/11 chiều | như trên | hằng số tinh chỉnh của Bổ đề 3 (`w1_drift_check.py refined`) | CPU | < 1 phút | ok | `G4/results/w1/w1_partition_bound_refined.csv` | chỉ tính số, không mô phỏng |
 | W1-second | 05/11 tối | như trên | Mệnh đề 6: đệ quy mô-men chính xác so với lượt h002 (`w1_drift_check.py second --h 0.02`) | CPU | < 1 phút | ok | `G4/results/w1/w1_second_order_h002.csv` | chỉ tính số trên vết đã có |
 | R1a-E7f | 05/11 tối | như trên | Mệnh đề 5: trung bình dừng dạng đóng (drift affine) so với ma trận chuyển; tiệm cận tới n = 10⁶ (`r1a_block_bias.py affine`) | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_*` | thăm dò; tiệm cận tìm bằng sympy (script nháp, không lưu trong repo) rồi kiểm số |
+| R1a-E7f (lần 2) | 05/11 tối | như trên | thêm kiểm dạng đóng α′ (α ∈ {0,5; 1; 3}), sau rà độc lập lần 2; `refined_band` sửa phương sai một phía | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_alpha_prime_check.csv`, `G4/results/w1/w1_partition_bound_refined.csv` | theo IR2-MAJOR-1, IR2-MINOR-7 |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
