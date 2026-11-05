@@ -8,7 +8,8 @@ uncorrected block samplers used by default have none that is non-vacuous. The ex
 but it mixes more slowly, so the bias of the approximation has not been isolated on real data.
 Tables have at most 10{,}000 rows, and contexts above 2{,}000 points are subsampled (\val{s2-ctxsub-n} of
 \val{s2-ndata} datasets in Study~2), an approximation \cref{thm:stability} covers only through $\bar\varepsilon$, not isolated.
-\textbf{Mixing.} Thirty sweeps give stable predictions, not draws from a converged posterior over individual labels.
+\textbf{Mixing.} Thirty sweeps do not give draws from a converged posterior over individual labels, and with one chain
+per seed the PLL test of Study~2 at $q=0.6$ is sensitive to Monte Carlo variation (\cref{sec:ablation}).
 \textbf{Scope.} The claims cover LLP with bags of 8 and PLL. As \cref{prop:naive} predicts, the sampler did not improve on
 the naive TFM for PU with labels selected completely at random, class-dependent noise or semi-supervised learning, and
 it was not significantly better than the primary comparator for bags of 16 or 32 (Study~1). On PLL the gain over tuned CC

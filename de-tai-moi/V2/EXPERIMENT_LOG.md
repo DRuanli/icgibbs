@@ -8,7 +8,7 @@
 | 04/11/2026 08:00 | **1a8859f** (main) | Thầy duyệt V2_PLAN (V-Q1–V-Q5 theo đề xuất). Ghi trước P1–P4 và cổng V0 ([PHASE0_PREDICTIONS](PHASE0_PREDICTIONS.md)) **trước khi viết code và trước mọi lượt chạy** của giai đoạn 0 |
 | 04/11/2026 08:28 | **b939041** (main) | Code giai đoạn 0: `run_g7.py --part v0`, `--explore`/`--trace_dir` cho R4, `v0_response_map.py`, `collect_q`/`weak_fit` trong sampler (chỉ ghi lại, không đổi chuỗi; có test), lượt V0A/V0B trong `run_s2_lot.sh`; script phân tích viết trước `V2/analysis/v0_report.py`. Bộ test 123 qua, 5 bỏ qua (máy em, CPU). Bản gửi thầy `s2_code_v6.zip` dựng bằng `git archive` từ đúng commit này |
 
-| 05/11/2026 | (commit ghi trước giai đoạn 1) | Thầy duyệt V0_REPORT §6 (giai đoạn 1 và đưa R4 vào bài). Ghi trước giai đoạn 1 ([PHASE1_PLAN](PHASE1_PLAN.md)): dataset, ba bộ gộp, quy tắc chọn, P5–P7, **trước khi viết code và trước mọi lượt chạy** |
+| 05/11/2026 02:10 UTC | **7ec273b** (main) | Thầy duyệt V0_REPORT §6 (giai đoạn 1 và đưa R4 vào bài). Ghi trước giai đoạn 1 ([PHASE1_PLAN](PHASE1_PLAN.md)): dataset, ba bộ gộp, quy tắc chọn, P5–P7, **trước khi viết code và trước mọi lượt chạy** |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |

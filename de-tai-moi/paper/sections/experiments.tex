@@ -43,7 +43,8 @@ of 8, \ours{} improved AUC over linear DLLP by \val{s2-llp-cmp-diff} \val{s2-llp
 (\val{s2-llp-cmp-wtl}, $p_{\mathrm{Holm}}\val{s2-llp-cmp-prel}$) and beat the strongest LLP baseline,
 \val{s2-llp-strongest-name}, on \val{s2-llp-strongest-wins} datasets \claim{6}. On PLL it improved
 accuracy over tuned CC by \val{s2-pll3-cmp-diff} at $q=0.3$ (\val{s2-pll3-cmp-wtl}) and \val{s2-pll6-cmp-diff} at $q=0.6$
-(\val{s2-pll6-cmp-wtl}; $p_{\mathrm{Holm}}\val{s2-pll6-cmp-prel}$ for both), was at least as accurate as the strongest PLL
+(\val{s2-pll6-cmp-wtl}; $p_{\mathrm{Holm}}\val{s2-pll6-cmp-prel}$ for both; at $q=0.6$ not robust to a second chain,
+\cref{sec:ablation}), was at least as accurate as the strongest PLL
 baseline on \val{s2-pll3-rule60} and \val{s2-pll6-rule60} datasets, and stayed within \val{s2-pll3-oracle-gap} and
 \val{s2-pll6-oracle-gap} accuracy points of the oracle \claim{8}. The advantage holds where weak labels are hardest: at
 $q=0.6$ \ours{} is \val{s2-pll6-naive-diff} accuracy ahead of the naive TFM, and the four datasets with at least eight
@@ -113,10 +114,14 @@ datasets with $\ge$8 classes. It accepted as few as \val{s2e-mh-accept-min} of p
 (\val{s1-abl-trans-llp} AUC on LLP), and $K$, the number of sweeps or the initialisation changed results by at most
 $0.015$ (\cref{app:ablations}).
 
-\paragraph{Mixing.} Two chains per cell disagree on a noticeable fraction of individual labels (median share with
-$\widehat R>1.1$ \citep{vehtari2021rhat} between \val{s1-rhat-pll3-frac} and \val{s2e-rhat-pll6-frac}), yet their test
-metrics differ by a median of at most \val{s1-rhat-llp-absdiff} on the three smallest datasets of each group
-(\cref{tab:s2e}). Each seed of Study~2 runs its own chain, so the confirmatory tests include this Monte Carlo variation.
+\paragraph{Mixing and Monte Carlo variation.} Two chains per cell disagree on some individual labels (Study~2: median
+share with $\widehat R>1.1$ \citep{vehtari2021rhat} of \val{r4-llp-rhat-frac} on LLP, \val{r4-pll3-rhat-frac} and
+\val{r4-pll6-rhat-frac} on PLL; \cref{tab:s2e} for Study~1), and their test metrics differ by a median of
+\val{r4-llp-absdiff-med}, \val{r4-pll3-absdiff-med} and \val{r4-pll6-absdiff-med}, but by up to \val{r4-llp-absdiff-max} on
+a small LLP dataset. In an exploratory rerun of all \val{r4-ncells} Study~2 cells with a second chain (\cref{tab:r4}),
+H2$'$ and H4$'$ at $q=0.3$ still pass, but H4$'$ at $q=0.6$ does not ($p_{\mathrm{Holm}}=\val{r4-b-pll6-p}$); with the two
+chains averaged all pass (\val{r4-ab-llp-diff}, \val{r4-ab-pll3-diff}, \val{r4-ab-pll6-diff}). The PLL result at $q=0.6$
+thus depends on Monte Carlo variation, which more chains reduce.
 
 \paragraph{Cost.} No weight is trained. On one T4 GPU a run took a median of \val{s2-cost-median-s}\,s (maximum
 \val{s2-cost-max-min}\,min) with TabICL~v2 for up to \val{s2-cost-ntrain-max} training points, using at most

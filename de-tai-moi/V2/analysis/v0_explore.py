@@ -134,7 +134,7 @@ def e4():
     big = t[t.gap > 0.03].sort_values("gap", ascending=False)
     print(f"Ô có |a − b| > 0,03: {len(big)} / {len(t)}")
     print(big[["dataset", "setting", "level", "seed", "a", "b", "ab", "gap"]].round(4).to_string(index=False))
-    out = {}
+    out, js = {}, {}
     for est in ("a", "b", "ab"):
         dd = d.copy()
         key = ["dataset_id", "setting", "level", "seed"]
@@ -146,6 +146,9 @@ def e4():
         dd.loc[idx & (dd.setting == "pll"), "acc"] = vals[~is_llp]
         h2, _ = sc.h2(dd)
         h4, _ = sc.h4(dd)
+        js[est] = {"h2_llp": dict(h2["comparator"], pass_=h2["pass"]),
+                   "h4_pll3": dict(h4["0.3"]["comparator"]), "h4_pll6": dict(h4["0.6"]["comparator"]),
+                   "h4_pass": h4["pass"]}
         out[est] = {"H2′ LLP vs DLLP-lin": (h2["comparator"]["mean_diff"], h2["comparator"]["p_holm"], h2["pass"]),
                     "H4′ q0,3 vs CC tune": (h4["0.3"]["comparator"]["mean_diff"], h4["0.3"]["comparator"]["p_holm"], None),
                     "H4′ q0,6 vs CC tune": (h4["0.6"]["comparator"]["mean_diff"], h4["0.6"]["comparator"]["p_holm"], h4["pass"])}
@@ -155,6 +158,9 @@ def e4():
         print(f"  {k:22s} " + "  ".join(f"{e}: {out[e][k][0]:+.4f} p={out[e][k][1]:.4f}" + ("" if out[e][k][2] is None else
                                        (" ĐẠT" if out[e][k][2] else " KHÔNG")) for e in ("a", "b", "ab")))
     print()
+    import json                                     # thêm 05/11: để bài báo lấy số bằng script (\\val{r4-*})
+    with open(os.path.join(V2, "results", "v0_r4.json"), "w", encoding="utf-8") as fh:
+        json.dump(js, fh, ensure_ascii=False, indent=1, default=float)
     return t
 
 

@@ -283,4 +283,5 @@ Mọi ước tính đều thô; sẽ đo lại bằng một lượt thử nhỏ.
 
 | Ngày | Việc |
 |---|---|
+| 05/11/2026 | **R4 xong** (lượt V0A của V2; V2/V0_REPORT §3): chuỗi thứ hai trên 114/114 ô của Study 2. H2′ và H4′ q 0,3 bền; **H4′ q 0,6 không đạt với chuỗi b (Holm 0,074)**, đạt khi trung bình hai chuỗi. Đã đưa vào §6.2, §6.6, Limitations, Bảng tab:r4 (thầy duyệt 05/11). Từ 04/11, R1–R8 được thay bằng V2 W6 ([V2_PLAN](../V2/V2_PLAN.md)) |
 | 04/11/2026 | Nhận nhận xét. Lưu nguyên văn. Đối chiếu từng ý. Sửa R9, R10 và lỗi "top four" ở Lost. Tính số mô tả về trần ngữ cảnh và về phần khoảng cách tới oracle. Lập kế hoạch R1–R8 |
