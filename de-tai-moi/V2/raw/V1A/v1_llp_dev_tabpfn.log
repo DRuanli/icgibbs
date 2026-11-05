@@ -1,0 +1,77 @@
+run_g7 · part=v0 · split=dev · backend=tabpfn_v2 · code=py-50c4c4def743 · config=df15c9043eabdf1c
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/31. Retrying...
+  warn(
+[lỗi tải] 31: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/37. Retrying...
+  warn(
+[lỗi tải] 37: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1464. Retrying...
+  warn(
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+  blood-transfusion-serv llp        8 s0 gibbs_init_warm  0.7357 41.8s
+  blood-transfusion-serv llp        8 s0 base_start       0.7548 37.5s
+  blood-transfusion-serv llp        8 s0 gibbs_init_base  0.6924 72.0s
+  blood-transfusion-serv llp        8 s0 gibbs_init_cold  0.6825 33.7s
+  blood-transfusion-serv llp        8 s0 gibbs_ms         0.6825 0.0s
+  blood-transfusion-serv llp        8 s1 gibbs_init_warm  0.5383 37.6s
+  blood-transfusion-serv llp        8 s1 base_start       0.5696 60.9s
+  blood-transfusion-serv llp        8 s1 gibbs_init_base  0.6198 95.2s
+  blood-transfusion-serv llp        8 s1 gibbs_init_cold  0.5827 34.4s
+  blood-transfusion-serv llp        8 s1 gibbs_ms         0.5383 0.0s
+  blood-transfusion-serv llp        8 s2 gibbs_init_warm  0.7020 37.4s
+  blood-transfusion-serv llp        8 s2 base_start       0.7127 51.2s
+  blood-transfusion-serv llp        8 s2 gibbs_init_base  0.5764 85.0s
+  blood-transfusion-serv llp        8 s2 gibbs_init_cold  0.5934 32.4s
+  blood-transfusion-serv llp        8 s2 gibbs_ms         0.7020 0.0s
+
+=== 1462 banknote-authentication: n=1348 (loại trùng 24), d=4, C=2, sha256=bee246691be8
+  banknote-authenticatio llp        8 s0 gibbs_init_warm  1.0000 46.9s
+  banknote-authenticatio llp        8 s0 base_start       1.0000 96.3s
+  banknote-authenticatio llp        8 s0 gibbs_init_base  1.0000 133.6s
+  banknote-authenticatio llp        8 s0 gibbs_init_cold  1.0000 40.4s
+  banknote-authenticatio llp        8 s0 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp        8 s1 gibbs_init_warm  1.0000 51.8s
+  banknote-authenticatio llp        8 s1 base_start       1.0000 114.7s
+  banknote-authenticatio llp        8 s1 gibbs_init_base  1.0000 154.5s
+  banknote-authenticatio llp        8 s1 gibbs_init_cold  1.0000 39.3s
+  banknote-authenticatio llp        8 s1 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp        8 s2 gibbs_init_warm  1.0000 52.4s
+  banknote-authenticatio llp        8 s2 base_start       1.0000 89.4s
+  banknote-authenticatio llp        8 s2 gibbs_init_base  1.0000 127.6s
+  banknote-authenticatio llp        8 s2 gibbs_init_cold  1.0000 36.6s
+  banknote-authenticatio llp        8 s2 gibbs_ms         1.0000 0.0s
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+                    ilpd llp        8 s0 gibbs_init_warm  0.7633 48.7s
+                    ilpd llp        8 s0 base_start       0.6439 34.3s
+                    ilpd llp        8 s0 gibbs_init_base  0.6489 76.8s
+                    ilpd llp        8 s0 gibbs_init_cold  0.7835 47.0s
+                    ilpd llp        8 s0 gibbs_ms         0.7835 0.0s
+                    ilpd llp        8 s1 gibbs_init_warm  0.7019 48.1s
+                    ilpd llp        8 s1 base_start       0.6464 54.4s
+                    ilpd llp        8 s1 gibbs_init_base  0.6761 99.7s
+                    ilpd llp        8 s1 gibbs_init_cold  0.7066 42.8s
+                    ilpd llp        8 s1 gibbs_ms         0.7019 0.0s
+                    ilpd llp        8 s2 gibbs_init_warm  0.6117 46.9s
+                    ilpd llp        8 s2 base_start       0.5840 49.5s
+                    ilpd llp        8 s2 gibbs_init_base  0.6408 93.2s
+                    ilpd llp        8 s2 gibbs_init_cold  0.5709 42.9s
+                    ilpd llp        8 s2 gibbs_ms         0.5709 0.0s
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b
+                    wdbc llp        8 s0 gibbs_init_warm  0.9915 81.5s
+                    wdbc llp        8 s0 base_start       0.9877 39.3s
+                    wdbc llp        8 s0 gibbs_init_base  0.9912 119.4s
+                    wdbc llp        8 s0 gibbs_init_cold  0.9927 73.5s
+                    wdbc llp        8 s0 gibbs_ms         0.9915 0.0s
+                    wdbc llp        8 s1 gibbs_init_warm  0.9885 78.6s
+                    wdbc llp        8 s1 base_start       0.9838 48.3s
+                    wdbc llp        8 s1 gibbs_init_base  0.9901 127.9s
+                    wdbc llp        8 s1 gibbs_init_cold  0.9892 77.6s
+                    wdbc llp        8 s1 gibbs_ms         0.9892 0.0s
+                    wdbc llp        8 s2 gibbs_init_warm  0.9911 81.9s
+                    wdbc llp        8 s2 base_start       0.9917 53.0s
+                    wdbc llp        8 s2 gibbs_init_base  0.9911 130.2s
+                    wdbc llp        8 s2 gibbs_init_cold  0.9902 76.0s
+                    wdbc llp        8 s2 gibbs_ms         0.9911 0.0s

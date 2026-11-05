@@ -1,0 +1,49 @@
+# E1. Cùng lưu vực (spread r_cuối < 0,03) theo nhóm
+                   cells  frac_same_basin  median_spread_r  p90_spread_r
+backend   setting                                                       
+tabicl_v2 llp         96            0.917            0.008         0.028
+          pll         69            0.942            0.005         0.021
+tabpfn_v2 llp         30            0.833            0.008         0.037
+          pll         39            0.974            0.006         0.019 
+
+# E2. Lợi ích của A1, tách theo cùng/khác lưu vực (trung bình theo ô)
+                              cells  A1_minus_v1  A1_minus_meanchain  spread_metric
+backend   setting same_basin                                                       
+tabicl_v2 llp     False           8       0.0119              0.0122         0.0542
+                  True           88       0.0034              0.0041         0.0052
+          pll     False           4       0.0041              0.0025         0.0226
+                  True           65       0.0018              0.0012         0.0059
+tabpfn_v2 llp     False           5       0.0051              0.0243         0.0815
+                  True           25       0.0020              0.0028         0.0026
+          pll     False           1       0.0045              0.0211         0.0317
+                  True           38       0.0043              0.0027         0.0077 
+
+# E2b. Ô khác lưu vực: chuỗi nào có r_cuối cao nhất (đếm), và A1 so với chuỗi đó
+best_r             base  warm
+backend   setting            
+tabicl_v2 llp         3     5
+          pll         2     2
+tabpfn_v2 llp         0     5
+          pll         0     1
+                   cells  A1_minus_bestr  A0_picks_bestr
+backend   setting                                       
+tabicl_v2 llp        8.0         -0.0189           0.625
+          pll        4.0         -0.0064           0.750
+tabpfn_v2 llp        5.0          0.0051           0.600
+          pll        1.0          0.0045           1.000 
+
+# E3. blood-transfusion (1464), LLP: L so với các chuỗi
+  backend  seed  rfin_warm  rfin_base  rfin_cold  m_warm  m_base  m_cold   m_A1    m_L
+tabpfn_v2     0     0.7040     0.7330     0.7201  0.7357  0.6924  0.6825 0.7101 0.7548
+tabpfn_v2     1     0.6944     0.6579     0.6643  0.5383  0.6198  0.5827 0.5584 0.5696
+tabpfn_v2     2     0.7094     0.6429     0.6450  0.7020  0.5764  0.5934 0.6902 0.7127
+tabicl_v2     0     0.6751     0.7287     0.7201  0.5845  0.7573  0.6533 0.6827 0.7548
+tabicl_v2     1     0.6965     0.6869     0.6729  0.5831  0.4780  0.5253 0.5433 0.5696
+tabicl_v2     2     0.7340     0.6933     0.7180  0.7312  0.6746  0.6955 0.7130 0.7127
+
+# E4. A1 so với v1 theo dataset (trung bình 3 seed)
+  backend setting  datasets  win  tie  loss   mean  median     min    max  wilcoxon_p
+tabicl_v2     llp        32   17   12     3 0.0041  0.0019 -0.0086 0.0428      0.0007
+tabicl_v2     pll        23   12    7     4 0.0019  0.0015 -0.0166 0.0279      0.0362
+tabpfn_v2     llp        10    4    5     1 0.0025  0.0002 -0.0057 0.0118      0.1641
+tabpfn_v2     pll        13    6    4     3 0.0043  0.0006 -0.0120 0.0362      0.2783

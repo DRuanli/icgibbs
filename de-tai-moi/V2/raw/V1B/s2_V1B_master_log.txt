@@ -1,0 +1,10 @@
+lượt V1B bắt đầu: Thu Nov  5 02:43:18 AM UTC 2026
+130 passed, 2 skipped, 17877 warnings in 704.13s (0:11:44)
+GPU1 xong v1_llp_s2_tabicl_1: Thu Nov  5 07:59:22 AM UTC 2026
+GPU0 xong v1_llp_s2_tabicl_0: Thu Nov  5 08:24:22 AM UTC 2026
+GPU0 xong v1_llp_eval_tabicl: Thu Nov  5 10:48:08 AM UTC 2026
+GPU1 xong v1_pll_s2_tabicl: Thu Nov  5 10:56:59 AM UTC 2026
+GPU0 xong v1_llp_dev_tabicl: Thu Nov  5 11:27:36 AM UTC 2026
+GPU1 xong v1_pll_eval_tabicl: Thu Nov  5 12:53:00 PM UTC 2026
+GPU1 xong v1_pll_dev_tabicl: Thu Nov  5 01:12:25 PM UTC 2026
+lượt V1B kết thúc: Thu Nov  5 01:12:25 PM UTC 2026

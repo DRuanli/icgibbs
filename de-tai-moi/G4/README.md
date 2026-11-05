@@ -62,6 +62,22 @@ for f in glob.glob("/kaggle/input/**/v1_npz/*.npz", recursive=True):
   - thư mục `v1_npz/`, nén thành zip.
 - **Phân tích:** `V2/analysis/v1_aggregate.py`, viết và commit trước khi có số.
 
+### V1A lần 2 — chạy bù 4 dataset LLP lỗi tải (05/11/2026)
+
+Lượt V1A đầu thiếu dataset 31, 37, 23381 và 38 vì OpenML trả lỗi 503 (deviation D-V1-1, [V2/V1_REPORT §3](../V2/V1_REPORT.md)). Chạy bù **đúng lượt V1A**, không đổi code:
+- **Code:** vẫn `s2_code_v7.zip`, không cần tải lại.
+- **Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.
+- **Thêm dữ liệu:** *Add data* → output của notebook V1A lần trước. **Chỉ thêm output V1A**, không thêm output V1B, vì ô 1 chép mọi tệp `v1_*` tìm thấy.
+- **Ô 1:** giữ nguyên ô 1 ở trên. Ô này chép các tệp `v1_*.csv`, `v1_*.jsonl` và `v1_npz/*.npz` cũ vào `/kaggle/working`.
+- **Ô 2:** `LOT = "V1A"`.
+- **Những gì sẽ chạy:**
+  - Bộ test mất khoảng 12 phút.
+  - GPU 0 bỏ qua các ô đã có và chỉ chạy 12 ô thiếu, ước khoảng 2,5 giờ.
+  - GPU 1 chỉ tải lại dữ liệu PLL rồi bỏ qua hết.
+  - Tổng cộng khoảng 3 giờ.
+- **Kiểm nhanh khi xong:** trong `v1_llp_eval_tabpfn.log` và `v1_llp_dev_tabpfn.log` không còn dòng `[lỗi tải]`. Nếu vẫn còn, chạy lại một lần nữa, lần này với output của chính lượt chạy bù làm dữ liệu.
+- **Gửi lại:** như lượt V1A, gồm mọi tệp `s2_V1A_*`, `v1_*` và thư mục `v1_npz/` nén zip.
+
 ## V2 giai đoạn 0 — lượt V0A và V0B dùng `s2_code_v6.zip` (04/11/2026)
 
 Thầy duyệt V2 ngày 04/11 ([V2_PLAN](../V2/V2_PLAN.md)). Dự đoán P1–P4 đã ghi trước ở [PHASE0_PREDICTIONS](../V2/PHASE0_PREDICTIONS.md), commit `1a8859f`. Cả hai lượt là **thăm dò**, chạy trên dataset cũ của NC1. Riêng R4 chạy trên tập đánh giá S2, nhưng không chạy lại theo nghĩa xác nhận.

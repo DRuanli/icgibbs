@@ -176,7 +176,7 @@
 | # | Việc | Hạn hoặc điều kiện | Trạng thái |
 |---|---|---|---|
 | 0 | Giai đoạn 0 của V2 **xong 05/11** ([V2/V0_REPORT.md](V2/V0_REPORT.md)): P1 đúng, P2 sai, P3 đúng, P4 sai; cổng V0 qua một phần. R4 xong: H4′ q 0,6 nhạy với nhiễu Monte Carlo (chuỗi b p_Holm 0,074; trung bình hai chuỗi đạt) | — | xong |
-| 0b | Giai đoạn 1 (thầy duyệt 05/11): chọn bộ gộp chuỗi theo [V2/PHASE1_PLAN.md](V2/PHASE1_PLAN.md) (ghi trước, `7ec273b`); code và `s2_code_v7.zip` xong; **thầy chạy V1A (TabPFN), V1B (TabICL)**; chấm bằng `V2/analysis/v1_aggregate.py` | khi có kết quả | chờ thầy chạy |
+| 0b | Giai đoạn 1 (thầy duyệt 05/11): chọn bộ gộp chuỗi theo [V2/PHASE1_PLAN.md](V2/PHASE1_PLAN.md) (ghi trước, `7ec273b`). V1A, V1B chạy xong 05/11; kết quả **tạm thời** ở [V2/V1_REPORT.md](V2/V1_REPORT.md): chọn **A1** (trung bình đều 3 chuỗi), P5 sai, P6 đúng, P7 đúng, không nhóm nào ≥ 3 thụt lùi. Thiếu 4 dataset LLP của TabPFN (OpenML 503, deviation D-V1-1): **thầy chạy bù V1A** theo G4/README mục "V1A lần 2", rồi em chạy lại `v1_aggregate.py` và chốt cổng V1-A | sau lượt chạy bù | chờ thầy chạy bù |
 | 0c | ~~Đưa R4 vào bài~~: xong 05/11 (`eda65ed`): §6.2, §6.6, Limitations, Bảng tab:r4; phần chính vẫn 9 trang. Abstract chưa sửa (bài sẽ viết lại cho v2) | — | xong |
 | 1 | ~~Thầy chọn R1–R8, Q1–Q5~~: thay bằng V2 W6 (thầy duyệt 04/11) | — | thay thế |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |

@@ -1,0 +1,109 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-50c4c4def743 · config=df15c9043eabdf1c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp        8 s0 gibbs_init_warm  0.9995 265.5s
+                kr-vs-kp llp        8 s0 base_start       0.9931 358.1s
+                kr-vs-kp llp        8 s0 gibbs_init_base  0.9995 605.3s
+                kr-vs-kp llp        8 s0 gibbs_init_cold  0.9995 249.5s
+                kr-vs-kp llp        8 s0 gibbs_ms         0.9995 0.0s
+                kr-vs-kp llp        8 s1 gibbs_init_warm  0.9986 275.4s
+                kr-vs-kp llp        8 s1 base_start       0.9973 314.4s
+                kr-vs-kp llp        8 s1 gibbs_init_base  0.9986 562.4s
+                kr-vs-kp llp        8 s1 gibbs_init_cold  0.9984 249.5s
+                kr-vs-kp llp        8 s1 gibbs_ms         0.9984 0.0s
+                kr-vs-kp llp        8 s2 gibbs_init_warm  0.9989 273.1s
+                kr-vs-kp llp        8 s2 base_start       0.9972 272.0s
+                kr-vs-kp llp        8 s2 gibbs_init_base  0.9989 525.6s
+                kr-vs-kp llp        8 s2 gibbs_init_cold  0.9988 250.8s
+                kr-vs-kp llp        8 s2 gibbs_ms         0.9989 0.0s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_init_warm  0.9414 61.6s
+         credit-approval llp        8 s0 base_start       0.9094 58.4s
+         credit-approval llp        8 s0 gibbs_init_base  0.9408 113.7s
+         credit-approval llp        8 s0 gibbs_init_cold  0.9435 54.1s
+         credit-approval llp        8 s0 gibbs_ms         0.9435 0.0s
+         credit-approval llp        8 s1 gibbs_init_warm  0.9453 56.8s
+         credit-approval llp        8 s1 base_start       0.9043 59.7s
+         credit-approval llp        8 s1 gibbs_init_base  0.9330 114.2s
+         credit-approval llp        8 s1 gibbs_init_cold  0.9375 54.0s
+         credit-approval llp        8 s1 gibbs_ms         0.9330 0.0s
+         credit-approval llp        8 s2 gibbs_init_warm  0.9349 62.4s
+         credit-approval llp        8 s2 base_start       0.8745 52.2s
+         credit-approval llp        8 s2 gibbs_init_base  0.9299 105.7s
+         credit-approval llp        8 s2 gibbs_init_cold  0.9289 54.5s
+         credit-approval llp        8 s2 gibbs_ms         0.9299 0.0s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 gibbs_init_warm  0.9844 649.4s
+                spambase llp        8 s0 base_start       0.9697 319.9s
+                spambase llp        8 s0 gibbs_init_base  0.9830 917.5s
+                spambase llp        8 s0 gibbs_init_cold  0.9847 595.1s
+                spambase llp        8 s0 gibbs_ms         0.9847 0.0s
+                spambase llp        8 s1 gibbs_init_warm  0.9870 649.9s
+                spambase llp        8 s1 base_start       0.9673 615.4s
+                spambase llp        8 s1 gibbs_init_base  0.9873 1216.9s
+                spambase llp        8 s1 gibbs_init_cold  0.9869 624.9s
+                spambase llp        8 s1 gibbs_ms         0.9873 0.0s
+                spambase llp        8 s2 gibbs_init_warm  0.9865 634.1s
+                spambase llp        8 s2 base_start       0.9703 425.2s
+                spambase llp        8 s2 gibbs_init_base  0.9872 1055.3s
+                spambase llp        8 s2 gibbs_init_cold  0.9860 608.0s
+                spambase llp        8 s2 gibbs_ms         0.9872 0.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s0 gibbs_init_warm  0.9261 202.1s
+                     pc4 llp        8 s0 base_start       0.8757 86.8s
+                     pc4 llp        8 s0 gibbs_init_base  0.9242 280.1s
+                     pc4 llp        8 s0 gibbs_init_cold  0.9199 191.1s
+                     pc4 llp        8 s0 gibbs_ms         0.9261 0.0s
+                     pc4 llp        8 s1 gibbs_init_warm  0.9423 203.6s
+                     pc4 llp        8 s1 base_start       0.8930 167.4s
+                     pc4 llp        8 s1 gibbs_init_base  0.9357 392.2s
+                     pc4 llp        8 s1 gibbs_init_cold  0.9484 231.6s
+                     pc4 llp        8 s1 gibbs_ms         0.9357 0.0s
+                     pc4 llp        8 s2 gibbs_init_warm  0.8823 249.2s
+                     pc4 llp        8 s2 base_start       0.8305 168.5s
+                     pc4 llp        8 s2 gibbs_init_base  0.8835 392.0s
+                     pc4 llp        8 s2 gibbs_init_cold  0.9333 225.0s
+                     pc4 llp        8 s2 gibbs_ms         0.9333 0.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 gibbs_init_warm  0.9029 157.0s
+                 phoneme llp        8 s0 base_start       0.8956 757.1s
+                 phoneme llp        8 s0 gibbs_init_base  0.9054 827.7s
+                 phoneme llp        8 s0 gibbs_init_cold  0.9001 70.4s
+                 phoneme llp        8 s0 gibbs_ms         0.9054 0.0s
+                 phoneme llp        8 s1 gibbs_init_warm  0.9114 105.9s
+                 phoneme llp        8 s1 base_start       0.9088 555.1s
+                 phoneme llp        8 s1 gibbs_init_base  0.9136 629.8s
+                 phoneme llp        8 s1 gibbs_init_cold  0.9085 74.9s
+                 phoneme llp        8 s1 gibbs_ms         0.9136 0.0s
+                 phoneme llp        8 s2 gibbs_init_warm  0.8864 111.1s
+                 phoneme llp        8 s2 base_start       0.9040 573.4s
+                 phoneme llp        8 s2 gibbs_init_base  0.9134 649.2s
+                 phoneme llp        8 s2 gibbs_init_cold  0.8797 75.6s
+                 phoneme llp        8 s2 gibbs_ms         0.9134 0.0s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s0 gibbs_init_warm  0.8899 189.1s
+             qsar-biodeg llp        8 s0 base_start       0.8963 80.6s
+             qsar-biodeg llp        8 s0 gibbs_init_base  0.8839 261.8s
+             qsar-biodeg llp        8 s0 gibbs_init_cold  0.8903 172.1s
+             qsar-biodeg llp        8 s0 gibbs_ms         0.8839 0.0s
+             qsar-biodeg llp        8 s1 gibbs_init_warm  0.8972 188.8s
+             qsar-biodeg llp        8 s1 base_start       0.9043 91.4s
+             qsar-biodeg llp        8 s1 gibbs_init_base  0.9028 267.0s
+             qsar-biodeg llp        8 s1 gibbs_init_cold  0.9160 179.6s
+             qsar-biodeg llp        8 s1 gibbs_ms         0.8972 0.0s
+             qsar-biodeg llp        8 s2 gibbs_init_warm  0.8828 200.4s
+             qsar-biodeg llp        8 s2 base_start       0.8679 106.1s
+             qsar-biodeg llp        8 s2 gibbs_init_base  0.8668 285.2s
+             qsar-biodeg llp        8 s2 gibbs_init_cold  0.8246 181.5s
+             qsar-biodeg llp        8 s2 gibbs_ms         0.8828 0.0s
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/data/v1/download/1910507. Retrying...
+  warn(
+[lỗi tải] 23381: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/38. Retrying...
+  warn(
+[lỗi tải] 38: <HTTPError 503: 'Service Temporarily Unavailable'>

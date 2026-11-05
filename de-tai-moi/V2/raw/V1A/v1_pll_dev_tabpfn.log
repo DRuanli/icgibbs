@@ -1,0 +1,52 @@
+run_g7 · part=v0 · split=dev · backend=tabpfn_v2 · code=py-50c4c4def743 · config=df15c9043eabdf1c
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+                 vehicle pll      0.6 s0 gibbs_init_warm  0.7992 56.7s
+                 vehicle pll      0.6 s0 base_start       0.7244 31.3s
+                 vehicle pll      0.6 s0 gibbs_init_base  0.8150 83.5s
+                 vehicle pll      0.6 s0 gibbs_init_cold  0.7992 51.5s
+                 vehicle pll      0.6 s0 gibbs_ms         0.7992 0.0s
+                 vehicle pll      0.6 s1 gibbs_init_warm  0.7992 51.8s
+                 vehicle pll      0.6 s1 base_start       0.7795 30.3s
+                 vehicle pll      0.6 s1 gibbs_init_base  0.7756 81.7s
+                 vehicle pll      0.6 s1 gibbs_init_cold  0.7874 51.5s
+                 vehicle pll      0.6 s1 gibbs_ms         0.7756 0.0s
+                 vehicle pll      0.6 s2 gibbs_init_warm  0.7992 51.9s
+                 vehicle pll      0.6 s2 base_start       0.7441 31.3s
+                 vehicle pll      0.6 s2 gibbs_init_base  0.8189 82.6s
+                 vehicle pll      0.6 s2 gibbs_init_cold  0.7874 51.2s
+                 vehicle pll      0.6 s2 gibbs_ms         0.8189 0.0s
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+                 segment pll      0.6 s0 gibbs_init_warm  0.9792 101.7s
+                 segment pll      0.6 s0 base_start       0.9617 80.3s
+                 segment pll      0.6 s0 gibbs_init_base  0.9776 180.7s
+                 segment pll      0.6 s0 gibbs_init_cold  0.9808 100.4s
+                 segment pll      0.6 s0 gibbs_ms         0.9776 0.0s
+                 segment pll      0.6 s1 gibbs_init_warm  0.9649 102.7s
+                 segment pll      0.6 s1 base_start       0.9313 95.8s
+                 segment pll      0.6 s1 gibbs_init_base  0.9649 196.9s
+                 segment pll      0.6 s1 gibbs_init_cold  0.9681 101.5s
+                 segment pll      0.6 s1 gibbs_ms         0.9649 0.0s
+                 segment pll      0.6 s2 gibbs_init_warm  0.9617 102.4s
+                 segment pll      0.6 s2 base_start       0.9505 92.2s
+                 segment pll      0.6 s2 gibbs_init_base  0.9776 193.9s
+                 segment pll      0.6 s2 gibbs_init_cold  0.9696 101.3s
+                 segment pll      0.6 s2 gibbs_ms         0.9776 0.0s
+
+=== 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e
+                     cmc pll      0.6 s0 gibbs_init_warm  0.5794 47.1s
+                     cmc pll      0.6 s0 base_start       0.5047 41.5s
+                     cmc pll      0.6 s0 gibbs_init_base  0.5935 88.2s
+                     cmc pll      0.6 s0 gibbs_init_cold  0.5864 46.5s
+                     cmc pll      0.6 s0 gibbs_ms         0.5794 0.0s
+                     cmc pll      0.6 s1 gibbs_init_warm  0.5397 47.0s
+                     cmc pll      0.6 s1 base_start       0.4393 64.9s
+                     cmc pll      0.6 s1 gibbs_init_base  0.5421 111.5s
+                     cmc pll      0.6 s1 gibbs_init_cold  0.5537 46.6s
+                     cmc pll      0.6 s1 gibbs_ms         0.5421 0.0s
+                     cmc pll      0.6 s2 gibbs_init_warm  0.5748 47.2s
+                     cmc pll      0.6 s2 base_start       0.5444 68.5s
+                     cmc pll      0.6 s2 gibbs_init_base  0.5654 115.4s
+                     cmc pll      0.6 s2 gibbs_init_cold  0.5771 46.5s
+                     cmc pll      0.6 s2 gibbs_ms         0.5654 0.0s
