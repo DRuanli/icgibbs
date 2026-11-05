@@ -12,6 +12,8 @@
 | 05/11/2026 (sau khi nhận kết quả) | commit của V1_REPORT | **Deviation D-V1-1:** V1A thiếu 4 dataset LLP (31, 37, 23381, 38) do OpenML 503. Không đổi protocol: chạy bù đúng lượt V1A với output cũ làm dữ liệu (chỉ 12 ô thiếu chạy), rồi chạy lại `v1_aggregate.py` không sửa. Nếu vẫn lỗi sau 2 lần chạy bù: chốt trên 10/14 và ghi giới hạn ([V1_REPORT §3](V1_REPORT.md)) |
 | 05/11/2026 13:57 UTC | commit chốt cổng V1-A | **D-V1-1, bổ sung:** thầy quyết định **không chạy bù** V1A. Cổng V1-A chốt trên số hiện có: chọn A1; nhóm TabPFN LLP chỉ có 10/14 dataset, ghi thành giới hạn ([V1_REPORT §3, §6](V1_REPORT.md)) |
 | 05/11/2026 tối | commit W3/W4 | Code W3, W4 (không phải lượt chạy): backend `tabpfn_v3`, `tabpfn_v3_5`, `tabdpt`; `--weak_variant feat/inst` trong `run_g7.py` và `weakgen.py`. Mã cấu hình của mọi lượt cũ giữ nguyên (biến thể chỉ vào mã khi khác `iid`). Chưa có lượt GPU nào dùng code này; lượt thử sẽ được ghi trước ([W4_TFM_REPORT §4](W4_TFM_REPORT.md)) |
+| 05/11/2026 17:46 UTC | **15a5ea6** (main) | Thầy duyệt 06/11 (giờ Việt Nam): lượt thử W4, quy tắc loại dataset, Φ_chuỗi. Ghi trước lượt V1C ([PHASE1B_PLAN](PHASE1B_PLAN.md)): P8, P9, P11, quy tắc chọn TabPFN-3/3.5, **trước khi viết code** |
+| 05/11/2026 18:06 UTC | **a1a6e1e** (main) | Code V1C: `w4_pilot.py`, `v1c_chain_map.py`, lượt V1C trong `run_s2_lot.sh`, `tests/test_v1c.py` (bộ test 140 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1c_report.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v8.zip` dựng bằng `git archive` từ commit này |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
@@ -35,6 +37,7 @@
 | R1a-E7f | 05/11 tối | như trên | Mệnh đề 5: trung bình dừng dạng đóng (drift affine) so với ma trận chuyển; tiệm cận tới n = 10⁶ (`r1a_block_bias.py affine`) | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_*` | thăm dò; tiệm cận tìm bằng sympy (script nháp, không lưu trong repo) rồi kiểm số |
 | R1a-E7f (lần 2) | 05/11 tối | như trên | thêm kiểm dạng đóng α′ (α ∈ {0,5; 1; 3}), sau rà độc lập lần 2; `refined_band` sửa phương sai một phía | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_alpha_prime_check.csv`, `G4/results/w1/w1_partition_bound_refined.csv` | theo IR2-MAJOR-1, IR2-MINOR-7 |
 | V1-explore | 05/11 | commit của V1_REPORT | thăm dò sau khi xem số: lưu vực của các điểm xuất phát, lợi ích của A1, 1464, thắng/thua theo dataset (`V2/analysis/v1_explore.py`) | CPU | khoảng 1 phút | ok | `V2/results/v1_explore*` | thăm dò; ngưỡng "cùng lưu vực" 0,03 chọn sau khi xem số |
+| V1C | — | a1a6e1e (`s2_code_v8.zip`) | W4 thử tốc độ/tất định 5 TFM; ánh xạ phản ứng trên ô F1; Φ_chuỗi trên ô V1 | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1C/` | |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
