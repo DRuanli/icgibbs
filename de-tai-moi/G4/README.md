@@ -64,6 +64,8 @@ for f in glob.glob("/kaggle/input/**/v1_npz/*.npz", recursive=True):
 
 ### V1A lần 2 — chạy bù 4 dataset LLP lỗi tải (05/11/2026)
 
+> **Không cần chạy nữa:** thầy quyết bỏ lượt chạy bù (05/11 tối, D-V1-1 bổ sung). Hướng dẫn dưới đây chỉ giữ lại để tham khảo.
+
 Lượt V1A đầu thiếu dataset 31, 37, 23381 và 38 vì OpenML trả lỗi 503 (deviation D-V1-1, [V2/V1_REPORT §3](../V2/V1_REPORT.md)). Chạy bù **đúng lượt V1A**, không đổi code:
 - **Code:** vẫn `s2_code_v7.zip`, không cần tải lại.
 - **Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.

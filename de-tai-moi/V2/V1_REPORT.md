@@ -1,12 +1,13 @@
-# Giai đoạn 1 của V2: chọn bộ gộp chuỗi — kết quả TẠM THỜI (05/11/2026)
+# Giai đoạn 1 của V2: chọn bộ gộp chuỗi — kết quả và cổng V1-A (05/11/2026)
 
 - **Căn cứ:** [PHASE1_PLAN](PHASE1_PLAN.md), ghi trước ở commit `7ec273b`. Code ở `a8e355c`, bản gửi thầy là `s2_code_v7.zip`. Script chấm `V2/analysis/v1_aggregate.py` được viết và commit trước khi có số, và chạy y nguyên, không sửa.
 - **Tính chất:** phát triển phương pháp, tức **thăm dò** (PHASE1_PLAN, phần đầu). Phép xác nhận là Study 3.
-- **Vì sao "tạm thời":** thiếu 4 trong 14 dataset LLP của TabPFN v2, vì OpenML trả lỗi 503 lúc tải (§3, deviation D-V1-1). Kết luận cổng V1-A chỉ chốt sau lượt chạy bù.
+- **Thiếu dữ liệu:** 4 trong 14 dataset LLP của TabPFN v2 không có, vì OpenML trả lỗi 503 lúc tải (§3, deviation D-V1-1).
+- **Cổng V1-A đã chốt (05/11/2026, tối):** thầy quyết định **không chạy bù** (D-V1-1, bổ sung). Cổng được chốt trên số liệu hiện có, với 10/14 dataset của nhóm TabPFN LLP (§6).
 
 ## 0. Tóm tắt
 
-1. **Bộ gộp được chọn (tạm thời): A1, trung bình đều 3 chuỗi** (warm, base, cold). Theo quy tắc §4:
+1. **Bộ gộp được chọn: A1, trung bình đều 3 chuỗi** (warm, base, cold). Theo quy tắc §4:
    - tổng số thụt lùi R: A1 = 2, A2 = 3, A3 = 3;
    - A1 cũng có G lớn nhất: +0,0032, so với +0,0021 (A2) và +0,0026 (A3).
 2. **Dự đoán ghi trước:**
@@ -42,7 +43,7 @@ Các phép kiểm:
   - A0 trùng chuỗi có WPLL lớn nhất (`gibbs_ms`) ở 234/234 ô;
   - không có hàng nào của dự đoán ngoài fold là không hữu hạn.
 
-## 2. Chấm theo PHASE1_PLAN §4–§5 (tạm thời)
+## 2. Chấm theo PHASE1_PLAN §4–§5
 
 Số ô: 234. Số dataset theo nhóm: TabICL LLP 32, TabICL PLL 23, TabPFN LLP **10/14**, TabPFN PLL 13. Chỉ số là AUC với LLP và accuracy với PLL, lấy trung bình 3 seed. Toàn bộ số ở `V2/results/v1_cells.csv` và `v1_summary.json`.
 
@@ -110,6 +111,12 @@ Thụt lùi được tính so với max(v1, L) − 0,02. G là trung bình của
   - `run_g7.py` bỏ qua ô đã có dòng `ok`, nên chỉ 12 ô thiếu được chạy.
   - Script chấm và quy tắc chọn giữ nguyên. Kết quả chốt là kết quả chạy lại `v1_aggregate.py` trên đủ 14 dataset.
 - **Nếu OpenML vẫn lỗi sau hai lần chạy bù:** chốt trên 10/14, và ghi giới hạn này vào báo cáo cổng.
+- **Bổ sung (05/11/2026, 20:57 giờ Việt Nam): thầy quyết định không chạy bù.** Cổng V1-A chốt trên 10/14 dataset của nhóm TabPFN LLP. Lý do:
+  - giai đoạn này là thăm dò;
+  - TabICL đã phủ đủ 4 dataset;
+  - lựa chọn chỉ đổi trong trường hợp ở §3.2;
+  - tiết kiệm khoảng 3 giờ GPU cho các lượt sau.
+- **Hệ quả:** 4 dataset này (31, 37, 23381, 38) không có kết quả nhiều chuỗi với TabPFN v2. Khi nhắc tới bước chọn bộ gộp, bài phải ghi rõ con số 10/14. Các dataset này vẫn thuộc tập phát triển của Study 3, như PHASE1_PLAN đã định.
 
 ### 3.2 Độ vững của lựa chọn
 
@@ -176,18 +183,29 @@ Script `V2/analysis/v1_explore.py`; đầu ra ở `V2/results/v1_explore.txt` v�
 ## 5. Ý nghĩa và bước tiếp
 
 - **Cho v2:**
-  - A1 (trung bình đều 3 chuỗi) là mặc định tạm thời. Đây là bộ đơn giản nhất, không cần learner hay trọng số học, và không thụt lùi so với v1 ở dataset nào.
+  - A1 (trung bình đều 3 chuỗi) là mặc định của v2 (cổng V1-A, §6). Đây là bộ đơn giản nhất, không cần learner hay trọng số học, và không thụt lùi so với v1 ở dataset nào.
   - Đổi lại, A1 tốn gấp 3 lần TFM so với v1.
   - Lợi ích trung bình nhỏ, +0,2 đến +0,4 điểm. Đây là cải thiện ổn định chứ không phải bước nhảy.
 - **Cho bài:**
   - Kết luận "nhiều chuỗi và trung bình đều" đi vào phương pháp v2 dưới dạng đã chọn trên tập phát triển.
   - Kết quả E1 (phần lớn ô một lưu vực) là bằng chứng thực nghiệm cho kịch bản của Mệnh đề 4′. Phải ghi rõ đây là thăm dò.
 - **Việc tiếp theo:**
-  1. **Chạy bù V1A** (hướng dẫn ở G4/README, mục "V1A lần 2"), rồi chạy lại `v1_aggregate.py` và chốt cổng V1-A.
-  2. Sau khi chốt, viết bản tiếng Anh của Mệnh đề 4′, 5 và 6 vào bài.
+  1. ~~Chạy bù V1A~~: thầy quyết bỏ (D-V1-1, bổ sung); cổng đã chốt ở §6.
+  2. Viết bản tiếng Anh của Mệnh đề 4′, 5 và 6 vào bài.
   3. **Vẫn chờ thầy duyệt:** đo Φ_chuỗi trên GPU, gieo theo Q̄ đã lưu trong npz của V1.
 
-## 6. Tệp
+## 6. Cổng V1-A (chốt 05/11/2026)
+
+Theo PHASE1_PLAN §7:
+- **Bộ gộp mặc định của v2 cho Study 3: A1**, trung bình đều dự đoán của 3 chuỗi `warm`, `base`, `cold`, mỗi chuỗi với cấu hình v1 (K = 10, T = 30, burn-in 10, S = 10, ngữ cảnh tối đa 2.000).
+- **Dự đoán ghi trước:** P5 sai, P6 đúng, P7 đúng.
+- **Giới hạn theo nhóm:** không có nhóm nào ≥ 3 thụt lùi.
+  - Theo V2_PLAN H7, ngưỡng thụt lùi đã biết trước cho Study 3 lấy từ số ở đây: 2/78 dataset, tức 2,6%, thụt lùi quá 0,02 so với max(v1, L).
+  - Cả 2 thụt lùi đều so với L, ở cùng một dataset.
+- **Không đổi gì khác của v2** trong giai đoạn này: K, T, các điểm xuất phát, TFM.
+- **Giới hạn của lần chốt:** nhóm TabPFN LLP chỉ có 10/14 dataset (D-V1-1).
+
+## 7. Tệp
 
 - **Kết quả thô:** `V2/raw/V1A/`, `V2/raw/V1B/` (CSV, log, jsonl dự đoán, `v1_npz/` với 69 và 165 tệp, nhật ký pip, GPU, mã băm code).
 - **Chấm ghi trước:** `V2/analysis/v1_aggregate.py`, cho ra `V2/results/v1_cells.csv` và `V2/results/v1_summary.json`.
