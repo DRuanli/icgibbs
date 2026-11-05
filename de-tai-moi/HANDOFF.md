@@ -180,7 +180,7 @@
 | 0c | ~~Đưa R4 vào bài~~: xong 05/11 (`eda65ed`): §6.2, §6.6, Limitations, Bảng tab:r4; phần chính vẫn 9 trang. Abstract chưa sửa (bài sẽ viết lại cho v2) | — | xong |
 | 1 | ~~Thầy chọn R1–R8, Q1–Q5~~: thay bằng V2 W6 (thầy duyệt 04/11) | — | thay thế |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
-| 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |
+| 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa. **05/11: bản nháp W1 và R1a** ([V2/W1_R1A_REPORT.md](V2/W1_R1A_REPORT.md)): Mệnh đề 4 (drift) có chứng minh cho lịch quét ngẫu nhiên; tự rà lần 1 đã sửa 3 lỗi MAJOR ([V2/reviews/W1_SELF_REVIEW_01.md](V2/reviews/W1_SELF_REVIEW_01.md)). R1a: TC khối có giới hạn đóng; Định lý 2 rỗng với khối; TV/ε̄ ∈ [0,49; 1,17]. Còn: Bổ đề 3 (lịch quét thật), rà độc lập, R1a cho LLP, Φ_chuỗi trên GPU (cần thầy duyệt) | 20/12/2026 | đang làm |
 | 4 | Xác nhận giấy phép: checkpoint TabICL v2, từng dataset OpenML, dữ liệu PALM. Rồi bỏ `\pending` ở checklist mục 12 | trước nộp | mở |
 | 5 | Chính sách LLM của NeurIPS 2027; style NeurIPS 2027 (thay `neurips_placeholder.sty`) | khi có call (thường khoảng tháng 3) | mở |
 | 6 | Cập nhật tìm kiếm tính mới (G2) ≤ 30 ngày trước khi nộp; cập nhật nơi đăng của các bản arXiv | 04/2027 | mở |

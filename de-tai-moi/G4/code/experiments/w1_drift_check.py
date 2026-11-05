@@ -1,0 +1,224 @@
+"""
+w1_drift_check.py — V2 W1 (05/11/2026, CPU): kiểm bằng số Mệnh đề drift (V2/W1_R1A_REPORT.md §2) với một "TFM" có
+ánh xạ phản ứng BIẾT TRƯỚC, chạy bằng ĐÚNG bộ lấy mẫu của đề tài (InContextGibbs, khối hệ thống K = 10, khối trên mọi mẫu).
+
+Xác suất có điều kiện giả: với truy vấn i và ngữ cảnh D (các điểm ngoài khối), gọi r(D) là tỉ lệ nhãn đúng trong các điểm
+tự do của D. Sau khi nhân với ℓ_i (tập ứng viên) và chuẩn hoá, xác suất rút đúng nhãn của i bằng
+    c_i = clip(Φ(r(D)) + h_i, 0,01, 0,99),     h_i ~ Đều(−h, h) cố định theo điểm (không đồng nhất ⇒ δ > 0),
+phần còn lại chia đều cho các ứng viên sai. Nhãn thật chỉ dùng để dựng "TFM" giả này và để đo — đây là kiểm chứng
+một mệnh đề xác suất, không phải phương pháp.
+
+    python w1_drift_check.py            → ../../results/w1/w1_drift_runs.csv, w1_drift_summary.csv
+    python w1_drift_check.py theory     → ../../results/w1/w1_theory_check.csv, w1_hitting.csv (đọc w1_drift_runs.csv)
+"""
+from __future__ import annotations
+
+import os
+import sys
+
+import numpy as np
+import pandas as pd
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, ".."))
+from icgibbs.conditional import FunctionConditional  # noqa: E402
+from icgibbs.sampler import InContextGibbs  # noqa: E402
+from icgibbs.weak import PartialLabel  # noqa: E402
+
+OUT = os.path.join(HERE, "..", "..", "results", "w1")
+os.makedirs(OUT, exist_ok=True)
+
+MAPS = {   # gain g(r) = Φ(r) − r
+    "single_0.9": lambda r: 0.5 * (0.9 - r),
+    "single_0.6": lambda r: 0.4 * (0.6 - r),
+    "bistable_0.2_0.5_0.95": lambda r: -2.5 * (r - 0.2) * (r - 0.5) * (r - 0.95),
+}
+ATTRACTORS = {"single_0.9": [0.9], "single_0.6": [0.6], "bistable_0.2_0.5_0.95": [0.2, 0.95]}
+
+
+def problem(n, C=10, q=0.6, h=0.1, seed=0):
+    rng = np.random.default_rng(seed)
+    y = rng.integers(0, C, n)
+    S = rng.uniform(size=(n, C)) < q
+    S[np.arange(n), y] = True
+    het = rng.uniform(-h, h, n)
+    return y, S, het
+
+
+def make_cond(y, S, het, gain, C):
+    free = S.sum(1) >= 2
+
+    def fn(Xc, yc, Xq):
+        ic, iq = Xc[:, 0].astype(int), Xq[:, 0].astype(int)
+        f = free[ic]
+        r = float(np.mean(yc[f] == y[ic][f])) if f.any() else 0.0
+        c = np.clip(r + gain(r) + het[iq], 0.01, 0.99)
+        P = np.full((len(iq), C), 1e-9)
+        k = S[iq].sum(1) - 1                                     # số ứng viên sai
+        P[S[iq]] = np.repeat((1 - c) / np.maximum(k, 1), S[iq].sum(1))
+        P[np.arange(len(iq)), y[iq]] = c
+        return P
+    return FunctionConditional(fn, C, floor=0.0), free
+
+
+def planted(y, S, r0, rng):
+    z = y.copy()
+    for i in range(len(y)):
+        wrong = np.flatnonzero(S[i] & (np.arange(S.shape[1]) != y[i]))
+        if len(wrong) and rng.uniform() >= r0:
+            z[i] = rng.choice(wrong)
+    return z
+
+
+def block_delta(het, free, n, K=10, draws=2000, seed=0):
+    """δ do không đồng nhất: phân vị 99 của |trung bình h trên các điểm tự do của một khối ngẫu nhiên cỡ n/K|."""
+    rng = np.random.default_rng(seed)
+    m = n // K
+    v = [abs(het[b][free[b]].mean()) for b in (rng.choice(n, m, replace=False) for _ in range(draws)) if free[b].any()]
+    return float(np.quantile(v, 0.99))
+
+
+def main():
+    rows = []
+    C, K, T = 10, 10, 60
+    for n in (500, 3000):
+        y, S, het = problem(n, C)
+        X = np.arange(n, dtype=float)[:, None]
+        for name, gain in MAPS.items():
+            cond, free = make_cond(y, S, het, gain, C)
+            delta = block_delta(het, free, n, K)
+            for r0 in (0.1, 0.3, 0.45, 0.55, 0.7, 0.95):
+                for rep in range(20):
+                    rng = np.random.default_rng([n, rep, int(r0 * 100)])
+                    z0 = planted(y, S, r0, rng)
+                    mon = lambda yy: float(np.mean(yy[free] == y[free]))
+                    g = InContextGibbs(cond, PartialLabel(S), n_blocks=K, n_sweeps=T, burn_in=T, seed=int(rng.integers(1 << 30)),
+                                       init=z0, monitor=mon).run(X)
+                    tr = np.r_[mon(z0), g.trace_.monitor]
+                    rows.append(dict(n=n, map_name=name, delta_block_q99=delta, r0=r0, rep=rep, r_start=tr[0],
+                                     r_final=tr[-1], r_min_after10=tr[10:].min(), r_max_after10=tr[10:].max(),
+                                     trace="/".join(f"{v:.3f}" for v in tr)))
+            print(n, name, "δ̂ =", round(delta, 4), flush=True)
+    d = pd.DataFrame(rows)
+    d.to_csv(os.path.join(OUT, "w1_drift_runs.csv"), index=False)
+
+    def basin(r, name):
+        a = ATTRACTORS[name]
+        return int(np.argmin([abs(r - x) for x in a]))
+    d["basin"] = [basin(r, m) for r, m in zip(d.r_final, d.map_name)]
+    s = d.groupby(["n", "map_name", "r0"]).agg(delta=("delta_block_q99", "first"), r_start=("r_start", "mean"),
+                                          r_final_mean=("r_final", "mean"), r_final_sd=("r_final", "std"),
+                                          frac_upper_basin=("basin", "mean"),
+                                          band_lo=("r_min_after10", "min"), band_hi=("r_max_after10", "max")).reset_index()
+    s.to_csv(os.path.join(OUT, "w1_drift_summary.csv"), index=False)
+    pd.set_option("display.width", 200)
+    print(s.round(4).to_string(index=False))
+
+
+def _ode_time(g, r0, b, delta, grid=4000):
+    """∫_{r0}^{b} dr / (|g(r)| − δ): số vòng quét của phương trình trôi (phần chính của Mệnh đề 4(a) ghép đoạn)."""
+    r = np.linspace(r0, b, grid)
+    v = np.abs(g(r)) - delta
+    if np.any(v <= 0):
+        return float("inf")
+    return float(np.trapezoid(1.0 / v, r)) * np.sign(b - r0)
+
+
+def _jacobi_iters(g, r0, b, delta, max_it=500):
+    """Số lần lặp r ← r + g(r) ∓ δ (một vòng quét kiểu Jacobi, phía bất lợi của δ) để tới b."""
+    r, up = float(r0), b > r0
+    for it in range(1, max_it):
+        r = r + g(r) - (delta if up else -delta)
+        if (up and r >= b) or ((not up) and r <= b):
+            return it
+    return max_it
+
+
+def _gs_sweeps(g, r0, b, delta, K=10, max_it=500):
+    """Quét HỆ THỐNG theo khối (cái bộ lấy mẫu làm), dạng tất định: trong một vòng quét, khối k thay phần cũ (đúng với
+    tỉ lệ r_đầu-vòng) bằng Φ(r hiện tại) ∓ δ: r ← r + (1/K)(Φ(r) ∓ δ − r_đầu-vòng), K lần. Điểm bất động trùng với Φ."""
+    r, up = float(r0), b > r0
+    for it in range(1, max_it):
+        r_start = r
+        for _ in range(K):
+            r = r + (r + g(r) - (delta if up else -delta) - r_start) / K
+        if (up and r >= b) or ((not up) and r <= b):
+            return it
+    return max_it
+
+
+def delta_ctx(L, n_F, rho, K, N, eps):
+    """Số hạng ngữ cảnh của Bổ đề 1 (bản đã sửa, W1_R1A_REPORT §2.2): K·L·m·x_N/(n_F(n_F − m)),
+    x_N = √(m ln(2N/ε)/2), m = n/K. Đổi Φ(r_{−B}) sang Φ(R) trên biến cố xác suất ≥ 1 − ε."""
+    n = n_F / rho
+    m = n / K
+    x = np.sqrt(m * np.log(2 * N / eps) / 2)
+    return float(K * L * m * x / (n_F * (n_F - m)))
+
+
+def theory(eta=0.1, burn=20, eps=0.01, K=10, T_sweeps=60, h_max=0.1):
+    """So với Mệnh đề 4 bản đã sửa. Trong TFM giả: δ (phần không đồng nhất ngoài h_i) = 0, chỉ trừ ảnh hưởng của clip
+    (≤ 0,001); h_i có trung bình ≈ 0 nên gộp vào Φ; δ' = δ + δ_ctx. δ̂_blk (phân vị 99 của trung bình h trên một khối)
+    giữ lại để tham khảo: nó là thang NHIỄU do h, không phải δ của (H)."""
+    d = pd.read_csv(os.path.join(OUT, "w1_drift_runs.csv"))
+    tr = [np.array([float(v) for v in t.split("/")]) for t in d.trace]
+    rows, hit = [], []
+    grid = np.linspace(0, 1, 20001)
+    c_w = (1 + (1 + 2 * h_max) ** 2) / 2
+    for (n, name), g in d.groupby(["n", "map_name"]):
+        gain, delta_blk = MAPS[name], float(g.delta_block_q99.iloc[0])
+        y, S, _ = problem(n)
+        free = S.sum(1) >= 2
+        n_F, rho = int(free.sum()), float(free.mean())
+        L = float(np.max(np.abs(np.gradient(grid + gain(grid), grid))))       # hằng số Lipschitz của Φ
+        delta = delta_ctx(L, n_F, rho, K, T_sweeps * K, eps)
+        T = [tr[i] for i in g.index]
+        late = np.concatenate([t[burn:] for t in T])
+        grid = np.linspace(0, 1, 20001)
+        inside = grid[np.abs(gain(grid)) <= delta]                    # tập G_δ' = {r : |g(r)| ≤ δ'}
+        per_start = g.assign(m=[t[burn:].mean() for t in T]).groupby("r0").m.mean()
+        row = dict(n=n, map_name=name, n_F=n_F, L=L, delta_prime=delta, delta_blk_q99=delta_blk,
+                   sd_noise_sweep=float(np.sqrt(0.25 / n_F)),
+                   start_spread_late_mean=float(per_start.max() - per_start.min()))
+        for a in ATTRACTORS[name]:
+            near = late[np.abs(late - a) < 0.25]
+            loc = inside[np.abs(inside - a) < 0.25]
+            slope = (gain(a + 1e-4) - gain(a - 1e-4)) / 2e-4                # g'(r*) = Φ'(r*) − 1
+            sd_jacobi = np.sqrt(a * (1 - a) / (n * (1 - (1 + slope) ** 2)))   # AR(1) r ← Φ(r) + nhiễu nhị thức
+            sd_obs = float(np.mean([t[burn:][np.abs(t[burn:] - a) < 0.25].std() for t in T
+                                    if np.sum(np.abs(t[burn:] - a) < 0.25) > 5]))
+            rows.append(dict(row, attractor=a, G_delta_lo=float(loc.min()), G_delta_hi=float(loc.max()),
+                             late_mean=float(near.mean()), late_q005=float(np.quantile(near, 0.005)),
+                             late_q995=float(np.quantile(near, 0.995)), late_min=float(near.min()), late_max=float(near.max()),
+                             sd_time_obs=sd_obs, sd_time_jacobi_pred=float(sd_jacobi), sd_obs_x_sqrt_n=sd_obs * np.sqrt(n)))
+        for r0, h in g.groupby("r0"):
+            a = min(ATTRACTORS[name], key=lambda x: abs(x - r0)) if name.startswith("single") else None
+            if a is None:                                                # hai điểm hút: lưu vực theo phía của u = 0,5
+                a = 0.95 if r0 > 0.5 else 0.2
+            b = a - eta if r0 < a - eta else (a + eta if r0 > a + eta else None)
+            if b is None:
+                continue
+            obs = []
+            for i in h.index:
+                t = tr[i]
+                idx = np.flatnonzero(t >= b) if b > r0 else np.flatnonzero(t <= b)
+                obs.append(int(idx[0]) if len(idx) else np.nan)
+            gam = float(np.min(np.abs(gain(np.linspace(min(r0, b), max(r0, b), 2001)))))
+            dist = abs(b - r0)
+            T_a = 2 * dist / (gam - delta) if gam > delta else np.inf       # Mệnh đề 4(a) với λ = dist, γ hằng
+            fail_a = float(np.exp(-rho * n_F * dist ** 2 / (c_w * T_a)) + eps) if np.isfinite(T_a) else np.nan
+            hit.append(dict(n=n, map_name=name, r0=r0, target=b, delta_prime=delta, gain_at_r0=float(gain(r0)),
+                            hit_obs_median=float(np.nanmedian(obs)), hit_obs_max=float(np.nanmax(obs)),
+                            frac_hit=float(np.mean(np.isfinite(obs))), ode_sweeps=abs(_ode_time(gain, r0, b, delta)),
+                            jacobi_sweeps=_jacobi_iters(gain, r0, b, delta), gs_sweeps=_gs_sweeps(gain, r0, b, delta),
+                            T_bound_const=T_a, fail_bound_const=fail_a))
+    t1, t2 = pd.DataFrame(rows), pd.DataFrame(hit)
+    t1.to_csv(os.path.join(OUT, "w1_theory_check.csv"), index=False)
+    t2.to_csv(os.path.join(OUT, "w1_hitting.csv"), index=False)
+    pd.set_option("display.width", 250)
+    print(t1.round(4).to_string(index=False), "\n")
+    print(t2.round(3).to_string(index=False))
+
+
+if __name__ == "__main__":
+    theory() if sys.argv[1:] == ["theory"] else main()

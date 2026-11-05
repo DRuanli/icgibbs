@@ -19,6 +19,12 @@
 | V0B | 04/11 11:57 – 16:43 | 72 tệp khớp **commit b939041** | nhiều điểm xuất phát PLL (TabPFN, 2 GPU), rồi TabICL (PLL, LLP, ánh xạ) | Kaggle 2 × T4 | 4 giờ 46 phút | ok | `V2/raw/V0B/` | bộ test 126 qua, 2 bỏ qua; 312/312 dòng ok, 0 lỗi |
 | V1A | — | — | giai đoạn 1, TabPFN v2: LLP 14 + PLL 13 dataset, 3 chuỗi, npz, ngoài fold | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1A/` | |
 | V1B | — | — | giai đoạn 1, TabICL v2: như V1A thêm 28 dataset Study 2 | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1B/` | |
+| W1-sim | 05/11, xong 02:53 | commit của report này | TFM giả biết Φ (`w1_drift_check.py`), 720 chuỗi | CPU (máy em) | 8 phút | ok | `G4/results/w1/` | thăm dò, không có số test thật |
+| R1a-E7a | 05/11 02:49 | như trên | TC khối chính xác (`r1a_block_bias.py tc`), 80 ô | CPU | < 1 phút | ok | `G4/results/r1a/e7a_block_tc.csv` | |
+| R1a-E7b | 05/11 02:55 – 02:59 | như trên | Định lý 2 với nhân khối chính xác, lưới n ≤ 1000 | CPU | 4 phút | **huỷ** | — | n = 500–1000 quá chậm và chỉ ghi CSV ở cuối; dừng, sửa thành ghi sau mỗi ô và bỏ n = 1000 |
+| R1a-E7b | 05/11 02:59 – 03:08 | như trên | như trên, n ∈ {50, 100, 200, 500} | CPU | khoảng 9 phút | ok | `G4/results/r1a/e7b_*` | lần chạy trước đó trong cùng phiên dùng nhân tham chiếu sai (bỏ mẫu có nhãn trong khối khỏi ngữ cảnh, không bất biến với π); đã sửa trước lượt này, kiểm bất biến ≤ 1e-12 |
+| R1a-E7c, E7d | 05/11 03:08 – 03:10 | như trên | mô-men của π̃ so với π; phân rã chặn | CPU | < 2 phút | ok | `G4/results/r1a/e7c_*`, `e7d_*` | thăm dò |
+| W1-delta | 05/11 | như trên | δ trên TFM thật, chỉ đọc dữ liệu V0 (`V2/analysis/w1_delta.py`) | CPU | < 1 phút | ok | `V2/results/w1_delta.csv` | thăm dò |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
