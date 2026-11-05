@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -25,6 +25,10 @@
 #                      tập đánh giá NC1 rồi 6 dataset phát triển; GPU 1: PLL q 0,6 trên 10 + 3 dataset tương ứng. Mỗi ô 3 chuỗi
 #                      (warm, base, cold), lưu npz vào v1_npz/, learner khởi động có dự đoán ngoài fold. Cần s2_code_v7
 #   V1B  (GPU T4 × 2): như V1A với TabICL v2, thêm toàn bộ dataset của Study 2 (--split s2 --explore). Hai GPU chia đôi
+#   V1C  (GPU T4 × 2): V2 giai đoạn 1b, THĂM DÒ (V2/PHASE1B_PLAN.md). GPU 0: thời gian/tất định của 5 TFM (w4_pilot.py),
+#                      ánh xạ phản ứng trên các ô F1 cho 5 TFM (v0_response_map.py), rồi Φ_chuỗi trên ô V1 của TabPFN v2.
+#                      GPU 1: Φ_chuỗi trên ô V1 của TabICL v2 (v1c_chain_map.py). Cần output V1A, V1B (v1_npz/) làm dữ liệu,
+#                      giấy phép TabPFN-3/3.5 đã chấp nhận, và gói tabdpt==1.3.1. Cần s2_code_v8
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -157,6 +161,28 @@ case $LOT in
         v1_ 1 pll_dev_tabicl tabicl_v2 --split dev --settings pll --levels "pll=0.6" --datasets $PLL_D ) &
       wait
     fi ;;
+  V1C)
+    [ -f v1c_chain_map.py ] || { echo "BẢN CODE CŨ: chưa có v1c_chain_map.py — dùng s2_code_v8.zip"; exit 3; }
+    NPZ="$OUT/v1_npz"
+    n_npz=$(ls "$NPZ"/v1_*.npz 2>/dev/null | wc -l)
+    echo "số tệp npz của V1: $n_npz (cần 234: 69 TabPFN + 165 TabICL)"
+    BE5=tabpfn_v2,tabicl_v2,tabpfn_v3,tabpfn_v3_5,tabdpt
+    RHO=0.2,0.35,0.5,0.65,0.8,0.9,0.97
+    run_ () {   # run_ <số GPU> <tên> <script> <đối số...>
+      local g=$1 tag=$2 sc=$3; shift 3
+      CUDA_VISIBLE_DEVICES=$g python $sc "$@" --out "$OUT/v1c_${tag}.csv" >> "$OUT/v1c_${tag}.log" 2>&1
+      echo "GPU$g xong v1c_$tag: $(date)"
+    }
+    ( run_ 0 w4_timing w4_pilot.py --backends $BE5
+      run_ 0 map_pll_uniform v0_response_map.py --setting pll --plant uniform --backends $BE5 \
+        --datasets 12,1501,40966,28,188,40982 --seeds 0 --rho $RHO
+      run_ 0 map_pll_struct v0_response_map.py --setting pll --plant struct --backends $BE5 \
+        --datasets 12,1501,40966,28,188,40982 --seeds 0 --rho $RHO
+      run_ 0 map_llp_uniform v0_response_map.py --setting llp --plant uniform --backends $BE5 \
+        --datasets 50,6332 --seeds 0 --rho $RHO
+      run_ 0 chainmap_tabpfn v1c_chain_map.py --npz_glob "$NPZ/v1_tabpfn_v2_*.npz" ) &
+    ( run_ 1 chainmap_tabicl v1c_chain_map.py --npz_glob "$NPZ/v1_tabicl_v2_*.npz" ) &
+    wait ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))
     for j in 0 1 2 3; do cpu "base_$((b+j))" --shard $((b+j))/8 & done; wait ;;
