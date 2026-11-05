@@ -28,6 +28,8 @@
 | W1-partition | 05/11 trưa | như trên | hằng số Mệnh đề 4′ so với mô phỏng (`w1_drift_check.py partition`) | CPU | < 1 phút | ok | `G4/results/w1/w1_partition_bound.csv` | thăm dò |
 | R1a-E7e | 05/11 trưa | như trên | LLP: bag-block không sửa so với chính xác, hai loại feature, 33 ô (`r1a_block_bias.py llp`) | CPU | khoảng 6 phút | ok | `G4/results/r1a/e7e_*` | thăm dò; một lượt thử Beta(1, 1) trước đó chỉ chạy 3 ô kiểm tra hình dạng hậu nghiệm, không lưu |
 | W1-sim-h002 | 05/11 chiều | như trên | TFM giả **không clip** (h_max = 0,02, `w1_drift_check.py run/theory/partition --h 0.02`), 720 chuỗi | CPU | khoảng 9 phút | ok | `G4/results/w1/*_h002.csv` | chạy lại theo IR-MAJOR-1 (rà độc lập): lượt h = 0,1 có clip nên δ ≠ 0; lượt mới có δ = 0 đúng, tỉ lệ clip đo được = 0 |
+| W1-context | 05/11 chiều | như trên | TFM giả, n = 3.000, max_context ∈ {100, 300, 1000, đầy đủ}, 320 chuỗi (`w1_drift_check.py context --h 0.02`) | CPU | khoảng 7 phút | ok | `G4/results/w1/w1_context_cap*_h002.csv` | thăm dò, cho §2.7 |
+| W1-refined | 05/11 chiều | như trên | hằng số tinh chỉnh của Bổ đề 3 (`w1_drift_check.py refined`) | CPU | < 1 phút | ok | `G4/results/w1/w1_partition_bound_refined.csv` | chỉ tính số, không mô phỏng |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

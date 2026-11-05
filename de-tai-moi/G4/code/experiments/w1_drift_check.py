@@ -263,10 +263,116 @@ def partition_bound(total_fail=0.05, H=60, K=10, h_max=0.1, burn=20):
     print(t.round(4).to_string(index=False))
 
 
+def _solve_tail(tail, target, lo=1e-6, hi=1.0):
+    """Nghiệm x nhỏ nhất với tail(x) ≤ target (tail giảm theo x), tìm nhị phân."""
+    if tail(hi) > target:
+        return np.inf
+    for _ in range(80):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if tail(mid) > target else (lo, mid)
+    return hi
+
+
+def refined_band(n_F, rho, K, h_max, a, b, p_sweep, method):
+    """Nửa dải bất biến của Mệnh đề 4′(b′) cho Φ = a + b·r (δ = 0, không điểm xấu, ngữ cảnh đầy đủ), theo ba cách lấy
+    hằng số của Bổ đề 3 (W1_R1A_REPORT §2.7):
+      'hoeffding3' — bản gốc: chia ν đều cho ba mảnh, cộng trên K khối cho cả ba;
+      'split'      — Hoeffding, chia ν tối ưu, Ville cho mảnh Z (không có thừa số K);
+      'bernstein'  — như 'split' nhưng Bernstein/Freedman với phương sai cục bộ v trong dải (lặp tới điểm bất động)."""
+    n = n_F / rho
+    a_m = (n_F - np.ceil(n / K)) / n_F
+    r_star = a / (1 - b)
+    q = p_sweep / 4                                                     # chia p cho λ, Z, o, h
+    if method == "hoeffding3":
+        c = a_m ** 2 * min(2 / 9, 1 / (18 * h_max ** 2))
+        lam = np.sqrt(np.log(2 / p_sweep) / (2 * n_F))
+        nu = np.sqrt(np.log(6 * K / p_sweep) / (c * rho * n_F))
+        return (b * nu + lam) / (1 - b), nu, lam
+    v = 0.25
+    for _ in range(50):
+        if method == "split":
+            tz = lambda x: np.exp(-2 * a_m ** 2 * n_F * x ** 2)
+            to = lambda x: K * np.exp(-2 * a_m ** 2 * rho * n_F * x ** 2)
+            tl = lambda x: np.exp(-2 * n_F * x ** 2)
+        else:
+            vz = v                                                       # Σ c(1−c)/n_F ≤ v; phương sai tổng thể của o ≤ ρ·v
+            tz = lambda x: np.exp(-(x * a_m * n_F) ** 2 / (2 * (n_F * vz + x * a_m * n_F / 3)))
+            to = lambda x: K * np.exp(-(x * a_m * n_F) ** 2 / (2 * (n_F * vz + x * a_m * n_F / 3)))
+            tl = lambda x: np.exp(-n_F * x ** 2 / (2 * (vz + x / 3)))
+        th = lambda x: K * np.exp(-a_m ** 2 * rho * n_F * x ** 2 / (2 * h_max ** 2))
+        nu = _solve_tail(tz, q) + _solve_tail(to, q) + _solve_tail(th, q)
+        lam = _solve_tail(tl, q)
+        half = (b * nu + lam) / (1 - b)
+        if method == "split":
+            break
+        lo, hi = max(0.0, r_star - half), min(1.0, r_star + half)
+        rr = np.linspace(lo, hi, 201)
+        cc = np.clip(np.r_[a + b * rr - h_max, a + b * rr + h_max], 0, 1)
+        v_new = float(max(np.max(rr * (1 - rr)), np.max(cc * (1 - cc))))
+        if abs(v_new - v) < 1e-6:
+            break
+        v = v_new
+    return half, nu, lam
+
+
+def refined_table(total_fail=0.05, H=60, K=10, h_max=0.02):
+    rows = []
+    for name, (a, b) in {"single_0.9": (0.45, 0.5), "single_0.6": (0.24, 0.6)}.items():
+        for n_F in (500, 3000, 10000, 30000):
+            for method in ("hoeffding3", "split", "bernstein"):
+                half, nu, lam = refined_band(n_F, 1.0, K, h_max, a, b, total_fail / (2 * H), method)
+                rows.append(dict(map_name=name, n_F=n_F, method=method, nu=nu, lam=lam, halfwidth=half))
+    t = pd.DataFrame(rows)
+    need = []
+    for (name, method), g in t.groupby(["map_name", "method"]):
+        a, b = {"single_0.9": (0.45, 0.5), "single_0.6": (0.24, 0.6)}[name]
+        grid = np.unique(np.round(np.geomspace(300, 3e5, 400)))
+        ok = [nf for nf in grid if refined_band(nf, 1.0, K, h_max, a, b, total_fail / (2 * H), method)[0] <= 0.05]
+        need.append(dict(map_name=name, method=method, n_F_for_halfwidth_0_05=float(ok[0]) if ok else np.nan))
+    t = t.merge(pd.DataFrame(need), on=["map_name", "method"])
+    t.to_csv(os.path.join(OUT, "w1_partition_bound_refined.csv"), index=False)
+    pd.set_option("display.width", 200)
+    print(t.round(4).to_string(index=False))
+
+
+def context_cap(n=3000, h=0.02, reps=10, K=10, T=60, burn=20):
+    """Kiểm Nhận xét 7 / Bổ đề 3 bản có max_context (W1_R1A_REPORT §2.6): cùng TFM giả (không clip), nhưng ngữ cảnh
+    mỗi khối là mẫu con đều cỡ M_c của [n]∖B (đúng như sampler._ctx). Đo độ rộng dải (sd theo thời gian) và lưu vực
+    sát u. Lý thuyết: chặn (mỗi khối, xấu nhất) bão hoà ở cỡ M_c; trung bình qua K khối thì phương sai thêm vào chỉ
+    cỡ Φ′²·r(1−r)/(K·M_c), nên hiệu ứng thật nhỏ hơn chặn."""
+    C = 10
+    y, S, het = problem(n, C, h=h)
+    X = np.arange(n, dtype=float)[:, None]
+    rows = []
+    for name in ("single_0.9", "bistable_0.2_0.5_0.95"):
+        cond, free = make_cond(y, S, het, MAPS[name], C)
+        mon = lambda yy, free=free: float(np.mean(yy[free] == y[free]))
+        for mc in (100, 300, 1000, None):
+            for r0 in (0.1, 0.45, 0.55, 0.95):
+                for rep in range(reps):
+                    rng = np.random.default_rng([n, rep, int(r0 * 100), 7])
+                    z0 = planted(y, S, r0, rng)
+                    g = InContextGibbs(cond, PartialLabel(S), n_blocks=K, n_sweeps=T, burn_in=T, max_context=mc,
+                                       seed=int(rng.integers(1 << 30)), init=z0, monitor=mon).run(X)
+                    tr = np.r_[mon(z0), g.trace_.monitor]
+                    rows.append(dict(map_name=name, max_context=mc if mc else n, r0=r0, rep=rep, r_final=tr[-1],
+                                     sd_time=float(tr[burn:].std()), mean_late=float(tr[burn:].mean()),
+                                     upper=int(tr[-1] > 0.5)))
+            print(name, mc, flush=True)
+    d = pd.DataFrame(rows)
+    d.to_csv(os.path.join(OUT, f"w1_context_cap_runs{_tag(h)}.csv"), index=False)
+    s = d.groupby(["map_name", "max_context", "r0"]).agg(mean_late=("mean_late", "mean"), sd_time=("sd_time", "mean"),
+                                                         frac_upper=("upper", "mean")).reset_index()
+    s.to_csv(os.path.join(OUT, f"w1_context_cap{_tag(h)}.csv"), index=False)
+    pd.set_option("display.width", 200)
+    print(s.round(4).to_string(index=False))
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "theory", "partition"])
+    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "theory", "partition", "context", "refined"])
     ap.add_argument("--h", type=float, default=0.1)
     a = ap.parse_args()
-    {"run": lambda: main(h=a.h), "theory": lambda: theory(h_max=a.h), "partition": lambda: partition_bound(h_max=a.h)}[a.cmd]()
+    {"run": lambda: main(h=a.h), "theory": lambda: theory(h_max=a.h), "partition": lambda: partition_bound(h_max=a.h),
+     "context": lambda: context_cap(h=a.h), "refined": lambda: refined_table(h_max=a.h)}[a.cmd]()
