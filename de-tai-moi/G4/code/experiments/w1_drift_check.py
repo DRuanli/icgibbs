@@ -335,6 +335,78 @@ def refined_table(total_fail=0.05, H=60, K=10, h_max=0.02):
     print(t.round(4).to_string(index=False))
 
 
+def sweep_moments(S, n, K, c0, b):
+    """Mệnh đề 6 (W1_R1A_REPORT §2.8). Lịch quét thật, ρ = 1, h = 0, Φ(r) = c0 + b·r không bị cắt, K khối bằng nhau
+    cỡ m = n/K. Cho S = n·R_s, trả về E[R_{s+1}] và Var[R_{s+1}] CHÍNH XÁC. Cách tính: Z = (N_1..N_K, O_1..O_K), với
+    O_j là số đúng cũ của khối j (siêu bội đa biến) và N_k là số đúng mới. N_k = m·c0 + g_k·Z + ε_k là affine theo các
+    biến trước nó cộng một nhiễu có kỳ vọng có điều kiện 0 và phương sai có điều kiện m·c_k(1 − c_k), bậc hai theo Z.
+    Vì vậy vector trung bình và ma trận hiệp phương sai lan truyền chính xác qua từng khối."""
+    m = n // K
+    assert m * K == n
+    p = S / n
+    d = 2 * K
+    mu = np.zeros(d)
+    Sig = np.zeros((d, d))
+    mu[K:] = m * p
+    Sig[K:, K:] = -m * m * p * (1 - p) / (n - 1)
+    Sig[np.arange(K, d), np.arange(K, d)] = m * p * (1 - p) * (n - m) / (n - 1)
+    for k in range(K):
+        w = np.zeros(d)
+        w[:k] = 1.0
+        w[K + k + 1:] = 1.0
+        g = m * b / (n - m) * w
+        mu_r, var_r = w @ mu / (n - m), w @ Sig @ w / (n - m) ** 2
+        Ec = c0 + b * mu_r
+        Veps = m * (Ec - (b * b * var_r + Ec * Ec))
+        mu[k] = m * c0 + g @ mu
+        row = g @ Sig
+        Sig[k, :], Sig[:, k] = row, row
+        Sig[k, k] = g @ Sig @ g + Veps
+    one = np.zeros(d)
+    one[:K] = 1.0 / n
+    return float(one @ mu), float(one @ Sig @ one)
+
+
+def sweep_stationary(n, K, c0, b):
+    """E[R'|R] affine, Var[R'|R] bậc hai theo R (kiểm lại ở điểm thứ tư) ⇒ trung bình và phương sai dừng giải đúng:
+    μ = α0/(1 − α1), σ² = (q0 + q1 μ + q2 μ²)/(1 − α1² − q2)."""
+    R = np.array([0.2, 0.5, 0.8])
+    EV = np.array([sweep_moments(r * n, n, K, c0, b) for r in R])
+    a1, a0 = np.polyfit(R, EV[:, 0], 1)
+    q2, q1, q0 = np.polyfit(R, EV[:, 1], 2)
+    e4, v4 = sweep_moments(0.37 * n, n, K, c0, b)
+    assert abs(e4 - (a0 + a1 * 0.37)) < 1e-9 and abs(v4 - (q0 + q1 * 0.37 + q2 * 0.37 ** 2)) < 1e-9
+    mu = a0 / (1 - a1)
+    var = (q0 + q1 * mu + q2 * mu * mu) / (1 - a1 ** 2 - q2)
+    return dict(alpha0=a0, alpha1=a1, q0=q0, q1=q1, q2=q2, mean=mu, sd=float(np.sqrt(var)))
+
+
+def second_order(h=0.02, burn=20, K=10):
+    d = pd.read_csv(os.path.join(OUT, f"w1_drift_runs{_tag(h)}.csv"))
+    rows = []
+    for (n, name), g in d.groupby(["n", "map_name"]):
+        if not name.startswith("single"):
+            continue
+        b = 1 + (MAPS[name](0.5) - MAPS[name](0.4)) / 0.1
+        c0 = MAPS[name](0.0)
+        st = sweep_stationary(n, K, c0, b)
+        T = [np.array([float(v) for v in t.split("/")]) for t in g.trace]
+        late = np.concatenate([t[burn:] for t in T])
+        L = len(T[0]) - burn
+        r = c0 / (1 - b)
+        rows.append(dict(n=n, map_name=name, mean_exact=st["mean"], mean_obs=float(late.mean()), sd_exact=st["sd"],
+                         sd_obs_pooled=float(late.std()), ratio=float(late.std()) / st["sd"],
+                         sd_jacobi=float(np.sqrt(r * (1 - r) / (n * (1 - b * b)))), lag1_exact=st["alpha1"],
+                         lag1_exact_finiteT=st["alpha1"] - (1 + 4 * st["alpha1"]) / L,   # chệch của ước lượng với chuỗi dài L
+                         lag1_obs=float(np.mean([np.corrcoef(t[burn:-1], t[burn + 1:])[0, 1] for t in T])),
+                         band99_gauss_lo=st["mean"] - 2.576 * st["sd"], band99_gauss_hi=st["mean"] + 2.576 * st["sd"],
+                         band99_obs_lo=float(np.quantile(late, 0.005)), band99_obs_hi=float(np.quantile(late, 0.995))))
+    t = pd.DataFrame(rows)
+    t.to_csv(os.path.join(OUT, f"w1_second_order{_tag(h)}.csv"), index=False)
+    pd.set_option("display.width", 250)
+    print(t.round(5).to_string(index=False))
+
+
 def context_cap(n=3000, h=0.02, reps=10, K=10, T=60, burn=20):
     """Kiểm Nhận xét 7 / Bổ đề 3 bản có max_context (W1_R1A_REPORT §2.6): cùng TFM giả (không clip), nhưng ngữ cảnh
     mỗi khối là mẫu con đều cỡ M_c của [n]∖B (đúng như sampler._ctx). Đo độ rộng dải (sd theo thời gian) và lưu vực
@@ -371,8 +443,9 @@ def context_cap(n=3000, h=0.02, reps=10, K=10, T=60, burn=20):
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "theory", "partition", "context", "refined"])
+    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "theory", "partition", "context", "refined", "second"])
     ap.add_argument("--h", type=float, default=0.1)
     a = ap.parse_args()
     {"run": lambda: main(h=a.h), "theory": lambda: theory(h_max=a.h), "partition": lambda: partition_bound(h_max=a.h),
-     "context": lambda: context_cap(h=a.h), "refined": lambda: refined_table(h_max=a.h)}[a.cmd]()
+     "context": lambda: context_cap(h=a.h), "refined": lambda: refined_table(h_max=a.h),
+     "second": lambda: second_order(h=a.h)}[a.cmd]()

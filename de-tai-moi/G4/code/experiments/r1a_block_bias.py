@@ -6,6 +6,7 @@ KHÔNG phụ thuộc n; và dùng Định lý 2 với nhân khối chính xác l
     python r1a_block_bias.py tc       # E7a: KL(p(y_B | D_−B) ‖ Π_i p(y_i | D_−B)) chính xác, Dirichlet–multinomial, C lớp
     python r1a_block_bias.py thm2     # E7b: chuỗi gộp một ô (SSL, PU), khối trên mọi mẫu: TV(π̃, π) thật, ε̄, τ(P), chặn
     python r1a_block_bias.py decomp   # E7d (thăm dò): chặn Định lý 2 lỏng ở đâu — ε̄ so với khuyết một bước, τ₁(Z) so với khuếch đại thật
+    python r1a_block_bias.py affine   # E7f (R2): trung bình dừng dạng đóng của chuỗi gộp SSL (drift affine), mọi n
     python r1a_block_bias.py llp      # E7e: LLP, bag-block không sửa, prior hai loại feature (giải chính xác trên histogram túi)
     python r1a_block_bias.py moments  # E7c (thăm dò): π̃ lệch π ở đâu — độ rộng hay vị trí — và vì sao TV không giảm theo n
 Kết quả: ../../results/r1a/*.csv
@@ -25,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, ".."))
 sys.path.insert(0, HERE)
 from icgibbs.exact import stationary, tv  # noqa: E402
-from rq1_exact import lumped_all  # noqa: E402
+from rq1_exact import lumped, lumped_all  # noqa: E402
 
 OUT = os.path.join(HERE, "..", "..", "results", "r1a")
 os.makedirs(OUT, exist_ok=True)
@@ -389,5 +390,77 @@ def e7e():
     save(pd.DataFrame(rows), "e7e_llp_bag_block.csv")
 
 
+# ==================================================================================================
+# E7f — R2 ở mức dự đoán: drift affine ⇒ trung bình dừng dạng đóng (W1_R1A_REPORT §5.7)
+# ==================================================================================================
+def ssl_affine_means(n_lab_pos, n_lab, U, M, alpha=1.0, design="all"):
+    """Mô hình gộp Beta–Bernoulli, SSL (mẫu tự do không bị nghiêng). Với cả nhân chính xác (rút chung các mẫu tự do của
+    khối, biết MỌI nhãn còn lại) và nhân không sửa (rút độc lập theo dự đoán của ngữ cảnh = mọi mẫu ngoài khối), kỳ vọng
+    có điều kiện của số đếm sau một bước là hàm affine của k: E[k' − k | k] = A − a·k. Vì E_π[k' − k] = 0 nên trung bình
+    dừng của k là đúng A/a (không xấp xỉ). design='free': khối gồm M mẫu tự do; 'all': khối là tập con đều cỡ M của mọi
+    mẫu (mặc định của bộ lấy mẫu), l = số mẫu có nhãn trong khối ~ siêu bội. Trả về (E_π k, E_π̃ k)."""
+    n = n_lab + U
+    L = n_lab_pos
+    if design == "free":
+        ls, wl = np.array([0]), np.array([1.0])
+    else:
+        ls = np.arange(min(n_lab, M) + 1)
+        wl = hypergeom.pmf(ls, n, n_lab, M)
+    u = (M - ls).astype(float)
+    ok = (u >= 0) & (u <= U) & (wl > 0)
+    u, ls, wl = u[ok], ls[ok], wl[ok] / wl[ok].sum()
+    den_ex = n - u + 2 * alpha
+    A = float(wl @ (u * (L + alpha) / den_ex))
+    a = float(wl @ (u / U - u * (1 - u / U) / den_ex))
+    if design == "free":
+        At, at = A, a                                                  # cùng ngữ cảnh n − M, cùng trung bình
+    else:
+        den_ap = n - M + 2 * alpha
+        At = float(wl @ (u * (L - ls * L / n_lab + alpha) / den_ap))   # E[a | l] = l·L/n_lab
+        at = float(wl @ (u / U - u * (1 - u / U) / den_ap))
+    return A / a, At / at
+
+
+def e7f():
+    """(1) Kiểm dạng đóng trên các ô của E7c (so với trung bình tính từ ma trận chuyển, cùng nhân của E7b).
+    (2) Tính sai lệch dự đoán dạng đóng cho n tới 10⁶ (không cần ma trận) để lấy thang theo n và K."""
+    rows = []
+    for setting in ("SSL-asym",):
+        for n in (50, 100, 200):
+            for K in (5, 10, 20):
+                n_lab_pos, n_lab, U, _ = setting_params(setting, n)
+                M = max(1, n // K)
+                m_ex, m_ap = ssl_affine_means(n_lab_pos, n_lab, U, M, design="all")
+                pi, Pex = lumped_all_exact(n_lab_pos, n_lab, U, M)
+                pt = stationary(lumped_all_kernel(n_lab_pos, n_lab, U, M))
+                k = np.arange(U + 1)
+                mf_ex, mf_ap = ssl_affine_means(n_lab_pos, n_lab, U, max(1, U // K), design="free")
+                _, pb_f, _, _ = lumped(n_lab_pos, n_lab, U, max(1, U // K))
+                rows.append(dict(check="matrix", design="all", n=n, K=K, mean_pi_matrix=float(pi @ k), mean_pi_closed=m_ex,
+                                 mean_tilde_matrix=float(pt @ k), mean_tilde_closed=m_ap,
+                                 free_mean_tilde_matrix=float(pb_f @ k), free_mean_tilde_closed=mf_ap,
+                                 free_mean_pi_closed=mf_ex))
+    chk = pd.DataFrame(rows)
+    save(chk, "e7f_affine_check.csv")
+    rows = []
+    for n in (100, 300, 1000, 3000, 10000, 30000, 100000, 300000, 1000000):
+        for K in (5, 10, 20, 40):
+            for lab_frac, pos_frac in ((0.1, 0.3), (0.1, 0.5), (0.3, 0.3), (0.02, 0.3)):
+                n_lab = max(3, int(round(lab_frac * n)))
+                n_lab_pos = max(1, int(round(pos_frac * n_lab)))
+                U = n - n_lab
+                M = max(1, n // K)
+                m_ex, m_ap = ssl_affine_means(n_lab_pos, n_lab, U, M, design="all")
+                rows.append(dict(n=n, K=K, lab_frac=lab_frac, pos_frac=pos_frac, mean_pi=m_ex, mean_tilde=m_ap,
+                                 shift_counts=m_ap - m_ex, pred_err=abs(m_ap - m_ex) / (n + 2.0),
+                                 n_times_pred_err=abs(m_ap - m_ex) * n / (n + 2.0)))
+    t = pd.DataFrame(rows)
+    save(t, "e7f_affine_closed_form.csv")
+    for (lf, pf), g in t[t.n >= 1000].groupby(["lab_frac", "pos_frac"]):
+        X = np.column_stack([np.ones(len(g)), np.log(g.n), np.log(g.K)])
+        bcoef = np.linalg.lstsq(X, np.log(g.pred_err), rcond=None)[0]
+        print(f"lab_frac={lf}, pos_frac={pf}: sai lệch dự đoán ∝ n^{bcoef[1]:.3f} · K^{bcoef[2]:.3f}")
+
+
 if __name__ == "__main__":
-    {"tc": e7a, "thm2": e7b, "moments": e7c, "decomp": e7d, "llp": e7e}[sys.argv[1]]()
+    {"tc": e7a, "thm2": e7b, "moments": e7c, "decomp": e7d, "llp": e7e, "affine": e7f}[sys.argv[1]]()
