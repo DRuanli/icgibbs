@@ -10,7 +10,7 @@
 
 | 05/11/2026 02:10 UTC | **7ec273b** (main) | Thầy duyệt V0_REPORT §6 (giai đoạn 1 và đưa R4 vào bài). Ghi trước giai đoạn 1 ([PHASE1_PLAN](PHASE1_PLAN.md)): dataset, ba bộ gộp, quy tắc chọn, P5–P7, **trước khi viết code và trước mọi lượt chạy** |
 
-| 05/11/2026 | (commit code giai đoạn 1, ghi ở dòng lượt) | Code giai đoạn 1: `qbar()` trong sampler; `base_oof` và lưu npz trong `run_multistart`; `run_g7.py --save_dir --oof`, `--explore` cho v0 trên S2; lượt V1A/V1B; `tests/test_v1.py` (bộ test 127 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1_aggregate.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v7.zip` dựng bằng `git archive` từ commit này |
+| 05/11/2026 02:34 UTC | **a8e355c** (main) | Code giai đoạn 1: `qbar()` trong sampler; `base_oof` và lưu npz trong `run_multistart`; `run_g7.py --save_dir --oof`, `--explore` cho v0 trên S2; lượt V1A/V1B; `tests/test_v1.py` (bộ test 127 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1_aggregate.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v7.zip` dựng bằng `git archive` từ commit này |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
