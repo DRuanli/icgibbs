@@ -9,21 +9,32 @@
    - Đặt δ′ = δ + δ_ctx, với δ_ctx = O(√(log N / n_F)). Khi đó, với lịch quét khối ngẫu nhiên:
      - (a) nơi gain Φ(r) − r ≥ γ > δ′, chuỗi đi lên với xác suất ≥ 1 − exp(−ρ n_F κ²/(c_w T)) − ε;
      - (b) nơi gain ≤ −γ, chuỗi không vượt lên quá một dải hẹp, và xác suất vượt nhỏ theo hàm mũ của n_F;
-     - (c) nếu Φ có một điểm hút, điểm cuối không phụ thuộc điểm xuất phát;
-     - (d) nếu Φ có hai điểm hút, điểm xuất phát quyết định lưu vực, và thời gian thoát lưu vực dài theo hàm mũ của n_F.
-   - Chứng minh đầy đủ cho lịch quét khối ngẫu nhiên, ở bài rút độc lập (PLL, SSL, PU). Chưa phủ LLP.
+     - (c) nếu Φ có một điểm hút, điểm cuối không phụ thuộc điểm xuất phát. Khẳng định "vào cửa sổ quanh r*" cần thêm 1/(ρK) ≤ 2η;
+     - (d) nếu Φ có hai điểm hút, điểm xuất phát quyết định lưu vực.
+   - Chứng minh đầy đủ cho lịch quét khối ngẫu nhiên, trừ thời gian thoát ở (d), vẫn là phác thảo.
+   - **Phạm vi:**
+     - bài rút độc lập: PLL, SSL, PU với tham số nhãn yếu đã biết; chưa phủ LLP;
+     - TFM tất định;
+     - **ngữ cảnh đầy đủ**: chưa phủ việc lấy mẫu con max_context = 2000 của cấu hình chạy thật (Nhận xét 7).
    - **Lịch quét thật** (hoán vị rồi chia K khối mỗi vòng, đúng như `sampler.py`): chứng minh đầy đủ ở §2.6 (Bổ đề 3, Mệnh đề 4′, bổ sung 05/11 trưa).
      - Không cần Φ đơn điệu hay Lipschitz, vì chứng minh dùng bao đơn điệu của Φ.
      - Chuỗi trội một dãy lặp tất định kiểu Jacobi.
-     - Sàn và trần bất biến; thời gian thoát lưu vực tăng mũ theo n_F, có hằng số.
+     - Sàn và trần bất biến ở ranh giới vòng quét; thời gian thoát lưu vực tăng mũ theo n_F, có hằng số.
      - Hằng số lỏng khoảng 10 lần so với mô phỏng.
-   - **Tự rà bằng skill dm-paper-math-review** tìm ra 3 lỗi MAJOR ở bản đầu, đã sửa (`V2/reviews/W1_SELF_REVIEW_01.md`). Bản đầu so Φ tại r của cả trạng thái, đòi dung sai đều cho cả độ khó riêng của điểm, và ngụ ý phủ LLP. Bổ đề 3 và hằng số của thời gian thoát đã viết xong ở §2.6. Lượt rà độc lập đang chạy (§6).
+   - **Tự rà bằng skill dm-paper-math-review** tìm ra 3 lỗi MAJOR ở bản đầu, đã sửa (`V2/reviews/W1_SELF_REVIEW_01.md`). Bản đầu so Φ tại r của cả trạng thái, đòi dung sai đều cho cả độ khó riêng của điểm, và ngụ ý phủ LLP. Bổ đề 3 và hằng số của thời gian thoát đã viết xong ở §2.6.
+   - **Rà độc lập** (agent chưa thấy bản nháp, `V2/reviews/W1_REVIEW_INDEPENDENT_01.md`) tìm 1 BLOCKING, 2 MAJOR, 8 MINOR. **Đã sửa hết**; xem nhãn [IR-…] trong bài.
+     - BLOCKING: ở (c), bước chạm có thể nhảy qua cả cửa sổ. Phản ví dụ: K = 2. Sửa bằng điều kiện 1/(ρK) ≤ 2η.
+     - MAJOR-1: δ của TFM giả cũ phải tính theo khối xấu nhất, nên không phải "≤ 0,001". Em chạy lại mô phỏng không có clip, để δ = 0 đúng.
+     - MAJOR-2: chưa mô hình hoá max_context; em giới hạn phạm vi.
+   - Lõi được người rà xác nhận: Bổ đề 1 (L5), Bổ đề 2, Mệnh đề 4(a)(b), Bổ đề 3 (L5, với các giả định đã thêm), Mệnh đề 4′ (a′)–(d′).
 2. **Mỗi phía của mệnh đề chỉ cần một phía của (H).**
    - Muốn kết luận "đi lên, ở lại trên", chỉ cần Φ_chuỗi ≥ Φ − δ.
    - Muốn kết luận "sụp, ở lại dưới", cần Φ_chuỗi ≤ Φ + δ.
 3. **Kiểm bằng TFM giả biết trước Φ, §3.** Mô phỏng chạy bằng đúng `InContextGibbs`, tức lịch quét thật.
+   - Lượt chính có h_max = 0,02 và không clip, nên (H) đúng với δ = 0. Đối tượng so đúng là Mệnh đề 4′.
    - Với một điểm hút, điểm cuối không phụ thuộc điểm xuất phát: các điểm xuất phát lệch nhau ≤ 0,005.
-   - Dải dừng co theo 1/√n và rộng hơn G_{δ′} = {r : |g(r)| ≤ δ′} một chút, đúng như dải "G_{δ′} + β" của mệnh đề.
+   - Dải dừng co theo 1/√n và có cùng bậc với G_{δ′} = {r : |g(r)| ≤ δ′}. Chặn chính thức của 4′ rộng hơn khoảng 10 lần.
+   - Quan sát số vòng quét để tới đích ≤ dãy Jacobi trội, đúng như (a′).
    - Với hai điểm hút, ở n = 3.000, các điểm xuất phát cách u ≥ 0,2 thoả điều kiện của (d), và lưu vực đúng 100%.
    - Sát u (±0,05) mệnh đề không nói gì. Quan sát thấy lẫn lưu vực ở n = 500 (4/20 và 19/20 vào lưu vực trên) nhưng tách hẳn ở n = 3.000. Chênh này do nhiễu.
 4. **δ đo trên TFM thật (dữ liệu V0), §4.**
@@ -36,7 +47,7 @@
    - Phân rã cho thấy phần lỏng chủ yếu nằm ở ε̄. Sai số theo từng hàng triệt tiêu khi lấy trung bình theo π̃, nhỏ đi 10–210 lần. Về thực nghiệm, TV(π̃, π)/ε̄ chỉ nằm trong 0,49–1,17.
    - TV trên vector nhãn cỡ 1/K (thực nghiệm K^−1,13) và **không giảm theo n**. Sai lệch dự đoán chỉ cỡ n^−0,9·K^−1,15.
    - R2 vì vậy nên phát biểu ở mức dự đoán, không ở mức TV của vector nhãn.
-   - **LLP (§5.6).** Bức tranh khác:
+   - **LLP (§5.5).** Bức tranh khác:
      - TV giảm theo n khi bài nhận dạng được;
      - sai lệch dự đoán lớn ở dữ liệu nhỏ: 0,02–0,05 ở n = 160, K = 10;
      - TV/ε̄ = 3–18;
@@ -47,16 +58,21 @@
 **Dữ liệu và phạm vi**
 - n điểm huấn luyện.
 - F là tập điểm tự do, gồm các điểm có nhãn chưa biết: với PLL là điểm có tập ứng viên ≥ 2; với SSL và PU là điểm chưa có nhãn.
-- n_F = |F|, ρ = n_F/n. Giả sử ρK > 1, tức mỗi khối nhỏ hơn F.
+- n_F = |F|, ρ = n_F/n. Cỡ khối lớn nhất là m = ⌈n/K⌉; giả sử n_F > m, để F∖B luôn khác rỗng, và đặt a_m = (n_F − m)/n_F. Khi K chia hết n thì a_m = 1 − 1/(ρK).
 - y* là nhãn thật. Nó **chỉ dùng trong phân tích**, phương pháp không dùng.
-- **Phạm vi:** khối mà các điểm tự do được rút **độc lập**, tức PLL, SSL, PU. LLP rút cả túi theo ràng buộc số đếm nên chưa được phủ (Nhận xét 5).
+- **Phạm vi:**
+  - khối mà các điểm tự do được rút **độc lập**, tức PLL, SSL, PU. LLP rút cả túi theo ràng buộc số đếm nên chưa được phủ (Nhận xét 5);
+  - PU chỉ khi c (SCAR) hoặc η (SAR) **đã biết**. Bộ lấy mẫu gọi `weak.update_params` sau mỗi vòng quét (`sampler.py` dòng 151). Khi tham số được học, ℓ_i đổi giữa các vòng, và (H) phải đúng đều theo tham số;
+  - TFM **tất định** theo (ngữ cảnh, truy vấn);
+  - **ngữ cảnh đầy đủ**: max_context = None, hoặc n − m ≤ max_context. Cấu hình chạy thật đặt max_context = 2000 (`g7/methods.py` dòng 17), xem Nhận xét 7;
+  - các dòng `extend` (n_total) cũng là điểm tự do, nên thuộc F.
 
 **Đại lượng theo dõi**
 - r(y) = (1/n_F) Σ_{i∈F} 1[y_i = y*_i], và R_t = r(Y_t).
 - r_{−B}(y) là tỉ lệ đúng trên F∖B, tức trên phần tự do của *ngữ cảnh*.
 
 **Lịch quét khối ngẫu nhiên** (đối tượng của mệnh đề)
-- Ở mỗi bước t, chọn B_t là tập con đều cỡ m = n/K của [n], độc lập với quá khứ.
+- Ở mỗi bước t, chọn B_t là tập con đều cỡ m của [n], độc lập với quá khứ. Với lịch quét này, giả sử K chia hết n.
 - Các điểm tự do trong B_t được rút lại độc lập. Mỗi điểm rút từ xác suất có điều kiện của TFM nhân với khả năng nhãn yếu, với ngữ cảnh là mọi điểm ngoài B_t.
 - Một vòng quét gồm K bước.
 
@@ -79,6 +95,8 @@
 - *đòi dung sai đều trên mọi khối cho cả phần không đồng nhất theo điểm;*
 - *ngụ ý phủ LLP.*
 
+*Sau đó một lượt rà độc lập (`V2/reviews/W1_REVIEW_INDEPENDENT_01.md`, agent chưa thấy bản nháp) tìm 1 lỗi BLOCKING, 2 MAJOR, 8 MINOR. Tất cả đã sửa trong bản này; mục sửa ghi bằng nhãn [IR-…].*
+
 ### 2.1 Giả định
 
 **(H_δ), phản ứng đồng nhất.** Có các thành phần sau:
@@ -97,19 +115,30 @@ sao cho với mọi trạng thái y và mọi khối B có B ∩ F ≠ ∅:
 **Đọc giả định.**
 - Hai vế chỉ phụ thuộc y_{−B}: giả định so cái TFM thấy với cái TFM thấy.
 - h_i là độ khó riêng của từng điểm (điểm dễ, điểm khó), không đổi theo trạng thái.
-  - Trung bình của h_i được gộp vào Φ, nên giả sử Σ h_i = 0 không làm mất tổng quát.
+  - Trung bình của h_i được gộp vào Φ, nên có thể giả sử Σ h_i = 0. [IR-MINOR-4] Việc này có cái giá:
+    - sau khi định tâm, |h_i| ≤ h_max⁰ + |h̄| (tới 2h_max⁰);
+    - Φ + h̄ có thể ra khỏi [0, 1].
+    Các hằng số w, c_w, s², c dùng h_max sau khi định tâm. Bước 6 của Bổ đề 1 vẫn đúng vì đầu dưới ≤ −h_max⁰ − δ ≤ 0.
   - Trung bình h_i trên một khối dao động. Dao động đó đi vào **nhiễu** (ζ_2), không đi vào δ.
 - δ là phần còn lại: mức mà *nhãn nào* sai còn quan trọng, ngoài *bao nhiêu* nhãn sai và độ khó riêng của điểm.
 - Ánh xạ phản ứng (S2X, V0) đo Φ.
-- Giả định áp cho mọi khối.
-- Trong TFM giả ở §3: δ ≤ 0,001 (chỉ do clip), h_max = 0,1.
+- **Giả định áp cho mọi y và mọi khối.** [IR-MAJOR-1] Đây là đòi hỏi mạnh:
+  - mọi sai lệch phụ thuộc trạng thái mà h_i cố định không hấp thụ được đều bị tính trên **khối xấu nhất**, không được lấy trung bình;
+  - khi có khối với |B∩F| nhỏ (1 − ρ ≳ 1/K, ví dụ SSL hoặc PU có ≥ 10% điểm cố định khi K = 10), (H) gần như đòi đúng **theo từng điểm**.
+- **Hai cách làm yếu** (đã đối chiếu từng bước với chứng minh):
+  - **Cục bộ:** các chứng minh chỉ dùng (H) tại trạng thái mà chuỗi đi qua trước thời điểm dừng tương ứng. Ví dụ, (a) chỉ cần (H) tại các y có r(y) ∈ [a, b). Vì vậy "mọi y" có thể thay bằng "mọi y trong vùng liên quan".
+  - **Khối điển hình (H_{δ, ε_B})**, cho lịch quét khối ngẫu nhiên: với mọi y, P_B(|dev(y, B)| > δ) ≤ ε_B, với dev là vế trái của (H) và B theo đúng luật mà lịch quét dùng. Bổ đề 1 khi đó đúng với P(G_t^c | 𝓕_t) ≤ ε/N + ε_B. Lý do: B_t ⊥ 𝓕_t, và ζ_2 dựng từ a_i không dùng (H). Với lịch quét thật (§2.6), bản này cần luật có điều kiện của B_k biết các khối trước, nên **chưa viết**.
+- **Trong TFM giả ở §3:**
+  - **lượt chính, h_max = 0,02:** không có clip, vì Φ + h ∈ [0,16; 0,97]. Vậy (H) đúng với **δ = 0** cho mọi y và mọi B;
+  - **lượt đầu, h_max = 0,1:** clip làm δ⁻ ở khối xấu nhất ≈ 0,05 với ánh xạ 0,9 và hai điểm hút, và ≈ 0,02 quanh điểm hút trên của ánh xạ 0,9. Ánh xạ 0,6 không bị clip nên δ = 0;
+  - bản đầu của report viết "δ ≤ 0,001" cho lượt đầu; câu đó sai.
 
 ### 2.2 Bổ đề 1 (một bước)
 
 **Phát biểu.** Cố định N và ε. Dưới (H⁻_δ), với mọi t < N có biến ζ⁻_t và biến cố G_t thoả ba điều:
 1. Trên G_t:  R_{t+1} − R_t ≥ (1/K)(g(R_t) − δ′) + ζ⁻_t.
 2. E[ζ⁻_t | 𝓕_t] = 0 và E[e^{θζ⁻_t} | 𝓕_t] ≤ e^{θ²s²/2} với mọi θ ∈ ℝ.
-3. P(G_t^c | 𝓕_t) ≤ ε/N.
+3. P(G_t^c | 𝓕_t) ≤ ε/N. Với bản khối điển hình, cộng thêm ε_B; xem §2.1.
 
 Dưới (H⁺_δ), trên cùng G_t có ζ⁺_t cùng tính chất, với R_{t+1} − R_t ≤ (1/K)(g(R_t) + δ′) + ζ⁺_t.
 
@@ -208,26 +237,38 @@ Bản đối xứng: "ở lại trên" khi g ≥ γ trên một đoạn, dùng (
 
   γ_η = min{min_{[0, r*−η]} g, min_{[r*+η, 1]} (−g)},
 
-và giả sử γ_η > δ′. Đặt T₀ = ⌈(1 + λ)/(γ_η − δ′)⌉ và N = (T₀ + H)K. Khi đó, **từ mọi r_0**, với xác suất
+và giả sử γ_η > δ′.
+- **Cố định trước** N = (T₀ + H)K, rồi mới tính δ′ theo N. [IR-COSMETIC-2] Cách làm: chọn T₀ ≥ (1 + λ_a)/(γ_η − δ′), rồi kiểm lại điều kiện.
+- Dùng **hai tham số riêng**: λ_a cho pha đi tới, λ_b cho dải. [IR-MINOR-2]
+- Đặt θ* = 4ρ n_F(γ_η − δ′)/c_w.
 
-  ≥ 1 − e^{−ρ n_F λ²/(c_w T₀)} − 2(HK + 1)·e^{−θ*λ} − 2HK·e^{−Kρ n_F λ′²/c_w} − ε,
+Khi đó, **từ mọi r_0**, với xác suất
 
-với θ* = 4ρ n_F(γ_η − δ′)/c_w, hai điều xảy ra:
-- chuỗi vào [r* − η, r* + η] trong T₀ vòng quét;
-- sau đó chuỗi ở trong [r* − η − β, r* + η + β] suốt H vòng quét, với β = (ḡ + δ′)/K + λ′ + λ và ḡ là giá trị lớn hơn của hai ḡ_ℓ ở hai biên.
+  ≥ 1 − e^{−ρ n_F λ_a²/(c_w T₀)} − 2(HK + 1)·e^{−θ*λ_b} − (2H + T₀)K·e^{−Kρ n_F λ′²/c_w} − ε,
+
+hai điều xảy ra:
+- **chuỗi chạm biên gần** (r* − η nếu đi từ dưới, r* + η nếu đi từ trên) trong T₀ vòng quét. Nếu thêm **1/(ρK) ≤ 2η**, thì tại lúc chạm chuỗi nằm **trong** [r* − η, r* + η]. [IR-BLOCKING-1]
+- sau đó chuỗi ở trong [r* − η − β, r* + η + β] suốt H vòng quét, với β = (ḡ + δ′)/K + λ′ + λ_b và ḡ là giá trị lớn hơn của hai ḡ_ℓ ở hai biên.
+
+*Vì sao cần 1/(ρK) ≤ 2η.*
+- Thiếu điều kiện này, bước chạm có thể nhảy qua cả cửa sổ.
+- Phản ví dụ của lượt rà độc lập: K = 2, L = 4. Khi đó chuỗi trung bình dao động trên chu trình 2 điểm {0,367; 0,633} quanh r* = 0,5, không bao giờ vào [0,45; 0,55], dù chặn cũ hứa xác suất ≥ 0,99.
+- Với cấu hình thật (K = 10, ρ ≈ 1) và η = 0,1, điều kiện thoả.
 
 *Chứng minh.*
-- Dùng (a) với biên ngoài là 0 hoặc 1, nên κ = λ, để đi tới biên gần.
-- Sau đó dùng (b) và bản đối xứng của nó ở hai biên r* ± η, kể từ bước ngay trước lần chạm, nhờ tính Markov mạnh.
-- G dùng chung cho mọi bước, nên chỉ trừ ε một lần.
+- **Đi tới:** dùng (a) với biên ngoài là 0 hoặc 1, nên κ = λ_a. Chạm từ dưới thì R_τ ≥ r* − η. Vì mỗi bước nhảy ≤ 1/(ρK) ≤ 2η và R_{τ−1} < r* − η, nên R_τ < r* + η.
+- **Ở lại:** lập luận (b) và bản đối xứng ở hai biên r* ± η. Không dùng tính Markov mạnh tại τ − 1, vì τ − 1 không phải thời điểm dừng. [IR-MINOR-1] Thay vào đó:
+  - G và E′ là các biến cố toàn cục; E′ phủ cả pha đi tới, tức các bước [0, (T₀ + H)K), nên có thừa số (2H + T₀)K;
+  - các lần vượt được đánh chỉ số theo thời điểm bắt đầu t₀ tất định, và {τ ≤ t₀} ∈ 𝓕_{t₀};
+  - G dùng chung, nên chỉ trừ ε một lần.
 
 *Khi 1/(ρK) < η:* cửa sổ của ḡ nằm trong vùng gain ngược dấu, nên ḡ = 0.
 
 *Bản tiệm cận.*
 - Cho n_F → ∞ với ρ, K, h_max cố định, H đa thức theo n_F, và ε = 1/n_F. Khi đó δ_ctx → 0.
-- Chọn λ ~ log(HK n_F)/(ρ n_F) và λ′ ~ √(log(HK n_F)/(Kρ n_F)).
-- Dải co về **G_δ ± (ḡ + δ)/K**, với G_δ = {r : |g(r)| ≤ δ}.
-- Dùng chặn bước nhảy xác suất cao, cỡ (max|g| + δ)/K + λ′, thay cho 1/(ρK), thì ḡ = O(1/K), nên phần thêm vào là O(1/K²).
+- Chọn λ_a hằng (ví dụ 1), λ_b ~ log(HK n_F)/(ρ n_F), λ′ ~ √(log(HK n_F)/(Kρ n_F)).
+- Dải co về **khoảng đối xứng nhỏ nhất quanh r* chứa G_δ, cộng ± (ḡ + δ)/K**, với G_δ = {r : |g(r)| ≤ δ}. Nếu G_δ có thành phần xa r*, giới hạn là bao lồi.
+- Nhận định "dùng chặn bước nhảy xác suất cao, cỡ (max|g| + δ)/K + λ′, thay cho 1/(ρK), thì ḡ = O(1/K)" mới ở mức L1, chưa chứng minh.
 - Khi g tuyến tính với hệ số góc −α quanh r*, ta có G_δ = r* ± δ/α: sai lệch của điểm dừng bằng độ không đồng nhất chia cho độ co của ánh xạ.
 
 *Ý nghĩa cho V2.*
@@ -243,12 +284,13 @@ với θ* = 4ρ n_F(γ_η − δ′)/c_w, hai điều xảy ra:
 - γ = min{min_{[u+η, r₂−η]} g, min_{[r₂+η, 1]} (−g)} > δ′;
 - r₂ − u > 2η + β, với β như ở (c).
 
-Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η) ở phần đi tới, chuỗi vào dải quanh r₂ và ở đó, phía trên u + η, suốt H vòng quét. Đối xứng, nếu R_0 ≤ u − 2η thì chuỗi vào dải quanh r₁.
+Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ_a, η) ở phần đi tới, chuỗi chạm r₂ − η, rồi ở trong dải quanh r₂, phía trên u + η, suốt H vòng quét. Nếu thêm 1/(ρK) ≤ 2η thì lúc chạm chuỗi nằm trong [r₂ − η, r₂ + η]. Đối xứng, nếu R_0 ≤ u − 2η thì chuỗi vào dải quanh r₁.
 
-*Thời gian thoát (phác thảo, mức L2).*
-- Chọn λ = λ′ cỡ (r₂ − u − 2η − (ḡ + δ′)/K)/2 trong bản đối xứng của (b).
-- Xác suất rời lưu vực trong H vòng quét ≤ C·HK·exp(−c ρ n_F min{(γ − δ′)λ, Kλ²}).
-- Vậy thời gian thoát ≥ e^{c′n_F}/K vòng quét. Hằng số chưa viết ra.
+*Thời gian thoát (phác thảo, mức L2; chỉ cho lịch quét khối ngẫu nhiên).*
+- Chọn λ_b = λ′ cỡ (r₂ − u − 2η − (ḡ + δ′)/K)/2 trong bản đối xứng của (b).
+- Xác suất rời lưu vực trong H vòng quét ≤ C·HK·exp(−c ρ n_F min{(γ − δ′)λ_b, Kλ_b²}) + ε.
+- **Chỗ hở** [IR-MINOR-3]: muốn thời gian thoát cỡ e^{c′n_F} thì N = HK cũng cỡ e^{c′n_F}. Khi đó δ_ctx(N) → L√(c′/(2K))/(ρ^{3/2}a_m), một hằng số. Kết luận chỉ đứng được khi c′ ≲ 2Kρ³a_m²(γ − δ)²/L², và ε cũng không nhỏ theo hàm mũ được.
+- Với **lịch quét thật**, (d′) ở §2.6 đã có chứng minh chặt kèm hằng số.
 
 *Ý nghĩa.*
 - Điểm xuất phát quyết định lưu vực, và chạy thêm vòng quét không sửa được điều đó.
@@ -266,7 +308,7 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
      - sự độc lập với điểm xuất phát;
      - dải G_δ;
      - thang mũ theo n_F.
-2. **Lịch quét thật.** Đã chứng minh đầy đủ ở §2.6 (Bổ đề 3, Mệnh đề 4′). Bản đó chặt hơn Mệnh đề 4 về cấu trúc, nhưng hằng số lỏng hơn.
+2. **Lịch quét thật.** Đã chứng minh đầy đủ ở §2.6 (Bổ đề 3, Mệnh đề 4′). Bản đó chỉ kiểm soát R ở **ranh giới vòng quét**, không ở mọi bước, và hằng số lỏng hơn. Bù lại, nó không có số hạng vượt O(1/K), không có thừa số HK, và có thời gian thoát chặt.
 3. **Hai phía của (H) dùng cho hai việc khác nhau.**
    - (a) và "ở lại trên" chỉ cần (H⁻).
    - (b) và kết luận "sụp" cần (H⁺).
@@ -274,7 +316,7 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
 4. **Số hạng ngữ cảnh không có log** (nhận xét, mức L1).
    - Giả sử Φ ∈ C² và ρ = 1, tức f = m cố định.
    - Phần tuyến tính Φ′(R)·S_B/(n_F − m) có kỳ vọng 0 theo B, nên có thể đưa vào ζ_2. Cái giá là proxy lớn lên.
-   - Phần còn lại cho độ lệch mỗi vòng quét ≲ ‖Φ″‖/(8ρ²K n_F).
+   - Phần còn lại cho độ lệch mỗi vòng quét ≲ ‖Φ″‖/(8(K−1)n), vì E S_B² = m·R(1−R)·(n−m)/(n−1). [IR-COSMETIC-5]
    - Với Φ tuyến tính, như hai ánh xạ một điểm hút ở §3, số hạng ngữ cảnh không làm lệch drift. Chưa viết chứng minh.
 5. **LLP (chưa phủ).**
    - Hướng mở rộng: lấy túi làm đơn vị, cả khi chọn khối lẫn khi tính nhiễu rút.
@@ -283,6 +325,20 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
 6. **So với các phần khác của bài.**
    - Định lý 2 và Mệnh đề 3 nói về khoảng cách từ π̃ đến posterior.
    - Mệnh đề 4 nói về **động học** của chính chuỗi xấp xỉ: nó đi tới đâu và ở đó bao lâu. Đây là phần lý thuyết cho ánh xạ phản ứng (C3 trong V2_PLAN §3).
+
+7. **Ngữ cảnh lấy mẫu con (max_context)** [IR-MAJOR-2].
+   - Cấu hình chạy thật đặt max_context = 2000 (`g7/methods.py` dòng 17). Khi |[n]∖B| > 2000, `sampler._ctx` (dòng 74–80) lấy mẫu con không hoàn lại C_k cỡ 2000, dùng chung cho cả khối.
+   - Khi đó ba điều thay đổi:
+     - c_i phụ thuộc C_k;
+     - các ξ_i chỉ độc lập khi đã điều kiện theo C_k;
+     - TFM thấy r_{C_k}, lệch r_{−B_k} một dao động siêu bội cỡ √(r(1−r)/(2000ρ)). Dao động này **không giảm theo n_F**.
+   - **Phạm vi hiện tại:** mọi kết quả ở §2 được phát biểu cho ngữ cảnh đầy đủ, tức n − ⌈n/K⌉ ≤ max_context. Với K = 10, điều này nghĩa là n ≲ 2.223.
+   - Trong 4 dataset PLL có chuỗi nhiều điểm xuất phát ở V0, chỉ **optdigits** (n_train = 3.934) vượt ngưỡng. mfeat-factors (1.395), semeion (1.115) và MiceProtein (756) đều nằm trong ngưỡng.
+   - **Hướng mở rộng** (chưa viết):
+     - đưa C_k vào mô hình: (H) điều kiện theo C_k, với Φ tính tại r_{C_k};
+     - thêm mảnh |r_{C_k} − r_{−B_k}| vào biến cố 𝓔;
+     - thay n_F bằng min(n_F, max_context) ở các số mũ.
+   - Khi đó các khẳng định "mũ theo n_F", như thời gian thoát (d′) và dải giới hạn, **bão hoà ở cỡ max_context**.
 
 ### 2.6 Lịch quét thật: Bổ đề 3 và Mệnh đề 4′
 
@@ -302,21 +358,21 @@ Khi đó, với xác suất có cùng dạng như ở (c), với κ = min(λ, η
   - Nếu Φ không giảm thì Φ̲ = Φ̄ = Φ.
   - **Không cần giả sử Φ đơn điệu.**
 
-**Hằng số.** Với ε, λ > 0:
+**Hằng số.** Với ν, λ > 0, trong đó ν là lề của ngữ cảnh trong vòng (đổi tên từ ε để khỏi trùng với ε ở §2.2–2.4) [IR-COSMETIC-1]:
 
-  p(ε, λ) = e^{−2n_Fλ²} + 3K·e^{−c ρ n_F ε²},  c = (1 − 1/(ρK))²·min{2/9, 1/(18 h_max²)}.
+  p(ν, λ) = e^{−2n_Fλ²} + 3K·e^{−c ρ n_F ν²},  c = a_m²·min{2/9, 1/(18 h_max²)},  a_m = (n_F − ⌈n/K⌉)/n_F. [IR-MINOR-5]
 
-Nếu h_max = 0, lấy c = (1 − 1/(ρK))²·2/9.
+Nếu h_max = 0, lấy c = a_m²·2/9.
 
-**Bổ đề 3 (một vòng quét).** Giả sử (H_δ) ở §2.1 và ρK > 1. Không cần Φ Lipschitz.
+**Bổ đề 3 (một vòng quét).** Giả sử (H_δ) ở §2.1, n_F > ⌈n/K⌉, và ngữ cảnh đầy đủ (Nhận xét 7). Không cần Φ Lipschitz. Các khẳng định chỉ nói về R_s ở **ranh giới vòng quét**. [IR-COSMETIC-6]
 
-- **(i) Sàn, chỉ cần (H⁻_δ).** Lấy x là một mức đo được theo 𝓕_s, với x ≤ R_s và Φ̲(x − ε) − δ ≥ x. Khi đó
+- **(i) Sàn, chỉ cần (H⁻_δ).** Lấy x là một mức đo được theo 𝓕_s, với Φ̲(x − ν) − δ ≥ x. Khi đó, trên biến cố {x ≤ R_s},
 
-  P(R_{s+1} ≥ Φ̲(x − ε) − δ − λ | 𝓕_s) ≥ 1 − p(ε, λ).
+  P(R_{s+1} ≥ Φ̲(x − ν) − δ − λ | 𝓕_s) ≥ 1 − p(ν, λ).
 
-- **(ii) Trần, chỉ cần (H⁺_δ).** Lấy x ≥ R_s với Φ̄(x + ε) + δ ≤ x. Khi đó
+- **(ii) Trần, chỉ cần (H⁺_δ).** Lấy x ≥ R_s với Φ̄(x + ν) + δ ≤ x. Khi đó
 
-  P(R_{s+1} ≤ Φ̄(x + ε) + δ + λ | 𝓕_s) ≥ 1 − p(ε, λ).
+  P(R_{s+1} ≤ Φ̄(x + ν) + δ + λ | 𝓕_s) ≥ 1 − p(ν, λ).
 
 **Chứng minh (i).**
 
@@ -325,36 +381,36 @@ Nếu h_max = 0, lấy c = (1 − 1/(ρK))²·2/9.
    (n_F − f_k)·r_k = Σ_{i∈U_k} ξ_i + Σ_{i∈V_k} o_i,
 
    với ξ_i là độ đúng của lần rút mới.
-2. **Ba mảnh nhiễu.** Đặt N_k = Σ_{i∈U_k} h_i + Z_k + Σ_{i∈V_k} (o_i − R_s), với Z_k = Σ_{i∈U_k} (ξ_i − c_i). Đặt E = {N_k > −ε(n_F − m) với mọi k}.
-3. **Quy nạp theo k: trên E, r_k ≥ x − ε với mọi k.**
-   - Giả sử r_j ≥ x − ε với mọi j < k. Khi đó Φ(r_j) ≥ Φ̲(x − ε).
+2. **Ba mảnh nhiễu.** Đặt N_k = Σ_{i∈U_k} h_i + Z_k + Σ_{i∈V_k} (o_i − R_s), với Z_k = Σ_{i∈U_k} (ξ_i − c_i). Đặt 𝓔 = {N_k > −ν(n_F − m) với mọi k}.
+3. **Quy nạp theo k: trên 𝓔, r_k ≥ x − ν với mọi k.**
+   - Giả sử r_j ≥ x − ν với mọi j < k. Khi đó Φ(r_j) ≥ Φ̲(x − ν).
    - Theo (H⁻) cho từng khối j < k:
-     Σ_{U_k} c_i ≥ Σ_{U_k} h_i + Σ_{j<k} f_j(Φ(r_j) − δ) ≥ Σ_{U_k} h_i + |U_k|·(Φ̲(x − ε) − δ) ≥ Σ_{U_k} h_i + |U_k|·x.
+     Σ_{U_k} c_i ≥ Σ_{U_k} h_i + Σ_{j<k} f_j(Φ(r_j) − δ) ≥ Σ_{U_k} h_i + |U_k|·(Φ̲(x − ν) − δ) ≥ Σ_{U_k} h_i + |U_k|·x.
    - Cộng với Σ_{V_k} o_i = |V_k|·R_s + Σ_{V_k}(o_i − R_s) ≥ |V_k|·x + Σ_{V_k}(o_i − R_s), được (n_F − f_k)·r_k ≥ (n_F − f_k)·x + N_k.
-   - Trên E: r_k > x − ε(n_F − m)/(n_F − f_k) ≥ x − ε.
+   - Trên 𝓔: r_k > x − ν(n_F − m)/(n_F − f_k) ≥ x − ν.
    - Trường hợp k = 1 (U_1 = ∅) là đúng bước này.
 4. **Cuối vòng.** Mọi điểm tự do được rút đúng một lần, nên
    R_{s+1} = (1/n_F)(Σ_F c_i + Z), với Z = Σ_F (ξ_i − c_i).
    Từ đó
-   R_{s+1} ≥ (1/n_F)(Σ_F h_i + Σ_k f_k(Φ(r_k) − δ)) + Z/n_F ≥ Φ̲(x − ε) − δ + Z/n_F.
-   Bất đẳng thức cuối dùng Σ_F h_i = 0, Σ_k f_k = n_F, và Φ(r_k) ≥ Φ̲(x − ε) trên E.
-5. **Xác suất.** Ở mỗi k, mỗi mảnh được cho phần ε(n_F − m)/3:
-   - **Σ_{U_k} h_i.** U_k được quyết định bởi hoán vị, độc lập với 𝓕_s. Mảnh này là tổng mẫu không hoàn lại cỡ ≤ n, từ tổng thể {h_i·1[i∈F]} có tổng 0 và biên độ 2h_max. Hoeffding (1963, §6) cho xác suất ≤ exp(−(ε(n_F − m)/3)²/(2n h_max²)).
-   - **Σ_{V_k}(o_i − R_s).** Mảnh này là tổng mẫu không hoàn lại, từ tổng thể {(o_i − R_s)·1[i∈F]} có tổng 0 và biên độ 1. Xác suất ≤ exp(−2(ε(n_F − m)/3)²/n).
-   - **Z_k.** Với lọc trong vòng, Z_k là martingale có ≤ n_F bước, mỗi bước trong một đoạn dài 1. Azuma–Hoeffding cho xác suất ≤ exp(−2(ε(n_F − m)/3)²/n_F).
-   - **Gộp.** Vì n_F − m = n_F(1 − 1/(ρK)) và n = n_F/ρ, cả ba chặn đều ≤ e^{−cρ n_F ε²}. Cộng trên k ≤ K và ba mảnh được P(E^c) ≤ 3K·e^{−cρ n_F ε²}.
+   R_{s+1} ≥ (1/n_F)(Σ_F h_i + Σ_k f_k(Φ(r_k) − δ)) + Z/n_F ≥ Φ̲(x − ν) − δ + Z/n_F.
+   Bất đẳng thức cuối dùng Σ_F h_i = 0, Σ_k f_k = n_F, và Φ(r_k) ≥ Φ̲(x − ν) trên 𝓔.
+5. **Xác suất.** Ở mỗi k, mỗi mảnh được cho phần ν(n_F − m)/3:
+   - **Σ_{U_k} h_i.** U_k được quyết định bởi hoán vị, độc lập với 𝓕_s. Mảnh này là tổng mẫu không hoàn lại cỡ ≤ n, từ tổng thể {h_i·1[i∈F]} có tổng 0 và biên độ 2h_max. Hoeffding (1963, §6) cho xác suất ≤ exp(−(ν(n_F − m)/3)²/(2n h_max²)).
+   - **Σ_{V_k}(o_i − R_s).** Mảnh này là tổng mẫu không hoàn lại, từ tổng thể {(o_i − R_s)·1[i∈F]} có tổng 0 và biên độ 1. Xác suất ≤ exp(−2(ν(n_F − m)/3)²/n).
+   - **Z_k.** Với lọc trong vòng, Z_k là martingale có ≤ n_F bước, mỗi bước trong một đoạn dài 1. Azuma–Hoeffding cho xác suất ≤ exp(−2(ν(n_F − m)/3)²/n_F).
+   - **Gộp.** Vì n_F − m = a_m·n_F, với m = ⌈n/K⌉, và n = n_F/ρ, cả ba chặn đều ≤ e^{−cρ n_F ν²}. Cộng trên k ≤ K và ba mảnh được P(𝓔^c) ≤ 3K·e^{−cρ n_F ν²}.
    - **Bước cuối.** Azuma cho Z: P(Z/n_F ≤ −λ) ≤ e^{−2n_Fλ²}. ∎
 
 (ii) chứng minh đối xứng, dùng Φ̄, vế (H⁺) và các mảnh nhiễu với dấu ngược lại.
 
-**Mệnh đề 4′ (lịch quét thật).** Đặt ψ(x) = Φ̲(x − ε) − δ − λ và ψ̄(x) = Φ̄(x + ε) + δ + λ. Cả hai không giảm. Viết p = p(ε, λ).
+**Mệnh đề 4′ (lịch quét thật).** Đặt ψ(x) = Φ̲(x − ν) − δ − λ và ψ̄(x) = Φ̄(x + ν) + δ + λ. Cả hai không giảm. Viết p = p(ν, λ).
 
 - **(a′) Đi tới, chỉ cần (H⁻).**
-  - *Phát biểu.* Giả sử ψ(x) ≥ x + γ′ trên [r_0, b), với γ′ > 0. Đặt ρ_0 = r_0, ρ_{s+1} = ψ(ρ_s), và J là s đầu tiên có ρ_s ≥ b. Ta có J ≤ ⌈(b − r_0)/γ′⌉. Khi đó P(R_s ≥ ρ_s với mọi s ≤ J) ≥ 1 − J·p, và nói riêng P(R_J ≥ b) ≥ 1 − J·p.
-  - *Chứng minh.* Quy nạp theo s, áp (i) với x = ρ_s:
+  - *Phát biểu.* Giả sử ψ(x) ≥ x + γ′ trên [r_0, b), với γ′ > 0. Đặt q_0 = r_0, q_{s+1} = ψ(q_s), và J là s đầu tiên có q_s ≥ b. Ta có J ≤ ⌈(b − r_0)/γ′⌉. Khi đó P(R_s ≥ q_s với mọi s ≤ J) ≥ 1 − J·p, và nói riêng P(R_J ≥ b) ≥ 1 − J·p.
+  - *Chứng minh.* Quy nạp theo s, áp (i) với x = q_s:
     - x ≤ R_s theo giả thiết quy nạp;
-    - Φ̲(ρ_s − ε) − δ = ψ(ρ_s) + λ ≥ ρ_s;
-    - do đó R_{s+1} ≥ ψ(ρ_s) = ρ_{s+1}. ∎
+    - Φ̲(q_s − ν) − δ = ψ(q_s) + λ ≥ q_s;
+    - do đó R_{s+1} ≥ ψ(q_s) = q_{s+1}. ∎
 - **(b′) Sàn và trần bất biến.**
   - Nếu ψ(x̲) ≥ x̲ và R_{s₀} ≥ x̲, thì P(R_s ≥ x̲ với mọi s ∈ [s₀, s₀ + H]) ≥ 1 − H·p. Áp (i) với x = x̲ ở mỗi vòng. Chỉ cần (H⁻).
   - Đối xứng: nếu ψ̄(x̄) ≤ x̄ và R_{s₀} ≤ x̄, thì chuỗi ở dưới x̄. Chỉ cần (H⁺).
@@ -369,91 +425,91 @@ Nếu h_max = 0, lấy c = (1 − 1/(ρK))²·2/9.
     - trong lúc đó trần x̄ đã giữ từ đầu theo (b′), vì R_0 < x̄;
     - sau đó dùng (b′) cho cả sàn lẫn trần.
     Trường hợp r_0 > x̄ đối xứng. ∎
-  - **So với Mệnh đề 4(c):**
-    - không có số hạng vượt O(1/K);
-    - không có thừa số HK;
-    - không cần δ_ctx, vì Bổ đề 3 làm việc thẳng với r_k của ngữ cảnh.
-  - **Dải giới hạn.** Khi Φ không giảm và L-Lipschitz, mọi x̲ < r* có g(x̲) ≥ δ + Lε + λ đều là sàn, và tương tự cho trần. Cho n_F → ∞ với ε, λ ~ √(log/n_F), dải co về G_δ quanh r*.
+  - **So với Mệnh đề 4(c)** [IR-MINOR-7]:
+    - không có số hạng vượt O(1/K), không có thừa số HK, và không mắc lỗi vượt cửa sổ, vì trần bất biến ngay từ vòng 0;
+    - nhưng chỉ kiểm soát R ở ranh giới vòng quét;
+    - Lν trong điều kiện sàn đóng đúng vai của δ_ctx. Đó là đổi tên, không phải bớt được giả định.
+  - **Dải giới hạn.** Khi Φ không giảm và L-Lipschitz, mọi x̲ < r* có g(x̲) ≥ δ + Lν + λ đều là sàn, và tương tự cho trần. Cho n_F → ∞ với ν, λ ~ √(log/n_F), dải co về bao lồi của phần G_δ quanh r*. Mức L2.
 - **(d′) Hai điểm hút: lưu vực và thời gian thoát (chặt).**
   - *Phát biểu.* Giả sử ψ(u + η) ≥ u + η, tức u + η là một sàn, và R_{s₀} ≥ u + η. Khi đó P(chuỗi xuống dưới u + η trong H vòng quét) ≤ H·p.
-  - *Thời gian thoát.* Thời gian kỳ vọng để rời lưu vực trên ≥ 1/p.
-  - *Với Φ không giảm và L-Lipschitz:* điều kiện sàn thoả khi g(u + η) ≥ δ + Lε + λ. Chọn ε = λ = (g(u + η) − δ)/(L + 1) cho p ≤ (1 + 3K)·exp(−c′ρ n_F (g(u + η) − δ)²/(L + 1)²), với c′ = min(c, 2).
+  - *Thời gian thoát.* Gọi τ là vòng quét đầu tiên chuỗi xuống dưới u + η. Do tính Markov tại các ranh giới vòng quét, P(τ − s₀ > H) ≥ (1 − p)^H. Vậy E[τ − s₀] ≥ Σ_{H≥0} (1 − p)^H = 1/p. [IR-COSMETIC-4]
+  - *Với Φ không giảm và L-Lipschitz:* điều kiện sàn thoả khi g(u + η) ≥ δ + Lν + λ. Chọn ν = λ = (g(u + η) − δ)/(L + 1) cho p ≤ (1 + 3K)·exp(−cρ n_F (g(u + η) − δ)²/(L + 1)²), vì c ≤ 2/9 < 2 và ρ ≤ 1. [IR-COSMETIC-3]
   - Vậy thời gian thoát tăng theo hàm mũ của n_F. Điểm xuất phát quyết định lưu vực.
   - Bản này thay phần "phác thảo" của Hệ quả (d).
 
-**Kiểm hằng số với mô phỏng ở §3.**
+**Kiểm hằng số với mô phỏng ở §3** (dải bất biến (b′), không phải dải đi vào của (c′)) [IR-MINOR-8].
 
-Cách tính (`w1_drift_check.py partition`, bảng `results/w1/w1_partition_bound.csv`):
+Cách tính (`w1_drift_check.py partition --h 0.02`, bảng `results/w1/w1_partition_bound_h002.csv`; lượt này có δ = 0 đúng):
 - Lấy H = 60, xác suất tổng ≤ 0,05, và chia đều p cho hai số hạng.
-- Ánh xạ tuyến tính Φ = a + b·r có r* = a/(1 − b). Sàn lớn nhất là r* − (bε + λ)/(1 − b), trần nhỏ nhất là r* + (bε + λ)/(1 − b).
+- Ánh xạ tuyến tính Φ = a + b·r có r* = a/(1 − b). Sàn lớn nhất là r* − (bν + λ)/(1 − b), trần nhỏ nhất là r* + (bν + λ)/(1 − b).
 
-| Ánh xạ | n | ε | λ | Dải chặn được | Khoảng 99% quan sát |
+| Ánh xạ | n | ν | λ | Dải bất biến chặn được | Khoảng 99% quan sát |
 |---|---|---|---|---|---|
-| 0,9 | 500 | 0,363 | 0,092 | [0,35; 1] | [0,850; 0,943] |
-| 0,6 | 500 | 0,363 | 0,092 | [0; 1] (rỗng) | [0,514; 0,689] |
-| 0,9 | 3.000 | 0,148 | 0,038 | [0,68; 1] | [0,880; 0,918] |
-| 0,6 | 3.000 | 0,148 | 0,038 | [0,28; 0,92] | [0,564; 0,636] |
+| 0,9 | 500 | 0,363 | 0,092 | [0,35; 1] | [0,844; 0,944] |
+| 0,6 | 500 | 0,363 | 0,092 | [0; 1] (rỗng) | [0,512; 0,686] |
+| 0,9 | 3.000 | 0,148 | 0,038 | [0,68; 1] | [0,880; 0,919] |
+| 0,6 | 3.000 | 0,148 | 0,038 | [0,28; 0,92] | [0,563; 0,636] |
 
 Đọc bảng:
 - Chặn **đúng** nhưng **lỏng**: ở n = 3.000, nửa dải chặn được là 0,22, trong khi quan sát chỉ cỡ 0,02, tức lỏng khoảng 10 lần.
 - Muốn nửa dải ≤ 0,05 thì cần n_F ≈ 6·10⁴ với ánh xạ 0,9 và ≈ 1,2·10⁵ với ánh xạ 0,6 (cột `n_F_for_halfwidth_0_05`).
-- **Nguồn lỏng thứ nhất:** ε trả cho trường hợp xấu nhất, khi mọi khối trong vòng cùng thấy ngữ cảnh lệch. Thật ra lệch của r_k có kỳ vọng 0 và được lấy trung bình qua K khối.
+- **Nguồn lỏng thứ nhất:** ν trả cho trường hợp xấu nhất, khi mọi khối trong vòng cùng thấy ngữ cảnh lệch. Thật ra lệch của r_k có kỳ vọng 0 và được lấy trung bình qua K khối.
 - **Nguồn lỏng thứ hai:** Hoeffding dùng biên độ, không dùng phương sai.
-- Bản bậc hai, giống Nhận xét 4, dùng Bernstein và cách chia ε tối ưu, có thể thu dải về cỡ nhiễu √(r(1−r)/n_F). Bản đó chưa viết.
-- Phần định tính đã chặt ở mọi n: độc lập với điểm xuất phát, sàn và trần bất biến, thời gian thoát mũ.
+- Bản bậc hai, giống Nhận xét 4, dùng Bernstein và cách chia ν tối ưu, có thể thu dải về cỡ nhiễu √(r(1−r)/n_F). Bản đó chưa viết.
+- Phần định tính (độc lập với điểm xuất phát, sàn và trần bất biến, thời gian thoát mũ) là định lý ở mọi n. Nhưng ở n nhỏ, ví dụ ánh xạ 0,6 với n = 500, chặn rỗng.
+- Dải trong bảng là **dải bất biến** (b′): đúng khi chuỗi đã ở trong dải. Muốn có dải "từ mọi r_0" của (c′), phải lấy sàn thấp hơn một chút để có γ′ > 0, rồi cộng 2⌈1/γ′⌉p.
 
 ## 3. Kiểm bằng TFM giả biết trước Φ
 
 **Thiết kế** (`G4/code/experiments/w1_drift_check.py`)
 - **Bài toán:** PLL với C = 10 lớp, q = 0,6. Có n_F ≈ n điểm tự do.
-- **"TFM" giả:** xác suất rút đúng là clip(Φ(r_{−B}) + h_i, 0,01, 0,99), với h_i ~ U(−0,1; 0,1) cố định theo điểm.
-  - Như vậy (H_δ) đúng với δ ≤ 0,001 (chỉ do clip), h_max = 0,1, |h̄| ≤ 0,003.
-  - Hằng số Lipschitz L = 0,5 / 0,6 / 1,36 cho ánh xạ 0,9 / 0,6 / hai điểm hút.
-- **Bộ lấy mẫu:** chạy bằng **đúng** `InContextGibbs`, K = 10, T = 60. Đây là lịch quét thật, nên mô phỏng kiểm cả phác thảo Bổ đề 3.
+- **"TFM" giả:** xác suất rút đúng là clip(Φ(r_{−B}) + h_i; 0,01; 0,99), với h_i ~ U(−h_max, h_max) cố định theo điểm.
+- **Hai lượt:**
+  - **Lượt chính, h_max = 0,02.** Mọi Φ + h ∈ [0,16; 0,97], nên không có clip; tỉ lệ bị clip đo được là 0. Vì vậy (H_δ) đúng với **δ = 0** cho mọi y và mọi B, sau khi gộp h̄ (|h̄| ≤ 0,001) vào Φ. Kết quả ở `results/w1/*_h002.csv`.
+  - **Lượt đầu, h_max = 0,1.** Có clip ở ánh xạ 0,9 và hai điểm hút. Ở các ánh xạ này, δ⁻ của khối xấu nhất ≈ 0,05; xem §2.1 và [IR-MAJOR-1]. Lượt này giữ lại để so độ bền (`results/w1/*.csv` không có hậu tố).
+- **Hằng số Lipschitz:** L = 0,5 / 0,6 / 1,36 cho ánh xạ 0,9 / 0,6 / hai điểm hút.
+- **Bộ lấy mẫu:** chạy bằng **đúng** `InContextGibbs`, K = 10, T = 60, ngữ cảnh đầy đủ. Đây là lịch quét thật, nên đối tượng so đúng là Mệnh đề 4′ (§2.6). Mệnh đề 4 chỉ dùng để tham khảo.
 - **Lưới:** 6 điểm xuất phát × 20 lần lặp × 3 ánh xạ × n ∈ {500, 3.000}.
 - **δ′ = δ_ctx** với N = 600 và ε = 0,01, ở n = 500 / 3.000:
   - ánh xạ 0,9: 0,019 / 0,008;
   - ánh xạ 0,6: 0,023 / 0,009;
   - hai điểm hút: 0,052 / 0,021.
-- **δ̂_blk:** phân vị 99 của |trung bình h trên một khối|, bằng 0,019 / 0,008. Đại lượng này là thang **nhiễu** do h gây ra, không phải δ.
-  - Bản đầu của report dùng δ̂_blk như δ; đó là MAJOR-2 của lần tự rà.
-  - δ̂_blk trùng gần đúng với δ′ của ánh xạ 0,9, nhưng đó là trùng hợp.
 
-**Dải dừng và tính độc lập với điểm xuất phát** (vòng quét ≥ 20; `results/w1/w1_theory_check.csv`)
+**Dải dừng và tính độc lập với điểm xuất phát** (lượt chính; vòng quét ≥ 20; `w1_theory_check_h002.csv`)
 
 | Ánh xạ | n | Chênh giữa 6 điểm xuất phát | G_{δ′} | Khoảng 99% quan sát | sd × √n |
 |---|---|---|---|---|---|
-| một điểm hút 0,9 | 500 | 0,002 | [0,862; 0,938] | [0,850; 0,943] | 0,397 |
-| một điểm hút 0,9 | 3.000 | 0,0006 | [0,885; 0,916] | [0,880; 0,918] | 0,393 |
-| một điểm hút 0,6 | 500 | 0,005 | [0,543; 0,657] | [0,514; 0,689] | 0,719 |
-| một điểm hút 0,6 | 3.000 | 0,002 | [0,577; 0,623] | [0,564; 0,636] | 0,740 |
-| hai điểm hút 0,2 / 0,95 | 500 | 0,736 | — | — | — |
-| hai điểm hút 0,2 / 0,95 | 3.000 | 0,739 | — | — | — |
+| một điểm hút 0,9 | 500 | 0,003 | [0,862; 0,938] | [0,844; 0,944] | 0,411 |
+| một điểm hút 0,9 | 3.000 | 0,0008 | [0,885; 0,916] | [0,880; 0,919] | 0,410 |
+| một điểm hút 0,6 | 500 | 0,004 | [0,543; 0,657] | [0,512; 0,686] | 0,726 |
+| một điểm hút 0,6 | 3.000 | 0,002 | [0,577; 0,623] | [0,563; 0,636] | 0,749 |
+| hai điểm hút 0,2 / 0,95 | 500 | 0,746 | — | — | — |
+| hai điểm hút 0,2 / 0,95 | 3.000 | 0,749 | — | — | — |
 
 **Đọc bảng, ánh xạ một điểm hút**
-- Điểm cuối không phụ thuộc điểm xuất phát, đúng như (c).
-- Dải quan sát rộng hơn G_{δ′} một chút. Điều này khớp với (c), vì dải của mệnh đề là G_{δ′} cộng β.
-- sd × √n gần như hằng: dải co theo 1/√n.
-- Trong mô phỏng này δ ≈ 0 và Φ tuyến tính, nên theo Nhận xét 4 độ rộng dải là **nhiễu thuần**, cỡ √(log/n). G_{δ′} chỉ là chặn.
-- sd quan sát lớn hơn dự đoán AR(1) kiểu Jacobi, √(r*(1−r*)/(n(1−Φ′²))), khoảng 11–21%.
+- Điểm cuối không phụ thuộc điểm xuất phát, đúng như (c′).
+- sd × √n gần như hằng, nên dải co theo 1/√n.
+- Ở đây δ = 0 và Φ tuyến tính, nên theo Nhận xét 4, độ rộng dải là **nhiễu thuần**, cỡ √(log/n). G_{δ′} chỉ cho cùng bậc độ lớn.
+- Chặn chính thức của (b′)–(c′) lỏng hơn nhiều; xem cuối §2.6.
+- sd quan sát lớn hơn dự đoán AR(1) kiểu Jacobi, √(r*(1−r*)/(n(1−Φ′²))), khoảng 6–22%.
+- Lượt h_max = 0,1 cho cùng hình ảnh: chênh giữa điểm xuất phát ≤ 0,005, cùng sd × √n. Điều này gợi ý δ của khối xấu nhất là bi quan.
 
-**Thời gian tới** (`results/w1/w1_hitting.csv`; đích là r* ∓ 0,1; đơn vị là vòng quét; các cột lý thuyết dùng δ′)
+**Thời gian tới** (lượt chính; `w1_hitting_h002.csv`; đích là r* ∓ 0,1; đơn vị là vòng quét; cột lý thuyết dùng δ′)
 
 | Ánh xạ, điểm xuất phát, n | Quan sát (trung vị, max) | Quét hệ thống tất định | Jacobi | ODE quét ngẫu nhiên | Chặn (a), γ hằng |
 |---|---|---|---|---|---|
 | 0,9, từ 0,1, n = 500 | 2, 3 | 3 | 4 | 5,0 | 45 |
-| 0,9, từ 0,1, n = 3.000 | 2, 3 | 3 | 4 | 4,5 | 33 |
+| 0,9, từ 0,1, n = 3.000 | 2,5, 3 | 3 | 4 | 4,5 | 33 |
 | 0,6, từ 0,95, n = 3.000 | 2, 2 | 2 | 3 | 3,6 | 16 |
 | hai điểm hút, từ 0,70, n = 3.000 | 2, 2 | 3 | 4 | 3,4 | 8,4 |
 
-- Ở mọi ô mà γ > δ′, trung vị quan sát ≤ quét hệ thống tất định ≤ Jacobi.
-- ODE của quét ngẫu nhiên cùng cỡ với Jacobi.
+- Ở mọi ô có γ > δ′: trung vị quan sát ≤ quét hệ thống tất định ≤ Jacobi. Điều này khớp với (a′): chuỗi thật trội một dãy lặp kiểu Jacobi.
 - Chặn (a) với γ hằng lỏng 3–20 lần.
-- Xác suất thất bại của chặn, đã gồm ε = 0,01, là 0,02–0,86 ở n = 500 và 0,010–0,16 ở n = 3.000.
+- Xác suất thất bại của chặn, đã gồm ε = 0,01, là 0,015–0,84 ở n = 500 và 0,010–0,12 ở n = 3.000.
 
-**Ánh xạ hai điểm hút, điểm không ổn định u = 0,5**
+**Ánh xạ hai điểm hút, điểm không ổn định u = 0,5** (cả hai lượt cho cùng tỉ lệ)
 
-Độ lệch chuẩn nhiễu của một vòng quét ≈ √(0,25/n_F), tức 0,022 ở n = 500 và 0,009 ở n = 3.000.
+Độ lệch chuẩn nhiễu một vòng quét ≈ √(0,25/n_F), tức 0,022 ở n = 500 và 0,009 ở n = 3.000.
 
 | Điểm xuất phát | g(r_0) | Vào lưu vực trên, n = 500 | Vào lưu vực trên, n = 3.000 |
 |---|---|---|---|
@@ -462,7 +518,11 @@ Cách tính (`w1_drift_check.py partition`, bảng `results/w1/w1_partition_boun
 | 0,55 | +0,018 | **19/20** | **20/20** |
 | 0,70 và 0,95 | g ≥ 0: về 0,95 | 20/20 và 20/20 | 20/20 và 20/20 |
 
-- **n = 3.000.** Với η = 0,1, các điều kiện của (d) thoả cho r_0 ≤ 0,3 và r_0 ≥ 0,7, vì min|g| trên các đoạn liên quan ≈ 0,028–0,035 > δ′ = 0,021. Chặn xác suất thì yếu: ví dụ phần đi tới từ 0,7 có xác suất thất bại ≈ 0,25. Quan sát đúng 100%.
+- **n = 3.000, lượt chính (δ = 0).** Với η = 0,1, các điều kiện của (d) thoả cho r_0 ≤ 0,3 và r_0 ≥ 0,7:
+  - min|g| trên các đoạn liên quan ≈ 0,028–0,035, lớn hơn δ′ = 0,021;
+  - 1/(ρK) = 0,1 ≤ 2η.
+  Chặn xác suất thì yếu: phần đi tới từ 0,7 có xác suất thất bại ≈ 0,25. Quan sát đúng 100%.
+- **Lượt h_max = 0,1.** δ⁻ của khối xấu nhất ≈ 0,05 ≥ γ, nên (H) toàn cục **không** đủ để khẳng định điều trên [IR-MAJOR-1]. Quan sát vẫn y hệt.
 - **n = 500.** δ′ = 0,052, nên mệnh đề không khẳng định gì.
 - **Sát u (0,45 và 0,55).** |g| < δ′ ở cả hai n, nên mệnh đề không nói gì.
   - Chênh giữa hai n đến từ **nhiễu**: khoảng cách tới u là 0,05, tức ≈ 2,2 độ lệch chuẩn nhiễu ở n = 500 và ≈ 5,5 ở n = 3.000.
@@ -489,6 +549,10 @@ Script `V2/analysis/w1_delta.py`, chỉ đọc dữ liệu V0: PLL q 0,6, 4 data
 | TabPFN | optdigits | 0,003 | +0,018 | −0,020 | 0,019 | +0,080 |
 | TabPFN | semeion | 0,003 | **+0,093** | −0,001 | 0,100 | **+0,405** |
 | TabPFN | MiceProtein | 0,003 | +0,027 | −0,012 | 0,019 | +0,140 |
+
+**Lưu ý về phép đo** [IR-MAJOR-1]:
+- Phần dư lấy trung bình trên toàn F mỗi vòng quét. Vì vậy nó đo **bản trung bình** của δ, tức là chặn dưới của δ theo mọi khối. Nó không kiểm được (H) như đã phát biểu.
+- optdigits (n_train = 3.934) chạy với ngữ cảnh lấy mẫu con 2.000 điểm, ngoài phạm vi của §2 (Nhận xét 7).
 
 **Đọc kết quả** (thăm dò):
 
@@ -590,7 +654,7 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
   - TV ∝ n^{0,04…0,08}·K^{−1,13…−1,14};
   - sai lệch dự đoán ∝ n^{−0,86…−0,93}·K^{−1,15…−1,16}.
 
-### 5.6 E7e: LLP, bag-block không sửa (thăm dò, 05/11 trưa)
+### 5.5 E7e: LLP, bag-block không sửa (thăm dò, 05/11 trưa)
 
 **Mô hình** (`r1a_block_bias.py llp`, hàm `llp_chain`).
 - **Dữ liệu:**
@@ -632,7 +696,7 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
 - Mô hình đồ chơi có hai loại feature, nên còn rất xa TFM thật. Đây không phải bằng chứng cho dữ liệu thật; R1b (GPU) mới đo được điều đó.
 - Mệnh đề 3(b) cho bag-block (hệ số κ_B) đang rỗng. Bằng chứng ở đây ủng hộ một phát biểu ở mức dự đoán có điều kiện "đủ túi mỗi khối", chứ không phải một chặn đều theo n.
 
-### 5.5 Hàm ý cho R2 và Mệnh đề 3(b)
+### 5.6 Hàm ý cho R2 và Mệnh đề 3(b)
 
 1. **Phát biểu ở mức dự đoán.**
    - Ở mức vector nhãn, độ lệch của khối không sửa là **Θ(1/K) và không giảm theo n**. Không chặn TV nào trên vector nhãn có thể giảm theo n.
@@ -641,7 +705,7 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
    - Mảnh TC trên khối (§5.1) đã có giới hạn đóng.
    - Mảnh chuyển từ một khối sang π̃ phải tránh τ: dùng phỏng đoán TV ≲ C·ε̄ (§5.3), hoặc làm thẳng ở mức mô-men (§5.4).
    - Định lý 2 với Dobrushin τ chỉ nên giữ như kết quả tổng quát. Bài không nên dựa vào nó cho khối.
-3. **R1a cho LLP đã làm (§5.6).**
+3. **R1a cho LLP đã làm (§5.5).**
    - Kết luận khác với SSL và PU: TV giảm theo n khi bài nhận dạng được, nhưng sai lệch dự đoán lớn ở dữ liệu nhỏ, và TV/ε̄ ≫ 1.
    - Vì vậy R2 cho LLP cần đi đường riêng.
    - Bản có feature cho PLL và SSL không cần làm riêng: không có ràng buộc túi, hai loại feature tách thành hai chuỗi độc lập, nên kết quả như §5.2.
@@ -649,32 +713,40 @@ Kết quả ở `e7c_moments.csv`, 18 ô.
 ## 6. Việc tiếp theo
 
 1. **Toán của §2.**
-   - Lần tự rà thứ nhất đã xong và đã sửa 3 lỗi MAJOR (`V2/reviews/W1_SELF_REVIEW_01.md`).
-   - Bổ đề 3 và Mệnh đề 4′ (lịch quét thật) đã chứng minh đầy đủ ở §2.6.
-   - Rà độc lập: một agent chưa thấy bản nháp, kết quả ở `V2/reviews/W1_REVIEW_INDEPENDENT_01.md`.
-   - Còn mở: bản bậc hai cho dải hẹp hơn (Nhận xét 4 và cuối §2.6), và LLP.
+   - **Đã xong:**
+     - tự rà lần 1, đã sửa 3 lỗi MAJOR (`V2/reviews/W1_SELF_REVIEW_01.md`);
+     - Bổ đề 3 và Mệnh đề 4′ cho lịch quét thật (§2.6);
+     - rà độc lập: 1 BLOCKING, 2 MAJOR, 8 MINOR, 6 COSMETIC, đã sửa hết (`V2/reviews/W1_REVIEW_INDEPENDENT_01.md`).
+   - **Còn mở, không phụ thuộc V1:**
+     - đưa max_context vào mô hình (Nhận xét 7);
+     - bản "khối điển hình" của (H) cho lịch quét thật;
+     - bản bậc hai cho dải hẹp hơn (Nhận xét 4, cuối §2.6);
+     - thời gian thoát ở (d) cho lịch quét khối ngẫu nhiên (đã có bản chặt (d′) cho lịch quét thật);
+     - LLP.
+   - Nếu đưa Mệnh đề 4′ vào bài, nên có một lượt rà độc lập thứ hai trên bản tiếng Anh.
 2. **Đo Φ_chuỗi trên GPU.** Gieo lỗi theo Q̄ đã lưu của V1, rồi so với Φ_đều. Mục đích là kiểm δ⁺ và tiêu chí sai số điểm cuối ≤ 0,1. Cần thầy duyệt trước khi viết code: khoảng 1 phiên Kaggle.
-3. **R1a:** đã làm cả phần LLP (§5.6). Còn R1b trên GPU, theo kế hoạch của REVIEW_RESPONSE_PLAN.
+3. **R1a:** đã làm cả phần LLP (§5.5). Còn R1b trên GPU, theo kế hoạch của REVIEW_RESPONSE_PLAN.
 4. **Đưa vào bài, sau V1:**
-   - Mệnh đề 4 vào mục lý thuyết, chứng minh ở phụ lục;
+   - Mệnh đề 4′ (lịch quét thật) vào mục lý thuyết, chứng minh ở phụ lục. Mệnh đề 4 (lịch quét ngẫu nhiên) chỉ cần nếu bài muốn chặn ở từng bước;
    - bảng δ̂ vào phần ánh xạ phản ứng;
-   - viết lại Mệnh đề 3(b) như §5.5.
+   - viết lại Mệnh đề 3(b) như §5.6.
 
 ## 7. Tệp
 
 | Tệp | Nội dung |
 |---|---|
 | `V2/reviews/W1_SELF_REVIEW_01.md` | tự rà toán lần 1: sổ lỗi, phán quyết theo kết quả |
-| `G4/code/experiments/w1_drift_check.py` | TFM giả biết Φ; `theory` so với Mệnh đề 4 (bản sửa, δ′ = δ_ctx) |
-| `G4/results/w1/w1_drift_runs.csv`, `w1_drift_summary.csv` | 720 chuỗi, vết từng vòng quét |
-| `G4/results/w1/w1_theory_check.csv`, `w1_hitting.csv` | dải dừng, G_δ, sd, thời gian tới |
+| `V2/reviews/W1_REVIEW_INDEPENDENT_01.md` | rà độc lập §1–§2: sổ lỗi, phản ví dụ, phán quyết theo kết quả |
+| `G4/code/experiments/w1_drift_check.py` | TFM giả biết Φ (`--h`); `theory`, `partition` |
+| `G4/results/w1/*_h002.csv`, `w1_h002_log.txt` | **lượt chính**, h_max = 0,02, không clip: vết, tóm tắt, dải, thời gian tới, chặn 4′ |
+| `G4/results/w1/w1_drift_runs.csv`, `w1_drift_summary.csv`, `w1_theory_check.csv`, `w1_hitting.csv`, `w1_partition_bound.csv` | lượt đầu, h_max = 0,1, có clip |
 | `V2/analysis/w1_delta.py`, `V2/results/w1_delta.csv` | δ trên TFM thật, từ dữ liệu V0 |
 | `G4/code/experiments/r1a_block_bias.py` | E7a `tc`, E7b `thm2`, E7c `moments`, E7d `decomp`, E7e `llp` |
 | `G4/results/r1a/e7a_block_tc.csv`, `e7b_thm2_block_bound.csv`, `e7c_moments.csv`, `e7d_bound_decomposition.csv`, `e7e_llp_bag_block.csv`, `e7b_log.txt`, `e7e_log.txt` | kết quả R1a |
-| `G4/results/w1/w1_partition_bound.csv` | hằng số của Mệnh đề 4′ so với mô phỏng |
 
 **Tài liệu dẫn** (đều là kết quả kinh điển; trước khi đưa vào bài phải kiểm theo REFERENCE_CHECK):
 - Hoeffding, W. (1963), *Probability inequalities for sums of bounded random variables*, JASA 58:13–30, §6 (mẫu không hoàn lại).
 - Ville, J. (1939), bất đẳng thức cực đại cho siêu martingale.
-- Serfling, R. J. (1974), *Probability inequalities for the sum in sampling without replacement*, Ann. Statist. 2:39–48.
+- Azuma, K. (1967), *Weighted sums of certain dependent random variables*, Tôhoku Math. J. 19:357–367 (dùng ở Bổ đề 3).
+- Bản phác thảo trước của Bổ đề 3 định dùng Serfling (1974). Bản chứng minh hiện tại cộng trên K khối, nên không cần.
 - Seneta (1988) và Cho & Meyer (2001) đã có trong bài, cho τ₁(Z).

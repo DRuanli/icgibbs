@@ -8,8 +8,11 @@ tự do của D. Sau khi nhân với ℓ_i (tập ứng viên) và chuẩn hoá,
 phần còn lại chia đều cho các ứng viên sai. Nhãn thật chỉ dùng để dựng "TFM" giả này và để đo — đây là kiểm chứng
 một mệnh đề xác suất, không phải phương pháp.
 
-    python w1_drift_check.py            → ../../results/w1/w1_drift_runs.csv, w1_drift_summary.csv
-    python w1_drift_check.py theory     → ../../results/w1/w1_theory_check.csv, w1_hitting.csv (đọc w1_drift_runs.csv)
+    python w1_drift_check.py [--h 0.1]            → ../../results/w1/w1_drift_runs{tag}.csv, w1_drift_summary{tag}.csv
+    python w1_drift_check.py theory [--h 0.1]     → w1_theory_check{tag}.csv, w1_hitting{tag}.csv
+    python w1_drift_check.py partition [--h 0.1]  → w1_partition_bound{tag}.csv
+  tag = "" khi h = 0,1 (lượt đầu, có clip ở ánh xạ 0,9 và hai điểm hút) và "_h002" khi h = 0,02 (KHÔNG clip: Φ + h ∈
+  [0,16; 0,97] nên (H_δ) đúng với δ = 0 cho mọi trạng thái và mọi khối — W1_REVIEW_INDEPENDENT_01, MAJOR-1).
 """
 from __future__ import annotations
 
@@ -78,11 +81,15 @@ def block_delta(het, free, n, K=10, draws=2000, seed=0):
     return float(np.quantile(v, 0.99))
 
 
-def main():
+def _tag(h):
+    return "" if abs(h - 0.1) < 1e-12 else "_h" + f"{h:.2f}".replace(".", "").lstrip("0").rjust(3, "0")
+
+
+def main(h=0.1):
     rows = []
     C, K, T = 10, 10, 60
     for n in (500, 3000):
-        y, S, het = problem(n, C)
+        y, S, het = problem(n, C, h=h)
         X = np.arange(n, dtype=float)[:, None]
         for name, gain in MAPS.items():
             cond, free = make_cond(y, S, het, gain, C)
@@ -100,7 +107,9 @@ def main():
                                      trace="/".join(f"{v:.3f}" for v in tr)))
             print(n, name, "δ̂ =", round(delta, 4), flush=True)
     d = pd.DataFrame(rows)
-    d.to_csv(os.path.join(OUT, "w1_drift_runs.csv"), index=False)
+    clip = [float(np.mean((MAPS[m](r) + r + het > 0.99) | (MAPS[m](r) + r + het < 0.01))) for m in MAPS for r in np.linspace(0, 1, 101)]
+    print("tỉ lệ (điểm, r) bị clip, lớn nhất theo ánh xạ và r:", max(clip), flush=True)
+    d.to_csv(os.path.join(OUT, f"w1_drift_runs{_tag(h)}.csv"), index=False)
 
     def basin(r, name):
         a = ATTRACTORS[name]
@@ -110,7 +119,7 @@ def main():
                                           r_final_mean=("r_final", "mean"), r_final_sd=("r_final", "std"),
                                           frac_upper_basin=("basin", "mean"),
                                           band_lo=("r_min_after10", "min"), band_hi=("r_max_after10", "max")).reset_index()
-    s.to_csv(os.path.join(OUT, "w1_drift_summary.csv"), index=False)
+    s.to_csv(os.path.join(OUT, f"w1_drift_summary{_tag(h)}.csv"), index=False)
     pd.set_option("display.width", 200)
     print(s.round(4).to_string(index=False))
 
@@ -157,17 +166,18 @@ def delta_ctx(L, n_F, rho, K, N, eps):
 
 
 def theory(eta=0.1, burn=20, eps=0.01, K=10, T_sweeps=60, h_max=0.1):
+    tag = _tag(h_max)
     """So với Mệnh đề 4 bản đã sửa. Trong TFM giả: δ (phần không đồng nhất ngoài h_i) = 0, chỉ trừ ảnh hưởng của clip
     (≤ 0,001); h_i có trung bình ≈ 0 nên gộp vào Φ; δ' = δ + δ_ctx. δ̂_blk (phân vị 99 của trung bình h trên một khối)
     giữ lại để tham khảo: nó là thang NHIỄU do h, không phải δ của (H)."""
-    d = pd.read_csv(os.path.join(OUT, "w1_drift_runs.csv"))
+    d = pd.read_csv(os.path.join(OUT, f"w1_drift_runs{tag}.csv"))
     tr = [np.array([float(v) for v in t.split("/")]) for t in d.trace]
     rows, hit = [], []
     grid = np.linspace(0, 1, 20001)
     c_w = (1 + (1 + 2 * h_max) ** 2) / 2
     for (n, name), g in d.groupby(["n", "map_name"]):
         gain, delta_blk = MAPS[name], float(g.delta_block_q99.iloc[0])
-        y, S, _ = problem(n)
+        y, S, _ = problem(n, h=h_max)
         free = S.sum(1) >= 2
         n_F, rho = int(free.sum()), float(free.mean())
         L = float(np.max(np.abs(np.gradient(grid + gain(grid), grid))))       # hằng số Lipschitz của Φ
@@ -213,28 +223,31 @@ def theory(eta=0.1, burn=20, eps=0.01, K=10, T_sweeps=60, h_max=0.1):
                             jacobi_sweeps=_jacobi_iters(gain, r0, b, delta), gs_sweeps=_gs_sweeps(gain, r0, b, delta),
                             T_bound_const=T_a, fail_bound_const=fail_a))
     t1, t2 = pd.DataFrame(rows), pd.DataFrame(hit)
-    t1.to_csv(os.path.join(OUT, "w1_theory_check.csv"), index=False)
-    t2.to_csv(os.path.join(OUT, "w1_hitting.csv"), index=False)
+    t1.to_csv(os.path.join(OUT, f"w1_theory_check{tag}.csv"), index=False)
+    t2.to_csv(os.path.join(OUT, f"w1_hitting{tag}.csv"), index=False)
     pd.set_option("display.width", 250)
     print(t1.round(4).to_string(index=False), "\n")
     print(t2.round(3).to_string(index=False))
 
 
 def partition_bound(total_fail=0.05, H=60, K=10, h_max=0.1, burn=20):
-    """Mệnh đề 4′(c′) (W1_R1A_REPORT §2.6) cho hai ánh xạ tuyến tính Φ = a + b·r: chọn p mỗi vòng = total_fail/(2H),
-    chia đều cho hai số hạng của p(ε, λ), tính ε, λ, rồi dải [r* − (bε + λ)/(1 − b), r* + (bε + λ)/(1 − b)]."""
-    d = pd.read_csv(os.path.join(OUT, "w1_drift_runs.csv"))
+    tag = _tag(h_max)
+    """Dải BẤT BIẾN của Mệnh đề 4′(b′) (W1_R1A_REPORT §2.6; không phải dải "từ mọi r_0" của (c′), vốn cần thêm γ′ > 0 và
+    2⌈1/γ′⌉p) cho hai ánh xạ tuyến tính Φ = a + b·r: chọn p mỗi vòng = total_fail/(2H), chia đều cho hai số hạng của
+    p(ν, λ), tính ν, λ, rồi dải [r* − (bν + λ)/(1 − b), r* + (bν + λ)/(1 − b)]. c dùng a_m = (n_F − ⌈n/K⌉)/n_F."""
+    d = pd.read_csv(os.path.join(OUT, f"w1_drift_runs{tag}.csv"))
     rows = []
     for (n, name), g in d.groupby(["n", "map_name"]):
         if not name.startswith("single"):
             continue
-        _, S, _ = problem(n)
+        _, S, _ = problem(n, h=h_max)
         free = S.sum(1) >= 2
         n_F, rho = int(free.sum()), float(free.mean())
         bslope = 1 + (MAPS[name](0.5) - MAPS[name](0.4)) / 0.1          # Φ' = 1 + g'
         a0 = MAPS[name](0.0)                                             # Φ(0) = a
         r_star = a0 / (1 - bslope)
-        c = (1 - 1 / (rho * K)) ** 2 * min(2 / 9, 1 / (18 * h_max ** 2))
+        a_m = (n_F - int(np.ceil(n / K))) / n_F
+        c = a_m ** 2 * min(2 / 9, 1 / (18 * h_max ** 2))
         p = total_fail / (2 * H)
         lam = np.sqrt(np.log(2 / p) / (2 * n_F))
         eps = np.sqrt(np.log(6 * K / p) / (c * rho * n_F))
@@ -245,11 +258,15 @@ def partition_bound(total_fail=0.05, H=60, K=10, h_max=0.1, burn=20):
                          obs_q005=float(np.quantile(late, 0.005)), obs_q995=float(np.quantile(late, 0.995)),
                          n_F_for_halfwidth_0_05=float((half * np.sqrt(n_F) / 0.05) ** 2)))   # ε, λ ∝ 1/√n_F khi p cố định
     t = pd.DataFrame(rows)
-    t.to_csv(os.path.join(OUT, "w1_partition_bound.csv"), index=False)
+    t.to_csv(os.path.join(OUT, f"w1_partition_bound{tag}.csv"), index=False)
     pd.set_option("display.width", 250)
     print(t.round(4).to_string(index=False))
 
 
 if __name__ == "__main__":
-    cmd = sys.argv[1:]
-    theory() if cmd == ["theory"] else partition_bound() if cmd == ["partition"] else main()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", nargs="?", default="run", choices=["run", "theory", "partition"])
+    ap.add_argument("--h", type=float, default=0.1)
+    a = ap.parse_args()
+    {"run": lambda: main(h=a.h), "theory": lambda: theory(h_max=a.h), "partition": lambda: partition_bound(h_max=a.h)}[a.cmd]()

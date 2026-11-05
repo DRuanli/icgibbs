@@ -352,7 +352,7 @@ def llp_chain(B, M, s0, s1, c, alpha=1.0):
 
 def e7e():
     """Prior Beta(5, 5) cho mỗi p_x: với Beta(1, 1), hậu nghiệm của mô hình gộp hai loại dồn về cấu hình thuần (mọi
-    dương cùng một loại) hoặc hai mode đối xứng — không đại diện (đã thử, xem W1_R1A_REPORT §5.6).
+    dương cùng một loại) hoặc hai mode đối xứng — không đại diện (đã thử, xem W1_R1A_REPORT §5.5).
     Lưới: R = 2 (túi 4: (3, 1), c = 1) với B ∈ {20, …, 320} túi; R = 3 (túi 8: (6, 2) và (4, 4), c = 2) với
     B ∈ {20, 40, 60}. K ∈ {5, 10, 20} khối (M = B/K túi mỗi khối)."""
     rows = []

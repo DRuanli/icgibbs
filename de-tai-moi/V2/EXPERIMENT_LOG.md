@@ -27,6 +27,7 @@
 | W1-delta | 05/11 | như trên | δ trên TFM thật, chỉ đọc dữ liệu V0 (`V2/analysis/w1_delta.py`) | CPU | < 1 phút | ok | `V2/results/w1_delta.csv` | thăm dò |
 | W1-partition | 05/11 trưa | như trên | hằng số Mệnh đề 4′ so với mô phỏng (`w1_drift_check.py partition`) | CPU | < 1 phút | ok | `G4/results/w1/w1_partition_bound.csv` | thăm dò |
 | R1a-E7e | 05/11 trưa | như trên | LLP: bag-block không sửa so với chính xác, hai loại feature, 33 ô (`r1a_block_bias.py llp`) | CPU | khoảng 6 phút | ok | `G4/results/r1a/e7e_*` | thăm dò; một lượt thử Beta(1, 1) trước đó chỉ chạy 3 ô kiểm tra hình dạng hậu nghiệm, không lưu |
+| W1-sim-h002 | 05/11 chiều | như trên | TFM giả **không clip** (h_max = 0,02, `w1_drift_check.py run/theory/partition --h 0.02`), 720 chuỗi | CPU | khoảng 9 phút | ok | `G4/results/w1/*_h002.csv` | chạy lại theo IR-MAJOR-1 (rà độc lập): lượt h = 0,1 có clip nên δ ≠ 0; lượt mới có δ = 0 đúng, tỉ lệ clip đo được = 0 |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
