@@ -26,6 +26,42 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## V2 giai đoạn 1 — lượt V1A và V1B dùng `s2_code_v7.zip` (05/11/2026)
+
+Thầy duyệt ngày 05/11. Kế hoạch ghi trước ở [V2/PHASE1_PLAN](../V2/PHASE1_PLAN.md), commit `7ec273b`. Cả hai lượt là **thăm dò**. Mỗi ô chạy 3 chuỗi (warm, base, cold) và lưu Q̄ cùng dự đoán của từng chuỗi vào `v1_npz/`. Learner khởi động có thêm dự đoán ngoài fold.
+- **V1A** (TabPFN v2; GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`), ước 7–9 giờ:
+  - GPU 0: LLP túi 8 trên 8 dataset còn lại của tập đánh giá NC1, rồi 6 dataset phát triển.
+  - GPU 1: PLL q = 0,6 trên 10 + 3 dataset tương ứng.
+- **V1B** (TabICL v2; cấu hình máy như trên), ước 7–9 giờ:
+  - như V1A, thêm toàn bộ dataset của Study 2;
+  - hai GPU chia đôi khối lượng.
+- Hai lượt độc lập nhau. Nếu hết 12 giờ, chạy lại đúng lượt đó với output cũ làm dữ liệu; các ô đã xong được bỏ qua, kể cả tệp npz.
+- **Ô 1:** như ô 1 của giai đoạn 0, nhưng tìm `s2_code_v7/code/run_s2_lot.sh` và chép kết quả cũ theo mẫu mới:
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v7/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for pat in ("v1_*.csv", "v1_*.jsonl"):
+    for f in glob.glob(f"/kaggle/input/**/{pat}", recursive=True):
+        shutil.copy(f, "/kaggle/working/")
+os.makedirs("/kaggle/working/v1_npz", exist_ok=True)
+for f in glob.glob("/kaggle/input/**/v1_npz/*.npz", recursive=True):
+    shutil.copy(f, "/kaggle/working/v1_npz/")
+```
+- **Ô 2:** `LOT = "V1A"` hoặc `"V1B"`, phần còn lại như các lượt trước.
+- **Gửi lại:**
+  - mọi tệp `s2_V1A_*` / `s2_V1B_*` và `v1_*`;
+  - thư mục `v1_npz/`, nén thành zip.
+- **Phân tích:** `V2/analysis/v1_aggregate.py`, viết và commit trước khi có số.
+
 ## V2 giai đoạn 0 — lượt V0A và V0B dùng `s2_code_v6.zip` (04/11/2026)
 
 Thầy duyệt V2 ngày 04/11 ([V2_PLAN](../V2/V2_PLAN.md)). Dự đoán P1–P4 đã ghi trước ở [PHASE0_PREDICTIONS](../V2/PHASE0_PREDICTIONS.md), commit `1a8859f`. Cả hai lượt là **thăm dò**, chạy trên dataset cũ của NC1. Riêng R4 chạy trên tập đánh giá S2, nhưng không chạy lại theo nghĩa xác nhận.

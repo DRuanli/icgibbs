@@ -10,11 +10,15 @@
 
 | 05/11/2026 02:10 UTC | **7ec273b** (main) | Thầy duyệt V0_REPORT §6 (giai đoạn 1 và đưa R4 vào bài). Ghi trước giai đoạn 1 ([PHASE1_PLAN](PHASE1_PLAN.md)): dataset, ba bộ gộp, quy tắc chọn, P5–P7, **trước khi viết code và trước mọi lượt chạy** |
 
+| 05/11/2026 | (commit code giai đoạn 1, ghi ở dòng lượt) | Code giai đoạn 1: `qbar()` trong sampler; `base_oof` và lưu npz trong `run_multistart`; `run_g7.py --save_dir --oof`, `--explore` cho v0 trên S2; lượt V1A/V1B; `tests/test_v1.py` (bộ test 127 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1_aggregate.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v7.zip` dựng bằng `git archive` từ commit này |
+
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
 |---|---|---|---|---|---|---|---|---|
 | V0A | 04/11 14:45 – 18:51 | 72 tệp khớp **commit b939041** (`s2_code_v6.zip`) | ánh xạ phản ứng (TabPFN), nhiều điểm xuất phát LLP (TabPFN), R4 (TabICL, 114 ô Study 2) | Kaggle 2 × T4 | 4 giờ 6 phút | ok | `V2/raw/V0A/` | bộ test 126 qua, 2 bỏ qua; 318/318 dòng ok, 0 lỗi. torch `2.11.0+cu130` (các lượt trước `+cu128`); kết quả vẫn tái tạo đúng từng số, nên không ảnh hưởng |
 | V0B | 04/11 11:57 – 16:43 | 72 tệp khớp **commit b939041** | nhiều điểm xuất phát PLL (TabPFN, 2 GPU), rồi TabICL (PLL, LLP, ánh xạ) | Kaggle 2 × T4 | 4 giờ 46 phút | ok | `V2/raw/V0B/` | bộ test 126 qua, 2 bỏ qua; 312/312 dòng ok, 0 lỗi |
+| V1A | — | — | giai đoạn 1, TabPFN v2: LLP 14 + PLL 13 dataset, 3 chuỗi, npz, ngoài fold | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1A/` | |
+| V1B | — | — | giai đoạn 1, TabICL v2: như V1A thêm 28 dataset Study 2 | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1B/` | |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

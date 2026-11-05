@@ -136,7 +136,10 @@ def main(argv=None):
                     help="v0: V2 giai đoạn 0 (V2/PHASE0_PREDICTIONS.md) — nhiều điểm xuất phát, chọn bằng WPLL")
     ap.add_argument("--starts", default=",".join(V0_STARTS), help="với --part v0: các điểm xuất phát (warm,base,cold)")
     ap.add_argument("--explore", action="store_true",
-                    help="THĂM DÒ (V2 W6, R4): cho phép --part rhat trên --split s2; mọi dataset của S2, không chỉ 3 nhỏ nhất")
+                    help="THĂM DÒ (V2): cho phép --part rhat (R4) hoặc --part v0 (giai đoạn 1) trên --split s2; với rhat dùng mọi "
+                         "dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--save_dir", default="", help="với --part v0: lưu Q̄ và dự đoán của mọi chuỗi mỗi ô (npz) vào thư mục này")
+    ap.add_argument("--oof", action="store_true", help="với --part v0: thêm dự đoán ngoài fold của learner khởi động (cần 'base')")
     ap.add_argument("--trace_dir", default="", help="với --part rhat: lưu vết hai chuỗi (npz) vào thư mục này")
     ap.add_argument("--ablation", choices=sorted(ABLATIONS), default="", help="với --part ablation: một ablation")
     ap.add_argument("--n_train_max", type=int, default=0,
@@ -172,11 +175,15 @@ def main(argv=None):
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
     if a.split in ("eval", "s2") and not a.eval_ok:
         ap.error("tập đánh giá chỉ chạy khi đã mở (G7 cho eval, S2 sau khi đóng băng): cần thêm --eval-ok")
-    if a.split == "s2" and (a.part in ("ablation", "v0") or (a.part == "rhat" and not a.explore) or a.n_train_max
+    if a.split == "s2" and (a.part == "ablation" or (a.part in ("rhat", "v0") and not a.explore) or a.n_train_max
                             or a.mh_check or "pll_real" in a.settings):
-        ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ thăm dò cần --explore")
-    if a.explore and not (a.part == "rhat" and a.split == "s2"):
-        ap.error("--explore chỉ dùng với --part rhat --split s2")
+        ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ và v0 thăm dò cần --explore")
+    if a.explore and not (a.part in ("rhat", "v0") and a.split == "s2"):
+        ap.error("--explore chỉ dùng với --part rhat hoặc v0, và --split s2")
+    if (a.save_dir or a.oof) and a.part != "v0":
+        ap.error("--save_dir và --oof chỉ dùng với --part v0")
+    if a.oof and "base" not in a.starts.split(","):
+        ap.error("--oof cần điểm xuất phát 'base'")
     only = {m.strip() for m in a.only.split(",") if m.strip()}
     settings = [s.strip() for s in a.settings.split(",") if s.strip()]
     levels = parse_levels(a.levels)
@@ -350,7 +357,20 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
         fin = SklearnTFMConditional(lambda: make_estimator(a.backend, a.final_est), C)
         monitor = lambda yy: float(np.mean(np.asarray(yy)[:len(ytr)] == ytr))   # chẩn đoán, không vào thuật toán
         starts = [x.strip() for x in a.starts.split(",") if x.strip()]
-        run_multistart(cell, cond, fin, starts, todo, emit, guard=attempt, monitor=monitor)
+        save, force = None, False
+        if a.save_dir:
+            os.makedirs(a.save_dir, exist_ok=True)
+            path = os.path.join(a.save_dir, f"v1_{a.backend}_{did}_{setting}_{level}_s{seed}.npz")
+            force = not os.path.exists(path)
+
+            def save(arrays, path=path):
+                tmp = path[:-4] + ".tmp.npz"
+                np.savez_compressed(tmp, ytr=np.asarray(ytr, np.int16), yte=np.asarray(yte, np.int16),
+                                    sha256_split=np.array(split_sha256(itr, ite)), weak_hash=np.array(weak_hash(wd)),
+                                    **arrays)
+                os.replace(tmp, path)
+        run_multistart(cell, cond, fin, starts, todo, emit, guard=attempt, monitor=monitor, save=save, oof=a.oof,
+                       force=force)
         return
     if a.part == "ablation":
         cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)

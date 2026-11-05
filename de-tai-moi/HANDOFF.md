@@ -128,7 +128,7 @@
 
 1. **Chuẩn bị lượt Kaggle.**
    - Sửa code trong `G4/code`, thêm lượt vào `run_s2_lot.sh`, thêm test, chạy `python -m pytest -q tests`.
-   - Đóng gói thư mục `G4/code` (bỏ `__pycache__`) thành `s2_code_vN/code/` rồi nén `s2_code_vN.zip`. Bản gần nhất là v6 (V0A, V0B của V2, 04/11). Zip không nằm trong git (`.gitignore`).
+   - Đóng gói thư mục `G4/code` (bỏ `__pycache__`) thành `s2_code_vN/code/` rồi nén `s2_code_vN.zip`. Bản gần nhất là v7 (V1A, V1B của V2, 05/11). Zip không nằm trong git (`.gitignore`).
    - Gửi zip cho thầy kèm hướng dẫn chạy theo mẫu ở `G4/README.md`:
      - Ô 1: pip install `tabpfn==9.2.0 tabicl==2.2.0 …`, lấy secret, chép code vào `/kaggle/working/code`.
      - Ô 2: `bash run_s2_lot.sh <LOT> /kaggle/working`.
@@ -176,8 +176,8 @@
 | # | Việc | Hạn hoặc điều kiện | Trạng thái |
 |---|---|---|---|
 | 0 | Giai đoạn 0 của V2 **xong 05/11** ([V2/V0_REPORT.md](V2/V0_REPORT.md)): P1 đúng, P2 sai, P3 đúng, P4 sai; cổng V0 qua một phần. R4 xong: H4′ q 0,6 nhạy với nhiễu Monte Carlo (chuỗi b p_Holm 0,074; trung bình hai chuỗi đạt) | — | xong |
-| 0b | Giai đoạn 1 (thầy duyệt 05/11): chọn bộ gộp chuỗi theo [V2/PHASE1_PLAN.md](V2/PHASE1_PLAN.md) (ghi trước); lượt V1A (TabPFN), V1B (TabICL) | sau khi có code | đang làm |
-| 0c | Đưa R4 vào §6.6 và Limitations của bài (thầy duyệt 05/11) | ngay | đang làm |
+| 0b | Giai đoạn 1 (thầy duyệt 05/11): chọn bộ gộp chuỗi theo [V2/PHASE1_PLAN.md](V2/PHASE1_PLAN.md) (ghi trước, `7ec273b`); code và `s2_code_v7.zip` xong; **thầy chạy V1A (TabPFN), V1B (TabICL)**; chấm bằng `V2/analysis/v1_aggregate.py` | khi có kết quả | chờ thầy chạy |
+| 0c | ~~Đưa R4 vào bài~~: xong 05/11 (`eda65ed`): §6.2, §6.6, Limitations, Bảng tab:r4; phần chính vẫn 9 trang. Abstract chưa sửa (bài sẽ viết lại cho v2) | — | xong |
 | 1 | ~~Thầy chọn R1–R8, Q1–Q5~~: thay bằng V2 W6 (thầy duyệt 04/11) | — | thay thế |
 | 2 | Viết code cho các lượt được chọn (`--part equil`, gỡ chốt rhat cho s2, lưu vết, `--max_context`, backend TabPFN cho S2), bản zip `s2_code_v6` | sau 1 | — |
 | 3 | D2: lý thuyết ngưỡng sụp (S2_PLAN §5.1); R2: chặn khối không sửa | 20/12/2026 | mở |

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -21,6 +21,10 @@
 #                      Study 2, lưu vết vào r4_traces/. Cần s2_code_v6 trở đi
 #   V0B  (GPU T4 × 2): V2 giai đoạn 0. Hai GPU chia đôi nhiều điểm xuất phát PLL q 0,6 với TabPFN v2 (P1, P2, P4); sau đó
 #                      TabICL v2 trên cùng các ô (P4, kiểm v2 không hại TFM tốt) và ánh xạ phản ứng của TabICL
+#   V1A  (GPU T4 × 2): V2 giai đoạn 1, THĂM DÒ (V2/PHASE1_PLAN.md), TabPFN v2. GPU 0: LLP túi 8 trên 8 dataset còn lại của
+#                      tập đánh giá NC1 rồi 6 dataset phát triển; GPU 1: PLL q 0,6 trên 10 + 3 dataset tương ứng. Mỗi ô 3 chuỗi
+#                      (warm, base, cold), lưu npz vào v1_npz/, learner khởi động có dự đoán ngoài fold. Cần s2_code_v7
+#   V1B  (GPU T4 × 2): như V1A với TabICL v2, thêm toàn bộ dataset của Study 2 (--split s2 --explore). Hai GPU chia đôi
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -122,6 +126,35 @@ case $LOT in
         ms_ 1 llp_tabicl --backend tabicl_v2 --settings llp --levels "llp=8" --datasets $LLP2 --starts warm,base,cold
         rm_ 1 llp_tabicl --setting llp --backends tabicl_v2 --datasets $LLP2 --rho u,0.1,0.2,0.3,0.45,0.6,0.8,0.9
         rm_ 1 pll_hi_tabicl --setting pll --plant uniform --backends tabicl_v2 --datasets $PLL4 --rho 0.85,0.9,0.95 ) &
+      wait
+    fi ;;
+  V1A|V1B)
+    python run_g7.py --help 2>/dev/null | grep -q -- "--oof" \
+      || { echo "BẢN CODE CŨ: chưa có --oof — dùng s2_code_v7.zip"; exit 3; }
+    NPZ="$OUT/v1_npz"; mkdir -p "$NPZ"
+    v1_ () {   # v1_ <số GPU> <tên> <backend> <đối số run_g7...>
+      local g=$1 tag=$2 be=$3; shift 3
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py --part v0 --backend $be --starts warm,base,cold --save_dir "$NPZ" --oof \
+        "$@" --out "$OUT/v1_${tag}.csv" >> "$OUT/v1_${tag}.log" 2>&1
+      echo "GPU$g xong v1_$tag: $(date)"
+    }
+    LLP_E=3,29,44,1049,1489,1494,23381,38; LLP_D=31,37,1464,1462,1480,1510
+    PLL_E=11,46,182,188,458,469,1475,1497,40975,40982; PLL_D=54,36,23
+    if [ "$LOT" = V1A ]; then
+      ( v1_ 0 llp_eval_tabpfn tabpfn_v2 --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_E
+        v1_ 0 llp_dev_tabpfn tabpfn_v2 --split dev --settings llp --levels "llp=8" --datasets $LLP_D ) &
+      ( v1_ 1 pll_eval_tabpfn tabpfn_v2 --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E
+        v1_ 1 pll_dev_tabpfn tabpfn_v2 --split dev --settings pll --levels "pll=0.6" --datasets $PLL_D ) &
+      wait
+    else
+      S2X_=(--split s2 --eval-ok --explore)
+      ( v1_ 0 llp_s2_tabicl_0 tabicl_v2 "${S2X_[@]}" --settings llp --levels "llp=8" --shard 0/2
+        v1_ 0 llp_eval_tabicl tabicl_v2 --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_E
+        v1_ 0 llp_dev_tabicl tabicl_v2 --split dev --settings llp --levels "llp=8" --datasets $LLP_D ) &
+      ( v1_ 1 llp_s2_tabicl_1 tabicl_v2 "${S2X_[@]}" --settings llp --levels "llp=8" --shard 1/2
+        v1_ 1 pll_s2_tabicl tabicl_v2 "${S2X_[@]}" --settings pll --levels "pll=0.6"
+        v1_ 1 pll_eval_tabicl tabicl_v2 --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E
+        v1_ 1 pll_dev_tabicl tabicl_v2 --split dev --settings pll --levels "pll=0.6" --datasets $PLL_D ) &
       wait
     fi ;;
   S2C1|S2C2)

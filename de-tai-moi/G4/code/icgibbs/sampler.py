@@ -294,17 +294,24 @@ class InContextGibbs:
         return y
 
     # ------------------------------------------------------------------------------------------
+    def qbar(self) -> np.ndarray:
+        """V2 giai đoạn 1: Q̄ (n_total, C) — trung bình sau burn-in của dự đoán ngoài khối; hàng chưa từng được cập nhật
+        (điểm cố định của PLL) là 0. Cần collect_q=True."""
+        if not self.collect_q:
+            raise ValueError("cần collect_q=True")
+        ok = self._qcnt > 0
+        Qbar = np.zeros_like(self._qsum)
+        Qbar[ok] = self._qsum[ok] / self._qcnt[ok, None]
+        return Qbar
+
     def weak_fit(self) -> float:
         """V2: độ khớp nhãn yếu của dự đoán ngoài khối (WPLL), không cần nhãn thật. Cần collect_q=True.
         Q̄_i = trung bình sau burn-in của q(· | x_i, D_{-B(i)}) (khối B(i) chứa i, nên i không nằm trong ngữ cảnh).
         Cấp mẫu: trung bình trên các điểm tự do của log Σ_k Q̄_i(k) ℓ_i(k) (PLL: log khối xác suất trên tập ứng viên).
         LLP: trung bình trên các túi của log P(số đếm của túi | Q̄ độc lập) / cỡ túi (DP Poisson–binomial chính xác)."""
-        if not self.collect_q:
-            raise ValueError("cần collect_q=True")
         from .llp import count_constrained_log_normalizer
+        Qbar = self.qbar()
         ok = self._qcnt > 0
-        Qbar = np.zeros_like(self._qsum)
-        Qbar[ok] = self._qsum[ok] / self._qcnt[ok, None]
         weak = self.weak
         if weak.is_group:
             vals = []

@@ -188,17 +188,57 @@ def base_learner(cell: Cell):
     raise ValueError(f"giai đoạn 0 chỉ có PLL và LLP, không có {w.setting}")
 
 
-def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None, monitor=None):
+def base_oof(cell: Cell, m, n_folds: int = 5):
+    """V2 giai đoạn 1 (PHASE1_PLAN §1): dự đoán NGOÀI FOLD trên train của learner khởi động đã tune — fit lại cấu hình
+    đã chọn (m.tune_.refit_config, hoặc best) trên 4/5 dữ liệu, dự đoán phần giữ lại. PLL chia theo điểm, LLP chia theo
+    túi; fold theo seed của ô. Trả (P_oof (n, C), số hàng không hữu hạn đã thay bằng phân phối đều)."""
+    from ..baselines_ext import LLPNet, PLLNet
+    w = cell.weak
+    tune = getattr(m, "tune_", None)
+    cfg = dict(getattr(tune, "refit_config", None) or (tune.best if tune is not None else {}))
+    rng = np.random.default_rng([cell.seed, cell.did, 31])
+    n, C = len(cell.Mtr), cell.n_classes
+    P = np.full((n, C), np.nan)
+    if w.setting in ("pll", "pll_real"):
+        S = np.asarray(w.S)
+        folds = np.array_split(rng.permutation(n), n_folds)
+        for f in folds:
+            tr = np.setdiff1d(np.arange(n), f)
+            mm = PLLNet(V0_BASE[w.setting], seed=cell.seed, **cfg).fit(cell.Mtr[tr], S[tr])
+            P[f] = _P2(mm.predict_proba(cell.Mtr[f]))
+    elif w.setting == "llp":
+        G = len(w.bags)
+        counts = np.asarray(w.counts)
+        for gf in np.array_split(rng.permutation(G), n_folds):
+            gtr = np.setdiff1d(np.arange(G), gf)
+            mm = LLPNet("dllp", seed=cell.seed, **cfg).fit(cell.Mtr, [w.bags[g] for g in gtr], counts[gtr])
+            idx = np.concatenate([w.bags[g] for g in gf]).astype(int)
+            P[idx] = _P2(mm.predict_proba(cell.Mtr[idx]))
+        rest = np.isnan(P).any(1)                 # điểm không thuộc túi nào (không có ở LLP của đề tài)
+        P[rest] = 1.0 / C
+    else:
+        raise ValueError(w.setting)
+    bad = ~np.all(np.isfinite(P), axis=1)
+    P[bad] = 1.0 / C
+    P = np.clip(P, 1e-12, None)
+    return P / P.sum(1, keepdims=True), int(bad.sum())
+
+
+def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None, monitor=None, save=None, oof=False,
+                   force=False):
     """Chạy một chuỗi cho mỗi điểm xuất phát, phát ra gibbs_init_<start>, base_start (nếu có 'base') và gibbs_ms
-    (chuỗi có WPLL lớn nhất). Phần extra ghi wpll, r_start, r_final và vết monitor (chẩn đoán)."""
+    (chuỗi có WPLL lớn nhất). Phần extra ghi wpll, r_start, r_final và vết monitor (chẩn đoán).
+    V2 giai đoạn 1: save(dict mảng) — lưu Q̄ và dự đoán test của mọi chuỗi, dự đoán test (và ngoài fold nếu oof=True)
+    của learner khởi động, để tính các bộ gộp ngoài GPU; force=True chạy lại kể cả khi mọi dòng đã xong (thiếu tệp lưu)."""
     from ..sampler import InContextGibbs
     guard = guard or (lambda m, fn: fn())
     bad = [s for s in starts if s not in V0_STARTS]
     if bad:
         raise ValueError(f"điểm xuất phát không hợp lệ: {bad}")
-    if not (todo("gibbs_ms") or any(todo(f"gibbs_init_{s}") for s in starts) or ("base" in starts and todo("base_start"))):
+    if not (force or todo("gibbs_ms") or any(todo(f"gibbs_init_{s}") for s in starts) or
+            ("base" in starts and todo("base_start"))):
         return
-    res = {}
+    res, arrays = {}, {}
 
     def _one(start):
         t0 = time.time()
@@ -210,8 +250,13 @@ def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None,
         else:
             m = base_learner(cell)
             init = np.asarray(m.predict_proba(cell.Mtr), float)
+            PL = _P2(m.predict_proba(cell.Mte))
+            arrays["P_L"] = np.asarray(PL, np.float32)
+            if oof:
+                Po, nbad = base_oof(cell, m)
+                arrays["Poof_L"], arrays["oof_nonfinite"] = np.asarray(Po, np.float32), np.int32(nbad)
             if todo("base_start"):
-                emit("base_start", Out(_P2(m.predict_proba(cell.Mte)), 0, tuned_extra(m)), time.time() - t0)
+                emit("base_start", Out(PL, 0, tuned_extra(m)), time.time() - t0)
         cond.n_calls = 0
         g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
                            burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed, init=init,
@@ -227,12 +272,29 @@ def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None,
         info += ";flips=" + "/".join(f"{f:.3f}" for f in g.trace_.flips)
         out = Out(P, calls + cond_final.n_calls, info)
         res[start] = (wpll, out)
+        arrays[f"Q_{start}"] = np.asarray(g.qbar()[:len(cell.Xtr)], np.float32)
+        arrays[f"P_{start}"] = np.asarray(P, np.float32)
+        arrays[f"wpll_{start}"] = np.float64(wpll)
+        if monitor is not None:
+            arrays[f"monitor_{start}"] = np.asarray(g.trace_.monitor, np.float32)
+            arrays[f"rstart_{start}"] = np.float32(monitor(g.y0_))
         if todo(f"gibbs_init_{start}"):
             emit(f"gibbs_init_{start}", out, time.time() - t0)
 
     for st in starts:          # chạy tiếp sau khi phiên bị ngắt: chạy lại điểm đã xong chỉ khi còn thiếu gibbs_ms
-        if todo(f"gibbs_init_{st}") or todo("gibbs_ms"):
+        if force or todo(f"gibbs_init_{st}") or todo("gibbs_ms"):
             guard(f"gibbs_init_{st}", lambda st=st: _one(st))
+    if save is not None and len(res) == len(starts):
+        w = cell.weak
+        arrays["starts"] = np.array(list(starts))
+        if w.setting == "llp":
+            bag_of = np.full(len(cell.Xtr), -1, np.int32)
+            for gi, b in enumerate(w.bags):
+                bag_of[np.asarray(b, int)] = gi
+            arrays["bag_of"], arrays["counts"] = bag_of, np.asarray(w.counts, np.int32)
+        else:
+            arrays["S"] = np.asarray(w.S, bool)
+        guard("save", lambda: save(arrays))
     if todo("gibbs_ms") and len(res) == len(starts) and all(np.isfinite(v[0]) for v in res.values()):
         best = max(res, key=lambda k: res[k][0])
         wp = ",".join(f"{k}:{v[0]:.6f}" for k, v in res.items())
