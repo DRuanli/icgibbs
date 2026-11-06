@@ -183,6 +183,9 @@ def parse_levels(spec: str):
     return out
 
 
+_GIBBS_DEFAULT = dict(GIBBS)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--part", choices=["tfm", "baselines", "rhat", "ablation", "v0"], required=True,
@@ -191,6 +194,8 @@ def main(argv=None):
     ap.add_argument("--explore", action="store_true",
                     help="THĂM DÒ (V2): cho phép --part rhat (R4) hoặc --part v0 (giai đoạn 1) trên --split s2; với rhat dùng mọi "
                          "dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--sweeps", type=int, default=0,
+                    help="V2 V1C (D, F): số vòng quét của mỗi chuỗi với --part v0 (0 = mặc định 30); burn-in = sweeps // 3")
     ap.add_argument("--weak_variant", default="iid", choices=["iid", "feat", "inst"],
                     help="V2 W3: iid (mặc định, như Study 1–2); feat = LLP túi gom theo feature; inst = PLL phụ thuộc mẫu. "
                          "Cột setting ghi thành llp_feat / pll_inst")
@@ -238,6 +243,12 @@ def main(argv=None):
         ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ và v0 thăm dò cần --explore")
     if a.explore and not (a.part in ("rhat", "v0") and a.split == "s2"):
         ap.error("--explore chỉ dùng với --part rhat hoặc v0, và --split s2")
+    GIBBS.clear()                                          # mỗi lần gọi main bắt đầu từ cấu hình mặc định
+    GIBBS.update(_GIBBS_DEFAULT)
+    if a.sweeps:
+        if a.part != "v0" or a.sweeps < 2:
+            ap.error("--sweeps chỉ dùng với --part v0 và phải ≥ 2")
+        GIBBS["n_sweeps"], GIBBS["burn_in"] = int(a.sweeps), max(1, int(a.sweeps) // 3)
     if a.weak_variant != "iid":
         bad = [x for x in a.settings.split(",") if x.strip() and a.weak_variant not in VARIANTS.get(x.strip(), ())]
         if bad:
@@ -283,6 +294,8 @@ def main(argv=None):
     writer = ResultWriter(a.out, FIELDS, preds)
     code = code_version()
     cfg_d = dict(GIBBS=GIBBS, backend=a.backend, gibbs_est=a.gibbs_est, final_est=a.final_est)
+    if a.sweeps:                                           # giữ nguyên mã cấu hình của mọi lượt cũ
+        cfg_d["sweeps"] = int(a.sweeps)
     if a.weak_variant != "iid":                            # giữ nguyên mã cấu hình của mọi lượt cũ
         cfg_d["weak_variant"] = a.weak_variant
     cfg = config_hash(cfg_d)

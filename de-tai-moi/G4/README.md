@@ -26,13 +26,13 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
-## V2 giai đoạn 1b — lượt V1C dùng `s2_code_v8.zip` (06/11/2026)
+## V2 giai đoạn 1b — lượt V1C dùng `s2_code_v9.zip` (06/11/2026, mở rộng 07/11)
 
-Thầy duyệt ngày 06/11. Kế hoạch ghi trước ở [V2/PHASE1B_PLAN](../V2/PHASE1B_PLAN.md), commit `15a5ea6`. Lượt này là **thăm dò**: chỉ đo thời gian, tính tất định và ánh xạ phản ứng, không có số test mới của phương pháp.
+Thầy duyệt ngày 06/11. Kế hoạch ghi trước ở [V2/PHASE1B_PLAN](../V2/PHASE1B_PLAN.md): §1–§6 ở commit `15a5ea6`, phần bổ sung §7 (các phần D–G) ở commit `ebf2e4e`. **Không dùng `s2_code_v8.zip`** — bản đó chưa có D–G. Lượt này là **thăm dò**, chỉ trên dataset cũ (NC1, Study 2) và tập phát triển; không chạm dữ liệu của Study 3.
 
 **Trước khi chạy (một lần):**
 - Đăng nhập ux.priorlabs.ai bằng tài khoản sinh `TABPFN_TOKEN`, rồi chấp nhận giấy phép **TabPFN-3** và **TabPFN-3.5** ở tab License.
-- Tải `s2_code_v8.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*.
+- Tải `s2_code_v9.zip` lên dataset `icgibbs-g4` dưới dạng *New Version*.
 
 **Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.
 - **Add data:**
@@ -43,7 +43,7 @@ Thầy duyệt ngày 06/11. Kế hoạch ghi trước ở [V2/PHASE1B_PLAN](../V
   Cần cả hai output vì phần Φ_chuỗi đọc thư mục `v1_npz/` của cả hai.
 - **Ô 1:** như ô 1 của V1A và V1B, với ba thay đổi:
   - thêm `tabdpt==1.3.1` vào lệnh pip;
-  - tìm `s2_code_v8`;
+  - tìm `s2_code_v9`;
   - chép thêm các tệp `v1c_*` cũ để chạy tiếp được.
 ```python
 !pip install -q tabpfn==9.2.0 tabicl==2.2.0 tabdpt==1.3.1 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
@@ -53,20 +53,26 @@ try:
     os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
 except Exception:
     pass
-src = glob.glob("/kaggle/input/**/s2_code_v8/code/run_s2_lot.sh", recursive=True)
+src = glob.glob("/kaggle/input/**/s2_code_v9/code/run_s2_lot.sh", recursive=True)
 print(src); assert len(src) == 1
 shutil.rmtree("/kaggle/working/code", ignore_errors=True)
 shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
 os.makedirs("/kaggle/working/v1_npz", exist_ok=True)
 for f in glob.glob("/kaggle/input/**/v1_npz/*.npz", recursive=True):
     shutil.copy(f, "/kaggle/working/v1_npz/")
-for pat in ("v1c_*.csv",):
-    for f in glob.glob(f"/kaggle/input/**/{pat}", recursive=True):
-        shutil.copy(f, "/kaggle/working/")
-print("npz:", len(glob.glob("/kaggle/working/v1_npz/*.npz")))   # cần 234
+for f in glob.glob("/kaggle/input/**/v1c_*.csv", recursive=True):          # phiên 2: chạy tiếp
+    shutil.copy(f, "/kaggle/working/")
+for f in glob.glob("/kaggle/input/**/v1c_*_npz/*.npz", recursive=True):
+    d = os.path.join("/kaggle/working", os.path.basename(os.path.dirname(f)))
+    os.makedirs(d, exist_ok=True); shutil.copy(f, d)
+print("npz V1:", len(glob.glob("/kaggle/working/v1_npz/*.npz")))   # cần 234
 ```
 - **Ô 2:** `LOT = "V1C"`, phần còn lại như các lượt trước.
-- **Ước lượng:** khoảng 5–7 giờ.
+- **Hai phiên.** Từ bản v9, lượt này gồm 7 phần A–G (PHASE1B_PLAN §7.3), khoảng 20–24 giờ GPU, tức **2 phiên Kaggle**.
+  - Phiên 1 chạy tới giới hạn 12 giờ.
+  - Phiên 2: tạo notebook mới với cùng dữ liệu, **thêm output của phiên 1** làm dữ liệu, rồi chạy lại y hệt. Ô 1 chép các tệp `v1c_*.csv` và các thư mục `v1c_*_npz/` cũ, nên mọi ô đã xong được bỏ qua.
+  - Thứ tự ưu tiên: các phần quan trọng nhất chạy ở đầu mỗi GPU.
+- **Ước lượng:** phần A–C khoảng 5–7 giờ; toàn bộ A–G khoảng 20–24 giờ GPU (xem "Hai phiên").
   - **GPU 0:**
     - đo tốc độ của 5 TFM (khoảng 30 phút, gồm tải trọng số);
     - ánh xạ phản ứng trên 8 dataset F1;
@@ -76,7 +82,8 @@ print("npz:", len(glob.glob("/kaggle/working/v1_npz/*.npz")))   # cần 234
 - **Nếu TabPFN-3 hoặc 3.5 báo lỗi giấy phép hay tải trọng số:** lượt vẫn chạy tiếp. Các dòng đó ghi `error`, và em sẽ báo lại.
 - **Gửi lại:**
   - mọi tệp `s2_V1C_*`;
-  - mọi tệp `v1c_*.csv` và `v1c_*.log`.
+  - mọi tệp `v1c_*.csv`, `v1c_*.log` và `v1c_choice.txt`;
+  - các thư mục `v1c_e_npz/`, `v1c_probe_npz/`, `v1c_f_npz/`, `v1c_g_npz/`.
   
   Không cần gửi lại `v1_npz/`.
 - **Phân tích:** `V2/analysis/v1c_report.py`, viết và commit trước khi có số.

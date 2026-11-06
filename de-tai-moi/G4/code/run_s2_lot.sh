@@ -28,7 +28,9 @@
 #   V1C  (GPU T4 × 2): V2 giai đoạn 1b, THĂM DÒ (V2/PHASE1B_PLAN.md). GPU 0: thời gian/tất định của 5 TFM (w4_pilot.py),
 #                      ánh xạ phản ứng trên các ô F1 cho 5 TFM (v0_response_map.py), rồi Φ_chuỗi trên ô V1 của TabPFN v2.
 #                      GPU 1: Φ_chuỗi trên ô V1 của TabICL v2 (v1c_chain_map.py). Cần output V1A, V1B (v1_npz/) làm dữ liệu,
-#                      giấy phép TabPFN-3/3.5 đã chấp nhận, và gói tabdpt==1.3.1. Cần s2_code_v8
+#                      giấy phép TabPFN-3/3.5 đã chấp nhận, và gói tabdpt==1.3.1. Bổ sung 07/11 (PHASE1B_PLAN §7): GPU 0
+#                      thêm chuỗi TabPFN-3.x (chọn tự động) và TabPFN v2 trên F1, chuỗi dò 3 vòng quét (D), A1 cùng chi
+#                      phí (F); GPU 1 thêm D, TabICL trên F1, TabDPT, cơ chế nhãn yếu mới (G), F. Khoảng 2 phiên. Cần s2_code_v9
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -162,26 +164,73 @@ case $LOT in
       wait
     fi ;;
   V1C)
-    [ -f v1c_chain_map.py ] || { echo "BẢN CODE CŨ: chưa có v1c_chain_map.py — dùng s2_code_v8.zip"; exit 3; }
+    [ -f v1c_chain_map.py ] && python run_g7.py --help 2>/dev/null | grep -q -- "--sweeps" \
+      || { echo "BẢN CODE CŨ: dùng s2_code_v9.zip"; exit 3; }
     NPZ="$OUT/v1_npz"
     n_npz=$(ls "$NPZ"/v1_*.npz 2>/dev/null | wc -l)
     echo "số tệp npz của V1: $n_npz (cần 234: 69 TabPFN + 165 TabICL)"
     BE5=tabpfn_v2,tabicl_v2,tabpfn_v3,tabpfn_v3_5,tabdpt
     RHO=0.2,0.35,0.5,0.65,0.8,0.9,0.97
+    F1P=12,1501,40966,28; F1L=50,6332; PD=54,36,23; LD=31,37,1464,1462,1480,1510
+    LLP_E=3,29,44,1049,1489,1494,23381,38; PLL_E=11,46,182,188,458,469,1475,1497,40975,40982
+    LLP_EP=3,29,44,1049,1489,1494; LLP_DP=1464,1462,1480,1510       # TabPFN v2: đúng các dataset có trong V1A
     run_ () {   # run_ <số GPU> <tên> <script> <đối số...>
       local g=$1 tag=$2 sc=$3; shift 3
       CUDA_VISIBLE_DEVICES=$g python $sc "$@" --out "$OUT/v1c_${tag}.csv" >> "$OUT/v1c_${tag}.log" 2>&1
       echo "GPU$g xong v1c_$tag: $(date)"
     }
+    ch_ () {    # ch_ <số GPU> <tên> <backend> <thư mục npz> <đối số run_g7...>: 3 chuỗi warm, base, cold
+      local g=$1 tag=$2 be=$3 d=$4; shift 4
+      mkdir -p "$OUT/$d"
+      run_ $g $tag run_g7.py --part v0 --backend $be --starts warm,base,cold --save_dir "$OUT/$d" "$@"
+    }
+    v1cells_ () {   # v1cells_ <số GPU> <tiền tố> <backend> <thư mục npz> <đối số thêm...>: đúng các ô của V1
+      local g=$1 pre=$2 be=$3 d=$4; shift 4
+      if [ $be = tabpfn_v2 ]; then
+        ch_ $g ${pre}_llp_eval_pfn $be $d --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_EP "$@"
+        ch_ $g ${pre}_llp_dev_pfn $be $d --split dev --settings llp --levels "llp=8" --datasets $LLP_DP "$@"
+        ch_ $g ${pre}_pll_eval_pfn $be $d --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E "$@"
+        ch_ $g ${pre}_pll_dev_pfn $be $d --split dev --settings pll --levels "pll=0.6" --datasets $PD "$@"
+      else
+        ch_ $g ${pre}_llp_s2_icl $be $d --split s2 --eval-ok --explore --settings llp --levels "llp=8" "$@"
+        ch_ $g ${pre}_pll_s2_icl $be $d --split s2 --eval-ok --explore --settings pll --levels "pll=0.6" "$@"
+        ch_ $g ${pre}_llp_eval_icl $be $d --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_E "$@"
+        ch_ $g ${pre}_llp_dev_icl $be $d --split dev --settings llp --levels "llp=8" --datasets $LD "$@"
+        ch_ $g ${pre}_pll_eval_icl $be $d --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E "$@"
+        ch_ $g ${pre}_pll_dev_icl $be $d --split dev --settings pll --levels "pll=0.6" --datasets $PD "$@"
+      fi
+    }
+    newtfm_ () {    # newtfm_ <số GPU> <backend>: phần E trên F1 và tập phát triển, seed 0
+      local g=$1 be=$2
+      ch_ $g e_${be}_pll_f1 $be v1c_e_npz --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $F1P --seeds 0
+      ch_ $g e_${be}_llp_f1 $be v1c_e_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $F1L --seeds 0
+      ch_ $g e_${be}_pll_dev $be v1c_e_npz --split dev --settings pll --levels "pll=0.6" --datasets $PD --seeds 0
+      ch_ $g e_${be}_llp_dev $be v1c_e_npz --split dev --settings llp --levels "llp=8" --datasets $LD --seeds 0
+    }
     ( run_ 0 w4_timing w4_pilot.py --backends $BE5
       run_ 0 map_pll_uniform v0_response_map.py --setting pll --plant uniform --backends $BE5 \
-        --datasets 12,1501,40966,28,188,40982 --seeds 0 --rho $RHO
+        --datasets $F1P,188,40982 --seeds 0 --rho $RHO
       run_ 0 map_pll_struct v0_response_map.py --setting pll --plant struct --backends $BE5 \
-        --datasets 12,1501,40966,28,188,40982 --seeds 0 --rho $RHO
+        --datasets $F1P,188,40982 --seeds 0 --rho $RHO
       run_ 0 map_llp_uniform v0_response_map.py --setting llp --plant uniform --backends $BE5 \
-        --datasets 50,6332 --seeds 0 --rho $RHO
-      run_ 0 chainmap_tabpfn v1c_chain_map.py --npz_glob "$NPZ/v1_tabpfn_v2_*.npz" ) &
-    ( run_ 1 chainmap_tabicl v1c_chain_map.py --npz_glob "$NPZ/v1_tabicl_v2_*.npz" ) &
+        --datasets $F1L --seeds 0 --rho $RHO
+      CH=$(python w4_pilot.py --choose "$OUT/v1c_w4_timing.csv"); echo "${CH:-none}" > "$OUT/v1c_choice.txt"
+      echo "TabPFN-3.x được chọn (PHASE1B_PLAN §4): ${CH:-không bản nào hợp lệ}"
+      [ -n "$CH" ] && newtfm_ 0 $CH
+      ch_ 0 e_tabpfn_v2_pll_f1 tabpfn_v2 v1c_e_npz --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $F1P --seeds 0
+      ch_ 0 e_tabpfn_v2_llp_f1 tabpfn_v2 v1c_e_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $F1L --seeds 0
+      run_ 0 chainmap_tabpfn v1c_chain_map.py --npz_glob "$NPZ/v1_tabpfn_v2_*.npz"
+      v1cells_ 0 d tabpfn_v2 v1c_probe_npz --sweeps 3
+      v1cells_ 0 f tabpfn_v2 v1c_f_npz --sweeps 10 ) &
+    ( run_ 1 chainmap_tabicl v1c_chain_map.py --npz_glob "$NPZ/v1_tabicl_v2_*.npz"
+      v1cells_ 1 d tabicl_v2 v1c_probe_npz --sweeps 3
+      ch_ 1 e_tabicl_v2_pll_f1 tabicl_v2 v1c_e_npz --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $F1P --seeds 0
+      ch_ 1 e_tabicl_v2_llp_f1 tabicl_v2 v1c_e_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $F1L --seeds 0
+      newtfm_ 1 tabdpt
+      ch_ 1 g_llp_feat8 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=8" --datasets $LD --weak_variant feat
+      ch_ 1 g_llp_iid32 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=32" --datasets $LD
+      ch_ 1 g_pll_inst tabicl_v2 v1c_g_npz --split dev --settings pll --levels "pll=0.6" --datasets $PD --weak_variant inst
+      v1cells_ 1 f tabicl_v2 v1c_f_npz --sweeps 10 ) &
     wait ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))

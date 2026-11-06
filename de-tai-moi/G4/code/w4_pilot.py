@@ -54,7 +54,52 @@ def _peak_mb():
     return ""
 
 
+NEW_PFN = ("tabpfn_v3", "tabpfn_v3_5")
+
+
+def choose_pfn(csv_path):
+    """PHASE1B_PLAN §4 (ghi trước), dùng chung cho lượt V1C (chọn tự động) và V2/analysis/v1c_report.py.
+    Hợp lệ: mọi ô C ≤ 10 có dòng 'chain' ok, không dòng 'error', chênh hai lượt gọi giống hệt ≤ 1e−4.
+    Tỉ số = trung vị theo C ∈ {2, 10} của [trung vị giây/lượt của v3.5 / của v3] ở n = 2.000; chọn 3.5 nếu ≤ 1,5."""
+    import pandas as pd
+    tm = pd.read_csv(csv_path)
+    out = {}
+    for be in NEW_PFN:
+        d = tm[tm.backend == be]
+        ch = d[(d.kind == "chain") & (d.n_classes <= 10)]
+        cells = d[d.n_classes <= 10][["n_ctx", "n_classes"]].drop_duplicates()
+        ok_cells = ch[ch.status == "ok"][["n_ctx", "n_classes"]].drop_duplicates()
+        no_error = bool(len(cells) > 0 and len(ok_cells) == len(cells)
+                        and not d.status.astype(str).str.startswith("error").any())
+        diff = pd.to_numeric(ch[ch.status == "ok"].max_abs_diff, errors="coerce")
+        det = bool(len(diff) and diff.max() <= 1e-4)
+        med = ch[(ch.status == "ok") & (ch.n_ctx == 2000)].groupby("n_classes").seconds.median()
+        out[be] = dict(valid=bool(no_error and det), no_error=no_error,
+                       max_abs_diff=float(diff.max()) if len(diff) else None,
+                       med_sec_n2000={int(k): float(v) for k, v in med.items()})
+    v3, v35 = out["tabpfn_v3"], out["tabpfn_v3_5"]
+    ratio = None
+    if v3["valid"] and v35["valid"]:
+        rs = [v35["med_sec_n2000"][c] / v3["med_sec_n2000"][c] for c in (2, 10)
+              if c in v35["med_sec_n2000"] and c in v3["med_sec_n2000"]]
+        ratio = float(np.median(rs)) if rs else None
+        chosen = "tabpfn_v3_5" if ratio is not None and ratio <= 1.5 else "tabpfn_v3"
+    elif v3["valid"]:
+        chosen = "tabpfn_v3"
+    elif v35["valid"]:
+        chosen = "tabpfn_v3_5"
+    else:
+        chosen = None
+    return dict(per_backend=out, ratio_v35_over_v3=ratio, chosen=chosen)
+
+
 def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
+    if argv[:1] == ["--choose"]:                     # in tên backend được chọn (rỗng nếu không bản nào hợp lệ)
+        c = choose_pfn(argv[1])["chosen"] if os.path.exists(argv[1]) else None
+        print(c or "")
+        return 0
     ap = argparse.ArgumentParser()
     ap.add_argument("--backends", default="tabpfn_v2,tabicl_v2,tabpfn_v3,tabpfn_v3_5,tabdpt")
     ap.add_argument("--grid", default=GRID)

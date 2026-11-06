@@ -78,3 +78,42 @@ def test_w4_pilot_dry_and_unsupported(tmp_path):
     out2 = str(tmp_path / "u.csv")
     w4_pilot.main(["--backends", "tabpfn_v2", "--grid", "300x26", "--out", out2])     # không cần cài tabpfn
     assert [r["status"] for r in _rows(out2)] == ["unsupported"]
+
+
+def test_sweeps_option_short_chains_and_reset(tmp_path):
+    from icgibbs.g7.methods import GIBBS
+    sd = tmp_path / "npz"
+    assert run_g7.main(["--part", "v0", "--settings", "pll", "--levels", "pll=0.6", "--datasets", "54",
+                        "--backend", "dry", "--source", "synthetic", "--seeds", "0", "--sweeps", "3",
+                        "--save_dir", str(sd), "--out", str(tmp_path / "p.csv")]) == 0
+    z = np.load(sd / os.listdir(sd)[0])
+    assert len(z["monitor_warm"]) == 3 and len(z["monitor_cold"]) == 3
+    assert run_g7.main(["--part", "v0", "--settings", "pll", "--levels", "pll=0.6", "--datasets", "54",
+                        "--backend", "dry", "--source", "synthetic", "--seeds", "1", "--out", str(tmp_path / "q.csv")]) == 0
+    assert GIBBS["n_sweeps"] == 30 and GIBBS["burn_in"] == 10        # lần gọi sau trở lại mặc định
+    with pytest.raises(SystemExit):
+        run_g7.main(["--part", "tfm", "--backend", "dry", "--source", "synthetic", "--sweeps", "3",
+                     "--out", str(tmp_path / "r.csv")])
+
+
+def test_choose_rule(tmp_path, capsys):
+    rows = []
+    for be, sec in [("tabpfn_v3", 1.0), ("tabpfn_v3_5", 1.4)]:
+        for n, C in [(500, 2), (2000, 2), (500, 10), (2000, 10)]:
+            for rep in (1, 2):
+                rows.append(dict(backend=be, n_ctx=n, n_classes=C, kind="chain", rep=rep, seconds=sec * n / 2000,
+                                 max_abs_diff=0.0, status="ok"))
+    import pandas as pd
+    p = tmp_path / "t.csv"
+    pd.DataFrame(rows).to_csv(p, index=False)
+    assert w4_pilot.choose_pfn(p)["chosen"] == "tabpfn_v3_5"               # tỉ số 1,4 ≤ 1,5
+    df = pd.DataFrame(rows)
+    df.loc[df.backend == "tabpfn_v3_5", "seconds"] *= 1.2                    # tỉ số 1,68 > 1,5
+    df.to_csv(p, index=False)
+    assert w4_pilot.choose_pfn(p)["chosen"] == "tabpfn_v3"
+    df.loc[df.backend == "tabpfn_v3", "max_abs_diff"] = 1e-3                 # v3 không tất định → chỉ 3.5 hợp lệ
+    df.to_csv(p, index=False)
+    w4_pilot.main(["--choose", str(p)])
+    assert capsys.readouterr().out.strip() == "tabpfn_v3_5"
+    w4_pilot.main(["--choose", str(tmp_path / "khong_co.csv")])
+    assert capsys.readouterr().out.strip() == ""
