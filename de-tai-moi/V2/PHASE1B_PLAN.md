@@ -92,3 +92,74 @@ Mỗi ô và mỗi cách gieo cho các điểm (r_k, g_k), với r_k là tỉ l�
 - **Đầu vào:** output của V1A và V1B (thư mục `v1_npz/`) thêm làm dữ liệu.
 - **Chạy tiếp được:** mỗi script bỏ qua các dòng đã `ok`.
 - **Code:** `s2_code_v8.zip`, dựng bằng `git archive` từ commit code.
+
+## 7. Bổ sung ngày 07/11/2026, trước khi chạy V1C
+
+- **Lý do:** thầy yêu cầu lượt V1C chạy được nhiều việc trong một lần, giải quyết các vấn đề còn mở và làm phương pháp mạnh hơn.
+- **Tình trạng dữ liệu:** V1C chưa chạy, nên chưa có số nào của lượt này. Các phần A, B, C và mọi dự đoán ở §1–§5 **giữ nguyên**.
+- **Các phần mới D–G:** cùng một lượt V1C, cùng `s2_code_v9.zip`.
+- **Cơ sở thăm dò:** em viết `V2/analysis/v1_explore2.py` ngày 07/11, trên số V1 **đã xem**, để thiết kế phần F và phần gộp chéo TFM. Vì vậy:
+  - kết quả của phép thăm dò đó **không** được dùng làm bằng chứng;
+  - mọi dự đoán dưới đây chỉ chấm trên **dữ liệu mới** của V1C.
+
+### 7.1 Vấn đề còn mở và phần giải quyết
+
+| Vấn đề | Phần |
+|---|---|
+| W1.3/H8: dữ liệu V1 chỉ có tín hiệu sau khi chạy chuỗi, nên chưa phát triển được phép chẩn đoán đo trước | **D**: chuỗi dò 3 vòng quét, không cần nhãn |
+| A1 tốn gấp 3 lần TFM so với v1 | **F**: A1 cùng chi phí (3 chuỗi × 10 vòng quét) |
+| F1: TabPFN v2 sụp; mới có ánh xạ (P11), chưa có chuỗi | **E**: chuỗi A1 với TabPFN-3.x được chọn và TabDPT |
+| Phương pháp mạnh hơn và bền với TFM (H7) | **E**: gộp chéo TFM (trung bình A1 của mọi TFM trên cùng ô) |
+| Các cơ chế nhãn yếu mới của Study 3 chưa chạy lần nào | **G**: TabICL v2 với túi gom theo feature, túi 32, PLL phụ thuộc mẫu |
+
+### 7.2 Các phần mới
+
+**D. Chuỗi dò (H8).**
+- **Ô:** mọi ô của V1, gồm 69 ô TabPFN v2 và 165 ô TabICL v2.
+- **Cách chạy:** `run_g7.py --part v0 --sweeps 3`, 3 điểm xuất phát (burn-in 1), lưu npz.
+- **Tín hiệu, không dùng nhãn thật:**
+  - **s1** = trung bình theo cặp, trên các cặp điểm xuất phát, của khoảng cách biến phân toàn phần (TV) trung bình theo điểm giữa các Q̄ sau 3 vòng quét;
+  - **s2** = max − min của WPLL giữa ba điểm xuất phát.
+- **Đích (phát triển):** T1 = ô V1 có các chuỗi về khác lưu vực (spread r_cuối ≥ 0,03, như V1_REPORT §4). Ngưỡng 0,03 được chọn sau khi xem V1, nên phần này là **phát triển**, không phải xác nhận.
+- **P15.** AUC của s1 cho T1, gộp hai TFM, **≥ 0,75**. Em dự đoán: đúng, độ tin thấp.
+- **Báo cáo kèm:** AUC của s2. Thêm đích T2 = ô mà v1 thua max(A1, L) quá 0,02.
+- **Phép xác nhận của H8 vẫn là Study 3**, với ngưỡng AUC 0,8 như V2_PLAN.
+
+**E. Chuỗi với TFM mới, và gộp chéo TFM.**
+- **TFM:** bản TabPFN-3.x được chọn theo §4 (chọn tự động trong lượt, bằng đúng quy tắc §4), cùng TabDPT.
+- **Cấu hình:** 3 điểm xuất phát, cấu hình V1, seed 0.
+- **Dataset:**
+  - PLL q = 0,6: F1 gồm 12, 1501, 40966, 28; tập phát triển gồm 54, 36, 23;
+  - LLP túi 8: F1 gồm 50, 6332; tập phát triển gồm 31, 37, 1464, 1462, 1480, 1510.
+- **Mốc so sánh:** chạy thêm TabPFN v2 và TabICL v2 trên 6 dataset F1, seed 0, vì V1 chưa có các ô này. Các ô phát triển lấy từ V1.
+- **P14 (chuỗi sửa được F1).** Trên 4 dataset F1 PLL, A1 của TabPFN-3.x có accuracy ≥ A1 của TabPFN v2 + 0,05 ở **≥ 3/4** dataset. Em dự đoán: đúng nếu P11 đúng.
+- **P13 (gộp chéo TFM).**
+  - **Cách gộp:** trên mỗi ô có đủ 4 TFM (TabPFN v2, TabICL v2, TabPFN-3.x, TabDPT), X = trung bình đều dự đoán A1 của 4 TFM.
+  - **Điều kiện:** trung bình theo dataset của (X − A1 của TFM tốt nhất trên ô đó, là bộ chọn tiên tri) **≥ −0,01**, và X thua TFM tốt nhất quá 0,02 ở **≤ 2/15** dataset.
+  - **Dự đoán:** đúng.
+  - **Ô thiếu:** ô nào thiếu một TFM thì bỏ khỏi P13 và báo cáo kèm.
+- **Nhiễm dữ liệu:** không dataset nào của phần E thuộc tập huấn luyện của TabDPT (đã kiểm ngày 06/11).
+
+**F. A1 cùng chi phí.**
+- **Ô:** mọi ô của V1, với cả hai TFM.
+- **Cấu hình:** `--sweeps 10` (burn-in 3, dùng 7 mẫu), 3 điểm xuất phát. Gọi kết quả là A1e.
+- **Chi phí:** số lượt gọi TFM trong chuỗi của 3 chuỗi × 10 vòng quét bằng 1 chuỗi × 30 vòng quét của v1.
+- **P12.**
+  - **Lợi so với v1:** trung bình theo dataset của (A1e − v1) **> 0** ở cả bốn nhóm (TFM × setting), với v1 lấy từ V1.
+  - **Thụt lùi:** tổng số thụt lùi R(A1e), theo định nghĩa của PHASE1_PLAN, **≤ 3**.
+  - **Dự đoán:** đúng.
+
+**G. Cơ chế nhãn yếu mới, chỉ báo cáo, không dự đoán.**
+- **Cấu hình:** TabICL v2, 3 điểm xuất phát, seed 0, 1, 2, trên tập phát triển.
+  - LLP `--weak_variant feat` túi 8 trên 6 dataset LLP phát triển;
+  - LLP iid túi 32 trên cùng 6 dataset;
+  - PLL `--weak_variant inst` q = 0,6 trên 54, 36, 23.
+- **Báo cáo:** v1, A1, L, và chênh với LLP iid túi 8 hoặc PLL iid q 0,6 của V1 trên cùng ô.
+
+### 7.3 Thứ tự chạy và chi phí
+
+- **Thứ tự:** mỗi GPU chạy theo thứ tự ưu tiên dưới đây.
+  - **GPU 0:** A → B → chọn TabPFN-3.x → E (TabPFN-3.x, rồi TabPFN v2 trên F1) → C (TabPFN v2) → D (TabPFN v2) → F (TabPFN v2).
+  - **GPU 1:** C (TabICL) → D (TabICL) → E (TabICL trên F1, rồi TabDPT) → G → F (TabICL).
+- **Chi phí:** ước khoảng 20–24 giờ GPU, tức **2 phiên Kaggle**. Phiên 2 là chạy lại đúng lượt với output phiên 1 làm dữ liệu; mọi ô đã xong được bỏ qua.
+- **Chấm:** `V2/analysis/v1c_report.py`, mở rộng và commit cùng code, trước khi có số.
