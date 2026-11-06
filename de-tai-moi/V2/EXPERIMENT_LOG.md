@@ -15,7 +15,7 @@
 | 05/11/2026 17:46 UTC | **15a5ea6** (main) | Thầy duyệt 06/11 (giờ Việt Nam): lượt thử W4, quy tắc loại dataset, Φ_chuỗi. Ghi trước lượt V1C ([PHASE1B_PLAN](PHASE1B_PLAN.md)): P8, P9, P11, quy tắc chọn TabPFN-3/3.5, **trước khi viết code** |
 | 05/11/2026 18:06 UTC | **a1a6e1e** (main) | Code V1C: `w4_pilot.py`, `v1c_chain_map.py`, lượt V1C trong `run_s2_lot.sh`, `tests/test_v1c.py` (bộ test 140 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1c_report.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v8.zip` dựng bằng `git archive` từ commit này |
 | 06/11/2026 18:40 UTC | **ebf2e4e** (main) | Thầy yêu cầu (07/11 giờ Việt Nam) lượt V1C chạy nhiều việc một lần, trước khi chạy. **Bổ sung ghi trước PHASE1B_PLAN §7**, trước khi có số V1C và trước code: phần D (chuỗi dò cho H8, P15), E (chuỗi TabPFN-3.x/TabDPT, gộp chéo TFM, P13, P14), F (A1 cùng chi phí, P12), G (cơ chế nhãn yếu mới, chỉ báo cáo). Thăm dò thiết kế `v1_explore2.py` trên số V1 đã xem, không dùng làm bằng chứng |
-| 06/11/2026 (sau ebf2e4e) | commit code v9 | Code: `run_g7.py --sweeps`, `w4_pilot.py --choose` (quy tắc §4 dùng chung với script chấm), lượt V1C mở rộng trong `run_s2_lot.sh`, `v1c_report.py` thêm D–G (thử trên npz giả rồi xoá). Bản gửi thầy `s2_code_v9.zip`; **v8 không dùng nữa** |
+| 06/11/2026 (sau ebf2e4e) | **1c7321e** (main) | Code: `run_g7.py --sweeps`, `w4_pilot.py --choose` (quy tắc §4 dùng chung với script chấm), lượt V1C mở rộng trong `run_s2_lot.sh`, `v1c_report.py` thêm D–G (thử trên npz giả rồi xoá). Bản gửi thầy `s2_code_v9.zip`; **v8 không dùng nữa** |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
