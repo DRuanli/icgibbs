@@ -67,7 +67,23 @@ for f in glob.glob("/kaggle/input/**/v1c_*_npz/*.npz", recursive=True):
     os.makedirs(d, exist_ok=True); shutil.copy(f, d)
 print("npz V1:", len(glob.glob("/kaggle/working/v1_npz/*.npz")))   # cần 234
 ```
-- **Ô 2:** `LOT = "V1C"`, phần còn lại như các lượt trước.
+- **Ô 2 (V1C):** tự dừng sau 11 giờ để Kaggle kịp lưu output, trước giới hạn 12 giờ.
+```python
+LOT = "V1C"
+import subprocess, os, signal
+os.chdir("/kaggle/working/code")
+log_path = f"/kaggle/working/s2_{LOT}_master_log.txt"
+with open(log_path, "a") as log:
+    p = subprocess.Popen(["bash", "run_s2_lot.sh", LOT, "/kaggle/working"], stdout=log,
+                         stderr=subprocess.STDOUT, start_new_session=True)
+    try:
+        p.wait(timeout=11 * 3600)
+        print("Lượt chạy xong hết.")
+    except subprocess.TimeoutExpired:
+        os.killpg(p.pid, signal.SIGTERM); p.wait()
+        print("Đã dừng sau 11 giờ để lưu output; cần chạy phiên 2.")
+print(open(log_path).read()[-4000:])
+```
 - **Hai phiên.** Từ bản v9, lượt này gồm 7 phần A–G (PHASE1B_PLAN §7.3), khoảng 20–24 giờ GPU, tức **2 phiên Kaggle**.
   - Phiên 1 chạy tới giới hạn 12 giờ.
   - Phiên 2: tạo notebook mới với cùng dữ liệu, **thêm output của phiên 1** làm dữ liệu, rồi chạy lại y hệt. Ô 1 chép các tệp `v1c_*.csv` và các thư mục `v1c_*_npz/` cũ, nên mọi ô đã xong được bỏ qua.
