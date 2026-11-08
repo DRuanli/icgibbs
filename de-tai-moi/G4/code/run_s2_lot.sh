@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C V1D}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -163,6 +163,17 @@ case $LOT in
         v1_ 1 pll_dev_tabicl tabicl_v2 --split dev --settings pll --levels "pll=0.6" --datasets $PLL_D ) &
       wait
     fi ;;
+  V1D)
+    # V2 sau V1C (thầy duyệt 08/11; V2/V1D_PLAN.md): đếm dataset cho Study 3 (CPU) và hiệu chỉnh mức q của PLL phụ thuộc
+    # mẫu trên tập phát triển (TabICL v2 GPU 1, TabPFN-3 GPU 0), A1 với 3 điểm xuất phát, seed 0–2. Cần s2_code_v11
+    [ -f s3_dataset_census.py ] || { echo "BẢN CODE CŨ: dùng s2_code_v11.zip"; exit 3; }
+    python s3_dataset_census.py --out "$OUT" > "$OUT/v1d_census.log" 2>&1; echo "xong đếm dataset: $(date)"
+    mkdir -p "$OUT/v1d_npz"
+    q_ () { CUDA_VISIBLE_DEVICES=$1 python run_g7.py --part v0 --backend $2 --starts warm,base,cold --save_dir "$OUT/v1d_npz" \
+            --split dev --settings pll --levels "pll=0.2,0.3,0.4" --datasets 54,36,23 --weak_variant inst \
+            --out "$OUT/v1d_inst_$2.csv" >> "$OUT/v1d_inst_$2.log" 2>&1; echo "GPU$1 xong v1d_inst_$2: $(date)"; }
+    q_ 0 tabpfn_v3 & q_ 1 tabicl_v2 &
+    wait ;;
   V1C)
     [ -f v1c_chain_map.py ] && python run_g7.py --help 2>/dev/null | grep -q -- "--sweeps" \
       || { echo "BẢN CODE CŨ: dùng s2_code_v9.zip"; exit 3; }

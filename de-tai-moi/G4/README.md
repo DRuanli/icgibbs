@@ -26,6 +26,17 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## V2 — lượt V1D dùng `s2_code_v11.zip` (08/11/2026)
+
+Thầy duyệt ngày 08/11. Ghi trước ở [V2/V1D_PLAN](../V2/V1D_PLAN.md), commit `8138f9b`. Lượt gồm hai việc: đếm dataset cho Study 3 (CPU, vài phút) và hiệu chỉnh q của PLL phụ thuộc mẫu (2 × T4, khoảng 2–3 giờ, một phiên).
+- **Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`. *Add data:* chỉ cần `icgibbs-g4` bản mới, có `s2_code_v11.zip`.
+- **Ô 1:** như ô 1 của V1C, đổi `s2_code_v10` thành `s2_code_v11`. Ô sẽ in `npz V1: 0`; với V1D điều đó không sao, vì lượt này không cần npz của V1.
+- **Ô 2:** như ô 2 của V1C, đổi `LOT = "V1D"`.
+- **Gửi lại:**
+  - `s2_V1D_*`;
+  - `s3_census_candidates.csv`, `s3_census_summary.txt`, `v1d_*.csv`, `v1d_*.log`;
+  - thư mục `v1d_npz/`.
+
 ## V2 giai đoạn 1b — lượt V1C dùng `s2_code_v9.zip` (06/11/2026, mở rộng 07/11)
 
 Thầy duyệt ngày 06/11. Kế hoạch ghi trước ở [V2/PHASE1B_PLAN](../V2/PHASE1B_PLAN.md): §1–§6 ở commit `15a5ea6`, phần bổ sung §7 (các phần D–G) ở commit `ebf2e4e`. **Không dùng `s2_code_v8.zip`** — bản đó chưa có D–G. Lượt này là **thăm dò**, chỉ trên dataset cũ (NC1, Study 2) và tập phát triển; không chạm dữ liệu của Study 3.
