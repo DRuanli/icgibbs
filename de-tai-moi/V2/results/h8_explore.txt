@@ -1,0 +1,4 @@
+ô: 276 T2: 40
+c1 AUC T2 gộp 0.742 {'tabdpt': 0.841, 'tabicl_v2': 0.694, 'tabpfn_v2': 0.768, 'tabpfn_v3': 0.667} | Spearman với lợi của A1: 0.180
+c2 AUC T2 gộp 0.850 {'tabdpt': 0.955, 'tabicl_v2': 0.85, 'tabpfn_v2': 0.792, 'tabpfn_v3': 0.926} | Spearman với lợi của A1: 0.309
+c3 AUC T2 gộp 0.849 {'tabdpt': 0.977, 'tabicl_v2': 0.846, 'tabpfn_v2': 0.774, 'tabpfn_v3': 0.963} | Spearman với lợi của A1: 0.338
