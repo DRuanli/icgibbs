@@ -42,6 +42,7 @@
 | V1-explore | 05/11 | commit của V1_REPORT | thăm dò sau khi xem số: lưu vực của các điểm xuất phát, lợi ích của A1, 1464, thắng/thua theo dataset (`V2/analysis/v1_explore.py`) | CPU | khoảng 1 phút | ok | `V2/results/v1_explore*` | thăm dò; ngưỡng "cùng lưu vực" 0,03 chọn sau khi xem số |
 | V1C phiên 1 | 07/11 10:25 – khoảng 21:25 | 80 tệp khớp **1c7321e** (`s2_code_v9.zip`) | A–C: W4 thử tốc độ/tất định 5 TFM, ánh xạ phản ứng trên ô F1, Φ_chuỗi trên ô V1; D–G (bổ sung 07/11): chuỗi dò, TFM mới trong chuỗi, A1 cùng chi phí, cơ chế nhãn yếu mới | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `V2/raw/V1C/` | bộ test 145 qua, 2 bỏ qua; mọi dòng ok, 0 mismatch. Xong A, B, C, E (TabPFN-3, TabPFN v2 F1); D 148/234 ô; chưa có E (TabICL F1, TabDPT), F, G. Kết quả: [V1C_REPORT](V1C_REPORT.md) |
 | V1C phiên 2 | 08/11 02:13 – khoảng 13:13 | 80 tệp khớp **c886a52** (`s2_code_v10.zip`) | phần còn lại của D, E, F, G | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok; F TabICL thiếu 89/165 ô (bị cắt) | `V2/raw/V1C/` (log phiên 1 ở `session1_logs/`) | bộ test 145 qua, 2 bỏ qua; mọi dòng ok. P15 sai (AUC 0,45), P13 đúng, P12 sai (đã chắc nhờ TabPFN v2 đủ ô). [V1C_REPORT](V1C_REPORT.md) |
+| V1D | — | 5a3aa7c (`s2_code_v11.zip`) | đếm dataset Study 3; hiệu chỉnh q của PLL phụ thuộc mẫu (TabICL, TabPFN-3) | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1D/` | ghi trước ở [V1D_PLAN](V1D_PLAN.md) `8138f9b` |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
