@@ -1,0 +1,67 @@
+{
+ "choice": {
+  "per_backend": {
+   "tabpfn_v3": {
+    "valid": true,
+    "no_error": true,
+    "max_abs_diff": 0.0,
+    "med_sec_n2000": {
+     "2": 0.2515,
+     "10": 0.2478
+    }
+   },
+   "tabpfn_v3_5": {
+    "valid": true,
+    "no_error": true,
+    "max_abs_diff": 0.0,
+    "med_sec_n2000": {
+     "2": 0.7681,
+     "10": 0.772
+    }
+   }
+  },
+  "ratio_v35_over_v3": 3.0847456022541104,
+  "chosen": "tabpfn_v3"
+ },
+ "P11": {
+  "n_pass_of_4": {
+   "tabdpt": 2,
+   "tabicl_v2": 4,
+   "tabpfn_v2": 0,
+   "tabpfn_v3": 0,
+   "tabpfn_v3_5": 1
+  },
+  "chosen": "tabpfn_v3",
+  "verdict": "SAI",
+  "consistency_check": {
+   "tabpfn_v2_fails_ge3": true,
+   "tabicl_v2_passes_ge3": true
+  }
+ },
+ "P8": {
+  "median_abs_err_chain": 0.015641954517802592,
+  "n_cells": 234,
+  "verdict": "ĐÚNG"
+ },
+ "P9": {
+  "n_cells": 234,
+  "median_chain": 0.015641954517802592,
+  "median_uniform": 0.07264832552473766,
+  "verdict": "ĐÚNG"
+ },
+ "P15": {
+  "AUC_s1_T1": 0.5239130434782608,
+  "AUC_s1_T2": 0.4908088235294117,
+  "AUC_s2_T1": 0.4775362318840579,
+  "AUC_s2_T2": 0.43321078431372545,
+  "AUC_s1_T1_tabicl_v2": 0.7005208333333333,
+  "AUC_s1_T1_tabpfn_v2": 0.40079365079365076,
+  "n_cells": 148,
+  "verdict": "SAI"
+ },
+ "P14": {
+  "n_datasets": 4,
+  "n_pass": 1,
+  "verdict": "SAI"
+ }
+}

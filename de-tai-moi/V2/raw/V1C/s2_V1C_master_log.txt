@@ -1,0 +1,20 @@
+lượt V1C bắt đầu: Sat Nov  7 10:25:37 AM UTC 2026
+145 passed, 2 skipped, 22774 warnings in 834.53s (0:13:54)
+số tệp npz của V1: 234 (cần 234: 69 TabPFN + 165 TabICL)
+GPU0 xong v1c_w4_timing: Sat Nov  7 10:41:11 AM UTC 2026
+GPU0 xong v1c_map_pll_uniform: Sat Nov  7 11:05:02 AM UTC 2026
+GPU0 xong v1c_map_pll_struct: Sat Nov  7 11:30:14 AM UTC 2026
+GPU0 xong v1c_map_llp_uniform: Sat Nov  7 11:33:24 AM UTC 2026
+TabPFN-3.x được chọn (PHASE1B_PLAN §4): tabpfn_v3
+GPU1 xong v1c_chainmap_tabicl: Sat Nov  7 11:48:38 AM UTC 2026
+GPU0 xong v1c_e_tabpfn_v3_pll_f1: Sat Nov  7 12:22:29 PM UTC 2026
+GPU0 xong v1c_e_tabpfn_v3_llp_f1: Sat Nov  7 12:34:54 PM UTC 2026
+GPU0 xong v1c_e_tabpfn_v3_pll_dev: Sat Nov  7 12:52:28 PM UTC 2026
+GPU0 xong v1c_e_tabpfn_v3_llp_dev: Sat Nov  7 01:29:19 PM UTC 2026
+GPU0 xong v1c_e_tabpfn_v2_pll_f1: Sat Nov  7 04:50:52 PM UTC 2026
+GPU0 xong v1c_e_tabpfn_v2_llp_f1: Sat Nov  7 04:59:33 PM UTC 2026
+GPU0 xong v1c_chainmap_tabpfn: Sat Nov  7 06:54:36 PM UTC 2026
+GPU1 xong v1c_d_llp_s2_icl: Sat Nov  7 06:58:42 PM UTC 2026
+GPU0 xong v1c_d_llp_eval_pfn: Sat Nov  7 08:14:56 PM UTC 2026
+GPU1 xong v1c_d_pll_s2_icl: Sat Nov  7 08:21:50 PM UTC 2026
+GPU0 xong v1c_d_llp_dev_pfn: Sat Nov  7 08:28:17 PM UTC 2026

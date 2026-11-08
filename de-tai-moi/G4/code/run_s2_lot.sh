@@ -30,7 +30,7 @@
 #                      GPU 1: Φ_chuỗi trên ô V1 của TabICL v2 (v1c_chain_map.py). Cần output V1A, V1B (v1_npz/) làm dữ liệu,
 #                      giấy phép TabPFN-3/3.5 đã chấp nhận, và gói tabdpt==1.3.1. Bổ sung 07/11 (PHASE1B_PLAN §7): GPU 0
 #                      thêm chuỗi TabPFN-3.x (chọn tự động) và TabPFN v2 trên F1, chuỗi dò 3 vòng quét (D), A1 cùng chi
-#                      phí (F); GPU 1 thêm D, TabICL trên F1, TabDPT, cơ chế nhãn yếu mới (G), F. Khoảng 2 phiên. Cần s2_code_v9
+#                      phí (F); GPU 1 thêm D, TabICL trên F1, TabDPT, cơ chế nhãn yếu mới (G), F. Khoảng 2 phiên. Cần s2_code_v9 (phiên 1) hoặc v10 (phiên 2, chia lại việc giữa hai GPU)
 # Mỗi lượt chạy tiếp được: chạy lại đúng lượt với output cũ trong thư mục kết quả, các ô đã xong được bỏ qua.
 set -u
 LOT=${1:?thiếu tên lượt}
@@ -221,16 +221,25 @@ case $LOT in
       ch_ 0 e_tabpfn_v2_llp_f1 tabpfn_v2 v1c_e_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $F1L --seeds 0
       run_ 0 chainmap_tabpfn v1c_chain_map.py --npz_glob "$NPZ/v1_tabpfn_v2_*.npz"
       v1cells_ 0 d tabpfn_v2 v1c_probe_npz --sweeps 3
-      v1cells_ 0 f tabpfn_v2 v1c_f_npz --sweeps 10 ) &
+      v1cells_ 0 f tabpfn_v2 v1c_f_npz --sweeps 10
+      # 08/11 (phiên 2): chia lại việc giữa hai GPU cho cân — G và phần F của TabICL ngoài S2-LLP sang GPU 0;
+      # F TabICL S2-LLP (learner L chậm, khoảng 7 giờ) chia 3 mảnh. Cùng ô, cùng seed, cùng code: không đổi protocol.
+      ch_ 0 g_llp_feat8 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=8" --datasets $LD --weak_variant feat
+      ch_ 0 g_llp_iid32 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=32" --datasets $LD
+      ch_ 0 g_pll_inst tabicl_v2 v1c_g_npz --split dev --settings pll --levels "pll=0.6" --datasets $PD --weak_variant inst
+      ch_ 0 f_pll_s2_icl tabicl_v2 v1c_f_npz --split s2 --eval-ok --explore --settings pll --levels "pll=0.6" --sweeps 10
+      ch_ 0 f_llp_eval_icl tabicl_v2 v1c_f_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_E --sweeps 10
+      ch_ 0 f_llp_dev_icl tabicl_v2 v1c_f_npz --split dev --settings llp --levels "llp=8" --datasets $LD --sweeps 10
+      ch_ 0 f_pll_eval_icl tabicl_v2 v1c_f_npz --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E --sweeps 10
+      ch_ 0 f_pll_dev_icl tabicl_v2 v1c_f_npz --split dev --settings pll --levels "pll=0.6" --datasets $PD --sweeps 10
+      ch_ 0 f_llp_s2_icl_sh2 tabicl_v2 v1c_f_npz --split s2 --eval-ok --explore --settings llp --levels "llp=8" --sweeps 10 --shard 2/3 ) &
     ( run_ 1 chainmap_tabicl v1c_chain_map.py --npz_glob "$NPZ/v1_tabicl_v2_*.npz"
       v1cells_ 1 d tabicl_v2 v1c_probe_npz --sweeps 3
       ch_ 1 e_tabicl_v2_pll_f1 tabicl_v2 v1c_e_npz --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $F1P --seeds 0
       ch_ 1 e_tabicl_v2_llp_f1 tabicl_v2 v1c_e_npz --split eval --eval-ok --settings llp --levels "llp=8" --datasets $F1L --seeds 0
       newtfm_ 1 tabdpt
-      ch_ 1 g_llp_feat8 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=8" --datasets $LD --weak_variant feat
-      ch_ 1 g_llp_iid32 tabicl_v2 v1c_g_npz --split dev --settings llp --levels "llp=32" --datasets $LD
-      ch_ 1 g_pll_inst tabicl_v2 v1c_g_npz --split dev --settings pll --levels "pll=0.6" --datasets $PD --weak_variant inst
-      v1cells_ 1 f tabicl_v2 v1c_f_npz --sweeps 10 ) &
+      ch_ 1 f_llp_s2_icl_sh0 tabicl_v2 v1c_f_npz --split s2 --eval-ok --explore --settings llp --levels "llp=8" --sweeps 10 --shard 0/3
+      ch_ 1 f_llp_s2_icl_sh1 tabicl_v2 v1c_f_npz --split s2 --eval-ok --explore --settings llp --levels "llp=8" --sweeps 10 --shard 1/3 ) &
     wait ;;
   S2C1|S2C2)
     b=$(( (${LOT#S2C} - 1) * 4 ))

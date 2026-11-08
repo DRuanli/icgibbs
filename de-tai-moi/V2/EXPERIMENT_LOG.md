@@ -16,6 +16,7 @@
 | 05/11/2026 18:06 UTC | **a1a6e1e** (main) | Code V1C: `w4_pilot.py`, `v1c_chain_map.py`, lượt V1C trong `run_s2_lot.sh`, `tests/test_v1c.py` (bộ test 140 qua, 5 bỏ qua trên CPU). Script chấm viết trước `V2/analysis/v1c_report.py` (thử trên dữ liệu giả rồi xoá). Bản gửi thầy `s2_code_v8.zip` dựng bằng `git archive` từ commit này |
 | 06/11/2026 18:40 UTC | **ebf2e4e** (main) | Thầy yêu cầu (07/11 giờ Việt Nam) lượt V1C chạy nhiều việc một lần, trước khi chạy. **Bổ sung ghi trước PHASE1B_PLAN §7**, trước khi có số V1C và trước code: phần D (chuỗi dò cho H8, P15), E (chuỗi TabPFN-3.x/TabDPT, gộp chéo TFM, P13, P14), F (A1 cùng chi phí, P12), G (cơ chế nhãn yếu mới, chỉ báo cáo). Thăm dò thiết kế `v1_explore2.py` trên số V1 đã xem, không dùng làm bằng chứng |
 | 06/11/2026 (sau ebf2e4e) | **1c7321e** (main) | Code: `run_g7.py --sweeps`, `w4_pilot.py --choose` (quy tắc §4 dùng chung với script chấm), lượt V1C mở rộng trong `run_s2_lot.sh`, `v1c_report.py` thêm D–G (thử trên npz giả rồi xoá). Bản gửi thầy `s2_code_v9.zip`; **v8 không dùng nữa** |
+| 08/11/2026 | commit V1C phiên 1 | Nhận kết quả V1C phiên 1; chấm bằng `v1c_report.py` không sửa: §4 chọn TabPFN-3; P11 sai; P8 đúng (sai số trung vị 0,016); P9 đúng; P14 sai; P15 tạm thời (148/234 ô). **Thay đổi thứ tự chạy, không đổi protocol:** v10 chia lại việc giữa hai GPU cho phiên 2 (cùng ô, cùng seed, cùng code chạy) |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
@@ -39,7 +40,8 @@
 | R1a-E7f | 05/11 tối | như trên | Mệnh đề 5: trung bình dừng dạng đóng (drift affine) so với ma trận chuyển; tiệm cận tới n = 10⁶ (`r1a_block_bias.py affine`) | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_*` | thăm dò; tiệm cận tìm bằng sympy (script nháp, không lưu trong repo) rồi kiểm số |
 | R1a-E7f (lần 2) | 05/11 tối | như trên | thêm kiểm dạng đóng α′ (α ∈ {0,5; 1; 3}), sau rà độc lập lần 2; `refined_band` sửa phương sai một phía | CPU | khoảng 1 phút | ok | `G4/results/r1a/e7f_alpha_prime_check.csv`, `G4/results/w1/w1_partition_bound_refined.csv` | theo IR2-MAJOR-1, IR2-MINOR-7 |
 | V1-explore | 05/11 | commit của V1_REPORT | thăm dò sau khi xem số: lưu vực của các điểm xuất phát, lợi ích của A1, 1464, thắng/thua theo dataset (`V2/analysis/v1_explore.py`) | CPU | khoảng 1 phút | ok | `V2/results/v1_explore*` | thăm dò; ngưỡng "cùng lưu vực" 0,03 chọn sau khi xem số |
-| V1C | — | `s2_code_v9.zip` | A–C: W4 thử tốc độ/tất định 5 TFM, ánh xạ phản ứng trên ô F1, Φ_chuỗi trên ô V1; D–G (bổ sung 07/11): chuỗi dò, TFM mới trong chuỗi, A1 cùng chi phí, cơ chế nhãn yếu mới | Kaggle 2 × T4, 2 phiên | — | chờ thầy chạy | `V2/raw/V1C/` | |
+| V1C phiên 1 | 07/11 10:25 – khoảng 21:25 | 80 tệp khớp **1c7321e** (`s2_code_v9.zip`) | A–C: W4 thử tốc độ/tất định 5 TFM, ánh xạ phản ứng trên ô F1, Φ_chuỗi trên ô V1; D–G (bổ sung 07/11): chuỗi dò, TFM mới trong chuỗi, A1 cùng chi phí, cơ chế nhãn yếu mới | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `V2/raw/V1C/` | bộ test 145 qua, 2 bỏ qua; mọi dòng ok, 0 mismatch. Xong A, B, C, E (TabPFN-3, TabPFN v2 F1); D 148/234 ô; chưa có E (TabICL F1, TabDPT), F, G. Kết quả: [V1C_REPORT](V1C_REPORT.md) |
+| V1C phiên 2 | — | `s2_code_v10.zip` (chỉ khác `run_s2_lot.sh`: chia lại việc giữa hai GPU) | phần còn lại của D, E, F, G | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1C/` | |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

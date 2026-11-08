@@ -84,6 +84,10 @@ with open(log_path, "a") as log:
         print("Đã dừng sau 11 giờ để lưu output; cần chạy phiên 2.")
 print(open(log_path).read()[-4000:])
 ```
+- **Phiên 2 (08/11): dùng `s2_code_v10.zip`.** Bản này giống v9, chỉ khác `run_s2_lot.sh`: việc được chia lại cho cân giữa hai GPU (V2/V1C_REPORT §6).
+  - Ô 1 đổi một chỗ: tìm `s2_code_v10` thay cho `s2_code_v9`.
+  - *Add data:* như phiên 1, **thêm output của phiên 1**.
+  - Ô 2 giữ nguyên.
 - **Hai phiên.** Từ bản v9, lượt này gồm 7 phần A–G (PHASE1B_PLAN §7.3), khoảng 20–24 giờ GPU, tức **2 phiên Kaggle**.
   - Phiên 1 chạy tới giới hạn 12 giờ.
   - Phiên 2: tạo notebook mới với cùng dữ liệu, **thêm output của phiên 1** làm dữ liệu, rồi chạy lại y hệt. Ô 1 chép các tệp `v1c_*.csv` và các thư mục `v1c_*_npz/` cũ, nên mọi ô đã xong được bỏ qua.
