@@ -164,15 +164,53 @@ case $LOT in
       wait
     fi ;;
   V1D)
-    # V2 sau V1C (thầy duyệt 08/11; V2/V1D_PLAN.md): đếm dataset cho Study 3 (CPU) và hiệu chỉnh mức q của PLL phụ thuộc
-    # mẫu trên tập phát triển (TabICL v2 GPU 1, TabPFN-3 GPU 0), A1 với 3 điểm xuất phát, seed 0–2. Cần s2_code_v11
-    [ -f s3_dataset_census.py ] || { echo "BẢN CODE CŨ: dùng s2_code_v11.zip"; exit 3; }
-    python s3_dataset_census.py --out "$OUT" > "$OUT/v1d_census.log" 2>&1; echo "xong đếm dataset: $(date)"
-    mkdir -p "$OUT/v1d_npz"
-    q_ () { CUDA_VISIBLE_DEVICES=$1 python run_g7.py --part v0 --backend $2 --starts warm,base,cold --save_dir "$OUT/v1d_npz" \
-            --split dev --settings pll --levels "pll=0.2,0.3,0.4" --datasets 54,36,23 --weak_variant inst \
-            --out "$OUT/v1d_inst_$2.csv" >> "$OUT/v1d_inst_$2.log" 2>&1; echo "GPU$1 xong v1d_inst_$2: $(date)"; }
-    q_ 0 tabpfn_v3 & q_ 1 tabicl_v2 &
+    # V2 sau V1C (thầy duyệt 08/11; V2/V1D_PLAN.md §1–§3): CPU đếm dataset Study 3 rồi tính trước learner L (--l_only);
+    # GPU 1: hiệu chỉnh q của PLL phụ thuộc mẫu (TabICL) → chọn q* → TabDPT trên 69 ô chung của V1 → bối cảnh khó;
+    # GPU 0: TabPFN-3 trên 69 ô chung → bối cảnh khó với TabPFN-3 và TabPFN v2. Cần output V1B (v1_npz) làm dữ liệu.
+    [ -f v1d_choose_q.py ] && python run_g7.py --help 2>/dev/null | grep -q -- "--l_cache" \
+      || { echo "BẢN CODE CŨ: dùng s2_code_v12.zip"; exit 3; }
+    LC="$OUT/l_cache"; ND="$OUT/v1d_npz"; mkdir -p "$LC" "$ND"
+    LLP_EP=3,29,44,1049,1489,1494; LLP_DP=1464,1462,1480,1510; LD=31,37,1464,1462,1480,1510
+    PLL_E=11,46,182,188,458,469,1475,1497,40975,40982; PD=54,36,23
+    r_ () {   # r_ <GPU ('' = CPU)> <tên> <đối số run_g7...>
+      local g=$1 tag=$2; shift 2
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py --part v0 --l_cache "$LC" "$@" --out "$OUT/v1d_${tag}.csv" \
+        >> "$OUT/v1d_${tag}.log" 2>&1
+      if [ -n "$g" ]; then echo "GPU$g xong v1d_$tag: $(date)"; else echo "CPU xong v1d_$tag: $(date)"; fi
+    }
+    common_ () {  # common_ <GPU> <backend> <đối số thêm...>: 69 ô chung của V1 (23 dataset × 3 seed)
+      local g=$1 be=$2; shift 2
+      r_ "$g" c_${be}_llp_eval --backend $be --split eval --eval-ok --settings llp --levels "llp=8" --datasets $LLP_EP "$@"
+      r_ "$g" c_${be}_llp_dev --backend $be --split dev --settings llp --levels "llp=8" --datasets $LLP_DP "$@"
+      r_ "$g" c_${be}_pll_eval --backend $be --split eval --eval-ok --settings pll --levels "pll=0.6" --datasets $PLL_E "$@"
+      r_ "$g" c_${be}_pll_dev --backend $be --split dev --settings pll --levels "pll=0.6" --datasets $PD "$@"
+    }
+    hard_ () {    # hard_ <GPU> <backend>: V1D-4 (túi 32; PLL phụ thuộc mẫu ở q*)
+      local g=$1 be=$2
+      r_ "$g" h_${be}_llp32 --backend $be --split dev --settings llp --levels "llp=32" --datasets $LD \
+        --starts warm,base,cold --save_dir "$ND"
+      local q; q=$(python v1d_choose_q.py --calib_dir "$ND" --ref_dir "$OUT/v1_npz")
+      if [ -n "$q" ]; then
+        echo "$q" > "$OUT/v1d_q.txt"
+        r_ "$g" h_${be}_pll_inst --backend $be --split dev --settings pll --levels "pll=$q" --datasets $PD \
+          --weak_variant inst --starts warm,base,cold --save_dir "$ND"
+      else
+        echo "chưa có q* (V1D-2 chưa đủ 27 ô): bỏ qua PLL phụ thuộc mẫu cho $be ở phiên này"
+      fi
+    }
+    ( CUDA_VISIBLE_DEVICES= python s3_dataset_census.py --out "$OUT" > "$OUT/v1d_census.log" 2>&1
+      echo "CPU xong đếm dataset: $(date)"
+      common_ "" lprefetch_c --backend tabicl_v2 --l_only
+      r_ "" lprefetch_llp32 --backend tabicl_v2 --l_only --split dev --settings llp --levels "llp=32" --datasets $LD ) &
+    ( common_ 0 tabpfn_v3 --starts warm,base,cold --save_dir "$ND"
+      hard_ 0 tabpfn_v3
+      hard_ 0 tabpfn_v2 ) &
+    ( r_ 1 calib_tabicl_inst --backend tabicl_v2 --split dev --settings pll --levels "pll=0.2,0.3,0.4" --datasets $PD \
+        --weak_variant inst --starts warm,base,cold --save_dir "$ND"
+      q=$(python v1d_choose_q.py --calib_dir "$ND" --ref_dir "$OUT/v1_npz" --verbose); echo "${q:-none}" > "$OUT/v1d_q.txt"
+      echo "q* (V1D_PLAN §2): ${q:-chưa chọn được}"
+      common_ 1 tabdpt --starts warm,base,cold --save_dir "$ND"
+      hard_ 1 tabdpt ) &
     wait ;;
   V1C)
     [ -f v1c_chain_map.py ] && python run_g7.py --help 2>/dev/null | grep -q -- "--sweeps" \

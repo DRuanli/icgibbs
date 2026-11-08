@@ -188,6 +188,58 @@ def base_learner(cell: Cell):
     raise ValueError(f"giai đoạn 0 chỉ có PLL và LLP, không có {w.setting}")
 
 
+L_CACHE = {"dir": None}          # V2 V1D (V1D_PLAN §3.1): thư mục bộ nhớ đệm của learner L; None = tắt
+L_CACHE_VERSION = 1
+
+
+def _l_key(cell: Cell) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    h.update(repr((L_CACHE_VERSION, cell.did, cell.weak.setting, float(cell.level), cell.seed, cell.n_classes,
+                   V0_BASE.get(cell.weak.setting))).encode())
+    w = cell.weak
+    for arr in (cell.Mtr, cell.Mte, getattr(w, "S", None), getattr(w, "counts", None)):
+        if arr is not None:
+            a = np.ascontiguousarray(np.asarray(arr))
+            h.update(str(a.dtype).encode() + str(a.shape).encode() + a.tobytes())
+    for b in (getattr(w, "bags", None) or []):
+        h.update(np.ascontiguousarray(np.asarray(b, np.int64)).tobytes() + b"|")
+    return h.hexdigest()[:32]
+
+
+def cached_base(cell: Cell, oof: bool = False):
+    """Learner L cho điểm xuất phát 'base', có bộ nhớ đệm trên đĩa (L_CACHE['dir']).
+    Trả dict(init (n_tr, C), PL (n_te, C), extra, Poof, nbad, hit). L tất định theo ô (V1: 69/69 ô giống nhau giữa
+    hai TFM), nên trúng bộ nhớ đệm cho đúng kết quả như tính lại. Ghi bằng tệp tạm rồi os.replace (an toàn khi hai
+    tiến trình cùng ghi)."""
+    import os
+    d = L_CACHE["dir"]
+    path = os.path.join(d, f"L_{cell.did}_{cell.weak.setting}_{_l_key(cell)}.npz") if d else None
+    if path and os.path.exists(path):
+        try:
+            z = np.load(path, allow_pickle=False)
+            if not oof or "Poof" in z.files:
+                return dict(init=np.asarray(z["init"], float), PL=np.asarray(z["PL"], float), extra=str(z["extra"]),
+                            Poof=np.asarray(z["Poof"], float) if "Poof" in z.files else None,
+                            nbad=int(z["nbad"]) if "nbad" in z.files else 0, hit=True)
+        except Exception:
+            pass                                         # tệp hỏng: tính lại và ghi đè
+    m = base_learner(cell)
+    out = dict(init=np.asarray(m.predict_proba(cell.Mtr), float), PL=np.asarray(_P2(m.predict_proba(cell.Mte)), float),
+               extra=tuned_extra(m), Poof=None, nbad=0, hit=False)
+    if oof:
+        out["Poof"], out["nbad"] = base_oof(cell, m)
+    if path:
+        os.makedirs(d, exist_ok=True)
+        arrs = dict(init=out["init"], PL=out["PL"], extra=np.array(out["extra"]))
+        if oof:
+            arrs.update(Poof=np.asarray(out["Poof"], float), nbad=np.int32(out["nbad"]))
+        tmp = f"{path}.{os.getpid()}.tmp.npz"
+        np.savez(tmp, **arrs)
+        os.replace(tmp, path)
+    return out
+
+
 def base_oof(cell: Cell, m, n_folds: int = 5):
     """V2 giai đoạn 1 (PHASE1_PLAN §1): dự đoán NGOÀI FOLD trên train của learner khởi động đã tune — fit lại cấu hình
     đã chọn (m.tune_.refit_config, hoặc best) trên 4/5 dữ liệu, dự đoán phần giữ lại. PLL chia theo điểm, LLP chia theo
@@ -248,15 +300,13 @@ def run_multistart(cell: Cell, cond, cond_final, starts, todo, emit, guard=None,
         elif start == "warm":
             init, calls0 = warm_start(cell, cond)
         else:
-            m = base_learner(cell)
-            init = np.asarray(m.predict_proba(cell.Mtr), float)
-            PL = _P2(m.predict_proba(cell.Mte))
+            cb = cached_base(cell, oof=oof)
+            init, PL = cb["init"], cb["PL"]
             arrays["P_L"] = np.asarray(PL, np.float32)
             if oof:
-                Po, nbad = base_oof(cell, m)
-                arrays["Poof_L"], arrays["oof_nonfinite"] = np.asarray(Po, np.float32), np.int32(nbad)
+                arrays["Poof_L"], arrays["oof_nonfinite"] = np.asarray(cb["Poof"], np.float32), np.int32(cb["nbad"])
             if todo("base_start"):
-                emit("base_start", Out(PL, 0, tuned_extra(m)), time.time() - t0)
+                emit("base_start", Out(PL, 0, cb["extra"] + (";l_cache=hit" if cb["hit"] else "")), time.time() - t0)
         cond.n_calls = 0
         g = InContextGibbs(cond, weak_model(cell), n_blocks=GIBBS["n_blocks"], n_sweeps=GIBBS["n_sweeps"],
                            burn_in=GIBBS["burn_in"], max_context=GIBBS["max_context"], seed=cell.seed, init=init,

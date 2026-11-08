@@ -32,6 +32,7 @@ from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, A
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
                                  RHAT_EVAL, S2_BINARY, S2_MULTICLASS, S2_SUBSAMPLE)
 from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
+import icgibbs.g7.methods as methods_mod  # noqa: E402
 from icgibbs.g7.weakgen import VARIANTS, make_weak, real_pll_weak, weak_rng  # noqa: E402
 
 LEVELS = {"llp": [8, 16, 32], "pu_sar": [0.1, 0.3], "pu_scar": [0.1, 0.3], "ssl": [0.05, 0.2], "noisy": [0.2, 0.4],
@@ -194,6 +195,9 @@ def main(argv=None):
     ap.add_argument("--explore", action="store_true",
                     help="THĂM DÒ (V2): cho phép --part rhat (R4) hoặc --part v0 (giai đoạn 1) trên --split s2; với rhat dùng mọi "
                          "dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--l_cache", default="", help="V1D: thư mục bộ nhớ đệm của learner L (rỗng = tắt)")
+    ap.add_argument("--l_only", action="store_true",
+                    help="V1D: với --part v0, chỉ tính learner L vào --l_cache (CPU), không chạy TFM")
     ap.add_argument("--sweeps", type=int, default=0,
                     help="V2 V1C (D, F): số vòng quét của mỗi chuỗi với --part v0 (0 = mặc định 30); burn-in = sweeps // 3")
     ap.add_argument("--weak_variant", default="iid", choices=["iid", "feat", "inst"],
@@ -243,6 +247,9 @@ def main(argv=None):
         ap.error("S2 chỉ có phần tfm và baselines của LLP túi 8 và PLL (S2_PLAN §1); R̂ và v0 thăm dò cần --explore")
     if a.explore and not (a.part in ("rhat", "v0") and a.split == "s2"):
         ap.error("--explore chỉ dùng với --part rhat hoặc v0, và --split s2")
+    methods_mod.L_CACHE["dir"] = a.l_cache or None
+    if a.l_only and (a.part != "v0" or not a.l_cache):
+        ap.error("--l_only cần --part v0 và --l_cache")
     GIBBS.clear()                                          # mỗi lần gọi main bắt đầu từ cấu hình mặc định
     GIBBS.update(_GIBBS_DEFAULT)
     if a.sweeps:
@@ -432,6 +439,16 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
                                   extra=";".join(f"{k}={v:.4f}" if isinstance(v, float) else f"{k}={v}" for k, v in st.items())))
                 print(f"  {t.name[:22]:>22s} {setting:7s} {str(level):>4s} s{seed} rhat {st}", flush=True)
             attempt("rhat", _rh)
+        return
+    if a.part == "v0" and a.l_only:                       # V1D_PLAN §3.1: chỉ tính trước learner L vào bộ nhớ đệm
+        if todo("l_cache"):
+            t0 = time.time()
+
+            def _lc():
+                cb = methods_mod.cached_base(cell, oof=a.oof)
+                writer.write(dict(base, method="l_cache", seconds=round(time.time() - t0, 2), status="ok",
+                                  extra="hit" if cb["hit"] else "computed"))
+            attempt("l_cache", _lc)
         return
     if a.part == "v0":
         cond = SklearnTFMConditional(lambda: make_estimator(a.backend, a.gibbs_est), C)

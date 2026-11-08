@@ -26,16 +26,53 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
-## V2 — lượt V1D dùng `s2_code_v11.zip` (08/11/2026)
+## V2 — lượt V1D dùng `s2_code_v12.zip` (08/11/2026, mở rộng tối 08/11)
 
-Thầy duyệt ngày 08/11. Ghi trước ở [V2/V1D_PLAN](../V2/V1D_PLAN.md), commit `8138f9b`. Lượt gồm hai việc: đếm dataset cho Study 3 (CPU, vài phút) và hiệu chỉnh q của PLL phụ thuộc mẫu (2 × T4, khoảng 2–3 giờ, một phiên).
-- **Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`. *Add data:* chỉ cần `icgibbs-g4` bản mới, có `s2_code_v11.zip`.
-- **Ô 1:** như ô 1 của V1C, đổi `s2_code_v10` thành `s2_code_v11`. Ô sẽ in `npz V1: 0`; với V1D điều đó không sao, vì lượt này không cần npz của V1.
-- **Ô 2:** như ô 2 của V1C, đổi `LOT = "V1D"`.
-- **Gửi lại:**
+Thầy duyệt ngày 08/11. Ghi trước ở [V2/V1D_PLAN](../V2/V1D_PLAN.md): §1–§2 ở commit `8138f9b`, phần mở rộng §3 ở commit `4203d9b`. **Không dùng `s2_code_v11.zip`.**
+
+Lượt gồm 3 hàng việc chạy song song:
+- **CPU:** đếm dataset cho Study 3, rồi tính trước learner L.
+- **GPU 1:** hiệu chỉnh q của PLL phụ thuộc mẫu với TabICL, rồi TabDPT trên 69 ô chung, rồi các bối cảnh khó.
+- **GPU 0:** TabPFN-3 trên 69 ô chung, rồi các bối cảnh khó với TabPFN-3 và TabPFN v2.
+
+Ước lượng khoảng 18–22 giờ GPU, tức **2 phiên**.
+
+**Notebook:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.
+- **Add data:**
+  - `icgibbs-g4` bản mới, có `s2_code_v12.zip`;
+  - output của **V1B**, vì quy tắc chọn q* cần npz của TabICL ở V1;
+  - ở phiên 2, thêm output của phiên 1.
+- **Ô 1:**
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 tabdpt==1.3.1 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v12/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for sub in ("v1_npz", "v1d_npz", "l_cache"):                      # npz của V1; phiên 2: npz và L đã tính
+    os.makedirs(f"/kaggle/working/{sub}", exist_ok=True)
+    for f in glob.glob(f"/kaggle/input/**/{sub}/*.npz", recursive=True):
+        shutil.copy(f, f"/kaggle/working/{sub}/")
+for f in glob.glob("/kaggle/input/**/v1d_*.csv", recursive=True):  # phiên 2: chạy tiếp
+    shutil.copy(f, "/kaggle/working/")
+print({s: len(glob.glob(f"/kaggle/working/{s}/*.npz")) for s in ("v1_npz", "v1d_npz", "l_cache")})
+```
+  - Ở phiên 1, ô 1 phải in `v1_npz` ≥ 165 (thêm V1A thì 234 cũng được), và `v1d_npz`, `l_cache` bằng 0.
+- **Ô 2:** như ô 2 của V1C, chỉ đổi `LOT = "V1D"`. Ô vẫn tự dừng sau 11 giờ.
+- **Phiên 2:** notebook mới, cùng dữ liệu, thêm output phiên 1, dán y hệt ô 1 và ô 2.
+- **Gửi lại** (từ output phiên cuối):
   - `s2_V1D_*`;
-  - `s3_census_candidates.csv`, `s3_census_summary.txt`, `v1d_*.csv`, `v1d_*.log`;
+  - `s3_census_candidates.csv`, `s3_census_summary.txt`;
+  - mọi tệp `v1d_*.csv`, `v1d_*.log` và `v1d_q.txt`;
   - thư mục `v1d_npz/`.
+  
+  Không cần gửi `l_cache/` và `v1_npz/`.
 
 ## V2 giai đoạn 1b — lượt V1C dùng `s2_code_v9.zip` (06/11/2026, mở rộng 07/11)
 
