@@ -1,0 +1,171 @@
+run_g7 · part=v0 · split=eval · backend=tabicl_v2 · code=py-7c64c03c008c · config=d4a16b0e8b9a3b72
+
+=== 11 balance-scale: n=625 (loại trùng 0), d=4, C=3, sha256=519b566cf809
+           balance-scale pll      0.6 s0 gibbs_init_warm  0.8989 7.6s
+           balance-scale pll      0.6 s0 base_start       0.9096 20.9s
+           balance-scale pll      0.6 s0 gibbs_init_base  0.9096 22.6s
+           balance-scale pll      0.6 s0 gibbs_init_cold  0.9202 1.6s
+           balance-scale pll      0.6 s0 gibbs_ms         0.9096 0.0s
+           balance-scale pll      0.6 s1 gibbs_init_warm  0.8670 1.7s
+           balance-scale pll      0.6 s1 base_start       0.9255 17.7s
+           balance-scale pll      0.6 s1 gibbs_init_base  0.9043 19.3s
+           balance-scale pll      0.6 s1 gibbs_init_cold  0.8777 1.4s
+           balance-scale pll      0.6 s1 gibbs_ms         0.9043 0.0s
+           balance-scale pll      0.6 s2 gibbs_init_warm  0.8457 1.9s
+           balance-scale pll      0.6 s2 base_start       0.8670 24.0s
+           balance-scale pll      0.6 s2 gibbs_init_base  0.8936 26.5s
+           balance-scale pll      0.6 s2 gibbs_init_cold  0.8511 1.7s
+           balance-scale pll      0.6 s2 gibbs_ms         0.8936 0.0s
+
+=== 46 splice: n=3006 (loại trùng 184), d=60, C=3, sha256=eecf32842d81
+                  splice pll      0.6 s0 gibbs_init_warm  0.9634 7.8s
+                  splice pll      0.6 s0 base_start       0.9257 129.0s
+                  splice pll      0.6 s0 gibbs_init_base  0.9645 135.3s
+                  splice pll      0.6 s0 gibbs_init_cold  0.9645 6.5s
+                  splice pll      0.6 s0 gibbs_ms         0.9645 0.0s
+                  splice pll      0.6 s1 gibbs_init_warm  0.9545 6.9s
+                  splice pll      0.6 s1 base_start       0.9401 158.4s
+                  splice pll      0.6 s1 gibbs_init_base  0.9568 165.8s
+                  splice pll      0.6 s1 gibbs_init_cold  0.9579 7.0s
+                  splice pll      0.6 s1 gibbs_ms         0.9568 0.0s
+                  splice pll      0.6 s2 gibbs_init_warm  0.9723 7.0s
+                  splice pll      0.6 s2 base_start       0.9512 243.8s
+                  splice pll      0.6 s2 gibbs_init_base  0.9712 251.3s
+                  splice pll      0.6 s2 gibbs_init_cold  0.9701 7.5s
+                  splice pll      0.6 s2 gibbs_ms         0.9712 0.0s
+
+=== 182 satimage: n=6430 (loại trùng 0), d=36, C=6, sha256=93d8888cbf9a
+                satimage pll      0.6 s0 gibbs_init_warm  0.8745 6.5s
+                satimage pll      0.6 s0 base_start       0.8797 237.0s
+                satimage pll      0.6 s0 gibbs_init_base  0.8880 242.2s
+                satimage pll      0.6 s0 gibbs_init_cold  0.8637 5.8s
+                satimage pll      0.6 s0 gibbs_ms         0.8880 0.0s
+                satimage pll      0.6 s1 gibbs_init_warm  0.8813 7.6s
+                satimage pll      0.6 s1 base_start       0.8891 293.5s
+                satimage pll      0.6 s1 gibbs_init_base  0.9036 299.3s
+                satimage pll      0.6 s1 gibbs_init_cold  0.8813 5.9s
+                satimage pll      0.6 s1 gibbs_ms         0.9036 0.0s
+                satimage pll      0.6 s2 gibbs_init_warm  0.8771 7.3s
+                satimage pll      0.6 s2 base_start       0.8870 298.0s
+                satimage pll      0.6 s2 gibbs_init_base  0.8953 303.7s
+                satimage pll      0.6 s2 gibbs_init_cold  0.8756 6.1s
+                satimage pll      0.6 s2 gibbs_ms         0.8953 0.0s
+
+=== 188 eucalyptus: n=736 (loại trùng 0), d=19, C=5, sha256=254b108291a9
+              eucalyptus pll      0.6 s0 gibbs_init_warm  0.5068 3.3s
+              eucalyptus pll      0.6 s0 base_start       0.5249 30.7s
+              eucalyptus pll      0.6 s0 gibbs_init_base  0.6561 33.0s
+              eucalyptus pll      0.6 s0 gibbs_init_cold  0.6244 2.1s
+              eucalyptus pll      0.6 s0 gibbs_ms         0.6561 0.0s
+              eucalyptus pll      0.6 s1 gibbs_init_warm  0.5023 2.4s
+              eucalyptus pll      0.6 s1 base_start       0.4887 34.8s
+              eucalyptus pll      0.6 s1 gibbs_init_base  0.5973 37.0s
+              eucalyptus pll      0.6 s1 gibbs_init_cold  0.4299 2.2s
+              eucalyptus pll      0.6 s1 gibbs_ms         0.5973 0.0s
+              eucalyptus pll      0.6 s2 gibbs_init_warm  0.3982 2.4s
+              eucalyptus pll      0.6 s2 base_start       0.5113 29.7s
+              eucalyptus pll      0.6 s2 gibbs_init_base  0.5430 32.0s
+              eucalyptus pll      0.6 s2 gibbs_init_cold  0.4118 2.0s
+              eucalyptus pll      0.6 s2 gibbs_ms         0.5430 0.0s
+
+=== 458 analcatdata_authorship: n=841 (loại trùng 0), d=70, C=4, sha256=81996155218e
+  analcatdata_authorship pll      0.6 s0 gibbs_init_warm  0.9960 4.1s
+  analcatdata_authorship pll      0.6 s0 base_start       0.9921 27.5s
+  analcatdata_authorship pll      0.6 s0 gibbs_init_base  1.0000 31.3s
+  analcatdata_authorship pll      0.6 s0 gibbs_init_cold  0.9921 3.7s
+  analcatdata_authorship pll      0.6 s0 gibbs_ms         1.0000 0.0s
+  analcatdata_authorship pll      0.6 s1 gibbs_init_warm  1.0000 4.1s
+  analcatdata_authorship pll      0.6 s1 base_start       0.9960 35.9s
+  analcatdata_authorship pll      0.6 s1 gibbs_init_base  1.0000 39.5s
+  analcatdata_authorship pll      0.6 s1 gibbs_init_cold  1.0000 3.5s
+  analcatdata_authorship pll      0.6 s1 gibbs_ms         1.0000 0.0s
+  analcatdata_authorship pll      0.6 s2 gibbs_init_warm  1.0000 4.0s
+  analcatdata_authorship pll      0.6 s2 base_start       0.9842 29.7s
+  analcatdata_authorship pll      0.6 s2 gibbs_init_base  1.0000 33.6s
+  analcatdata_authorship pll      0.6 s2 gibbs_init_cold  1.0000 3.7s
+  analcatdata_authorship pll      0.6 s2 gibbs_ms         1.0000 0.0s
+
+=== 469 analcatdata_dmft: n=556 (loại trùng 241), d=4, C=6, sha256=a0edb9ad7403
+        analcatdata_dmft pll      0.6 s0 gibbs_init_warm  0.1257 1.8s
+        analcatdata_dmft pll      0.6 s0 base_start       0.1557 18.0s
+        analcatdata_dmft pll      0.6 s0 gibbs_init_base  0.1617 19.7s
+        analcatdata_dmft pll      0.6 s0 gibbs_init_cold  0.1078 1.6s
+        analcatdata_dmft pll      0.6 s0 gibbs_ms         0.1257 0.0s
+        analcatdata_dmft pll      0.6 s1 gibbs_init_warm  0.1677 1.8s
+        analcatdata_dmft pll      0.6 s1 base_start       0.1617 20.6s
+        analcatdata_dmft pll      0.6 s1 gibbs_init_base  0.1677 22.3s
+        analcatdata_dmft pll      0.6 s1 gibbs_init_cold  0.1437 1.4s
+        analcatdata_dmft pll      0.6 s1 gibbs_ms         0.1677 0.0s
+        analcatdata_dmft pll      0.6 s2 gibbs_init_warm  0.1737 1.8s
+        analcatdata_dmft pll      0.6 s2 base_start       0.1377 20.0s
+        analcatdata_dmft pll      0.6 s2 gibbs_init_base  0.1557 21.9s
+        analcatdata_dmft pll      0.6 s2 gibbs_init_cold  0.1677 1.4s
+        analcatdata_dmft pll      0.6 s2 gibbs_ms         0.1737 0.0s
+
+=== 1475 first-order-theorem-proving: n=5636 (loại trùng 482), d=51, C=6, sha256=89a1739c5b81
+  first-order-theorem-pr pll      0.6 s0 gibbs_init_warm  0.4151 7.8s
+  first-order-theorem-pr pll      0.6 s0 base_start       0.4731 216.8s
+  first-order-theorem-pr pll      0.6 s0 gibbs_init_base  0.4459 224.0s
+  first-order-theorem-pr pll      0.6 s0 gibbs_init_cold  0.4163 7.4s
+  first-order-theorem-pr pll      0.6 s0 gibbs_ms         0.4459 0.0s
+  first-order-theorem-pr pll      0.6 s1 gibbs_init_warm  0.4246 8.3s
+  first-order-theorem-pr pll      0.6 s1 base_start       0.4394 267.8s
+  first-order-theorem-pr pll      0.6 s1 gibbs_init_base  0.4364 274.3s
+  first-order-theorem-pr pll      0.6 s1 gibbs_init_cold  0.4199 6.9s
+  first-order-theorem-pr pll      0.6 s1 gibbs_ms         0.4364 0.0s
+  first-order-theorem-pr pll      0.6 s2 gibbs_init_warm  0.4270 7.9s
+  first-order-theorem-pr pll      0.6 s2 base_start       0.4607 257.6s
+  first-order-theorem-pr pll      0.6 s2 gibbs_init_base  0.4494 264.5s
+  first-order-theorem-pr pll      0.6 s2 gibbs_init_cold  0.4305 6.7s
+  first-order-theorem-pr pll      0.6 s2 gibbs_ms         0.4494 0.0s
+
+=== 1497 wall-robot-navigation: n=5456 (loại trùng 0), d=24, C=4, sha256=61944881f33d
+   wall-robot-navigation pll      0.6 s0 gibbs_init_warm  0.9603 5.1s
+   wall-robot-navigation pll      0.6 s0 base_start       0.8876 184.2s
+   wall-robot-navigation pll      0.6 s0 gibbs_init_base  0.9707 188.4s
+   wall-robot-navigation pll      0.6 s0 gibbs_init_cold  0.9554 4.1s
+   wall-robot-navigation pll      0.6 s0 gibbs_ms         0.9707 0.0s
+   wall-robot-navigation pll      0.6 s1 gibbs_init_warm  0.9627 4.9s
+   wall-robot-navigation pll      0.6 s1 base_start       0.8674 230.4s
+   wall-robot-navigation pll      0.6 s1 gibbs_init_base  0.9780 234.7s
+   wall-robot-navigation pll      0.6 s1 gibbs_init_cold  0.9688 4.2s
+   wall-robot-navigation pll      0.6 s1 gibbs_ms         0.9780 0.0s
+   wall-robot-navigation pll      0.6 s2 gibbs_init_warm  0.9719 4.9s
+   wall-robot-navigation pll      0.6 s2 base_start       0.8748 269.9s
+   wall-robot-navigation pll      0.6 s2 gibbs_init_base  0.9707 275.2s
+   wall-robot-navigation pll      0.6 s2 gibbs_init_cold  0.9462 5.4s
+   wall-robot-navigation pll      0.6 s2 gibbs_ms         0.9707 0.0s
+
+=== 40975 car: n=1728 (loại trùng 0), d=6, C=4, sha256=172f09c22188
+                     car pll      0.6 s0 gibbs_init_warm  0.8613 3.2s
+                     car pll      0.6 s0 base_start       0.9383 50.3s
+                     car pll      0.6 s0 gibbs_init_base  0.9171 52.8s
+                     car pll      0.6 s0 gibbs_init_cold  0.8516 1.9s
+                     car pll      0.6 s0 gibbs_ms         0.9171 0.0s
+                     car pll      0.6 s1 gibbs_init_warm  0.7784 2.3s
+                     car pll      0.6 s1 base_start       0.9056 64.2s
+                     car pll      0.6 s1 gibbs_init_base  0.9268 66.7s
+                     car pll      0.6 s1 gibbs_init_cold  0.7784 3.5s
+                     car pll      0.6 s1 gibbs_ms         0.9268 0.0s
+                     car pll      0.6 s2 gibbs_init_warm  0.8574 4.0s
+                     car pll      0.6 s2 base_start       0.9634 59.0s
+                     car pll      0.6 s2 gibbs_init_base  0.9403 61.9s
+                     car pll      0.6 s2 gibbs_init_cold  0.8035 3.0s
+                     car pll      0.6 s2 gibbs_ms         0.9403 0.0s
+
+=== 40982 steel-plates-fault: n=1941 (loại trùng 0), d=27, C=7, sha256=a308bbebe29b
+      steel-plates-fault pll      0.6 s0 gibbs_init_warm  0.6381 4.1s
+      steel-plates-fault pll      0.6 s0 base_start       0.6672 67.6s
+      steel-plates-fault pll      0.6 s0 gibbs_init_base  0.7530 71.0s
+      steel-plates-fault pll      0.6 s0 gibbs_init_cold  0.6226 3.3s
+      steel-plates-fault pll      0.6 s0 gibbs_ms         0.7530 0.0s
+      steel-plates-fault pll      0.6 s1 gibbs_init_warm  0.6141 3.9s
+      steel-plates-fault pll      0.6 s1 base_start       0.6449 87.5s
+      steel-plates-fault pll      0.6 s1 gibbs_init_base  0.7444 90.9s
+      steel-plates-fault pll      0.6 s1 gibbs_init_cold  0.6141 3.2s
+      steel-plates-fault pll      0.6 s1 gibbs_ms         0.7444 0.0s
+      steel-plates-fault pll      0.6 s2 gibbs_init_warm  0.6106 3.7s
+      steel-plates-fault pll      0.6 s2 base_start       0.7153 90.0s
+      steel-plates-fault pll      0.6 s2 gibbs_init_base  0.7238 93.5s
+      steel-plates-fault pll      0.6 s2 gibbs_init_cold  0.6346 2.9s
+      steel-plates-fault pll      0.6 s2 gibbs_ms         0.7238 0.0s

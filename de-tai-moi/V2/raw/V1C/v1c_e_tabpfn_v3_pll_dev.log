@@ -1,22 +1,7 @@
 run_g7 · part=v0 · split=dev · backend=tabpfn_v3 · code=py-7c64c03c008c · config=afe8e463b6d531c7
 
 === 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
-                 vehicle pll      0.6 s0 gibbs_init_warm  0.8465 93.3s
-                 vehicle pll      0.6 s0 base_start       0.7244 20.4s
-                 vehicle pll      0.6 s0 gibbs_init_base  0.8425 106.4s
-                 vehicle pll      0.6 s0 gibbs_init_cold  0.8346 101.7s
-                 vehicle pll      0.6 s0 gibbs_ms         0.8465 0.0s
 
 === 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
-                 segment pll      0.6 s0 gibbs_init_warm  0.9744 100.1s
-                 segment pll      0.6 s0 base_start       0.9617 61.7s
-                 segment pll      0.6 s0 gibbs_init_base  0.9760 166.5s
-                 segment pll      0.6 s0 gibbs_init_cold  0.9760 104.7s
-                 segment pll      0.6 s0 gibbs_ms         0.9760 0.0s
 
 === 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e
-                     cmc pll      0.6 s0 gibbs_init_warm  0.6145 110.8s
-                     cmc pll      0.6 s0 base_start       0.5047 39.1s
-                     cmc pll      0.6 s0 gibbs_init_base  0.6192 155.3s
-                     cmc pll      0.6 s0 gibbs_init_cold  0.6121 111.0s
-                     cmc pll      0.6 s0 gibbs_ms         0.6192 0.0s

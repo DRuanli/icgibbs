@@ -20,4 +20,4 @@ tests/test_g7_runner.py: 15 warnings
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-145 passed, 2 skipped, 22774 warnings in 834.53s (0:13:54)
+145 passed, 2 skipped, 22774 warnings in 845.70s (0:14:05)

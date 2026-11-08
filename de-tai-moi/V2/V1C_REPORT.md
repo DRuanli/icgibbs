@@ -1,4 +1,4 @@
-# Lượt V1C — kết quả phiên 1 (08/11/2026)
+# Lượt V1C — kết quả (phiên 1: 07/11; phiên 2: 08/11/2026)
 
 - **Căn cứ:** [PHASE1B_PLAN](PHASE1B_PLAN.md), ghi trước: §1–§6 ở commit `15a5ea6`, §7 ở `ebf2e4e`. Code `1c7321e` (`s2_code_v9.zip`); 80/80 tệp khớp mã băm.
 - **Chấm:** `V2/analysis/v1c_report.py`, viết trước khi có số, chạy y nguyên, không sửa. Đầu ra ở `V2/results/v1c_report_session1.txt` và `v1c_summary.json`.
@@ -13,11 +13,11 @@
 | B, P11 | xong | **SAI.** TabPFN-3 vẫn có điểm hút thấp: đạt 0/4 dataset F1 |
 | C, P8 | xong | **ĐÚNG.** Sai số trung vị khi dự đoán r_cuối từ Φ_chuỗi là **0,016** (ngưỡng ≤ 0,10) |
 | C, P9 | xong | **ĐÚNG.** Gieo `chain` sai 0,016, gieo `uniform` sai 0,073 |
-| D, P15 | **chưa xong**: 148/234 ô | Tạm thời: AUC 0,52; có khả năng SAI |
+| D, P15 | xong (234/234) | **SAI.** AUC 0,45 |
 | E, P14 | xong | **SAI**, đạt 1/4. Lý do: A1 của chính TabPFN v2 đã thoát kiểu sụp F1 ở 3/4 dataset (§4) |
-| E, P13 | chưa | Thiếu TabICL trên F1 và TabDPT |
-| F, P12 | chưa | |
-| G | chưa | |
+| E, P13 | xong | **ĐÚNG.** Gộp 4 TFM kém TFM tốt nhất (tiên tri) trung bình 0,008; thua quá 0,02 ở 2/13 dataset |
+| F, P12 | 145/234 ô; TabPFN v2 đủ | **SAI**, đã chắc dù thiếu ô: riêng TabPFN v2 đã có G < 0 và 5 thụt lùi |
+| G | xong | chỉ báo cáo (§8) |
 
 ## 1. Phần A: tốc độ, bộ nhớ, tính tất định
 
@@ -88,14 +88,83 @@ A1 và từng chuỗi, seed 0, trên 4 dataset F1 PLL (accuracy):
     - bằng ở 54 và 1462;
     - kém ở 1464, 31 và 37.
 
-## 5. Phần D: chuỗi dò (tạm thời, 148/234 ô)
+## 5. Phần D: chuỗi dò (P15 SAI)
 
-- **AUC:** AUC(s1 → T1) = 0,52, với 10 ô dương tính; AUC(s1 → T2) = 0,49.
-  - Riêng TabICL: 0,70. Riêng TabPFN v2: 0,40.
-  - Nếu giữ nguyên khi đủ ô, **P15 sai**: độ lệch giữa các chuỗi dò sau 3 vòng quét không báo trước được ô nhiều lưu vực.
-- **Chốt:** chỉ chốt sau phiên 2.
+- **Đủ 234 ô** (18 ô T1, 24 ô T2): AUC(s1 → T1) = **0,45**; AUC(s1 → T2) = 0,51; AUC(s2 → T1) = 0,38. Riêng TabICL: 0,49. Riêng TabPFN v2: 0,37.
+- **Kết luận:** sau 3 vòng quét, độ lệch giữa các chuỗi dò không mang thông tin về việc các chuỗi đầy đủ có về khác lưu vực hay không. Ở 3 vòng quét, mọi chuỗi còn đang di chuyển.
+- **H8 cần tín hiệu khác.** Nếu không tìm được trước cổng V2, H8 trở thành giới hạn của bài.
 
-## 6. Việc còn lại: phiên 2 (`s2_code_v10.zip`)
+## 6. Phần E: gộp chéo 4 TFM (P13 ĐÚNG) và TabDPT
+
+A1 theo TFM, seed 0. X là trung bình đều dự đoán A1 của 4 TFM. Dấu — nghĩa là V1A thiếu ô (D-V1-1).
+
+| Dataset | Setting | TabPFN v2 | TabICL v2 | TabPFN-3 | TabDPT | **X** |
+|---|---|---|---|---|---|---|
+| 50 | LLP | 0,746 | 0,999 | 0,987 | 0,999 | 0,996 |
+| 1462 | LLP | 1,000 | 1,000 | 1,000 | 1,000 | 1,000 |
+| 1464 | LLP | 0,710 | 0,683 | 0,605 | 0,689 | 0,670 |
+| 1480 | LLP | 0,790 | 0,756 | 0,765 | 0,760 | 0,789 |
+| 1510 | LLP | 0,992 | 0,993 | 0,994 | 0,995 | 0,994 |
+| 6332 | LLP | 0,615 | 0,647 | 0,736 | 0,760 | 0,751 |
+| 12 | PLL | 0,973 | 0,988 | 0,983 | 0,983 | 0,987 |
+| 23 | PLL | 0,586 | 0,575 | 0,612 | 0,570 | 0,591 |
+| 28 | PLL | 0,977 | 0,990 | 0,989 | 0,988 | 0,989 |
+| 36 | PLL | 0,981 | 0,974 | 0,976 | 0,981 | 0,979 |
+| 54 | PLL | 0,811 | 0,835 | 0,835 | 0,862 | 0,854 |
+| 1501 | PLL | 0,774 | 0,948 | 0,948 | 0,912 | 0,946 |
+| 40966 | PLL | 0,966 | 0,982 | 0,966 | 0,982 | 0,972 |
+| 31 | LLP | — | 0,790 | 0,777 | 0,774 | — |
+| 37 | LLP | — | 0,837 | 0,798 | 0,841 | — |
+
+- **P13.**
+  - Trên 13 dataset, X kém TFM tốt nhất của từng dataset trung bình 0,0076. Ngưỡng là −0,01, nên đạt.
+  - X thua quá 0,02 ở 2 dataset: 1464 (−0,040) và 23 (−0,021). Ngưỡng là ≤ 2, nên đạt.
+  - **Ý nghĩa:** không cần biết trước TFM nào tốt, gộp đều cho gần bằng bộ chọn tiên tri. TFM nào không có dataset nào là tốt nhất ổn định.
+- **TabDPT:** mạnh ngang hoặc hơn các TFM khác ở nhiều dataset. Tốt nhất ở 6332, 54, 37 và 1510; kém ở 1501. Không dataset nào ở đây thuộc tập huấn luyện của TabDPT.
+
+## 7. Phần F: A1 cùng chi phí (P12 SAI)
+
+A1e gồm 3 chuỗi × 10 vòng quét, burn-in 3. Số ô có đủ dữ liệu: TabPFN v2 69/69, TabICL 76/165. Phần F của TabICL bị cắt ở giới hạn 11 giờ của phiên 2.
+
+| TFM | Setting | Dataset | G(A1e − v1) | G(A1 − v1), từ V1 | Thụt lùi R(A1e) |
+|---|---|---|---|---|---|
+| TabICL v2 | LLP | 22 | +0,0025 | +0,0051 | 1 |
+| TabICL v2 | PLL | 10 | −0,0010 | +0,0021 | 0 |
+| TabPFN v2 | LLP | 10 | −0,0044 | +0,0025 | 1 |
+| TabPFN v2 | PLL | 13 | −0,0091 | +0,0043 | 4 |
+
+- **P12 sai, và kết luận này không đổi dù có thêm ô TabICL.** Riêng TabPFN v2 đủ ô đã có G < 0 ở cả hai setting, với 5 thụt lùi, vượt ngưỡng 3.
+- **Ý nghĩa:** chuỗi 10 vòng quét quá ngắn. Thăm dò `v1_explore2` thấy r gần ổn định từ vòng quét 8–10, nhưng dự đoán cuối cần đủ mẫu sau burn-in. **v2 giữ 3 × 30 vòng quét**, chi phí gấp 3 lần v1 vẫn là cái giá của A1.
+
+## 8. Phần G: cơ chế nhãn yếu mới (TabICL v2, chỉ báo cáo)
+
+Trung bình 3 seed. Cột "iid" là A1 với cơ chế cũ: LLP iid túi 8, hoặc PLL iid q 0,6.
+
+| Dataset | Túi gom theo feature, 8: v1 / **A1** / L | Túi iid 32: v1 / **A1** / L | iid túi 8: A1 |
+|---|---|---|---|
+| 31 | 0,723 / **0,766** / 0,720 | 0,620 / **0,678** / 0,649 | 0,764 |
+| 37 | 0,829 / **0,835** / 0,807 | 0,615 / **0,667** / 0,643 | 0,818 |
+| 1462 | 1,000 / 1,000 / 1,000 | 1,000 / 1,000 / 1,000 | 1,000 |
+| 1464 | 0,709 / **0,730** / 0,726 | 0,581 / 0,613 / **0,681** | 0,646 |
+| 1480 | 0,762 / **0,766** / 0,690 | 0,344 / 0,448 / **0,450** | 0,679 |
+| 1510 | 0,991 / **0,992** / 0,985 | 0,992 / 0,987 / 0,966 | 0,992 |
+
+| Dataset | PLL phụ thuộc mẫu q 0,6: v1 / **A1** / L | PLL iid q 0,6: A1 |
+|---|---|---|
+| 23 | 0,517 / **0,523** / 0,508 | 0,562 |
+| 36 | 0,509 / **0,517** / 0,396 | 0,972 |
+| 54 | 0,734 / 0,731 / 0,690 | 0,845 |
+
+- **Túi gom theo feature dễ hơn túi iid, trái với giả định ban đầu.** Túi đồng nhất về feature thì tỉ lệ nhãn gần 0 hoặc 1 hơn, nên mang nhiều thông tin hơn. Ở dạng hiện tại, cơ chế này không tạo được độ khó cho Study 3.
+- **Túi 32 rất khó.** Ở 1480, v1 có AUC 0,344, thấp hơn mức ngẫu nhiên: chuỗi hội tụ về nhãn đảo. A1 kéo lên rõ, nhưng không hơn L ở 1464 và 1480.
+- **PLL phụ thuộc mẫu khó hơn nhiều,** vì distractor luôn là các lớp dễ nhầm. Ví dụ 36: 0,517 so với 0,972 khi iid. A1 vẫn hơn L ở 2/3 dataset.
+- **Đề xuất cho Study 3 (cần thầy quyết):**
+  - giữ túi 32 và PLL phụ thuộc mẫu, nhưng PLL phụ thuộc mẫu ở mức q thấp hơn;
+  - với túi gom theo feature: bỏ, hoặc đổi thành túi theo một feature phân loại, như cách gom túi thường gặp trong thực tế.
+
+## 9. Việc còn lại (cũ)
+
+
 
 - **Phần còn thiếu:**
   - D: 86 ô;

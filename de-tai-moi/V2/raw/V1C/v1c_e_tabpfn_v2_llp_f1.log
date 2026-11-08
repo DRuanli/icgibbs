@@ -1,15 +1,5 @@
 run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-7c64c03c008c · config=df15c9043eabdf1c
 
 === 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
-             tic-tac-toe llp        8 s0 gibbs_init_warm  0.7255 60.3s
-             tic-tac-toe llp        8 s0 base_start       0.8825 48.9s
-             tic-tac-toe llp        8 s0 gibbs_init_base  0.7265 101.6s
-             tic-tac-toe llp        8 s0 gibbs_init_cold  0.7147 44.0s
-             tic-tac-toe llp        8 s0 gibbs_ms         0.7265 0.0s
 
 === 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
-          cylinder-bands llp        8 s0 gibbs_init_warm  0.6033 96.2s
-          cylinder-bands llp        8 s0 base_start       0.7028 33.6s
-          cylinder-bands llp        8 s0 gibbs_init_base  0.4632 124.9s
-          cylinder-bands llp        8 s0 gibbs_init_cold  0.6773 91.6s
-          cylinder-bands llp        8 s0 gibbs_ms         0.6033 0.0s

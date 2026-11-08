@@ -1,0 +1,16 @@
+run_g7 · part=v0 · split=eval · backend=tabdpt · code=py-7c64c03c008c · config=57bf7b7cf64086f7
+
+=== 50 tic-tac-toe: n=958 (loại trùng 0), d=9, C=2, sha256=fa691cec4f8f
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+             tic-tac-toe llp        8 s0 gibbs_init_warm  0.9991 48.2s
+             tic-tac-toe llp        8 s0 base_start       0.8825 64.7s
+             tic-tac-toe llp        8 s0 gibbs_init_base  0.9991 91.3s
+             tic-tac-toe llp        8 s0 gibbs_init_cold  0.9992 24.5s
+             tic-tac-toe llp        8 s0 gibbs_ms         0.9991 0.0s
+
+=== 6332 cylinder-bands: n=540 (loại trùng 0), d=37, C=2, sha256=c59e763971bf
+          cylinder-bands llp        8 s0 gibbs_init_warm  0.7636 27.2s
+          cylinder-bands llp        8 s0 base_start       0.7028 36.1s
+          cylinder-bands llp        8 s0 gibbs_init_base  0.7711 52.3s
+          cylinder-bands llp        8 s0 gibbs_init_cold  0.6945 16.1s
+          cylinder-bands llp        8 s0 gibbs_ms         0.6945 0.0s

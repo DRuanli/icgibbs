@@ -1,0 +1,127 @@
+run_g7 · part=v0 · split=s2 · backend=tabicl_v2 · code=py-7c64c03c008c · config=174e68c12f52ae3c
+
+=== 24 mushroom: n=8124 (loại trùng 0), d=22, C=2, sha256=de6d36755fdc
+                mushroom llp        8 s1 gibbs_init_warm  1.0000 85.8s
+                mushroom llp        8 s1 base_start       1.0000 913.4s
+                mushroom llp        8 s1 gibbs_init_base  1.0000 929.0s
+                mushroom llp        8 s1 gibbs_init_cold  1.0000 15.5s
+                mushroom llp        8 s1 gibbs_ms         1.0000 0.0s
+
+=== 312 scene: n=2400 (loại trùng 7), d=299, C=2, sha256=3ae75aa719af
+                   scene llp        8 s1 gibbs_init_warm  0.9786 92.9s
+                   scene llp        8 s1 base_start       0.9747 202.0s
+                   scene llp        8 s1 gibbs_init_base  0.9846 273.4s
+                   scene llp        8 s1 gibbs_init_cold  0.9408 74.0s
+                   scene llp        8 s1 gibbs_ms         0.9846 0.0s
+
+=== 470 profb: n=672 (loại trùng 0), d=9, C=2, sha256=8c01ec7f28fa
+                   profb llp        8 s1 gibbs_init_warm  0.4892 10.7s
+                   profb llp        8 s1 base_start       0.5574 47.7s
+                   profb llp        8 s1 gibbs_init_base  0.4360 53.0s
+                   profb llp        8 s1 gibbs_init_cold  0.4981 5.5s
+                   profb llp        8 s1 gibbs_ms         0.4892 0.0s
+
+=== 934 socmob: n=1156 (loại trùng 0), d=5, C=2, sha256=63a72f4c2309
+                  socmob llp        8 s1 gibbs_init_warm  0.9758 14.0s
+                  socmob llp        8 s1 base_start       0.9469 76.5s
+                  socmob llp        8 s1 gibbs_init_base  0.9814 83.6s
+                  socmob llp        8 s1 gibbs_init_cold  0.9777 7.1s
+                  socmob llp        8 s1 gibbs_ms         0.9814 0.0s
+
+=== 40536 SpeedDating: n=8378 (loại trùng 0), d=120, C=2, sha256=af9770f2cf66
+             SpeedDating llp        8 s1 gibbs_init_warm  0.8354 107.0s
+             SpeedDating llp        8 s1 base_start       0.7803 748.4s
+             SpeedDating llp        8 s1 gibbs_init_base  0.8316 791.2s
+             SpeedDating llp        8 s1 gibbs_init_cold  0.8078 48.0s
+             SpeedDating llp        8 s1 gibbs_ms         0.8354 0.0s
+
+=== 41143 jasmine: n=2984 (loại trùng 0), d=144, C=2, sha256=89648a40e373
+                 jasmine llp        8 s1 gibbs_init_warm  0.8666 72.6s
+                 jasmine llp        8 s1 base_start       0.8287 237.5s
+                 jasmine llp        8 s1 gibbs_init_base  0.8821 280.8s
+                 jasmine llp        8 s1 gibbs_init_cold  0.8778 43.1s
+                 jasmine llp        8 s1 gibbs_ms         0.8821 0.0s
+
+=== 41145 philippine: n=5832 (loại trùng 0), d=308, C=2, sha256=9b98d778da59
+              philippine llp        8 s1 gibbs_init_warm  0.7482 152.6s
+              philippine llp        8 s1 base_start       0.6999 602.6s
+              philippine llp        8 s1 gibbs_init_base  0.7500 702.3s
+              philippine llp        8 s1 gibbs_init_cold  0.7492 100.6s
+              philippine llp        8 s1 gibbs_ms         0.7482 0.0s
+
+=== 41146 sylvine: n=5124 (loại trùng 0), d=20, C=2, sha256=f4ce01f4c241
+                 sylvine llp        8 s1 gibbs_init_warm  0.9943 55.5s
+                 sylvine llp        8 s1 base_start       0.9664 381.3s
+                 sylvine llp        8 s1 gibbs_init_base  0.9945 395.7s
+                 sylvine llp        8 s1 gibbs_init_cold  0.9941 14.1s
+                 sylvine llp        8 s1 gibbs_ms         0.9945 0.0s
+
+=== 41156 ada: n=4146 (loại trùng 1), d=48, C=2, sha256=0eeca743264a
+                     ada llp        8 s1 gibbs_init_warm  0.9043 66.6s
+                     ada llp        8 s1 base_start       0.8763 369.1s
+                     ada llp        8 s1 gibbs_init_base  0.9045 390.6s
+                     ada llp        8 s1 gibbs_init_cold  0.8826 21.5s
+                     ada llp        8 s1 gibbs_ms         0.9045 0.0s
+
+=== 44130 eye_movements: n=7608 (loại trùng 0), d=20, C=2, sha256=db8092aa34d1
+           eye_movements llp        8 s1 gibbs_init_warm  0.5574 84.7s
+           eye_movements llp        8 s1 base_start       0.5000 655.8s
+           eye_movements llp        8 s1 gibbs_init_base  0.5636 671.1s
+           eye_movements llp        8 s1 gibbs_init_cold  0.5500 16.9s
+           eye_movements llp        8 s1 gibbs_ms         0.5500 0.0s
+
+=== 45026 heloc: n=9444 (loại trùng 556), d=22, C=2, sha256=774487ba7196
+                   heloc llp        8 s1 gibbs_init_warm  0.7986 96.8s
+                   heloc llp        8 s1 base_start       0.7905 686.4s
+                   heloc llp        8 s1 gibbs_init_base  0.7962 701.7s
+                   heloc llp        8 s1 gibbs_init_cold  0.7983 15.5s
+                   heloc llp        8 s1 gibbs_ms         0.7983 0.0s
+
+=== 45039 compas-two-years: n=2712 (loại trùng 2254), d=11, C=2, sha256=81c8bd8d26ff
+        compas-two-years llp        8 s1 gibbs_init_warm  0.6753 29.5s
+        compas-two-years llp        8 s1 base_start       0.6641 170.5s
+        compas-two-years llp        8 s1 gibbs_init_base  0.6804 179.2s
+        compas-two-years llp        8 s1 gibbs_init_cold  0.6679 8.5s
+        compas-two-years llp        8 s1 gibbs_ms         0.6753 0.0s
+
+=== 46911 Bank_Customer_Churn: n=10000 (loại trùng 0), d=10, C=2, sha256=ef9de26b662e
+     Bank_Customer_Churn llp        8 s1 gibbs_init_warm  0.8443 74.8s
+     Bank_Customer_Churn llp        8 s1 base_start       0.8306 733.7s
+     Bank_Customer_Churn llp        8 s1 gibbs_init_base  0.8504 745.3s
+     Bank_Customer_Churn llp        8 s1 gibbs_init_cold  0.8523 12.6s
+     Bank_Customer_Churn llp        8 s1 gibbs_ms         0.8443 0.0s
+
+=== 46927 Fitness_Club: n=1499 (loại trùng 1), d=6, C=2, sha256=83406fa91bc6
+            Fitness_Club llp        8 s1 gibbs_init_warm  0.8168 20.3s
+            Fitness_Club llp        8 s1 base_start       0.7618 83.0s
+            Fitness_Club llp        8 s1 gibbs_init_base  0.8201 90.6s
+            Fitness_Club llp        8 s1 gibbs_init_cold  0.8161 7.9s
+            Fitness_Club llp        8 s1 gibbs_ms         0.8201 0.0s
+
+=== 46930 hazelnut-spread-contaminant-detection: n=2400 (loại trùng 0), d=30, C=2, sha256=7f091d8dfbba
+  hazelnut-spread-contam llp        8 s1 gibbs_init_warm  0.9934 30.0s
+  hazelnut-spread-contam llp        8 s1 base_start       0.9592 164.8s
+  hazelnut-spread-contam llp        8 s1 gibbs_init_base  0.9943 177.6s
+  hazelnut-spread-contam llp        8 s1 gibbs_init_cold  0.9619 12.9s
+  hazelnut-spread-contam llp        8 s1 gibbs_ms         0.9943 0.0s
+
+=== 46938 Is-this-a-good-customer: n=1723 (loại trùng 0), d=13, C=2, sha256=7e8f86a09e4e
+  Is-this-a-good-custome llp        8 s1 gibbs_init_warm  0.6299 18.5s
+  Is-this-a-good-custome llp        8 s1 base_start       0.6866 102.2s
+  Is-this-a-good-custome llp        8 s1 gibbs_init_base  0.6545 114.2s
+  Is-this-a-good-custome llp        8 s1 gibbs_init_cold  0.7201 9.2s
+  Is-this-a-good-custome llp        8 s1 gibbs_ms         0.7201 0.0s
+
+=== 46940 Marketing_Campaign: n=2058 (loại trùng 182), d=25, C=2, sha256=ab1b9ec9ea3a
+      Marketing_Campaign llp        8 s1 gibbs_init_warm  0.8605 27.9s
+      Marketing_Campaign llp        8 s1 base_start       0.6732 160.6s
+      Marketing_Campaign llp        8 s1 gibbs_init_base  0.8903 171.0s
+      Marketing_Campaign llp        8 s1 gibbs_init_cold  0.8567 10.1s
+      Marketing_Campaign llp        8 s1 gibbs_ms         0.8605 0.0s
+
+=== 46969 NATICUSdroid: n=7491 (loại trùng 0), d=86, C=2, sha256=9d927c706e6e
+            NATICUSdroid llp        8 s1 gibbs_init_warm  0.9859 83.9s
+            NATICUSdroid llp        8 s1 base_start       0.9784 585.5s
+            NATICUSdroid llp        8 s1 gibbs_init_base  0.9849 617.1s
+            NATICUSdroid llp        8 s1 gibbs_init_cold  0.9842 32.6s
+            NATICUSdroid llp        8 s1 gibbs_ms         0.9859 0.0s

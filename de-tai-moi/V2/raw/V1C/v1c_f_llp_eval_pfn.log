@@ -1,0 +1,103 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v2 · code=py-7c64c03c008c · config=c0c71114d5815716
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp        8 s0 gibbs_init_warm  0.9996 132.6s
+                kr-vs-kp llp        8 s0 base_start       0.9931 220.1s
+                kr-vs-kp llp        8 s0 gibbs_init_base  0.9996 320.1s
+                kr-vs-kp llp        8 s0 gibbs_init_cold  0.9957 97.8s
+                kr-vs-kp llp        8 s0 gibbs_ms         0.9996 0.0s
+                kr-vs-kp llp        8 s1 gibbs_init_warm  0.9985 117.1s
+                kr-vs-kp llp        8 s1 base_start       0.9973 227.4s
+                kr-vs-kp llp        8 s1 gibbs_init_base  0.9985 326.4s
+                kr-vs-kp llp        8 s1 gibbs_init_cold  0.9968 99.7s
+                kr-vs-kp llp        8 s1 gibbs_ms         0.9985 0.0s
+                kr-vs-kp llp        8 s2 gibbs_init_warm  0.9980 116.2s
+                kr-vs-kp llp        8 s2 base_start       0.9972 183.8s
+                kr-vs-kp llp        8 s2 gibbs_init_base  0.9985 279.9s
+                kr-vs-kp llp        8 s2 gibbs_init_cold  0.9988 97.3s
+                kr-vs-kp llp        8 s2 gibbs_ms         0.9985 0.0s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_init_warm  0.9379 26.1s
+         credit-approval llp        8 s0 base_start       0.9094 35.8s
+         credit-approval llp        8 s0 gibbs_init_base  0.9451 52.5s
+         credit-approval llp        8 s0 gibbs_init_cold  0.9442 16.8s
+         credit-approval llp        8 s0 gibbs_ms         0.9379 0.0s
+         credit-approval llp        8 s1 gibbs_init_warm  0.9335 26.7s
+         credit-approval llp        8 s1 base_start       0.9043 47.0s
+         credit-approval llp        8 s1 gibbs_init_base  0.9281 71.6s
+         credit-approval llp        8 s1 gibbs_init_cold  0.9274 20.3s
+         credit-approval llp        8 s1 gibbs_ms         0.9281 0.0s
+         credit-approval llp        8 s2 gibbs_init_warm  0.9216 25.2s
+         credit-approval llp        8 s2 base_start       0.8745 36.3s
+         credit-approval llp        8 s2 gibbs_init_base  0.9030 52.6s
+         credit-approval llp        8 s2 gibbs_init_cold  0.7636 17.8s
+         credit-approval llp        8 s2 gibbs_ms         0.9216 0.0s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 gibbs_init_warm  0.9851 280.9s
+                spambase llp        8 s0 base_start       0.9697 266.7s
+                spambase llp        8 s0 gibbs_init_base  0.9831 513.4s
+                spambase llp        8 s0 gibbs_init_cold  0.9831 251.8s
+                spambase llp        8 s0 gibbs_ms         0.9851 0.0s
+                spambase llp        8 s1 gibbs_init_warm  0.9875 276.7s
+                spambase llp        8 s1 base_start       0.9673 325.6s
+                spambase llp        8 s1 gibbs_init_base  0.9863 546.8s
+                spambase llp        8 s1 gibbs_init_cold  0.9858 246.7s
+                spambase llp        8 s1 gibbs_ms         0.9863 0.0s
+                spambase llp        8 s2 gibbs_init_warm  0.9865 259.2s
+                spambase llp        8 s2 base_start       0.9703 300.2s
+                spambase llp        8 s2 gibbs_init_base  0.9854 526.4s
+                spambase llp        8 s2 gibbs_init_cold  0.9829 233.5s
+                spambase llp        8 s2 gibbs_ms         0.9854 0.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s0 gibbs_init_warm  0.9207 85.5s
+                     pc4 llp        8 s0 base_start       0.8757 67.8s
+                     pc4 llp        8 s0 gibbs_init_base  0.9211 132.7s
+                     pc4 llp        8 s0 gibbs_init_cold  0.8887 64.0s
+                     pc4 llp        8 s0 gibbs_ms         0.9207 0.0s
+                     pc4 llp        8 s1 gibbs_init_warm  0.9318 76.3s
+                     pc4 llp        8 s1 base_start       0.8930 96.4s
+                     pc4 llp        8 s1 gibbs_init_base  0.9305 175.8s
+                     pc4 llp        8 s1 gibbs_init_cold  0.8123 70.2s
+                     pc4 llp        8 s1 gibbs_ms         0.9305 0.0s
+                     pc4 llp        8 s2 gibbs_init_warm  0.8750 74.2s
+                     pc4 llp        8 s2 base_start       0.8305 71.8s
+                     pc4 llp        8 s2 gibbs_init_base  0.8731 135.9s
+                     pc4 llp        8 s2 gibbs_init_cold  0.9366 72.6s
+                     pc4 llp        8 s2 gibbs_ms         0.8731 0.0s
+
+=== 1489 phoneme: n=5395 (loại trùng 9), d=5, C=2, sha256=66da5602e68d
+                 phoneme llp        8 s0 gibbs_init_warm  0.8918 65.8s
+                 phoneme llp        8 s0 base_start       0.8956 347.1s
+                 phoneme llp        8 s0 gibbs_init_base  0.9037 377.4s
+                 phoneme llp        8 s0 gibbs_init_cold  0.8468 26.6s
+                 phoneme llp        8 s0 gibbs_ms         0.9037 0.0s
+                 phoneme llp        8 s1 gibbs_init_warm  0.9030 64.2s
+                 phoneme llp        8 s1 base_start       0.9088 348.1s
+                 phoneme llp        8 s1 gibbs_init_base  0.9176 374.5s
+                 phoneme llp        8 s1 gibbs_init_cold  0.8879 26.4s
+                 phoneme llp        8 s1 gibbs_ms         0.9176 0.0s
+                 phoneme llp        8 s2 gibbs_init_warm  0.8779 61.6s
+                 phoneme llp        8 s2 base_start       0.9040 387.7s
+                 phoneme llp        8 s2 gibbs_init_base  0.9053 416.5s
+                 phoneme llp        8 s2 gibbs_init_cold  0.8413 27.1s
+                 phoneme llp        8 s2 gibbs_ms         0.9053 0.0s
+
+=== 1494 qsar-biodeg: n=1052 (loại trùng 3), d=41, C=2, sha256=f9b0c445f990
+             qsar-biodeg llp        8 s0 gibbs_init_warm  0.8748 64.3s
+             qsar-biodeg llp        8 s0 base_start       0.8963 64.0s
+             qsar-biodeg llp        8 s0 gibbs_init_base  0.8771 125.7s
+             qsar-biodeg llp        8 s0 gibbs_init_cold  0.8451 64.9s
+             qsar-biodeg llp        8 s0 gibbs_ms         0.8771 0.0s
+             qsar-biodeg llp        8 s1 gibbs_init_warm  0.9082 76.8s
+             qsar-biodeg llp        8 s1 base_start       0.9043 67.8s
+             qsar-biodeg llp        8 s1 gibbs_init_base  0.8889 141.5s
+             qsar-biodeg llp        8 s1 gibbs_init_cold  0.8861 71.2s
+             qsar-biodeg llp        8 s1 gibbs_ms         0.9082 0.0s
+             qsar-biodeg llp        8 s2 gibbs_init_warm  0.8434 80.3s
+             qsar-biodeg llp        8 s2 base_start       0.8679 65.5s
+             qsar-biodeg llp        8 s2 gibbs_init_base  0.8324 136.5s
+             qsar-biodeg llp        8 s2 gibbs_init_cold  0.7827 69.9s
+             qsar-biodeg llp        8 s2 gibbs_ms         0.8434 0.0s

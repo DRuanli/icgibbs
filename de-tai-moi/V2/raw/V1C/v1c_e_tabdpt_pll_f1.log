@@ -1,0 +1,30 @@
+run_g7 · part=v0 · split=eval · backend=tabdpt · code=py-7c64c03c008c · config=57bf7b7cf64086f7
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+           mfeat-factors pll      0.6 s0 gibbs_init_warm  0.9583 65.2s
+           mfeat-factors pll      0.6 s0 base_start       0.9482 87.2s
+           mfeat-factors pll      0.6 s0 gibbs_init_base  0.9850 144.2s
+           mfeat-factors pll      0.6 s0 gibbs_init_cold  0.9115 61.2s
+           mfeat-factors pll      0.6 s0 gibbs_ms         0.9850 0.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s0 gibbs_init_warm  0.9881 105.8s
+               optdigits pll      0.6 s0 base_start       0.9715 246.0s
+               optdigits pll      0.6 s0 gibbs_init_base  0.9881 347.9s
+               optdigits pll      0.6 s0 gibbs_init_cold  0.9881 101.7s
+               optdigits pll      0.6 s0 gibbs_ms         0.9881 0.0s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.6 s0 gibbs_init_warm  0.1883 46.7s
+                 semeion pll      0.6 s0 base_start       0.8975 75.4s
+                 semeion pll      0.6 s0 gibbs_init_base  0.9142 117.9s
+                 semeion pll      0.6 s0 gibbs_init_cold  0.4017 41.4s
+                 semeion pll      0.6 s0 gibbs_ms         0.9142 0.0s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s0 gibbs_init_warm  0.9599 26.4s
+             MiceProtein pll      0.6 s0 base_start       0.9568 32.7s
+             MiceProtein pll      0.6 s0 gibbs_init_base  0.9815 61.3s
+             MiceProtein pll      0.6 s0 gibbs_init_cold  0.9290 27.6s
+             MiceProtein pll      0.6 s0 gibbs_ms         0.9815 0.0s

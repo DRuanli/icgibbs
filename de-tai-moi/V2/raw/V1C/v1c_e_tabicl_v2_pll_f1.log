@@ -1,0 +1,29 @@
+run_g7 · part=v0 · split=eval · backend=tabicl_v2 · code=py-7c64c03c008c · config=0156cccc5964a1a0
+
+=== 12 mfeat-factors: n=1994 (loại trùng 6), d=216, C=10, sha256=1a5ff748c737
+           mfeat-factors pll      0.6 s0 gibbs_init_warm  0.9866 137.4s
+           mfeat-factors pll      0.6 s0 base_start       0.9482 71.3s
+           mfeat-factors pll      0.6 s0 gibbs_init_base  0.9850 199.0s
+           mfeat-factors pll      0.6 s0 gibbs_init_cold  0.9883 125.6s
+           mfeat-factors pll      0.6 s0 gibbs_ms         0.9850 0.0s
+
+=== 28 optdigits: n=5620 (loại trùng 0), d=64, C=10, sha256=4d0dc201a222
+               optdigits pll      0.6 s0 gibbs_init_warm  0.9899 71.3s
+               optdigits pll      0.6 s0 base_start       0.9715 215.1s
+               optdigits pll      0.6 s0 gibbs_init_base  0.9899 284.9s
+               optdigits pll      0.6 s0 gibbs_init_cold  0.9899 69.6s
+               optdigits pll      0.6 s0 gibbs_ms         0.9899 0.0s
+
+=== 1501 semeion: n=1593 (loại trùng 0), d=256, C=10, sha256=2b14b9bc4bf4
+                 semeion pll      0.6 s0 gibbs_init_warm  0.9477 121.4s
+                 semeion pll      0.6 s0 base_start       0.8975 64.6s
+                 semeion pll      0.6 s0 gibbs_init_base  0.9477 187.5s
+                 semeion pll      0.6 s0 gibbs_init_cold  0.9121 121.5s
+                 semeion pll      0.6 s0 gibbs_ms         0.9477 0.0s
+
+=== 40966 MiceProtein: n=1080 (loại trùng 0), d=77, C=8, sha256=a7dc5c85ae74
+             MiceProtein pll      0.6 s0 gibbs_init_warm  0.9568 38.9s
+             MiceProtein pll      0.6 s0 base_start       0.9568 39.4s
+             MiceProtein pll      0.6 s0 gibbs_init_base  0.9815 77.8s
+             MiceProtein pll      0.6 s0 gibbs_init_cold  0.9630 37.6s
+             MiceProtein pll      0.6 s0 gibbs_ms         0.9815 0.0s

@@ -1,0 +1,59 @@
+run_g7 · part=v0 · split=eval · backend=tabicl_v2 · code=py-7c64c03c008c · config=174e68c12f52ae3c
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+                kr-vs-kp llp        8 s0 gibbs_init_warm  0.9999 42.4s
+                kr-vs-kp llp        8 s0 base_start       0.9931 178.5s
+                kr-vs-kp llp        8 s0 gibbs_init_base  0.9998 195.8s
+                kr-vs-kp llp        8 s0 gibbs_init_cold  0.9976 17.2s
+                kr-vs-kp llp        8 s0 gibbs_ms         0.9998 0.0s
+                kr-vs-kp llp        8 s1 gibbs_init_warm  0.9987 37.6s
+                kr-vs-kp llp        8 s1 base_start       0.9973 182.0s
+                kr-vs-kp llp        8 s1 gibbs_init_base  0.9987 199.4s
+                kr-vs-kp llp        8 s1 gibbs_init_cold  0.9984 17.2s
+                kr-vs-kp llp        8 s1 gibbs_ms         0.9987 0.0s
+                kr-vs-kp llp        8 s2 gibbs_init_warm  0.9998 37.0s
+                kr-vs-kp llp        8 s2 base_start       0.9972 169.9s
+                kr-vs-kp llp        8 s2 gibbs_init_base  0.9997 187.2s
+                kr-vs-kp llp        8 s2 gibbs_init_cold  0.9975 17.2s
+                kr-vs-kp llp        8 s2 gibbs_ms         0.9998 0.0s
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+         credit-approval llp        8 s0 gibbs_init_warm  0.9301 10.5s
+         credit-approval llp        8 s0 base_start       0.9094 33.2s
+         credit-approval llp        8 s0 gibbs_init_base  0.9294 39.1s
+         credit-approval llp        8 s0 gibbs_init_cold  0.9108 5.9s
+         credit-approval llp        8 s0 gibbs_ms         0.9294 0.0s
+         credit-approval llp        8 s1 gibbs_init_warm  0.9327 10.3s
+         credit-approval llp        8 s1 base_start       0.9043 37.3s
+         credit-approval llp        8 s1 gibbs_init_base  0.9331 43.4s
+         credit-approval llp        8 s1 gibbs_init_cold  0.9416 6.0s
+         credit-approval llp        8 s1 gibbs_ms         0.9416 0.0s
+         credit-approval llp        8 s2 gibbs_init_warm  0.9176 10.5s
+         credit-approval llp        8 s2 base_start       0.8745 33.7s
+         credit-approval llp        8 s2 gibbs_init_base  0.8818 39.7s
+         credit-approval llp        8 s2 gibbs_init_cold  0.9241 5.9s
+         credit-approval llp        8 s2 gibbs_ms         0.9176 0.0s
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+                spambase llp        8 s0 gibbs_init_warm  0.9866 49.6s
+                spambase llp        8 s0 base_start       0.9697 238.5s
+                spambase llp        8 s0 gibbs_init_base  0.9858 261.7s
+                spambase llp        8 s0 gibbs_init_cold  0.9869 22.9s
+                spambase llp        8 s0 gibbs_ms         0.9858 0.0s
+                spambase llp        8 s1 gibbs_init_warm  0.9917 48.5s
+                spambase llp        8 s1 base_start       0.9673 280.7s
+                spambase llp        8 s1 gibbs_init_base  0.9904 304.1s
+                spambase llp        8 s1 gibbs_init_cold  0.9874 22.8s
+                spambase llp        8 s1 gibbs_ms         0.9917 0.0s
+                spambase llp        8 s2 gibbs_init_warm  0.9886 49.4s
+                spambase llp        8 s2 base_start       0.9703 280.9s
+                spambase llp        8 s2 gibbs_init_base  0.9858 305.3s
+                spambase llp        8 s2 gibbs_init_cold  0.9805 23.4s
+                spambase llp        8 s2 gibbs_ms         0.9886 0.0s
+
+=== 1049 pc4: n=1344 (loại trùng 114), d=37, C=2, sha256=d6fffecdc8d3
+                     pc4 llp        8 s0 gibbs_init_warm  0.9334 24.0s
+                     pc4 llp        8 s0 base_start       0.8757 63.1s
+                     pc4 llp        8 s0 gibbs_init_base  0.9146 78.3s
+                     pc4 llp        8 s0 gibbs_init_cold  0.8999 15.6s
+                     pc4 llp        8 s0 gibbs_ms         0.9334 0.0s

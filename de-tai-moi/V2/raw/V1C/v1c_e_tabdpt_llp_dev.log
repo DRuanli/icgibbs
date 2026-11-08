@@ -1,0 +1,44 @@
+run_g7 · part=v0 · split=dev · backend=tabdpt · code=py-7c64c03c008c · config=57bf7b7cf64086f7
+
+=== 31 credit-g: n=1000 (loại trùng 0), d=20, C=2, sha256=1e20589711b9
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                credit-g llp        8 s0 gibbs_init_warm  0.7749 36.3s
+                credit-g llp        8 s0 base_start       0.7386 57.6s
+                credit-g llp        8 s0 gibbs_init_base  0.7598 83.0s
+                credit-g llp        8 s0 gibbs_init_cold  0.7494 24.7s
+                credit-g llp        8 s0 gibbs_ms         0.7598 0.0s
+
+=== 37 diabetes: n=768 (loại trùng 0), d=8, C=2, sha256=11b8b737b37f
+                diabetes llp        8 s0 gibbs_init_warm  0.8430 27.5s
+                diabetes llp        8 s0 base_start       0.8379 41.1s
+                diabetes llp        8 s0 gibbs_init_base  0.8413 59.1s
+                diabetes llp        8 s0 gibbs_init_cold  0.8334 20.0s
+                diabetes llp        8 s0 gibbs_ms         0.8334 0.0s
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+  blood-transfusion-serv llp        8 s0 gibbs_init_warm  0.7420 24.9s
+  blood-transfusion-serv llp        8 s0 base_start       0.7548 36.6s
+  blood-transfusion-serv llp        8 s0 gibbs_init_base  0.6815 56.9s
+  blood-transfusion-serv llp        8 s0 gibbs_init_cold  0.6557 19.6s
+  blood-transfusion-serv llp        8 s0 gibbs_ms         0.6815 0.0s
+
+=== 1462 banknote-authentication: n=1348 (loại trùng 24), d=4, C=2, sha256=bee246691be8
+  banknote-authenticatio llp        8 s0 gibbs_init_warm  1.0000 42.4s
+  banknote-authenticatio llp        8 s0 base_start       1.0000 74.7s
+  banknote-authenticatio llp        8 s0 gibbs_init_base  1.0000 107.8s
+  banknote-authenticatio llp        8 s0 gibbs_init_cold  1.0000 36.5s
+  banknote-authenticatio llp        8 s0 gibbs_ms         1.0000 0.0s
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+                    ilpd llp        8 s0 gibbs_init_warm  0.6833 25.1s
+                    ilpd llp        8 s0 base_start       0.6439 35.0s
+                    ilpd llp        8 s0 gibbs_init_base  0.7678 61.6s
+                    ilpd llp        8 s0 gibbs_init_cold  0.7733 21.9s
+                    ilpd llp        8 s0 gibbs_ms         0.7733 0.0s
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b
+                    wdbc llp        8 s0 gibbs_init_warm  0.9945 27.1s
+                    wdbc llp        8 s0 base_start       0.9877 49.7s
+                    wdbc llp        8 s0 gibbs_init_base  0.9945 70.2s
+                    wdbc llp        8 s0 gibbs_init_cold  0.9946 18.4s
+                    wdbc llp        8 s0 gibbs_ms         0.9945 0.0s
