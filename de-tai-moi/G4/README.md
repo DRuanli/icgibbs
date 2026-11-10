@@ -26,7 +26,51 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
-## V2 — lượt V1E dùng `s2_code_v13.zip` (10/11/2026)
+## Study 3 bản gọn — lượt S3 dùng `s2_code_v14.zip` (10/11/2026) — XÁC NHẬN
+
+Protocol ghi trước ở [S3/STUDY3_PLAN](../S3/STUDY3_PLAN.md), commit `c9009e8`. **Thầy chạy lượt này tức là duyệt và đóng băng protocol.**
+- **Quy mô:** 20 dataset mới, 4 TFM, mỗi ô 3 chuỗi. Ước 2–3 phiên.
+- **V1E đã huỷ:** thầy chọn bản gọn ngày 10/11, nên không chạy lượt V1E nữa.
+
+**Notebook mới:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.
+- **Add data:** `icgibbs-g4` bản mới, có `s2_code_v14.zip`. Từ phiên 2 trở đi, thêm output của phiên trước.
+- **Ô 1:**
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 tabdpt==1.3.1 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v14/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for sub in ("s3_npz", "l_cache_s3"):                               # từ phiên 2: chạy tiếp
+    os.makedirs(f"/kaggle/working/{sub}", exist_ok=True)
+    for f in glob.glob(f"/kaggle/input/**/{sub}/*.npz", recursive=True):
+        shutil.copy(f, f"/kaggle/working/{sub}/")
+for f in glob.glob("/kaggle/input/**/s3_*.csv", recursive=True):
+    shutil.copy(f, "/kaggle/working/")
+print({s: len(glob.glob(f"/kaggle/working/{s}/*.npz")) for s in ("s3_npz", "l_cache_s3")})
+```
+- **Kết quả ô 1:** ở phiên 1, ô in ra `s3_npz` = 0. Khi lượt chạy đủ, `s3_npz` = 213, gồm 3 TFM × 60 ô cộng 33 ô của TabPFN v2.
+- **Ô 2:** như ô 2 của V1C (tự dừng sau 11 giờ), đổi `LOT = "S3"`.
+- **Kiểm nhanh sau khoảng 20 phút:**
+  - dòng đầu của `s2_S3_master_log.txt` là "lượt S3 bắt đầu";
+  - tệp `s3_dataset_hashes.csv` có 20 dòng, đều `ok`.
+- **Phiên kế tiếp:** notebook mới, thêm output phiên trước, dán y hệt hai ô. Lặp lại cho tới khi log không còn việc mới.
+- **Nếu OpenML lỗi tải (`[lỗi tải]` trong log):** không sửa gì, chỉ chạy thêm một phiên; ô nào chưa có sẽ được chạy lại.
+- **Gửi lại** (từ output phiên cuối):
+  - `s2_S3_*`;
+  - `s3_dataset_hashes.csv`, mọi tệp `s3_*.csv` và `s3_*.log`;
+  - thư mục `s3_npz/`.
+  
+  Không cần gửi `l_cache_s3/`.
+- **Chấm:** `S3/s3_report.py`, viết và commit trước khi có số.
+
+## V2 — lượt V1E dùng `s2_code_v13.zip` (10/11/2026) — ĐÃ HUỶ, không chạy
 
 Kế hoạch ghi trước ở [V2/V1E_PLAN](../V2/V1E_PLAN.md), commit `75d0c61`. Lượt gồm ba phần:
 - **E1:** hoàn tất phần PLL phụ thuộc mẫu, sau khi sửa lỗi NaN.

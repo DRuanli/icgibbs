@@ -70,3 +70,24 @@ S2_S1_EXCLUDE = {40536, 44130, 375, 23380, 1476}
 _S2_ALL = set(S2_BINARY) | set(S2_MULTICLASS) | {d for d, _, _ in S2_RESERVE_MULTICLASS}
 _NC1_ALL = set(EVAL_BINARY) | set(EVAL_MULTICLASS) | set(DEV_BINARY) | set(DEV_MULTICLASS)
 assert not _S2_ALL & _NC1_ALL, "tập đánh giá S2 phải rời mọi dataset của NC1"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Study 3, bản gọn (de-tai-moi/S3/STUDY3_PLAN.md, ghi trước 10/11/2026; rà tay ở S3/s3_review.csv).
+# ID OpenML → (tên, phiên bản OpenML lúc đếm ở V1D, 09/11/2026). Tiêu chí tới bậc 3 của S2_PLAN §3.2.
+S3_BINARY = {
+    1038: ("gina_agnostic", 1), 1046: ("mozilla4", 1), 1467: ("climate-model-simulation-crashes", 1),
+    1487: ("ozone-level-8hr", 1), 4134: ("Bioresponse", 1), 46916: ("coil2000_insurance_policies", 1),
+    46924: ("E-CommereShippingData", 1), 46935: ("HR_Analytics_Job_Change_of_Data_Scientists", 1),
+    46937: ("in_vehicle_coupon_recommendation", 1), 46947: ("online_shoppers_intention", 1),
+    46950: ("polish_companies_bankruptcy", 1), 46956: ("seismic-bumps", 4),
+}
+S3_MULTICLASS = {
+    42: ("soybean", 1), 307: ("vowel", 2), 1468: ("cnae-9", 1), 1478: ("har", 1), 1515: ("micro-mass", 2),
+    4538: ("GesturePhaseSegmentationProcessed", 1), 40499: ("texture", 1), 46933: ("hiva_agnostic", 2),
+}
+S3_SUBSAMPLE = {d: 10000 for d in (1046, 46924, 46935, 46937, 46947, 1478)}     # n > 10.000 (STUDY3_PLAN §2)
+S3_S1_FLAG = {307, 1467, 1478, 1487, 4538}                                      # cấu trúc nhóm/chuỗi
+# TabPFN v2 chỉ chạy trong giới hạn công bố (d ≤ 500, C ≤ 10): STUDY3_PLAN §3
+S3_TABPFN_V2 = sorted(set(S3_BINARY) - {1038, 4134}) + [4538]
+_S3_ALL = set(S3_BINARY) | set(S3_MULTICLASS)
+assert not _S3_ALL & (_NC1_ALL | set(S2_BINARY) | set(S2_MULTICLASS)), "Study 3 phải rời mọi dataset đã chạy"

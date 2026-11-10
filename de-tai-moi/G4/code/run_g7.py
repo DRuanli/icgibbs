@@ -30,7 +30,8 @@ from icgibbs.g7.methods import (ABLATION_VARIANTS, GIBBS, TFM_METHODS, V0_STARTS
 from icgibbs.g7.metrics import binary_metrics, multiclass_metrics  # noqa: E402
 from icgibbs.g7.registry import (ABL_LARGE_DEV, ABL_LARGE_EVAL, ABL_SMALL_DEV, ABL_SMALL_EVAL,  # noqa: E402
                                  DEV_BINARY, DEV_MULTICLASS, EVAL_BINARY, EVAL_MULTICLASS, REAL_PLL, RHAT_DEV,
-                                 RHAT_EVAL, S2_BINARY, S2_MULTICLASS, S2_SUBSAMPLE)
+                                 RHAT_EVAL, S2_BINARY, S2_MULTICLASS, S2_SUBSAMPLE,
+                                 S3_BINARY, S3_MULTICLASS, S3_SUBSAMPLE)
 from icgibbs.g7.splits import nested_subsample, random_split, split_sha256, stratified_split  # noqa: E402
 import icgibbs.g7.methods as methods_mod  # noqa: E402
 from icgibbs.g7.weakgen import VARIANTS, make_weak, real_pll_weak, weak_rng  # noqa: E402
@@ -209,7 +210,7 @@ def main(argv=None):
     ap.add_argument("--ablation", choices=sorted(ABLATIONS), default="", help="với --part ablation: một ablation")
     ap.add_argument("--n_train_max", type=int, default=0,
                     help="ablation cỡ dữ liệu: lấy mẫu con lồng nhau, phân tầng của train tới cỡ này (0 = không)")
-    ap.add_argument("--split", choices=["dev", "eval", "s2"], default="dev",
+    ap.add_argument("--split", choices=["dev", "eval", "s2", "s3"], default="dev",
                     help="dev: tập phát triển; eval: tập đánh giá NC1 (G7); s2: tập đánh giá của nghiên cứu 2 (S2_PLAN)")
     ap.add_argument("--eval-ok", action="store_true", help="xác nhận chạy trên tập đánh giá (chỉ từ G7)")
     ap.add_argument("--source", choices=["openml", "synthetic"], default="openml")
@@ -240,6 +241,17 @@ def main(argv=None):
     shapes = parse_shapes(a.synthetic_shape)
     if shapes and a.source != "synthetic":
         ap.error("--synthetic_shape chỉ dùng với --source synthetic")
+    if a.split == "s3":                                   # Study 3 bản gọn (S3/STUDY3_PLAN.md §3): cấu hình cố định
+        if not a.eval_ok:
+            ap.error("Study 3 chỉ chạy khi protocol đã đóng băng: cần thêm --eval-ok")
+        lv = parse_levels(a.levels)
+        if (a.part != "v0" or a.sweeps or a.weak_variant != "iid" or a.n_train_max or a.source != "openml"
+                or any(x.strip() not in ("llp", "pll") for x in a.settings.split(",") if x.strip())
+                or any([float(v) for v in lv[x.strip()]] != [{"llp": 8.0, "pll": 0.6}[x.strip()]]
+                       for x in a.settings.split(",") if x.strip() in ("llp", "pll"))
+                or sorted(x.strip() for x in a.starts.split(",")) != ["base", "cold", "warm"]
+                or sorted(int(x) for x in a.seeds.split(",")) != [0, 1, 2]):
+            ap.error("Study 3: chỉ --part v0 với LLP túi 8 và PLL q 0,6, seed 0,1,2, 30 vòng quét, nhãn yếu iid")
     if a.split in ("eval", "s2") and not a.eval_ok:
         ap.error("tập đánh giá chỉ chạy khi đã mở (G7 cho eval, S2 sau khi đóng băng): cần thêm --eval-ok")
     if a.split == "s2" and (a.part == "ablation" or (a.part in ("rhat", "v0") and not a.explore) or a.n_train_max
@@ -269,9 +281,9 @@ def main(argv=None):
     levels = parse_levels(a.levels)
     seeds = [int(s) for s in a.seeds.split(",")]
     si, sn = (int(v) for v in a.shard.split("/"))
-    binary_ids = dict({"eval": EVAL_BINARY, "s2": S2_BINARY}.get(a.split) or
+    binary_ids = dict({"eval": EVAL_BINARY, "s2": S2_BINARY, "s3": S3_BINARY}.get(a.split) or
                       {k: (v, None) for k, v in DEV_BINARY.items()})
-    multi_ids = dict({"eval": EVAL_MULTICLASS, "s2": S2_MULTICLASS}.get(a.split) or
+    multi_ids = dict({"eval": EVAL_MULTICLASS, "s2": S2_MULTICLASS, "s3": S3_MULTICLASS}.get(a.split) or
                      {k: (v, None) for k, v in DEV_MULTICLASS.items()})
     if a.part == "rhat" and a.datasets == "all" and a.split != "s2":   # quy tắc ghi trước: 3 dataset nhỏ nhất mỗi nhóm
         rs = RHAT_EVAL if a.split == "eval" else RHAT_DEV
@@ -347,6 +359,8 @@ def main(argv=None):
             continue
         if a.split == "s2" and did in S2_SUBSAMPLE:          # S2_PLAN §3.4: sau loại trùng, trước khi chia
             t = subsample_table(t, S2_SUBSAMPLE[did], seed=0)
+        if a.split == "s3" and did in S3_SUBSAMPLE:          # STUDY3_PLAN §2: như S2
+            t = subsample_table(t, S3_SUBSAMPLE[did], seed=0)
         X_all = encode_tfm(t.X)
         sha_t = table_sha256(X_all, t.y)
         print(f"\n=== {did} {t.name}: n={len(t.y)} (loại trùng {t.n_duplicates_removed}), d={X_all.shape[1]}, "

@@ -18,6 +18,7 @@
 | 06/11/2026 (sau ebf2e4e) | **1c7321e** (main) | Code: `run_g7.py --sweeps`, `w4_pilot.py --choose` (quy tắc §4 dùng chung với script chấm), lượt V1C mở rộng trong `run_s2_lot.sh`, `v1c_report.py` thêm D–G (thử trên npz giả rồi xoá). Bản gửi thầy `s2_code_v9.zip`; **v8 không dùng nữa** |
 | 08/11/2026 | commit V1C phiên 1 | Nhận kết quả V1C phiên 1; chấm bằng `v1c_report.py` không sửa: §4 chọn TabPFN-3; P11 sai; P8 đúng (sai số trung vị 0,016); P9 đúng; P14 sai; P15 tạm thời (148/234 ô). **Thay đổi thứ tự chạy, không đổi protocol:** v10 chia lại việc giữa hai GPU cho phiên 2 (cùng ô, cùng seed, cùng code chạy) |
 | 10/11/2026 | commit v13 | **Deviation D-V1D-1:** sửa `WeakModel.init_labels`: hàng có khối lượng 0 (learner L cho xác suất 0 trên mọi ứng viên) quay về đều trên ứng viên thay vì NaN. Chỉ ảnh hưởng các ô trước đây báo lỗi; mọi kết quả cũ giữ nguyên. Có test |
+| 10/11/2026 11:18 (giờ Việt Nam) | **c9009e8** (main) | Thầy chọn **Study 3 bản gọn** và dừng phát triển ở V1D; lượt V1E huỷ. Ghi trước protocol [S3/STUDY3_PLAN](../S3/STUDY3_PLAN.md) và bảng rà tay `S3/s3_review.csv` (20 dataset), **trước** code lượt S3, trước script chấm và trước khi tải dữ liệu Study 3 |
 
 ## Các lượt
 | run_id | Ngày giờ (UTC) | Mã băm code | Lượt | Phần cứng | Thời gian | Trạng thái | Kết quả thô | Ghi chú |
@@ -45,7 +46,8 @@
 | V1C phiên 2 | 08/11 02:13 – khoảng 13:13 | 80 tệp khớp **c886a52** (`s2_code_v10.zip`) | phần còn lại của D, E, F, G | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok; F TabICL thiếu 89/165 ô (bị cắt) | `V2/raw/V1C/` (log phiên 1 ở `session1_logs/`) | bộ test 145 qua, 2 bỏ qua; mọi dòng ok. P15 sai (AUC 0,45), P13 đúng, P12 sai (đã chắc nhờ TabPFN v2 đủ ô). [V1C_REPORT](V1C_REPORT.md) |
 | V0B lần 2 (ngoài ý muốn) | 08/11 18:04 – 22:50 | mã băm code giống hệt V0B cũ (commit của V0B) | thầy định chạy V1D phiên 1 nhưng notebook chạy lượt V0B với code cũ | Kaggle 2 × T4 | 4 giờ 46 phút | ok | không lưu (trùng V0B) | **Kiểm tái lập ngoài kế hoạch:** 312/312 dòng của 7 tệp CSV khớp V0B cũ, chênh 0 (auc, acc, phi, r_actual). Không có số nào của V1D |
 | V1D | 09/11 03:22–12:04 (phiên 1); 10/11 02:33–02:58 (phiên 2, không còn việc) | 84 tệp khớp **874a669** (`s2_code_v12.zip`) | đếm dataset Study 3; hiệu chỉnh q của PLL phụ thuộc mẫu; **mở rộng 08/11 tối:** bộ nhớ đệm L, TabPFN-3 và TabDPT trên 69 ô chung (P16–P18), bối cảnh khó với 4 TFM | Kaggle 2 × T4 | 8 giờ 42 phút | ok trừ 1 ô (bug D-V1D-1) | `V2/raw/V1D/` | P16, P17, P18 đúng; q* chưa chọn được vì 1 ô lỗi NaN; tái lập 14 ô V1C-E chênh 0; [V1D_REPORT](V1D_REPORT.md) |
-| V1E | — | `s2_code_v13.zip` | E1 hoàn tất V1D-2/4; E2 đếm dataset mở rộng; E3 TabPFN-3 và TabDPT trên 96 ô chỉ có TabICL (P19–P21) | Kaggle 2 × T4 | — | chờ thầy chạy | `V2/raw/V1E/` | ghi trước ở [V1E_PLAN](V1E_PLAN.md) `75d0c61` |
+| V1E | — | `s2_code_v13.zip` | (đã huỷ 10/11: thầy chọn Study 3 bản gọn, dừng phát triển ở V1D) | — | — | **huỷ, không chạy** | — | kế hoạch [V1E_PLAN](V1E_PLAN.md) giữ lại làm tư liệu; các việc của V1E thành future work |
+| **S3** (xác nhận) | — | `s2_code_v14.zip` | Study 3 bản gọn: 20 dataset mới, LLP túi 8 và PLL q 0,6, 4 TFM × 3 chuỗi, seed 0–2 | Kaggle 2 × T4, 2–3 phiên | — | chờ thầy duyệt và chạy | `S3/raw/S3/` | protocol [STUDY3_PLAN](../S3/STUDY3_PLAN.md) `c9009e8`, ghi trước code và script chấm |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

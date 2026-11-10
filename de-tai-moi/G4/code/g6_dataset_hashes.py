@@ -34,9 +34,12 @@ def s2_todo():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="dataset_hashes.csv")
-    ap.add_argument("--split", choices=["nc1", "s2"], default="nc1")
+    ap.add_argument("--split", choices=["nc1", "s2", "s3"], default="nc1")
     a = ap.parse_args()
-    todo = s2_todo() if a.split == "s2" else [("eval", "binary", d, n, v) for d, (n, v) in EVAL_BINARY.items()] + \
+    from icgibbs.g7.registry import S3_BINARY, S3_MULTICLASS, S3_SUBSAMPLE
+    s3 = [("s3", "binary", d, n, v) for d, (n, v) in S3_BINARY.items()] + \
+         [("s3", "multiclass", d, n, v) for d, (n, v) in S3_MULTICLASS.items()]
+    todo = s3 if a.split == "s3" else s2_todo() if a.split == "s2" else [("eval", "binary", d, n, v) for d, (n, v) in EVAL_BINARY.items()] + \
            [("eval", "multiclass", d, n, v) for d, (n, v) in EVAL_MULTICLASS.items()] + \
            [("dev", "binary", d, n, None) for d, n in DEV_BINARY.items()] + \
            [("dev", "multiclass", d, n, None) for d, n in DEV_MULTICLASS.items()]
@@ -49,6 +52,8 @@ def main():
                 t = load_openml(did, binary=(task == "binary"))
                 if sset == "s2" and did in S2_SUBSAMPLE:        # như bộ chạy (S2_PLAN §3.4)
                     t = subsample_table(t, S2_SUBSAMPLE[did], seed=0)
+                if sset == "s3" and did in S3_SUBSAMPLE:        # như bộ chạy (STUDY3_PLAN §2)
+                    t = subsample_table(t, S3_SUBSAMPLE[did], seed=0)
                 X = encode_tfm(t.X)
                 rates = np.bincount(t.y) / len(t.y)
                 row.update(version=t.version, md5_openml=t.md5_openml, n_raw=t.n_raw,
@@ -62,6 +67,9 @@ def main():
                 # tiêu chí sau loại trùng (NC1 §1.1; S2_PLAN §3.4): n ≥ 500; nhị phân: lớp nhỏ nhất ≥ 10%
                 ok = len(t.y) >= 500 and (task != "binary" or rates.min() >= 0.10) and \
                     (task != "multiclass" or 3 <= t.n_classes <= 10 or sset == "s2_reserve")
+                if sset == "s3":                                # bậc 3 của S2_PLAN §3.2 (STUDY3_PLAN §2)
+                    ok = len(t.y) >= 500 and X.shape[1] <= 2000 and (task != "binary" or rates.min() >= 0.05) and \
+                        (task != "multiclass" or 3 <= t.n_classes <= 20)
                 row["pass_criteria"] = bool(ok)
             except Exception as e:  # ghi lỗi, làm tiếp dataset khác
                 row["status"] = f"error: {e!r}"[:200]
