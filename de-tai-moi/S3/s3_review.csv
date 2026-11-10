@@ -1,0 +1,44 @@
+did,name,version,group,step,n,d,n_classes,minority_frac,decision,s1_flag,reason
+14,mfeat-fourier,1,multiclass,0,2000,76,10,0.1,exclude,False,cùng nguồn với mfeat-factors (12) của NC1 (UCI Multiple Features)
+15,breast-w,1,binary,0,699,9,2,0.3448,exclude,False,"cùng nhóm nguồn với wdbc (1510) của NC1 (Wolberg, Đại học Wisconsin); loại theo cách thận trọng"
+16,mfeat-karhunen,1,multiclass,0,2000,64,10,0.1,exclude,False,cùng nguồn với mfeat-factors (12)
+18,mfeat-morphological,1,multiclass,0,2000,6,10,0.1,exclude,False,cùng nguồn với mfeat-factors (12)
+20,mfeat-pixel,1,multiclass,0,2000,240,10,0.1,exclude,False,cùng nguồn với mfeat-factors (12)
+22,mfeat-zernike,1,multiclass,0,2000,47,10,0.1,exclude,False,cùng nguồn với mfeat-factors (12)
+32,pendigits,1,multiclass,1,10992,16,10,0.096,exclude,False,cùng nhóm nguồn với optdigits (28) của NC1 (chữ số viết tay của nhóm Alpaydin); loại theo cách thận trọng
+42,soybean,1,multiclass,2,683,35,19,0.0117,keep,False,dữ liệu thật (UCI Soybean Large); 19 lớp
+60,waveform-5000,1,multiclass,0,5000,40,3,0.3306,exclude,False,nhân tạo (bộ sinh sóng)
+307,vowel,2,multiclass,2,990,12,11,0.0909,keep,True,"dữ liệu thật (UCI vowel, Deterding); khác nguồn với JapaneseVowels; S1: nhiều mẫu mỗi người nói"
+333,monks-problems-1,1,binary,0,556,6,2,0.5,exclude,False,bài toán nhân tạo (Thrun 1991)
+334,monks-problems-2,1,binary,0,601,6,2,0.3428,exclude,False,bài toán nhân tạo (Thrun 1991)
+335,monks-problems-3,1,binary,0,554,6,2,0.4801,exclude,False,bài toán nhân tạo (Thrun 1991)
+377,synthetic_control,1,multiclass,0,600,60,6,0.1667,exclude,False,chuỗi thời gian tổng hợp
+1038,gina_agnostic,1,binary,3,3468,970,2,0.4916,keep,False,"dữ liệu thật (chữ số viết tay, thử thách Agnostic Learning); đại diện nhóm gina (ID nhỏ nhất)"
+1046,mozilla4,1,binary,1,15545,5,2,0.3286,keep,False,"dữ liệu thật (PROMISE, Mozilla)"
+1050,pc3,1,binary,0,1563,37,2,0.1024,exclude,False,cùng nguồn với pc4 (1049) của NC1 (NASA MDP)
+1053,jm1,1,binary,1,10885,21,2,0.1935,exclude,False,cùng nguồn với pc4 (1049) của NC1 (NASA MDP)
+1063,kc2,1,binary,0,522,21,2,0.205,exclude,False,cùng nguồn với pc4 (1049) của NC1 (NASA MDP)
+1067,kc1,1,binary,0,2109,21,2,0.1546,exclude,False,cùng nguồn với pc4 (1049) của NC1 (NASA MDP)
+1068,pc1,1,binary,3,1109,21,2,0.0694,exclude,False,cùng nguồn với pc4 (1049) của NC1 (NASA MDP)
+1467,climate-model-simulation-crashes,1,binary,3,540,20,2,0.0852,keep,True,kết quả chạy mô phỏng khí hậu thật; S1: feature là tham số lấy mẫu theo thiết kế
+1468,cnae-9,1,multiclass,3,1080,856,9,0.1111,keep,False,"dữ liệu thật (văn bản mô tả doanh nghiệp, UCI CNAE-9)"
+1478,har,1,multiclass,3,10299,561,6,0.1365,keep,True,"dữ liệu thật (cảm biến điện thoại, UCI HAR); S1: chuỗi theo người đeo"
+1485,madelon,1,binary,0,2600,500,2,0.5,exclude,False,"nhân tạo (Guyon, NIPS 2003)"
+1487,ozone-level-8hr,1,binary,3,2534,72,2,0.0631,keep,True,dữ liệu thật (UCI ozone); S1: chuỗi thời gian
+1515,micro-mass,2,multiclass,3,571,1300,20,0.0193,keep,False,"dữ liệu thật (phổ khối, UCI MicroMass); 20 lớp"
+4134,Bioresponse,1,binary,3,3751,1776,2,0.4577,keep,False,"dữ liệu thật (Boehringer Ingelheim, Kaggle Bioresponse)"
+4534,PhishingWebsites,1,binary,1,11055,30,2,0.4431,exclude,False,cùng nhóm nguồn với website_phishing (46963) của S2 (nhóm Thabtah); loại theo cách thận trọng
+4538,GesturePhaseSegmentationProcessed,1,multiclass,0,9873,32,5,0.1011,keep,True,"dữ liệu thật (cử chỉ, UCI); cờ 'segment' của script là trùng mẫu tên, không cùng nguồn; S1: khung hình liên tiếp"
+40496,LED-display-domain-7digit,1,multiclass,0,500,7,10,0.074,exclude,False,nhân tạo (bộ sinh LED)
+40499,texture,1,multiclass,2,5500,40,11,0.0909,keep,False,dữ liệu thật (ELENA texture); 11 lớp
+40670,dna,1,multiclass,0,3186,180,3,0.2401,exclude,False,cùng nguồn với splice (46) của NC1 (Primate splice-junction)
+40701,churn,1,binary,0,5000,20,2,0.1414,exclude,False,nhân tạo theo mô tả nguồn (churn của MLC++/BigML)
+41158,gina,1,binary,3,3153,970,2,0.4916,exclude,False,cùng nguồn với gina_agnostic (1038); giữ ID nhỏ nhất
+46916,coil2000_insurance_policies,1,binary,3,9822,85,2,0.0597,keep,False,dữ liệu thật (TabArena; CoIL 2000)
+46924,E-CommereShippingData,1,binary,1,10999,10,2,0.4033,keep,False,dữ liệu thật (TabArena)
+46933,hiva_agnostic,2,multiclass,3,3845,1617,3,0.0109,keep,False,dữ liệu thật (TabArena; HIVA)
+46935,HR_Analytics_Job_Change_of_Data_Scientists,1,binary,1,19158,12,2,0.2493,keep,False,dữ liệu thật (TabArena)
+46937,in_vehicle_coupon_recommendation,1,binary,1,12684,24,2,0.4316,keep,False,"dữ liệu thật (TabArena; khảo sát); cờ 'vehicle' của script là trùng mẫu tên, không cùng nguồn"
+46947,online_shoppers_intention,1,binary,1,12330,17,2,0.1547,keep,False,dữ liệu thật (TabArena)
+46950,polish_companies_bankruptcy,1,binary,3,5910,64,2,0.0694,keep,False,dữ liệu thật (TabArena)
+46956,seismic-bumps,4,binary,3,2584,15,2,0.0658,keep,False,dữ liệu thật (TabArena)
