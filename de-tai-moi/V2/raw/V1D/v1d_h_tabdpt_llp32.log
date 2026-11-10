@@ -1,0 +1,13 @@
+run_g7 · part=v0 · split=dev · backend=tabdpt · code=py-46ab99882343 · config=57bf7b7cf64086f7
+
+=== 31 credit-g: n=1000 (loại trùng 0), d=20, C=2, sha256=1e20589711b9
+
+=== 37 diabetes: n=768 (loại trùng 0), d=8, C=2, sha256=11b8b737b37f
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+
+=== 1462 banknote-authentication: n=1348 (loại trùng 24), d=4, C=2, sha256=bee246691be8
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b

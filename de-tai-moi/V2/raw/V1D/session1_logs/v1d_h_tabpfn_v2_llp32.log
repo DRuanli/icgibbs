@@ -1,0 +1,104 @@
+run_g7 · part=v0 · split=dev · backend=tabpfn_v2 · code=py-46ab99882343 · config=df15c9043eabdf1c
+
+=== 31 credit-g: n=1000 (loại trùng 0), d=20, C=2, sha256=1e20589711b9
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                credit-g llp       32 s0 gibbs_init_warm  0.6221 64.7s
+                credit-g llp       32 s0 base_start       0.6801 0.0s
+                credit-g llp       32 s0 gibbs_init_base  0.5038 57.8s
+                credit-g llp       32 s0 gibbs_init_cold  0.4386 57.4s
+                credit-g llp       32 s0 gibbs_ms         0.5038 0.0s
+                credit-g llp       32 s1 gibbs_init_warm  0.5669 58.8s
+                credit-g llp       32 s1 base_start       0.6402 0.0s
+                credit-g llp       32 s1 gibbs_init_base  0.5097 57.5s
+                credit-g llp       32 s1 gibbs_init_cold  0.5859 57.4s
+                credit-g llp       32 s1 gibbs_ms         0.5097 0.0s
+                credit-g llp       32 s2 gibbs_init_warm  0.7188 59.0s
+                credit-g llp       32 s2 base_start       0.6262 0.0s
+                credit-g llp       32 s2 gibbs_init_base  0.5505 57.6s
+                credit-g llp       32 s2 gibbs_init_cold  0.5291 57.4s
+                credit-g llp       32 s2 gibbs_ms         0.7188 0.0s
+
+=== 37 diabetes: n=768 (loại trùng 0), d=8, C=2, sha256=11b8b737b37f
+                diabetes llp       32 s0 gibbs_init_warm  0.7077 28.1s
+                diabetes llp       32 s0 base_start       0.7787 0.0s
+                diabetes llp       32 s0 gibbs_init_base  0.8124 26.8s
+                diabetes llp       32 s0 gibbs_init_cold  0.3719 26.8s
+                diabetes llp       32 s0 gibbs_ms         0.7077 0.0s
+                diabetes llp       32 s1 gibbs_init_warm  0.7534 28.0s
+                diabetes llp       32 s1 base_start       0.6634 0.0s
+                diabetes llp       32 s1 gibbs_init_base  0.6884 26.9s
+                diabetes llp       32 s1 gibbs_init_cold  0.5382 26.9s
+                diabetes llp       32 s1 gibbs_ms         0.6884 0.0s
+                diabetes llp       32 s2 gibbs_init_warm  0.6524 28.1s
+                diabetes llp       32 s2 base_start       0.4877 0.0s
+                diabetes llp       32 s2 gibbs_init_base  0.3180 26.8s
+                diabetes llp       32 s2 gibbs_init_cold  0.6027 26.9s
+                diabetes llp       32 s2 gibbs_ms         0.6027 0.0s
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+  blood-transfusion-serv llp       32 s0 gibbs_init_warm  0.6035 25.1s
+  blood-transfusion-serv llp       32 s0 base_start       0.6634 0.0s
+  blood-transfusion-serv llp       32 s0 gibbs_init_base  0.7150 24.3s
+  blood-transfusion-serv llp       32 s0 gibbs_init_cold  0.6272 24.2s
+  blood-transfusion-serv llp       32 s0 gibbs_ms         0.6035 0.0s
+  blood-transfusion-serv llp       32 s1 gibbs_init_warm  0.7292 25.1s
+  blood-transfusion-serv llp       32 s1 base_start       0.6728 0.0s
+  blood-transfusion-serv llp       32 s1 gibbs_init_base  0.7029 24.3s
+  blood-transfusion-serv llp       32 s1 gibbs_init_cold  0.6724 24.3s
+  blood-transfusion-serv llp       32 s1 gibbs_ms         0.7292 0.0s
+  blood-transfusion-serv llp       32 s2 gibbs_init_warm  0.4622 25.4s
+  blood-transfusion-serv llp       32 s2 base_start       0.7061 0.0s
+  blood-transfusion-serv llp       32 s2 gibbs_init_base  0.6506 24.0s
+  blood-transfusion-serv llp       32 s2 gibbs_init_cold  0.4444 24.6s
+  blood-transfusion-serv llp       32 s2 gibbs_ms         0.6506 0.0s
+
+=== 1462 banknote-authentication: n=1348 (loại trùng 24), d=4, C=2, sha256=bee246691be8
+  banknote-authenticatio llp       32 s0 gibbs_init_warm  1.0000 30.4s
+  banknote-authenticatio llp       32 s0 base_start       1.0000 0.0s
+  banknote-authenticatio llp       32 s0 gibbs_init_base  1.0000 28.6s
+  banknote-authenticatio llp       32 s0 gibbs_init_cold  1.0000 28.3s
+  banknote-authenticatio llp       32 s0 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp       32 s1 gibbs_init_warm  1.0000 30.6s
+  banknote-authenticatio llp       32 s1 base_start       1.0000 0.0s
+  banknote-authenticatio llp       32 s1 gibbs_init_base  1.0000 28.5s
+  banknote-authenticatio llp       32 s1 gibbs_init_cold  1.0000 28.6s
+  banknote-authenticatio llp       32 s1 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp       32 s2 gibbs_init_warm  1.0000 30.4s
+  banknote-authenticatio llp       32 s2 base_start       1.0000 0.0s
+  banknote-authenticatio llp       32 s2 gibbs_init_base  1.0000 28.7s
+  banknote-authenticatio llp       32 s2 gibbs_init_cold  1.0000 28.4s
+  banknote-authenticatio llp       32 s2 gibbs_ms         1.0000 0.0s
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+                    ilpd llp       32 s0 gibbs_init_warm  0.3245 31.8s
+                    ilpd llp       32 s0 base_start       0.4734 0.0s
+                    ilpd llp       32 s0 gibbs_init_base  0.4108 31.0s
+                    ilpd llp       32 s0 gibbs_init_cold  0.3085 30.8s
+                    ilpd llp       32 s0 gibbs_ms         0.3245 0.0s
+                    ilpd llp       32 s1 gibbs_init_warm  0.2999 32.0s
+                    ilpd llp       32 s1 base_start       0.4057 0.0s
+                    ilpd llp       32 s1 gibbs_init_base  0.6569 31.2s
+                    ilpd llp       32 s1 gibbs_init_cold  0.6449 31.3s
+                    ilpd llp       32 s1 gibbs_ms         0.6449 0.0s
+                    ilpd llp       32 s2 gibbs_init_warm  0.7670 32.4s
+                    ilpd llp       32 s2 base_start       0.4716 0.0s
+                    ilpd llp       32 s2 gibbs_init_base  0.6835 31.0s
+                    ilpd llp       32 s2 gibbs_init_cold  0.7472 31.1s
+                    ilpd llp       32 s2 gibbs_ms         0.7670 0.0s
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b
+                    wdbc llp       32 s0 gibbs_init_warm  0.9933 49.5s
+                    wdbc llp       32 s0 base_start       0.9533 0.0s
+                    wdbc llp       32 s0 gibbs_init_base  0.8557 48.8s
+                    wdbc llp       32 s0 gibbs_init_cold  0.8407 48.7s
+                    wdbc llp       32 s0 gibbs_ms         0.9933 0.0s
+                    wdbc llp       32 s1 gibbs_init_warm  0.9817 49.6s
+                    wdbc llp       32 s1 base_start       0.9648 0.0s
+                    wdbc llp       32 s1 gibbs_init_base  0.9838 48.4s
+                    wdbc llp       32 s1 gibbs_init_cold  0.9466 48.8s
+                    wdbc llp       32 s1 gibbs_ms         0.9817 0.0s
+                    wdbc llp       32 s2 gibbs_init_warm  0.9756 49.4s
+                    wdbc llp       32 s2 base_start       0.9809 0.0s
+                    wdbc llp       32 s2 gibbs_init_base  0.9661 48.9s
+                    wdbc llp       32 s2 gibbs_init_cold  0.7788 48.4s
+                    wdbc llp       32 s2 gibbs_ms         0.9756 0.0s

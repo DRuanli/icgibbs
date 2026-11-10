@@ -1,0 +1,26 @@
+lượt V1D bắt đầu: Tue Nov 10 02:33:44 AM UTC 2026
+150 passed, 2 skipped, 29304 warnings in 1084.79s (0:18:04)
+GPU1 xong v1d_calib_tabicl_inst: Tue Nov 10 02:53:46 AM UTC 2026
+chưa đủ: tham chiếu 9/9, hiệu chỉnh 26/27
+q* (V1D_PLAN §2): chưa chọn được
+GPU0 xong v1d_c_tabpfn_v3_llp_eval: Tue Nov 10 02:53:47 AM UTC 2026
+GPU1 xong v1d_c_tabdpt_llp_eval: Tue Nov 10 02:54:22 AM UTC 2026
+GPU1 xong v1d_c_tabdpt_llp_dev: Tue Nov 10 02:54:25 AM UTC 2026
+GPU0 xong v1d_c_tabpfn_v3_llp_dev: Tue Nov 10 02:54:27 AM UTC 2026
+CPU xong đếm dataset: Tue Nov 10 02:56:48 AM UTC 2026
+CPU xong v1d_c_lprefetch_c_llp_eval: Tue Nov 10 02:56:50 AM UTC 2026
+CPU xong v1d_c_lprefetch_c_llp_dev: Tue Nov 10 02:56:52 AM UTC 2026
+CPU xong v1d_c_lprefetch_c_pll_eval: Tue Nov 10 02:57:20 AM UTC 2026
+GPU1 xong v1d_c_tabdpt_pll_eval: Tue Nov 10 02:57:21 AM UTC 2026
+GPU0 xong v1d_c_tabpfn_v3_pll_eval: Tue Nov 10 02:57:24 AM UTC 2026
+GPU1 xong v1d_c_tabdpt_pll_dev: Tue Nov 10 02:57:33 AM UTC 2026
+GPU0 xong v1d_c_tabpfn_v3_pll_dev: Tue Nov 10 02:57:33 AM UTC 2026
+CPU xong v1d_c_lprefetch_c_pll_dev: Tue Nov 10 02:57:34 AM UTC 2026
+GPU1 xong v1d_h_tabdpt_llp32: Tue Nov 10 02:57:53 AM UTC 2026
+chưa có q* (V1D-2 chưa đủ 27 ô): bỏ qua PLL phụ thuộc mẫu cho tabdpt ở phiên này
+CPU xong v1d_lprefetch_llp32: Tue Nov 10 02:57:55 AM UTC 2026
+GPU0 xong v1d_h_tabpfn_v3_llp32: Tue Nov 10 02:57:58 AM UTC 2026
+chưa có q* (V1D-2 chưa đủ 27 ô): bỏ qua PLL phụ thuộc mẫu cho tabpfn_v3 ở phiên này
+GPU0 xong v1d_h_tabpfn_v2_llp32: Tue Nov 10 02:58:00 AM UTC 2026
+chưa có q* (V1D-2 chưa đủ 27 ô): bỏ qua PLL phụ thuộc mẫu cho tabpfn_v2 ở phiên này
+lượt V1D kết thúc: Tue Nov 10 02:58:00 AM UTC 2026

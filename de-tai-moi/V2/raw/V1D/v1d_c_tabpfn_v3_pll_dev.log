@@ -1,0 +1,7 @@
+run_g7 · part=v0 · split=dev · backend=tabpfn_v3 · code=py-46ab99882343 · config=afe8e463b6d531c7
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+
+=== 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e

@@ -72,3 +72,19 @@ def test_choose_q_rule(tmp_path, capsys):
     os.remove(cal / "v1_tabicl_v2_54_pll_inst_0.2_s0.npz")
     V.main(["--calib_dir", str(cal), "--ref_dir", str(ref)])
     assert capsys.readouterr().out.strip() == ""                # chưa đủ ô → không chọn
+
+
+def test_init_labels_zero_mass_rows_fall_back_to_candidates():
+    from icgibbs.weak import PartialLabel
+    S = np.array([[1, 1, 0], [0, 1, 1], [1, 0, 1]], bool)
+    wm = PartialLabel(S)
+    P0 = np.array([[0.5, 0.5, 0.0], [1.0, 0.0, 0.0], [0.2, 0.3, 0.5]])     # hàng 2: P0 = 0 trên {1, 2}
+    rng = np.random.default_rng(0)
+    y = wm.init_labels(rng, P0)
+    assert all(S[i, y[i]] for i in range(3))
+    # hàng có khối lượng dương không đổi so với cách cũ (cùng rng)
+    W = (S * P0)[[0, 2]]
+    W = W / W.sum(1, keepdims=True)
+    rng2 = np.random.default_rng(0)
+    old0 = rng2.choice(3, p=W[0])
+    assert y[0] == old0

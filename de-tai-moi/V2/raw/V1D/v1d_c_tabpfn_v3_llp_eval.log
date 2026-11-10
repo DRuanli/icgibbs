@@ -1,0 +1,16 @@
+run_g7 · part=v0 · split=eval · backend=tabpfn_v3 · code=py-46ab99882343 · config=afe8e463b6d531c7
+
+=== 3 kr-vs-kp: n=3196 (loại trùng 0), d=36, C=2, sha256=8020e6fe6fb1
+
+=== 29 credit-approval: n=690 (loại trùng 0), d=15, C=2, sha256=07a2a892f2fb
+
+=== 44 spambase: n=4210 (loại trùng 391), d=57, C=2, sha256=5d911e5155f2
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/features/1049. Retrying...
+  warn(
+[lỗi tải] 1049: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1489. Retrying...
+  warn(
+[lỗi tải] 1489: <HTTPError 503: 'Service Temporarily Unavailable'>
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/1494. Retrying...
+  warn(
+[lỗi tải] 1494: <HTTPError 503: 'Service Temporarily Unavailable'>

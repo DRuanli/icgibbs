@@ -26,6 +26,59 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## V2 — lượt V1E dùng `s2_code_v13.zip` (10/11/2026)
+
+Kế hoạch ghi trước ở [V2/V1E_PLAN](../V2/V1E_PLAN.md), commit `75d0c61`. Lượt gồm ba phần:
+- **E1:** hoàn tất phần PLL phụ thuộc mẫu, sau khi sửa lỗi NaN.
+- **E2:** đếm dataset Study 3 trên toàn bộ OpenML.
+- **E3:** chạy TabPFN-3 và TabDPT trên 96 ô của V1 mà trước đây chỉ có TabICL.
+
+Ước lượng khoảng 1–2 phiên.
+
+**Notebook mới:** GPU T4 × 2, Internet On, Secret `TABPFN_TOKEN`.
+- **Add data:**
+  - `icgibbs-g4` bản mới, có `s2_code_v13.zip`;
+  - output của **V1B**;
+  - output của **V1D**, lấy phiên mới nhất;
+  - ở phiên 2, thêm output phiên 1 của V1E.
+- **Ô 1:**
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 tabdpt==1.3.1 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v13/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+for sub in ("v1_npz", "v1d_npz", "v1e_npz", "l_cache"):
+    os.makedirs(f"/kaggle/working/{sub}", exist_ok=True)
+    for f in glob.glob(f"/kaggle/input/**/{sub}/*.npz", recursive=True):
+        shutil.copy(f, f"/kaggle/working/{sub}/")
+for pat in ("v1d_calib_tabicl_inst.csv", "v1e_*.csv"):
+    for f in glob.glob(f"/kaggle/input/**/{pat}", recursive=True):
+        shutil.copy(f, "/kaggle/working/")
+print({s: len(glob.glob(f"/kaggle/working/{s}/*.npz")) for s in ("v1_npz", "v1d_npz", "v1e_npz", "l_cache")})
+print("calib csv:", os.path.exists("/kaggle/working/v1d_calib_tabicl_inst.csv"))
+```
+- **Kết quả ô 1 ở phiên 1:**
+  - `v1_npz` ≥ 165;
+  - `v1d_npz` = 218;
+  - `l_cache` = 114;
+  - `v1e_npz` = 0;
+  - `calib csv: True`.
+- **Ô 2:** như ô 2 của V1C, đổi `LOT = "V1E"`.
+- **Kiểm nhanh:** dòng đầu của `s2_V1E_master_log.txt` phải là "lượt V1E bắt đầu".
+- **Gửi lại:**
+  - `s2_V1E_*`, `s3_census_*`;
+  - mọi tệp `v1e_*.csv`, `v1e_*.log`;
+  - `v1d_calib_tabicl_inst.csv`, `v1d_q.txt`;
+  - thư mục `v1e_npz/`;
+  - 3 tệp `v1_tabicl_v2_36_pll_inst_0.4_s*.npz` trong `v1d_npz/`.
+
 ## V2 — lượt V1D dùng `s2_code_v12.zip` (08/11/2026, mở rộng tối 08/11)
 
 Thầy duyệt ngày 08/11. Ghi trước ở [V2/V1D_PLAN](../V2/V1D_PLAN.md): §1–§2 ở commit `8138f9b`, phần mở rộng §3 ở commit `4203d9b`. **Không dùng `s2_code_v11.zip`.**

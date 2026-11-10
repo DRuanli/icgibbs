@@ -1,0 +1,17 @@
+run_g7 · part=v0 · split=dev · backend=tabicl_v2 · code=py-46ab99882343 · config=592503a495c89197
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/kaggle/working/code/icgibbs/weak.py:58: RuntimeWarning: invalid value encountered in divide
+  W = W / W.sum(1, keepdims=True)
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+[lỗi] 36 pll 0.4 s1 gibbs_init_base: ValueError('Probabilities contain NaN')
+/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:110: UserWarning: A network error occurred while downloading https://api.openml.org/api/v1/json/data/23. Retrying...
+  warn(
+[lỗi tải] 23: <HTTPError 503: 'Service Temporarily Unavailable'>

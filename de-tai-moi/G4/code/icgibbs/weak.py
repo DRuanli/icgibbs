@@ -55,6 +55,10 @@ class WeakModel:
         """Khởi tạo hợp lệ: y_i ~ (P0_i ·) ℓ_i chuẩn hoá. P0 là dự đoán ban đầu tuỳ chọn."""
         L = self.lik()
         W = L if P0 is None else L * P0
+        if P0 is not None:                      # V1D (10/11): P0 = 0 trên mọi nhãn khả dĩ → về khả dĩ đều trên ℓ_i.
+            z = ~(W.sum(1) > 0)                 # Trước đây các hàng này gây NaN và ô báo lỗi; hàng khác không đổi.
+            if z.any():
+                W = np.where(z[:, None], L, W)
         W = W / W.sum(1, keepdims=True)
         return np.array([rng.choice(self.n_classes, p=w) for w in W])
 

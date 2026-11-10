@@ -1,0 +1,69 @@
+run_g7 · part=v0 · split=dev · backend=tabpfn_v3 · code=py-46ab99882343 · config=afe8e463b6d531c7
+
+=== 1464 blood-transfusion-service-center: n=533 (loại trùng 215), d=4, C=2, sha256=2fb73ba225c5
+  blood-transfusion-serv llp        8 s0 gibbs_init_warm  0.5764 130.5s
+  blood-transfusion-serv llp        8 s0 base_start       0.7548 0.0s
+  blood-transfusion-serv llp        8 s0 gibbs_init_base  0.6170 123.0s
+  blood-transfusion-serv llp        8 s0 gibbs_init_cold  0.6323 126.5s
+  blood-transfusion-serv llp        8 s0 gibbs_ms         0.6170 0.0s
+  blood-transfusion-serv llp        8 s1 gibbs_init_warm  0.4871 86.6s
+  blood-transfusion-serv llp        8 s1 base_start       0.5696 0.0s
+  blood-transfusion-serv llp        8 s1 gibbs_init_base  0.3881 81.0s
+  blood-transfusion-serv llp        8 s1 gibbs_init_cold  0.5557 79.6s
+  blood-transfusion-serv llp        8 s1 gibbs_ms         0.5557 0.0s
+  blood-transfusion-serv llp        8 s2 gibbs_init_warm  0.6157 79.7s
+  blood-transfusion-serv llp        8 s2 base_start       0.7127 0.0s
+  blood-transfusion-serv llp        8 s2 gibbs_init_base  0.7326 77.1s
+  blood-transfusion-serv llp        8 s2 gibbs_init_cold  0.6466 74.1s
+  blood-transfusion-serv llp        8 s2 gibbs_ms         0.6466 0.0s
+
+=== 1462 banknote-authentication: n=1348 (loại trùng 24), d=4, C=2, sha256=bee246691be8
+  banknote-authenticatio llp        8 s0 gibbs_init_warm  1.0000 89.5s
+  banknote-authenticatio llp        8 s0 base_start       1.0000 0.0s
+  banknote-authenticatio llp        8 s0 gibbs_init_base  1.0000 82.2s
+  banknote-authenticatio llp        8 s0 gibbs_init_cold  1.0000 86.1s
+  banknote-authenticatio llp        8 s0 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp        8 s1 gibbs_init_warm  1.0000 87.0s
+  banknote-authenticatio llp        8 s1 base_start       1.0000 0.0s
+  banknote-authenticatio llp        8 s1 gibbs_init_base  1.0000 80.3s
+  banknote-authenticatio llp        8 s1 gibbs_init_cold  1.0000 76.4s
+  banknote-authenticatio llp        8 s1 gibbs_ms         1.0000 0.0s
+  banknote-authenticatio llp        8 s2 gibbs_init_warm  1.0000 94.4s
+  banknote-authenticatio llp        8 s2 base_start       1.0000 0.0s
+  banknote-authenticatio llp        8 s2 gibbs_init_base  1.0000 80.5s
+  banknote-authenticatio llp        8 s2 gibbs_init_cold  1.0000 79.9s
+  banknote-authenticatio llp        8 s2 gibbs_ms         1.0000 0.0s
+
+=== 1480 ilpd: n=570 (loại trùng 13), d=10, C=2, sha256=cdbb3df6166b
+                    ilpd llp        8 s0 gibbs_init_warm  0.7646 82.4s
+                    ilpd llp        8 s0 base_start       0.6439 0.0s
+                    ilpd llp        8 s0 gibbs_init_base  0.4859 80.6s
+                    ilpd llp        8 s0 gibbs_init_cold  0.6957 84.7s
+                    ilpd llp        8 s0 gibbs_ms         0.7646 0.0s
+                    ilpd llp        8 s1 gibbs_init_warm  0.6944 89.2s
+                    ilpd llp        8 s1 base_start       0.6464 0.0s
+                    ilpd llp        8 s1 gibbs_init_base  0.7049 82.9s
+                    ilpd llp        8 s1 gibbs_init_cold  0.5739 81.8s
+                    ilpd llp        8 s1 gibbs_ms         0.7049 0.0s
+                    ilpd llp        8 s2 gibbs_init_warm  0.6228 91.6s
+                    ilpd llp        8 s2 base_start       0.5840 0.0s
+                    ilpd llp        8 s2 gibbs_init_base  0.6355 80.9s
+                    ilpd llp        8 s2 gibbs_init_cold  0.5601 78.8s
+                    ilpd llp        8 s2 gibbs_ms         0.6355 0.0s
+
+=== 1510 wdbc: n=569 (loại trùng 0), d=30, C=2, sha256=0b0665533a1b
+                    wdbc llp        8 s0 gibbs_init_warm  0.9952 81.5s
+                    wdbc llp        8 s0 base_start       0.9877 0.0s
+                    wdbc llp        8 s0 gibbs_init_base  0.9952 83.3s
+                    wdbc llp        8 s0 gibbs_init_cold  0.9936 82.8s
+                    wdbc llp        8 s0 gibbs_ms         0.9952 0.0s
+                    wdbc llp        8 s1 gibbs_init_warm  0.9889 85.2s
+                    wdbc llp        8 s1 base_start       0.9838 0.0s
+                    wdbc llp        8 s1 gibbs_init_base  0.9889 81.7s
+                    wdbc llp        8 s1 gibbs_init_cold  0.9892 82.3s
+                    wdbc llp        8 s1 gibbs_ms         0.9892 0.0s
+                    wdbc llp        8 s2 gibbs_init_warm  0.9908 84.1s
+                    wdbc llp        8 s2 base_start       0.9917 0.0s
+                    wdbc llp        8 s2 gibbs_init_base  0.9908 80.6s
+                    wdbc llp        8 s2 gibbs_init_cold  0.9909 81.8s
+                    wdbc llp        8 s2 gibbs_ms         0.9908 0.0s

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C V1D}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C V1D V1E}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -163,6 +163,54 @@ case $LOT in
         v1_ 1 pll_dev_tabicl tabicl_v2 --split dev --settings pll --levels "pll=0.6" --datasets $PLL_D ) &
       wait
     fi ;;
+  V1E)
+    # V2 (V2/V1E_PLAN.md, ghi trước 10/11): E1 hoàn tất V1D-2/V1D-4 sau sửa D-V1D-1; E2 đếm dataset mở rộng (CPU);
+    # E3 TabPFN-3 và TabDPT trên 96 ô V1 chỉ có TabICL (P19–P21). Cần output V1B (v1_npz) và V1D (v1d_npz, l_cache,
+    # v1d_*.csv) làm dữ liệu. Cần s2_code_v13
+    [ -f v1d_choose_q.py ] && grep -q "all_openml" s3_dataset_census.py || { echo "BẢN CODE CŨ: dùng s2_code_v13.zip"; exit 3; }
+    LC="$OUT/l_cache"; DD="$OUT/v1d_npz"; ND="$OUT/v1e_npz"; mkdir -p "$LC" "$DD" "$ND"
+    PD=54,36,23; S2X_=(--split s2 --eval-ok --explore)
+    r_ () {   # r_ <GPU ('' = CPU)> <tên> <đối số run_g7...>
+      local g=$1 tag=$2; shift 2
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py --part v0 --l_cache "$LC" "$@" --out "$OUT/v1e_${tag}.csv" \
+        >> "$OUT/v1e_${tag}.log" 2>&1
+      if [ -n "$g" ]; then echo "GPU$g xong v1e_$tag: $(date)"; else echo "CPU xong v1e_$tag: $(date)"; fi
+    }
+    qstar_ () { python v1d_choose_q.py --calib_dir "$DD" --ref_dir "$OUT/v1_npz"; }
+    inst_ () {    # inst_ <GPU> <backend>: E1, PLL phụ thuộc mẫu ở q*
+      local g=$1 be=$2 q; q=$(qstar_)
+      for k in $(seq 1 60); do [ -n "$q" ] && break; sleep 30; q=$(qstar_); done
+      if [ -n "$q" ]; then
+        r_ "$g" inst_${be} --backend $be --split dev --settings pll --levels "pll=$q" --datasets $PD --weak_variant inst \
+          --starts warm,base,cold --save_dir "$ND"
+      else echo "không có q* sau 30 phút: bỏ qua E1 cho $be"; fi
+    }
+    e3_ () {      # e3_ <GPU> <backend> <đối số thêm...>: 96 ô V1 chỉ có TabICL
+      local g=$1 be=$2; shift 2
+      r_ "$g" e3_${be}_pll_s2 --backend $be "${S2X_[@]}" --settings pll --levels "pll=0.6" --starts warm,base,cold --save_dir "$ND" "$@"
+      r_ "$g" e3_${be}_llp_dev --backend $be --split dev --settings llp --levels "llp=8" --datasets 31,37 --starts warm,base,cold --save_dir "$ND" "$@"
+      r_ "$g" e3_${be}_llp_eval --backend $be --split eval --eval-ok --settings llp --levels "llp=8" --datasets 23381,38 --starts warm,base,cold --save_dir "$ND" "$@"
+    }
+    ( CUDA_VISIBLE_DEVICES= python s3_dataset_census.py --all_openml --out "$OUT" > "$OUT/v1e_census.log" 2>&1
+      echo "CPU xong đếm dataset mở rộng: $(date)"
+      r_ "" lpre_llp_s2 --backend tabicl_v2 --l_only "${S2X_[@]}" --settings llp --levels "llp=8"
+      r_ "" lpre_pll_s2 --backend tabicl_v2 --l_only "${S2X_[@]}" --settings pll --levels "pll=0.6"
+      r_ "" lpre_llp_dev --backend tabicl_v2 --l_only --split dev --settings llp --levels "llp=8" --datasets 31,37
+      r_ "" lpre_llp_eval --backend tabicl_v2 --l_only --split eval --eval-ok --settings llp --levels "llp=8" --datasets 23381,38 ) &
+    ( inst_ 0 tabpfn_v3
+      e3_ 0 tabpfn_v3
+      r_ 0 e3_tabpfn_v3_llp_s2_sh0 --backend tabpfn_v3 "${S2X_[@]}" --settings llp --levels "llp=8" --starts warm,base,cold --save_dir "$ND" --shard 0/3
+      r_ 0 e3_tabpfn_v3_llp_s2_sh1 --backend tabpfn_v3 "${S2X_[@]}" --settings llp --levels "llp=8" --starts warm,base,cold --save_dir "$ND" --shard 1/3 ) &
+    ( CUDA_VISIBLE_DEVICES=1 python run_g7.py --part v0 --l_cache "$LC" --backend tabicl_v2 --split dev --settings pll \
+        --levels "pll=0.2,0.3,0.4" --datasets $PD --weak_variant inst --starts warm,base,cold --save_dir "$DD" \
+        --out "$OUT/v1d_calib_tabicl_inst.csv" >> "$OUT/v1e_calib_fix.log" 2>&1
+      q=$(qstar_); echo "${q:-none}" > "$OUT/v1d_q.txt"; echo "q* (V1D_PLAN §2): ${q:-chưa chọn được}"
+      inst_ 1 tabdpt
+      inst_ 1 tabpfn_v2
+      e3_ 1 tabdpt
+      r_ 1 e3_tabdpt_llp_s2 --backend tabdpt "${S2X_[@]}" --settings llp --levels "llp=8" --starts warm,base,cold --save_dir "$ND"
+      r_ 1 e3_tabpfn_v3_llp_s2_sh2 --backend tabpfn_v3 "${S2X_[@]}" --settings llp --levels "llp=8" --starts warm,base,cold --save_dir "$ND" --shard 2/3 ) &
+    wait ;;
   V1D)
     # V2 sau V1C (thầy duyệt 08/11; V2/V1D_PLAN.md §1–§3): CPU đếm dataset Study 3 rồi tính trước learner L (--l_only);
     # GPU 1: hiệu chỉnh q của PLL phụ thuộc mẫu (TabICL) → chọn q* → TabDPT trên 69 ô chung của V1 → bối cảnh khó;

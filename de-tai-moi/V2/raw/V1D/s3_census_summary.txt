@@ -1,0 +1,16 @@
+suite 14 (OpenML100; 'Collaborative, reproducible benchmarking and analysis', alias 'OpenML100'): 100 dataset
+suite 99 (OpenML-CC18; 'OpenML-CC18 Curated Classification benchmark', alias 'OpenML-CC18'): 72 dataset
+suite 269 (amlb-regression; 'AutoML Benchmark Regression', alias 'amlb-regression'): 33 dataset
+suite 270 (amlb-classification-more; 'AutoML Benchmark More Classification', alias 'amlb-classification-more'): 33 dataset
+suite 271 (AMLB classification; 'AutoML Benchmark All Classification', alias 'amlb-classification-all'): 71 dataset
+suite 334 (Grinsztajn clf numerical; 'Tabular benchmark categorical classification', alias ''): 7 dataset
+suite 337 (Grinsztajn clf categorical; 'Tabular benchmark numerical classification', alias ''): 16 dataset
+suite 379 (TabZilla hard; 'TabZilla Hard Datasets', alias 'tabzilla'): 36 dataset
+suite 457 (tabarena-v0.1; 'TabArena-v0.1 Suite', alias 'tabarena-v0.1'): 51 dataset
+pool: 267 dataset; sau khi bỏ 176 ID loại trừ: 147
+
+Ứng viên SẠCH theo từng bậc — CHƯA rà tay 'dữ liệu thật' và 'cùng nguồn':
+  bậc 0 {'step': 0, 'n_max': 10000, 'd_max': 500, 'c_max': 10, 'minority_min': 0.1}: nhị phân 9 (CC18 6, cờ cùng nguồn 4); đa lớp 10 (CC18 6, cờ 7; ≥ 8 lớp 6)
+  bậc 1 {'step': 1, 'n_max': 20000, 'd_max': 500, 'c_max': 10, 'minority_min': 0.1}: nhị phân 16 (CC18 8, cờ cùng nguồn 6); đa lớp 11 (CC18 7, cờ 8; ≥ 8 lớp 7)
+  bậc 2 {'step': 2, 'n_max': 20000, 'd_max': 500, 'c_max': 20, 'minority_min': 0.1}: nhị phân 16 (CC18 8, cờ cùng nguồn 6); đa lớp 14 (CC18 9, cờ 8; ≥ 8 lớp 10)
+  bậc 3 {'step': 3, 'n_max': 20000, 'd_max': 2000, 'c_max': 20, 'minority_min': 0.05}: nhị phân 25 (CC18 11, cờ cùng nguồn 7); đa lớp 18 (CC18 11, cờ 8; ≥ 8 lớp 12)

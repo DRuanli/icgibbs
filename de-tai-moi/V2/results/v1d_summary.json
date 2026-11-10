@@ -1,0 +1,47 @@
+{
+ "q_star": {
+  "q": null,
+  "gap_vs_iid06": {}
+ },
+ "P16": {
+  "n_datasets": 23,
+  "mean_X4_minus_oracle": -0.004089306880017417,
+  "n_lose_gt_002": 1,
+  "mean_X4_minus_each": {
+   "tabpfn_v2": 0.005402041479668715,
+   "tabicl_v2": 0.00029515866587448425,
+   "tabpfn_v3": 0.004846592873821503,
+   "tabdpt": 0.007609940444371843
+  },
+  "verdict": "ĐÚNG"
+ },
+ "P17": {
+  "tabdpt": {
+   "n_datasets": 23,
+   "G": 0.00021902193731537065,
+   "R": 2,
+   "ok": true
+  },
+  "tabpfn_v3": {
+   "n_datasets": 23,
+   "G": 0.01154269038736768,
+   "R": 2,
+   "ok": true
+  },
+  "verdict": "ĐÚNG"
+ },
+ "P18": {
+  "n_cells": 138,
+  "n_pos": 19,
+  "AUC": 0.8615656789031402,
+  "AUC_by_tfm": {
+   "tabdpt": 0.7418032786885246,
+   "tabpfn_v3": 0.932601880877743
+  },
+  "verdict": "ĐÚNG"
+ },
+ "match_V1C_E": {
+  "n_cells": 14,
+  "max_abs_diff": 0.0
+ }
+}

@@ -1,0 +1,149 @@
+run_g7 · part=v0 · split=dev · backend=tabicl_v2 · code=py-46ab99882343 · config=592503a495c89197
+
+=== 54 vehicle: n=846 (loại trùng 0), d=18, C=4, sha256=9337a2e1fe48
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO: You are downloading 'tabicl-classifier-v2-20260212.ckpt', the latest best-performing version, used in our TabICLv2 paper.
+
+Checkpoint 'tabicl-classifier-v2-20260212.ckpt' not cached.
+ Downloading from Hugging Face Hub (jingang/TabICL).
+
+                 vehicle pll      0.2 s0 gibbs_init_warm  0.8386 26.0s
+                 vehicle pll      0.2 s0 base_start       0.7717 27.6s
+                 vehicle pll      0.2 s0 gibbs_init_base  0.8307 44.8s
+                 vehicle pll      0.2 s0 gibbs_init_cold  0.8268 17.2s
+                 vehicle pll      0.2 s0 gibbs_ms         0.8307 0.0s
+                 vehicle pll      0.2 s1 gibbs_init_warm  0.8346 17.6s
+                 vehicle pll      0.2 s1 base_start       0.7520 28.5s
+                 vehicle pll      0.2 s1 gibbs_init_base  0.8386 46.2s
+                 vehicle pll      0.2 s1 gibbs_init_cold  0.8386 18.4s
+                 vehicle pll      0.2 s1 gibbs_ms         0.8386 0.0s
+                 vehicle pll      0.2 s2 gibbs_init_warm  0.8268 23.7s
+                 vehicle pll      0.2 s2 base_start       0.7992 62.5s
+                 vehicle pll      0.2 s2 gibbs_init_base  0.8150 88.4s
+                 vehicle pll      0.2 s2 gibbs_init_cold  0.8268 25.7s
+                 vehicle pll      0.2 s2 gibbs_ms         0.8268 0.0s
+                 vehicle pll      0.3 s0 gibbs_init_warm  0.7677 25.3s
+                 vehicle pll      0.3 s0 base_start       0.7126 50.3s
+                 vehicle pll      0.3 s0 gibbs_init_base  0.7835 74.8s
+                 vehicle pll      0.3 s0 gibbs_init_cold  0.7520 25.0s
+                 vehicle pll      0.3 s0 gibbs_ms         0.7520 0.0s
+                 vehicle pll      0.3 s1 gibbs_init_warm  0.7559 24.2s
+                 vehicle pll      0.3 s1 base_start       0.7323 56.0s
+                 vehicle pll      0.3 s1 gibbs_init_base  0.7913 81.5s
+                 vehicle pll      0.3 s1 gibbs_init_cold  0.7992 24.6s
+                 vehicle pll      0.3 s1 gibbs_ms         0.7913 0.0s
+                 vehicle pll      0.3 s2 gibbs_init_warm  0.7402 23.2s
+                 vehicle pll      0.3 s2 base_start       0.7126 49.2s
+                 vehicle pll      0.3 s2 gibbs_init_base  0.7598 70.9s
+                 vehicle pll      0.3 s2 gibbs_init_cold  0.8268 22.7s
+                 vehicle pll      0.3 s2 gibbs_ms         0.7598 0.0s
+                 vehicle pll      0.4 s0 gibbs_init_warm  0.7441 23.1s
+                 vehicle pll      0.4 s0 base_start       0.7441 37.0s
+                 vehicle pll      0.4 s0 gibbs_init_base  0.7480 58.8s
+                 vehicle pll      0.4 s0 gibbs_init_cold  0.7717 22.6s
+                 vehicle pll      0.4 s0 gibbs_ms         0.7441 0.0s
+                 vehicle pll      0.4 s1 gibbs_init_warm  0.7480 21.2s
+                 vehicle pll      0.4 s1 base_start       0.7205 47.0s
+                 vehicle pll      0.4 s1 gibbs_init_base  0.7520 70.3s
+                 vehicle pll      0.4 s1 gibbs_init_cold  0.7598 22.3s
+                 vehicle pll      0.4 s1 gibbs_ms         0.7520 0.0s
+                 vehicle pll      0.4 s2 gibbs_init_warm  0.7441 22.9s
+                 vehicle pll      0.4 s2 base_start       0.7283 46.1s
+                 vehicle pll      0.4 s2 gibbs_init_base  0.7323 68.3s
+                 vehicle pll      0.4 s2 gibbs_init_cold  0.7480 24.0s
+                 vehicle pll      0.4 s2 gibbs_ms         0.7441 0.0s
+
+=== 36 segment: n=2086 (loại trùng 224), d=19, C=7, sha256=44d4fe954cca
+                 segment pll      0.2 s0 gibbs_init_warm  0.9042 33.1s
+                 segment pll      0.2 s0 base_start       0.8259 106.9s
+                 segment pll      0.2 s0 gibbs_init_base  0.8323 137.7s
+                 segment pll      0.2 s0 gibbs_init_cold  0.8866 30.7s
+                 segment pll      0.2 s0 gibbs_ms         0.9042 0.0s
+                 segment pll      0.2 s1 gibbs_init_warm  0.8994 31.0s
+                 segment pll      0.2 s1 base_start       0.9010 134.7s
+                 segment pll      0.2 s1 gibbs_init_base  0.9058 165.9s
+                 segment pll      0.2 s1 gibbs_init_cold  0.8626 30.1s
+                 segment pll      0.2 s1 gibbs_ms         0.9058 0.0s
+                 segment pll      0.2 s2 gibbs_init_warm  0.8562 34.0s
+                 segment pll      0.2 s2 base_start       0.9073 145.0s
+                 segment pll      0.2 s2 gibbs_init_base  0.8914 177.4s
+                 segment pll      0.2 s2 gibbs_init_cold  0.8706 30.3s
+                 segment pll      0.2 s2 gibbs_ms         0.8914 0.0s
+                 segment pll      0.3 s0 gibbs_init_warm  0.7540 33.4s
+                 segment pll      0.3 s0 base_start       0.7620 125.3s
+                 segment pll      0.3 s0 gibbs_init_base  0.7812 156.3s
+                 segment pll      0.3 s0 gibbs_init_cold  0.7556 30.9s
+                 segment pll      0.3 s0 gibbs_ms         0.7812 0.0s
+                 segment pll      0.3 s1 gibbs_init_warm  0.7971 31.4s
+                 segment pll      0.3 s1 base_start       0.7540 142.5s
+                 segment pll      0.3 s1 gibbs_init_base  0.7923 173.5s
+                 segment pll      0.3 s1 gibbs_init_cold  0.8035 30.4s
+                 segment pll      0.3 s1 gibbs_ms         0.7923 0.0s
+                 segment pll      0.3 s2 gibbs_init_warm  0.8051 30.0s
+                 segment pll      0.3 s2 base_start       0.7029 138.1s
+                 segment pll      0.3 s2 gibbs_init_base  0.6709 169.4s
+                 segment pll      0.3 s2 gibbs_init_cold  0.7604 31.8s
+                 segment pll      0.3 s2 gibbs_ms         0.6709 0.0s
+                 segment pll      0.4 s0 gibbs_init_warm  0.6981 31.6s
+                 segment pll      0.4 s0 base_start       0.6358 125.4s
+                 segment pll      0.4 s0 gibbs_init_base  0.6134 157.1s
+                 segment pll      0.4 s0 gibbs_init_cold  0.6789 29.1s
+                 segment pll      0.4 s0 gibbs_ms         0.6134 0.0s
+                 segment pll      0.4 s1 gibbs_init_warm  0.6693 30.2s
+                 segment pll      0.4 s1 base_start       0.4361 151.5s
+/kaggle/working/code/icgibbs/weak.py:58: RuntimeWarning: invalid value encountered in divide
+  W = W / W.sum(1, keepdims=True)
+[lỗi] 36 pll 0.4 s1 gibbs_init_base: ValueError('Probabilities contain NaN')
+                 segment pll      0.4 s1 gibbs_init_cold  0.6390 30.1s
+                 segment pll      0.4 s2 gibbs_init_warm  0.6741 31.1s
+                 segment pll      0.4 s2 base_start       0.5096 127.5s
+                 segment pll      0.4 s2 gibbs_init_base  0.5479 159.3s
+                 segment pll      0.4 s2 gibbs_init_cold  0.7428 31.6s
+                 segment pll      0.4 s2 gibbs_ms         0.7428 0.0s
+
+=== 23 cmc: n=1425 (loại trùng 48), d=9, C=3, sha256=474c9f41852e
+                     cmc pll      0.2 s0 gibbs_init_warm  0.5935 27.1s
+                     cmc pll      0.2 s0 base_start       0.5257 79.6s
+                     cmc pll      0.2 s0 gibbs_init_base  0.5935 107.5s
+                     cmc pll      0.2 s0 gibbs_init_cold  0.5935 26.4s
+                     cmc pll      0.2 s0 gibbs_ms         0.5935 0.0s
+                     cmc pll      0.2 s1 gibbs_init_warm  0.5467 27.1s
+                     cmc pll      0.2 s1 base_start       0.5234 96.6s
+                     cmc pll      0.2 s1 gibbs_init_base  0.5467 123.5s
+                     cmc pll      0.2 s1 gibbs_init_cold  0.5467 26.7s
+                     cmc pll      0.2 s1 gibbs_ms         0.5467 0.0s
+                     cmc pll      0.2 s2 gibbs_init_warm  0.5514 27.2s
+                     cmc pll      0.2 s2 base_start       0.5093 92.4s
+                     cmc pll      0.2 s2 gibbs_init_base  0.5514 121.8s
+                     cmc pll      0.2 s2 gibbs_init_cold  0.5514 26.2s
+                     cmc pll      0.2 s2 gibbs_ms         0.5514 0.0s
+                     cmc pll      0.3 s0 gibbs_init_warm  0.5888 26.8s
+                     cmc pll      0.3 s0 base_start       0.5257 76.0s
+                     cmc pll      0.3 s0 gibbs_init_base  0.5888 103.7s
+                     cmc pll      0.3 s0 gibbs_init_cold  0.5888 26.4s
+                     cmc pll      0.3 s0 gibbs_ms         0.5888 0.0s
+                     cmc pll      0.3 s1 gibbs_init_warm  0.5444 26.5s
+                     cmc pll      0.3 s1 base_start       0.4977 94.7s
+                     cmc pll      0.3 s1 gibbs_init_base  0.5444 121.9s
+                     cmc pll      0.3 s1 gibbs_init_cold  0.5444 26.8s
+                     cmc pll      0.3 s1 gibbs_ms         0.5444 0.0s
+                     cmc pll      0.3 s2 gibbs_init_warm  0.5444 28.5s
+                     cmc pll      0.3 s2 base_start       0.5023 91.4s
+                     cmc pll      0.3 s2 gibbs_init_base  0.5421 119.5s
+                     cmc pll      0.3 s2 gibbs_init_cold  0.5421 26.2s
+                     cmc pll      0.3 s2 gibbs_ms         0.5421 0.0s
+                     cmc pll      0.4 s0 gibbs_init_warm  0.5864 26.6s
+                     cmc pll      0.4 s0 base_start       0.5210 74.4s
+                     cmc pll      0.4 s0 gibbs_init_base  0.5841 101.6s
+                     cmc pll      0.4 s0 gibbs_init_cold  0.5841 26.1s
+                     cmc pll      0.4 s0 gibbs_ms         0.5864 0.0s
+                     cmc pll      0.4 s1 gibbs_init_warm  0.5280 27.9s
+                     cmc pll      0.4 s1 base_start       0.4953 88.7s
+                     cmc pll      0.4 s1 gibbs_init_base  0.5257 116.0s
+                     cmc pll      0.4 s1 gibbs_init_cold  0.5280 27.2s
+                     cmc pll      0.4 s1 gibbs_ms         0.5257 0.0s
+                     cmc pll      0.4 s2 gibbs_init_warm  0.5350 27.4s
+                     cmc pll      0.4 s2 base_start       0.5070 87.8s
+                     cmc pll      0.4 s2 gibbs_init_base  0.5350 116.7s
+                     cmc pll      0.4 s2 gibbs_init_cold  0.5350 29.8s
+                     cmc pll      0.4 s2 gibbs_ms         0.5350 0.0s
