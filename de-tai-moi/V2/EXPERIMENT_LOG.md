@@ -51,6 +51,7 @@
 | **S3** phiên 1 (xác nhận) | 10/11 05:21 – khoảng 16:21 | khớp **7cc9679** (`s2_code_v14.zip`) | Study 3 bản gọn: 20 dataset mới, LLP túi 8 và PLL q 0,6, 4 TFM × 3 chuỗi, seed 0–2 | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mọi dòng ok. Xong: PLL của TabICL và TabPFN-3 (16/71 cặp TFM × dataset), learner L cho cả 60 ô. Bước mã băm lỗi tải (RemoteDisconnected) ở 46924, 4538, 46933, sẽ thử lại ở phiên sau. **Chưa chấm**: chỉ chấm khi đủ dữ liệu |
 | S3 phiên 2 | 11/11 06:06 – khoảng 17:06 | khớp **2e04ac4** (`s2_code_v15.zip`) | phần còn lại | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mã băm 20/20 dataset ok và đạt tiêu chí. Xong TabICL, TabPFN-3, TabDPT trên cả 20 dataset (180 npz); TabPFN v2 mới 1/33 npz. **Chưa chấm** |
 | S3 phiên 3 | — | `s2_code_v15.zip` | TabPFN v2 (11 dataset) | Kaggle 2 × T4 | — | chờ thầy chạy | `S3/raw/S3/` | |
+| S3 xem tạm (12/11, theo yêu cầu của thầy) | — | — | chạy `S3/s3_report.py` không sửa trên 60/71 cặp (thiếu TabPFN v2) | CPU | — | **tạm thời, không phải kết luận** | `S3/results/interim_s2/` | H1, H2 đúng; H3 AUC 0,796 (dưới 0,80); C4 13,3% (không đạt); C5 đạt. Protocol không đổi gì sau khi xem; kết luận chỉ lấy từ lần chấm đủ 71 cặp |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
