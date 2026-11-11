@@ -49,7 +49,8 @@
 | V1D | 09/11 03:22–12:04 (phiên 1); 10/11 02:33–02:58 (phiên 2, không còn việc) | 84 tệp khớp **874a669** (`s2_code_v12.zip`) | đếm dataset Study 3; hiệu chỉnh q của PLL phụ thuộc mẫu; **mở rộng 08/11 tối:** bộ nhớ đệm L, TabPFN-3 và TabDPT trên 69 ô chung (P16–P18), bối cảnh khó với 4 TFM | Kaggle 2 × T4 | 8 giờ 42 phút | ok trừ 1 ô (bug D-V1D-1) | `V2/raw/V1D/` | P16, P17, P18 đúng; q* chưa chọn được vì 1 ô lỗi NaN; tái lập 14 ô V1C-E chênh 0; [V1D_REPORT](V1D_REPORT.md) |
 | V1E | — | `s2_code_v13.zip` | (đã huỷ 10/11: thầy chọn Study 3 bản gọn, dừng phát triển ở V1D) | — | — | **huỷ, không chạy** | — | kế hoạch [V1E_PLAN](V1E_PLAN.md) giữ lại làm tư liệu; các việc của V1E thành future work |
 | **S3** phiên 1 (xác nhận) | 10/11 05:21 – khoảng 16:21 | khớp **7cc9679** (`s2_code_v14.zip`) | Study 3 bản gọn: 20 dataset mới, LLP túi 8 và PLL q 0,6, 4 TFM × 3 chuỗi, seed 0–2 | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mọi dòng ok. Xong: PLL của TabICL và TabPFN-3 (16/71 cặp TFM × dataset), learner L cho cả 60 ô. Bước mã băm lỗi tải (RemoteDisconnected) ở 46924, 4538, 46933, sẽ thử lại ở phiên sau. **Chưa chấm**: chỉ chấm khi đủ dữ liệu |
-| S3 phiên 2+ | — | `s2_code_v15.zip` (chỉ khác `run_s2_lot.sh`: chia lại việc giữa hai GPU) | phần còn lại | Kaggle 2 × T4 | — | chờ thầy chạy | `S3/raw/S3/` | |
+| S3 phiên 2 | 11/11 06:06 – khoảng 17:06 | khớp **2e04ac4** (`s2_code_v15.zip`) | phần còn lại | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mã băm 20/20 dataset ok và đạt tiêu chí. Xong TabICL, TabPFN-3, TabDPT trên cả 20 dataset (180 npz); TabPFN v2 mới 1/33 npz. **Chưa chấm** |
+| S3 phiên 3 | — | `s2_code_v15.zip` | TabPFN v2 (11 dataset) | Kaggle 2 × T4 | — | chờ thầy chạy | `S3/raw/S3/` | |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |

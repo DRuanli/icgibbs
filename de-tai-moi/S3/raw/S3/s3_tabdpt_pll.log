@@ -1,0 +1,138 @@
+run_g7 · part=v0 · split=s3 · backend=tabdpt · code=py-6fc219a55954 · config=57bf7b7cf64086f7
+
+=== 42 soybean: n=631 (loại trùng 52), d=35, C=19, sha256=d7664cd05ce1
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+                 soybean pll      0.6 s0 gibbs_init_warm  0.5105 22.5s
+                 soybean pll      0.6 s0 base_start       0.7895 0.0s
+                 soybean pll      0.6 s0 gibbs_init_base  0.8053 34.3s
+                 soybean pll      0.6 s0 gibbs_init_cold  0.1895 18.3s
+                 soybean pll      0.6 s0 gibbs_ms         0.8053 0.0s
+                 soybean pll      0.6 s1 gibbs_init_warm  0.4053 18.9s
+                 soybean pll      0.6 s1 base_start       0.7421 0.0s
+                 soybean pll      0.6 s1 gibbs_init_base  0.7579 23.3s
+                 soybean pll      0.6 s1 gibbs_init_cold  0.4895 18.8s
+                 soybean pll      0.6 s1 gibbs_ms         0.7579 0.0s
+                 soybean pll      0.6 s2 gibbs_init_warm  0.2474 18.9s
+                 soybean pll      0.6 s2 base_start       0.8316 0.0s
+                 soybean pll      0.6 s2 gibbs_init_base  0.8474 17.7s
+                 soybean pll      0.6 s2 gibbs_init_cold  0.5000 20.5s
+                 soybean pll      0.6 s2 gibbs_ms         0.8474 0.0s
+
+=== 307 vowel: n=990 (loại trùng 0), d=12, C=11, sha256=83c2517899d5
+                   vowel pll      0.6 s0 gibbs_init_warm  0.2559 24.9s
+                   vowel pll      0.6 s0 base_start       0.1886 0.0s
+                   vowel pll      0.6 s0 gibbs_init_base  0.2357 25.4s
+                   vowel pll      0.6 s0 gibbs_init_cold  0.2357 24.5s
+                   vowel pll      0.6 s0 gibbs_ms         0.2357 0.0s
+                   vowel pll      0.6 s1 gibbs_init_warm  0.2290 24.7s
+                   vowel pll      0.6 s1 base_start       0.2929 0.0s
+                   vowel pll      0.6 s1 gibbs_init_base  0.5758 24.5s
+                   vowel pll      0.6 s1 gibbs_init_cold  0.2290 24.4s
+                   vowel pll      0.6 s1 gibbs_ms         0.5758 0.0s
+                   vowel pll      0.6 s2 gibbs_init_warm  0.1650 24.8s
+                   vowel pll      0.6 s2 base_start       0.1481 0.0s
+                   vowel pll      0.6 s2 gibbs_init_base  0.1751 24.5s
+                   vowel pll      0.6 s2 gibbs_init_cold  0.1414 24.5s
+                   vowel pll      0.6 s2 gibbs_ms         0.1751 0.0s
+
+=== 1468 cnae-9: n=1052 (loại trùng 28), d=856, C=9, sha256=2dccf0b9f20a
+                  cnae-9 pll      0.6 s0 gibbs_init_warm  0.8861 33.0s
+                  cnae-9 pll      0.6 s0 base_start       0.8196 0.0s
+                  cnae-9 pll      0.6 s0 gibbs_init_base  0.8861 32.6s
+                  cnae-9 pll      0.6 s0 gibbs_init_cold  0.8956 32.5s
+                  cnae-9 pll      0.6 s0 gibbs_ms         0.8861 0.0s
+                  cnae-9 pll      0.6 s1 gibbs_init_warm  0.9051 32.5s
+                  cnae-9 pll      0.6 s1 base_start       0.8829 0.0s
+                  cnae-9 pll      0.6 s1 gibbs_init_base  0.8987 32.1s
+                  cnae-9 pll      0.6 s1 gibbs_init_cold  0.8924 32.1s
+                  cnae-9 pll      0.6 s1 gibbs_ms         0.8987 0.0s
+                  cnae-9 pll      0.6 s2 gibbs_init_warm  0.8639 35.9s
+                  cnae-9 pll      0.6 s2 base_start       0.8196 0.0s
+                  cnae-9 pll      0.6 s2 gibbs_init_base  0.9019 38.2s
+                  cnae-9 pll      0.6 s2 gibbs_init_cold  0.8829 32.5s
+                  cnae-9 pll      0.6 s2 gibbs_ms         0.9019 0.0s
+
+=== 1478 har: n=10000 (loại trùng 0), d=561, C=6, sha256=02a3c6c5b71d
+                     har pll      0.6 s0 gibbs_init_warm  0.9677 139.2s
+                     har pll      0.6 s0 base_start       0.9707 0.1s
+                     har pll      0.6 s0 gibbs_init_base  0.9687 131.8s
+                     har pll      0.6 s0 gibbs_init_cold  0.9673 134.6s
+                     har pll      0.6 s0 gibbs_ms         0.9687 0.0s
+                     har pll      0.6 s1 gibbs_init_warm  0.9707 139.5s
+                     har pll      0.6 s1 base_start       0.9727 0.1s
+                     har pll      0.6 s1 gibbs_init_base  0.9713 132.1s
+                     har pll      0.6 s1 gibbs_init_cold  0.9707 131.4s
+                     har pll      0.6 s1 gibbs_ms         0.9713 0.0s
+                     har pll      0.6 s2 gibbs_init_warm  0.9683 141.1s
+                     har pll      0.6 s2 base_start       0.9690 0.1s
+                     har pll      0.6 s2 gibbs_init_base  0.9670 132.0s
+                     har pll      0.6 s2 gibbs_init_cold  0.9707 131.1s
+                     har pll      0.6 s2 gibbs_ms         0.9707 0.0s
+
+=== 1515 micro-mass: n=571 (loại trùng 0), d=1300, C=20, sha256=dc80148dd12a
+              micro-mass pll      0.6 s0 gibbs_init_warm  0.3314 26.1s
+              micro-mass pll      0.6 s0 base_start       0.4477 0.0s
+              micro-mass pll      0.6 s0 gibbs_init_base  0.3721 29.8s
+              micro-mass pll      0.6 s0 gibbs_init_cold  0.2558 29.5s
+              micro-mass pll      0.6 s0 gibbs_ms         0.3721 0.0s
+              micro-mass pll      0.6 s1 gibbs_init_warm  0.3140 26.7s
+              micro-mass pll      0.6 s1 base_start       0.4070 0.0s
+              micro-mass pll      0.6 s1 gibbs_init_base  0.3256 31.0s
+              micro-mass pll      0.6 s1 gibbs_init_cold  0.2965 25.2s
+              micro-mass pll      0.6 s1 gibbs_ms         0.3140 0.0s
+              micro-mass pll      0.6 s2 gibbs_init_warm  0.1919 26.3s
+              micro-mass pll      0.6 s2 base_start       0.5756 0.0s
+              micro-mass pll      0.6 s2 gibbs_init_base  0.2791 40.5s
+              micro-mass pll      0.6 s2 gibbs_init_cold  0.3023 24.8s
+              micro-mass pll      0.6 s2 gibbs_ms         0.2791 0.0s
+
+=== 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a
+  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_warm  0.4916 125.3s
+  GesturePhaseSegmentati pll      0.6 s0 base_start       0.5088 0.0s
+  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_base  0.4919 119.5s
+  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_cold  0.4902 119.4s
+  GesturePhaseSegmentati pll      0.6 s0 gibbs_ms         0.4919 0.0s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_warm  0.4760 125.7s
+  GesturePhaseSegmentati pll      0.6 s1 base_start       0.4662 0.0s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_base  0.4767 119.0s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_cold  0.4764 119.7s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_ms         0.4760 0.0s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_warm  0.4824 125.5s
+  GesturePhaseSegmentati pll      0.6 s2 base_start       0.5132 0.0s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_base  0.4838 119.3s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_cold  0.4794 118.8s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_ms         0.4838 0.0s
+
+=== 40499 texture: n=5473 (loại trùng 27), d=40, C=11, sha256=2d04ae9ddd01
+                 texture pll      0.6 s0 gibbs_init_warm  0.9988 105.2s
+                 texture pll      0.6 s0 base_start       0.9951 0.0s
+                 texture pll      0.6 s0 gibbs_init_base  1.0000 102.2s
+                 texture pll      0.6 s0 gibbs_init_cold  1.0000 102.2s
+                 texture pll      0.6 s0 gibbs_ms         1.0000 0.0s
+                 texture pll      0.6 s1 gibbs_init_warm  0.9970 104.1s
+                 texture pll      0.6 s1 base_start       0.9951 0.0s
+                 texture pll      0.6 s1 gibbs_init_base  0.9988 103.4s
+                 texture pll      0.6 s1 gibbs_init_cold  0.9963 102.2s
+                 texture pll      0.6 s1 gibbs_ms         0.9988 0.0s
+                 texture pll      0.6 s2 gibbs_init_warm  0.9976 104.9s
+                 texture pll      0.6 s2 base_start       0.9945 0.0s
+                 texture pll      0.6 s2 gibbs_init_base  0.9994 102.0s
+                 texture pll      0.6 s2 gibbs_init_cold  0.9988 102.8s
+                 texture pll      0.6 s2 gibbs_ms         0.9994 0.0s
+
+=== 46933 hiva_agnostic: n=3825 (loại trùng 20), d=1617, C=3, sha256=98f097a3f1a3
+           hiva_agnostic pll      0.6 s0 gibbs_init_warm  0.9643 127.1s
+           hiva_agnostic pll      0.6 s0 base_start       0.9599 0.2s
+           hiva_agnostic pll      0.6 s0 gibbs_init_base  0.9643 123.7s
+           hiva_agnostic pll      0.6 s0 gibbs_init_cold  0.9643 123.2s
+           hiva_agnostic pll      0.6 s0 gibbs_ms         0.9643 0.0s
+           hiva_agnostic pll      0.6 s1 gibbs_init_warm  0.9643 127.0s
+           hiva_agnostic pll      0.6 s1 base_start       0.9538 0.2s
+           hiva_agnostic pll      0.6 s1 gibbs_init_base  0.9643 123.2s
+           hiva_agnostic pll      0.6 s1 gibbs_init_cold  0.9643 125.8s
+           hiva_agnostic pll      0.6 s1 gibbs_ms         0.9643 0.0s
+           hiva_agnostic pll      0.6 s2 gibbs_init_warm  0.9643 125.9s
+           hiva_agnostic pll      0.6 s2 base_start       0.9591 0.2s
+           hiva_agnostic pll      0.6 s2 gibbs_init_base  0.9643 122.9s
+           hiva_agnostic pll      0.6 s2 gibbs_init_cold  0.9643 127.1s
+           hiva_agnostic pll      0.6 s2 gibbs_ms         0.9643 0.0s

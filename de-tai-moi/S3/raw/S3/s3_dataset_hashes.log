@@ -4,9 +4,7 @@
 {'split_set': 's3', 'did': 1487, 'name': 'ozone-level-8hr', 'n': 2526, 'n_duplicates_removed': 8, 'status': 'ok'}
 {'split_set': 's3', 'did': 4134, 'name': 'Bioresponse', 'n': 3751, 'n_duplicates_removed': 0, 'status': 'ok'}
 {'split_set': 's3', 'did': 46916, 'name': 'coil2000_insurance_policies', 'n': 8380, 'n_duplicates_removed': 1442, 'status': 'ok'}
-/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:75: RuntimeWarning: Invalid cache, redownloading file
-  warn("Invalid cache, redownloading file", RuntimeWarning)
-{'split_set': 's3', 'did': 46924, 'name': 'E-CommereShippingData', 'n': None, 'n_duplicates_removed': None, 'status': "error: RemoteDisconnected('Remote end closed connection without response')"}
+{'split_set': 's3', 'did': 46924, 'name': 'E-CommereShippingData', 'n': 10000, 'n_duplicates_removed': 0, 'status': 'ok'}
 {'split_set': 's3', 'did': 46935, 'name': 'HR_Analytics_Job_Change_of_Data_Scientists', 'n': 10000, 'n_duplicates_removed': 49, 'status': 'ok'}
 {'split_set': 's3', 'did': 46937, 'name': 'in_vehicle_coupon_recommendation', 'n': 10000, 'n_duplicates_removed': 74, 'status': 'ok'}
 {'split_set': 's3', 'did': 46947, 'name': 'online_shoppers_intention', 'n': 10000, 'n_duplicates_removed': 125, 'status': 'ok'}
@@ -17,10 +15,6 @@
 {'split_set': 's3', 'did': 1468, 'name': 'cnae-9', 'n': 1052, 'n_duplicates_removed': 28, 'status': 'ok'}
 {'split_set': 's3', 'did': 1478, 'name': 'har', 'n': 10000, 'n_duplicates_removed': 0, 'status': 'ok'}
 {'split_set': 's3', 'did': 1515, 'name': 'micro-mass', 'n': 571, 'n_duplicates_removed': 0, 'status': 'ok'}
-/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:75: RuntimeWarning: Invalid cache, redownloading file
-  warn("Invalid cache, redownloading file", RuntimeWarning)
-{'split_set': 's3', 'did': 4538, 'name': 'GesturePhaseSegmentationProcessed', 'n': None, 'n_duplicates_removed': None, 'status': "error: RemoteDisconnected('Remote end closed connection without response')"}
+{'split_set': 's3', 'did': 4538, 'name': 'GesturePhaseSegmentationProcessed', 'n': 9873, 'n_duplicates_removed': 0, 'status': 'ok'}
 {'split_set': 's3', 'did': 40499, 'name': 'texture', 'n': 5473, 'n_duplicates_removed': 27, 'status': 'ok'}
-/usr/local/lib/python3.13/dist-packages/sklearn/datasets/_openml.py:75: RuntimeWarning: Invalid cache, redownloading file
-  warn("Invalid cache, redownloading file", RuntimeWarning)
-{'split_set': 's3', 'did': 46933, 'name': 'hiva_agnostic', 'n': None, 'n_duplicates_removed': None, 'status': "error: RemoteDisconnected('Remote end closed connection without response')"}
+{'split_set': 's3', 'did': 46933, 'name': 'hiva_agnostic', 'n': 3825, 'n_duplicates_removed': 20, 'status': 'ok'}
