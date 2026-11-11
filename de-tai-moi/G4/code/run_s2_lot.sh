@@ -168,7 +168,7 @@ case $LOT in
     # q 0,6, seed 0–2, 4 TFM × 3 chuỗi (warm, base, cold), cấu hình V1. CPU: kiểm mã băm dataset rồi tính trước learner L.
     # Chạy tiếp được: chạy lại đúng lượt với output cũ (s3_*.csv, s3_npz/, l_cache_s3/). Cần s2_code_v14
     python -c "from icgibbs.g7.registry import S3_BINARY, S3_MULTICLASS; assert len(S3_BINARY) == 12 and len(S3_MULTICLASS) == 8" \
-      || { echo "BẢN CODE CŨ: dùng s2_code_v14.zip"; exit 3; }
+      || { echo "BẢN CODE CŨ: dùng s2_code_v15.zip"; exit 3; }
     LC="$OUT/l_cache_s3"; ND="$OUT/s3_npz"; mkdir -p "$LC" "$ND"
     PFN2=$(python -c "from icgibbs.g7.registry import S3_TABPFN_V2, S3_BINARY; print(','.join(str(d) for d in S3_TABPFN_V2 if d in S3_BINARY))")
     s3_ () {   # s3_ <GPU ('' = CPU)> <tên> <setting> <đối số run_g7...>
@@ -182,15 +182,17 @@ case $LOT in
       echo "CPU xong mã băm dataset: $(date)"
       s3_ "" lprefetch llp --backend tabicl_v2 --l_only
       s3_ "" lprefetch pll --backend tabicl_v2 --l_only ) &
+    # 11/11 (từ phiên 2, s2_code_v15): chia lại việc cho cân giữa hai GPU — chỉ đổi thứ tự và GPU chạy; cùng ô, cùng
+    # seed, cùng cấu hình (STUDY3_PLAN không đổi). Tên tệp đầu ra giữ nguyên nên các ô đã xong ở phiên 1 được bỏ qua.
     ( s3_ 0 tabpfn_v3 pll --backend tabpfn_v3 --save_dir "$ND"
       s3_ 0 tabpfn_v3 llp --backend tabpfn_v3 --save_dir "$ND"
-      s3_ 0 tabpfn_v2_sh1 llp --backend tabpfn_v2 --save_dir "$ND" --datasets $PFN2 --shard 1/2 ) &
+      s3_ 0 tabdpt llp --backend tabdpt --save_dir "$ND"
+      s3_ 0 tabpfn_v2 pll --backend tabpfn_v2 --save_dir "$ND" --datasets 4538
+      s3_ 0 tabpfn_v2_sh1 llp --backend tabpfn_v2 --save_dir "$ND" --datasets $PFN2 --shard 1/2
+      s3_ 0 tabpfn_v2_sh0 llp --backend tabpfn_v2 --save_dir "$ND" --datasets $PFN2 --shard 0/2 ) &
     ( s3_ 1 tabicl_v2 pll --backend tabicl_v2 --save_dir "$ND"
       s3_ 1 tabicl_v2 llp --backend tabicl_v2 --save_dir "$ND"
-      s3_ 1 tabdpt pll --backend tabdpt --save_dir "$ND"
-      s3_ 1 tabdpt llp --backend tabdpt --save_dir "$ND"
-      s3_ 1 tabpfn_v2 pll --backend tabpfn_v2 --save_dir "$ND" --datasets 4538
-      s3_ 1 tabpfn_v2_sh0 llp --backend tabpfn_v2 --save_dir "$ND" --datasets $PFN2 --shard 0/2 ) &
+      s3_ 1 tabdpt pll --backend tabdpt --save_dir "$ND" ) &
     wait ;;
   V1E)
     # V2 (V2/V1E_PLAN.md, ghi trước 10/11): E1 hoàn tất V1D-2/V1D-4 sau sửa D-V1D-1; E2 đếm dataset mở rộng (CPU);

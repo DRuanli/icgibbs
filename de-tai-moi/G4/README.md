@@ -26,7 +26,9 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
-## Study 3 bản gọn — lượt S3 dùng `s2_code_v14.zip` (10/11/2026) — XÁC NHẬN
+## Study 3 bản gọn — lượt S3 dùng `s2_code_v14.zip` (phiên 1) và `s2_code_v15.zip` (từ phiên 2) — XÁC NHẬN
+
+> **11/11:** từ phiên 2 dùng `s2_code_v15.zip`. Bản này chỉ khác v14 ở `run_s2_lot.sh`: việc được chia lại cho cân giữa hai GPU, còn ô, seed và cấu hình giữ nguyên. Ô 1 dưới đây đã đổi sang tìm `s2_code_v15`.
 
 Protocol ghi trước ở [S3/STUDY3_PLAN](../S3/STUDY3_PLAN.md), commit `c9009e8`. **Thầy chạy lượt này tức là duyệt và đóng băng protocol.**
 - **Quy mô:** 20 dataset mới, 4 TFM, mỗi ô 3 chuỗi. Ước 2–3 phiên.
@@ -43,7 +45,7 @@ try:
     os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
 except Exception:
     pass
-src = glob.glob("/kaggle/input/**/s2_code_v14/code/run_s2_lot.sh", recursive=True)
+src = glob.glob("/kaggle/input/**/s2_code_v15/code/run_s2_lot.sh", recursive=True)
 print(src); assert len(src) == 1
 shutil.rmtree("/kaggle/working/code", ignore_errors=True)
 shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))

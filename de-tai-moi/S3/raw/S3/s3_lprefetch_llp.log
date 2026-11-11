@@ -1,0 +1,25 @@
+run_g7 · part=v0 · split=s3 · backend=tabicl_v2 · code=py-6fc219a55954 · config=0156cccc5964a1a0
+
+=== 1038 gina_agnostic: n=3468 (loại trùng 0), d=970, C=2, sha256=25f003e6d8d4
+
+=== 1046 mozilla4: n=10000 (loại trùng 0), d=5, C=2, sha256=1c656b42f012
+
+=== 1467 climate-model-simulation-crashes: n=540 (loại trùng 0), d=20, C=2, sha256=4ecbcf60bae7
+
+=== 1487 ozone-level-8hr: n=2526 (loại trùng 8), d=72, C=2, sha256=17aff100106c
+
+=== 4134 Bioresponse: n=3751 (loại trùng 0), d=1776, C=2, sha256=d4457c69bc91
+
+=== 46916 coil2000_insurance_policies: n=8380 (loại trùng 1442), d=85, C=2, sha256=194642f0d85a
+
+=== 46924 E-CommereShippingData: n=10000 (loại trùng 0), d=10, C=2, sha256=2fc2b4184684
+
+=== 46935 HR_Analytics_Job_Change_of_Data_Scientists: n=10000 (loại trùng 49), d=12, C=2, sha256=00ca064d79da
+
+=== 46937 in_vehicle_coupon_recommendation: n=10000 (loại trùng 74), d=24, C=2, sha256=c93437c8cee1
+
+=== 46947 online_shoppers_intention: n=10000 (loại trùng 125), d=17, C=2, sha256=d43d15d922e6
+
+=== 46950 polish_companies_bankruptcy: n=5850 (loại trùng 60), d=64, C=2, sha256=ef8fdda81fd4
+
+=== 46956 seismic-bumps: n=2578 (loại trùng 6), d=15, C=2, sha256=a68e537beee4

@@ -126,11 +126,18 @@ def main(argv=None):
     dropped = {}
     if os.path.exists(hp):
         h = pd.read_csv(hp)
+        unchecked = []
         for r in h.itertuples():
-            if not (str(r.status).startswith("ok") and bool(r.pass_criteria)):
-                dropped[int(r.did)] = f"status={r.status}; pass_criteria={r.pass_criteria}; n={getattr(r, 'n', '')}"
+            if str(r.status).startswith("ok"):
+                if not bool(r.pass_criteria):          # trượt tiêu chí sau loại trùng → loại (STUDY3_PLAN §2)
+                    dropped[int(r.did)] = f"trượt tiêu chí: n={getattr(r, 'n', '')}, d={getattr(r, 'd', '')}"
+            else:                                       # lỗi tải ở bước kiểm (không phải trượt tiêu chí): chưa kiểm
+                unchecked.append(int(r.did))
         missing = all_ds - set(h.did.astype(int))
-        dropped.update({d: "không có trong s3_dataset_hashes.csv" for d in missing})
+        unchecked += sorted(missing)
+        if unchecked:
+            print(f"[cảnh báo] chưa kiểm được tiêu chí sau tải cho {sorted(unchecked)} (lỗi tải ở bước mã băm); giữ lại")
+        summ["unchecked_datasets"] = sorted(unchecked)
     else:
         print("[cảnh báo] không có s3_dataset_hashes.csv: không áp được bước kiểm sau khi tải")
     valid = all_ds - set(dropped)

@@ -1,0 +1,6 @@
+run_g7 · part=v0 · split=s3 · backend=tabicl_v2 · code=py-6fc219a55954 · config=0156cccc5964a1a0
+
+=== 1038 gina_agnostic: n=3468 (loại trùng 0), d=970, C=2, sha256=25f003e6d8d4
+           gina_agnostic llp        8 s0 gibbs_init_warm  0.9921 921.5s
+           gina_agnostic llp        8 s0 base_start       0.9257 0.1s
+           gina_agnostic llp        8 s0 gibbs_init_base  0.9917 888.4s
