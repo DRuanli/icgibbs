@@ -2,8 +2,13 @@ run_g7 · part=v0 · split=s3 · backend=tabpfn_v2 · code=py-6fc219a55954 · co
 
 === 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_warm  0.5078 349.1s
-  GesturePhaseSegmentati pll      0.6 s0 base_start       0.5088 0.0s
-  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_base  0.5128 326.8s
-  GesturePhaseSegmentati pll      0.6 s0 gibbs_init_cold  0.5088 324.8s
-  GesturePhaseSegmentati pll      0.6 s0 gibbs_ms         0.5088 0.0s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_warm  0.4649 349.8s
+  GesturePhaseSegmentati pll      0.6 s1 base_start       0.4662 0.0s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_base  0.5047 323.4s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_init_cold  0.4821 324.5s
+  GesturePhaseSegmentati pll      0.6 s1 gibbs_ms         0.5047 0.0s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_warm  0.4919 339.7s
+  GesturePhaseSegmentati pll      0.6 s2 base_start       0.5132 0.0s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_base  0.4986 324.4s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_init_cold  0.4943 322.7s
+  GesturePhaseSegmentati pll      0.6 s2 gibbs_ms         0.4986 0.0s

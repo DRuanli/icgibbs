@@ -1,206 +1,25 @@
 run_g7 · part=v0 · split=s3 · backend=tabdpt · code=py-6fc219a55954 · config=57bf7b7cf64086f7
 
 === 1038 gina_agnostic: n=3468 (loại trùng 0), d=970, C=2, sha256=25f003e6d8d4
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-           gina_agnostic llp        8 s0 gibbs_init_warm  0.9519 145.6s
-           gina_agnostic llp        8 s0 base_start       0.9257 0.1s
-           gina_agnostic llp        8 s0 gibbs_init_base  0.9479 114.0s
-           gina_agnostic llp        8 s0 gibbs_init_cold  0.9532 115.0s
-           gina_agnostic llp        8 s0 gibbs_ms         0.9519 0.0s
-           gina_agnostic llp        8 s1 gibbs_init_warm  0.9572 144.1s
-           gina_agnostic llp        8 s1 base_start       0.9530 0.1s
-           gina_agnostic llp        8 s1 gibbs_init_base  0.9689 115.2s
-           gina_agnostic llp        8 s1 gibbs_init_cold  0.9623 115.1s
-           gina_agnostic llp        8 s1 gibbs_ms         0.9689 0.0s
-           gina_agnostic llp        8 s2 gibbs_init_warm  0.9585 143.2s
-           gina_agnostic llp        8 s2 base_start       0.9372 0.1s
-           gina_agnostic llp        8 s2 gibbs_init_base  0.9560 115.4s
-           gina_agnostic llp        8 s2 gibbs_init_cold  0.9593 115.3s
-           gina_agnostic llp        8 s2 gibbs_ms         0.9585 0.0s
 
 === 1046 mozilla4: n=10000 (loại trùng 0), d=5, C=2, sha256=1c656b42f012
-                mozilla4 llp        8 s0 gibbs_init_warm  0.9553 187.7s
-                mozilla4 llp        8 s0 base_start       0.9390 0.0s
-                mozilla4 llp        8 s0 gibbs_init_base  0.9571 123.9s
-                mozilla4 llp        8 s0 gibbs_init_cold  0.9568 123.8s
-                mozilla4 llp        8 s0 gibbs_ms         0.9568 0.0s
-                mozilla4 llp        8 s1 gibbs_init_warm  0.9583 183.5s
-                mozilla4 llp        8 s1 base_start       0.9462 0.0s
-                mozilla4 llp        8 s1 gibbs_init_base  0.9567 124.0s
-                mozilla4 llp        8 s1 gibbs_init_cold  0.9596 123.9s
-                mozilla4 llp        8 s1 gibbs_ms         0.9583 0.0s
-                mozilla4 llp        8 s2 gibbs_init_warm  0.9583 188.3s
-                mozilla4 llp        8 s2 base_start       0.9485 0.0s
-                mozilla4 llp        8 s2 gibbs_init_base  0.9582 124.4s
-                mozilla4 llp        8 s2 gibbs_init_cold  0.9581 125.0s
-                mozilla4 llp        8 s2 gibbs_ms         0.9581 0.0s
 
 === 1467 climate-model-simulation-crashes: n=540 (loại trùng 0), d=20, C=2, sha256=4ecbcf60bae7
-  climate-model-simulati llp        8 s0 gibbs_init_warm  0.2997 20.8s
-  climate-model-simulati llp        8 s0 base_start       0.6385 0.0s
-  climate-model-simulati llp        8 s0 gibbs_init_base  0.2910 17.1s
-  climate-model-simulati llp        8 s0 gibbs_init_cold  0.2592 17.2s
-  climate-model-simulati llp        8 s0 gibbs_ms         0.2592 0.0s
-  climate-model-simulati llp        8 s1 gibbs_init_warm  0.3972 20.4s
-  climate-model-simulati llp        8 s1 base_start       0.5874 0.0s
-  climate-model-simulati llp        8 s1 gibbs_init_base  0.5526 16.9s
-  climate-model-simulati llp        8 s1 gibbs_init_cold  0.7823 16.9s
-  climate-model-simulati llp        8 s1 gibbs_ms         0.7823 0.0s
-  climate-model-simulati llp        8 s2 gibbs_init_warm  0.5536 21.8s
-  climate-model-simulati llp        8 s2 base_start       0.7254 0.0s
-  climate-model-simulati llp        8 s2 gibbs_init_base  0.5174 16.9s
-  climate-model-simulati llp        8 s2 gibbs_init_cold  0.7375 16.8s
-  climate-model-simulati llp        8 s2 gibbs_ms         0.7375 0.0s
 
 === 1487 ozone-level-8hr: n=2526 (loại trùng 8), d=72, C=2, sha256=17aff100106c
-         ozone-level-8hr llp        8 s0 gibbs_init_warm  0.9260 90.3s
-         ozone-level-8hr llp        8 s0 base_start       0.9067 0.0s
-         ozone-level-8hr llp        8 s0 gibbs_init_base  0.9125 72.5s
-         ozone-level-8hr llp        8 s0 gibbs_init_cold  0.9291 72.5s
-         ozone-level-8hr llp        8 s0 gibbs_ms         0.9291 0.0s
-         ozone-level-8hr llp        8 s1 gibbs_init_warm  0.8585 90.0s
-         ozone-level-8hr llp        8 s1 base_start       0.8886 0.0s
-         ozone-level-8hr llp        8 s1 gibbs_init_base  0.8926 73.0s
-         ozone-level-8hr llp        8 s1 gibbs_init_cold  0.8773 73.0s
-         ozone-level-8hr llp        8 s1 gibbs_ms         0.8585 0.0s
-         ozone-level-8hr llp        8 s2 gibbs_init_warm  0.8996 94.8s
-         ozone-level-8hr llp        8 s2 base_start       0.8734 0.0s
-         ozone-level-8hr llp        8 s2 gibbs_init_base  0.8800 72.6s
-         ozone-level-8hr llp        8 s2 gibbs_init_cold  0.8753 72.5s
-         ozone-level-8hr llp        8 s2 gibbs_ms         0.8753 0.0s
 
 === 4134 Bioresponse: n=3751 (loại trùng 0), d=1776, C=2, sha256=d4457c69bc91
-             Bioresponse llp        8 s0 gibbs_init_warm  0.7624 185.6s
-             Bioresponse llp        8 s0 base_start       0.7287 0.1s
-             Bioresponse llp        8 s0 gibbs_init_base  0.7372 133.7s
-             Bioresponse llp        8 s0 gibbs_init_cold  0.7633 134.9s
-             Bioresponse llp        8 s0 gibbs_ms         0.7372 0.0s
-             Bioresponse llp        8 s1 gibbs_init_warm  0.7521 182.2s
-             Bioresponse llp        8 s1 base_start       0.7255 0.1s
-             Bioresponse llp        8 s1 gibbs_init_base  0.7403 132.3s
-             Bioresponse llp        8 s1 gibbs_init_cold  0.7537 130.9s
-             Bioresponse llp        8 s1 gibbs_ms         0.7521 0.0s
-             Bioresponse llp        8 s2 gibbs_init_warm  0.7892 168.3s
-             Bioresponse llp        8 s2 base_start       0.7420 0.2s
-             Bioresponse llp        8 s2 gibbs_init_base  0.7958 132.9s
-             Bioresponse llp        8 s2 gibbs_init_cold  0.7853 134.3s
-             Bioresponse llp        8 s2 gibbs_ms         0.7853 0.0s
 
 === 46916 coil2000_insurance_policies: n=8380 (loại trùng 1442), d=85, C=2, sha256=194642f0d85a
-  coil2000_insurance_pol llp        8 s0 gibbs_init_warm  0.6916 178.2s
-  coil2000_insurance_pol llp        8 s0 base_start       0.7027 0.0s
-  coil2000_insurance_pol llp        8 s0 gibbs_init_base  0.6492 120.0s
-  coil2000_insurance_pol llp        8 s0 gibbs_init_cold  0.6261 119.9s
-  coil2000_insurance_pol llp        8 s0 gibbs_ms         0.6916 0.0s
-  coil2000_insurance_pol llp        8 s1 gibbs_init_warm  0.6403 189.8s
-  coil2000_insurance_pol llp        8 s1 base_start       0.6327 0.0s
-  coil2000_insurance_pol llp        8 s1 gibbs_init_base  0.6013 119.6s
-  coil2000_insurance_pol llp        8 s1 gibbs_init_cold  0.5930 121.4s
-  coil2000_insurance_pol llp        8 s1 gibbs_ms         0.6403 0.0s
-  coil2000_insurance_pol llp        8 s2 gibbs_init_warm  0.6033 186.9s
-  coil2000_insurance_pol llp        8 s2 base_start       0.6457 0.0s
-  coil2000_insurance_pol llp        8 s2 gibbs_init_base  0.6428 119.9s
-  coil2000_insurance_pol llp        8 s2 gibbs_init_cold  0.6096 121.4s
-  coil2000_insurance_pol llp        8 s2 gibbs_ms         0.6096 0.0s
 
 === 46924 E-CommereShippingData: n=10000 (loại trùng 0), d=10, C=2, sha256=2fc2b4184684
-   E-CommereShippingData llp        8 s0 gibbs_init_warm  0.7415 192.2s
-   E-CommereShippingData llp        8 s0 base_start       0.7257 0.0s
-   E-CommereShippingData llp        8 s0 gibbs_init_base  0.7425 124.4s
-   E-CommereShippingData llp        8 s0 gibbs_init_cold  0.7471 124.0s
-   E-CommereShippingData llp        8 s0 gibbs_ms         0.7415 0.0s
-   E-CommereShippingData llp        8 s1 gibbs_init_warm  0.7413 189.1s
-   E-CommereShippingData llp        8 s1 base_start       0.7258 0.0s
-   E-CommereShippingData llp        8 s1 gibbs_init_base  0.7539 124.3s
-   E-CommereShippingData llp        8 s1 gibbs_init_cold  0.7417 124.0s
-   E-CommereShippingData llp        8 s1 gibbs_ms         0.7539 0.0s
-   E-CommereShippingData llp        8 s2 gibbs_init_warm  0.7425 179.6s
-   E-CommereShippingData llp        8 s2 base_start       0.7262 0.0s
-   E-CommereShippingData llp        8 s2 gibbs_init_base  0.7392 124.0s
-   E-CommereShippingData llp        8 s2 gibbs_init_cold  0.7452 124.1s
-   E-CommereShippingData llp        8 s2 gibbs_ms         0.7425 0.0s
 
 === 46935 HR_Analytics_Job_Change_of_Data_Scientists: n=10000 (loại trùng 49), d=12, C=2, sha256=00ca064d79da
-  HR_Analytics_Job_Chang llp        8 s0 gibbs_init_warm  0.7895 202.6s
-  HR_Analytics_Job_Chang llp        8 s0 base_start       0.7677 0.0s
-  HR_Analytics_Job_Chang llp        8 s0 gibbs_init_base  0.7690 124.0s
-  HR_Analytics_Job_Chang llp        8 s0 gibbs_init_cold  0.7798 124.0s
-  HR_Analytics_Job_Chang llp        8 s0 gibbs_ms         0.7895 0.0s
-  HR_Analytics_Job_Chang llp        8 s1 gibbs_init_warm  0.7866 202.1s
-  HR_Analytics_Job_Chang llp        8 s1 base_start       0.7824 0.0s
-  HR_Analytics_Job_Chang llp        8 s1 gibbs_init_base  0.7861 124.0s
-  HR_Analytics_Job_Chang llp        8 s1 gibbs_init_cold  0.7910 123.9s
-  HR_Analytics_Job_Chang llp        8 s1 gibbs_ms         0.7861 0.0s
-  HR_Analytics_Job_Chang llp        8 s2 gibbs_init_warm  0.7726 198.1s
-  HR_Analytics_Job_Chang llp        8 s2 base_start       0.7380 0.0s
-  HR_Analytics_Job_Chang llp        8 s2 gibbs_init_base  0.7780 124.0s
-  HR_Analytics_Job_Chang llp        8 s2 gibbs_init_cold  0.7704 124.1s
-  HR_Analytics_Job_Chang llp        8 s2 gibbs_ms         0.7726 0.0s
 
 === 46937 in_vehicle_coupon_recommendation: n=10000 (loại trùng 74), d=24, C=2, sha256=c93437c8cee1
-  in_vehicle_coupon_reco llp        8 s0 gibbs_init_warm  0.6930 192.1s
-  in_vehicle_coupon_reco llp        8 s0 base_start       0.7189 0.0s
-  in_vehicle_coupon_reco llp        8 s0 gibbs_init_base  0.6875 124.3s
-  in_vehicle_coupon_reco llp        8 s0 gibbs_init_cold  0.6537 124.3s
-  in_vehicle_coupon_reco llp        8 s0 gibbs_ms         0.6875 0.0s
-  in_vehicle_coupon_reco llp        8 s1 gibbs_init_warm  0.6091 194.8s
-  in_vehicle_coupon_reco llp        8 s1 base_start       0.7045 0.0s
-  in_vehicle_coupon_reco llp        8 s1 gibbs_init_base  0.6408 124.1s
-  in_vehicle_coupon_reco llp        8 s1 gibbs_init_cold  0.6476 124.3s
-  in_vehicle_coupon_reco llp        8 s1 gibbs_ms         0.6091 0.0s
-  in_vehicle_coupon_reco llp        8 s2 gibbs_init_warm  0.6946 189.5s
-  in_vehicle_coupon_reco llp        8 s2 base_start       0.6974 0.0s
-  in_vehicle_coupon_reco llp        8 s2 gibbs_init_base  0.6792 123.9s
-  in_vehicle_coupon_reco llp        8 s2 gibbs_init_cold  0.6188 124.4s
-  in_vehicle_coupon_reco llp        8 s2 gibbs_ms         0.6946 0.0s
 
 === 46947 online_shoppers_intention: n=10000 (loại trùng 125), d=17, C=2, sha256=d43d15d922e6
-  online_shoppers_intent llp        8 s0 gibbs_init_warm  0.9181 187.8s
-  online_shoppers_intent llp        8 s0 base_start       0.8833 0.0s
-  online_shoppers_intent llp        8 s0 gibbs_init_base  0.9185 123.4s
-  online_shoppers_intent llp        8 s0 gibbs_init_cold  0.9165 123.6s
-  online_shoppers_intent llp        8 s0 gibbs_ms         0.9185 0.0s
-  online_shoppers_intent llp        8 s1 gibbs_init_warm  0.8895 192.6s
-  online_shoppers_intent llp        8 s1 base_start       0.8650 0.0s
-  online_shoppers_intent llp        8 s1 gibbs_init_base  0.8868 123.8s
-  online_shoppers_intent llp        8 s1 gibbs_init_cold  0.8888 124.1s
-  online_shoppers_intent llp        8 s1 gibbs_ms         0.8868 0.0s
-  online_shoppers_intent llp        8 s2 gibbs_init_warm  0.9123 190.9s
-  online_shoppers_intent llp        8 s2 base_start       0.8690 0.0s
-  online_shoppers_intent llp        8 s2 gibbs_init_base  0.9125 124.2s
-  online_shoppers_intent llp        8 s2 gibbs_init_cold  0.9132 123.8s
-  online_shoppers_intent llp        8 s2 gibbs_ms         0.9123 0.0s
 
 === 46950 polish_companies_bankruptcy: n=5850 (loại trùng 60), d=64, C=2, sha256=ef8fdda81fd4
-  polish_companies_bankr llp        8 s0 gibbs_init_warm  0.9436 144.0s
-  polish_companies_bankr llp        8 s0 base_start       0.7623 0.0s
-  polish_companies_bankr llp        8 s0 gibbs_init_base  0.9410 106.1s
-  polish_companies_bankr llp        8 s0 gibbs_init_cold  0.9473 106.0s
-  polish_companies_bankr llp        8 s0 gibbs_ms         0.9473 0.0s
-  polish_companies_bankr llp        8 s1 gibbs_init_warm  0.9550 146.1s
-  polish_companies_bankr llp        8 s1 base_start       0.8124 0.0s
-  polish_companies_bankr llp        8 s1 gibbs_init_base  0.9515 106.0s
-  polish_companies_bankr llp        8 s1 gibbs_init_cold  0.9540 106.0s
-  polish_companies_bankr llp        8 s1 gibbs_ms         0.9515 0.0s
-  polish_companies_bankr llp        8 s2 gibbs_init_warm  0.9449 147.1s
-  polish_companies_bankr llp        8 s2 base_start       0.8050 0.0s
-  polish_companies_bankr llp        8 s2 gibbs_init_base  0.9578 105.7s
-  polish_companies_bankr llp        8 s2 gibbs_init_cold  0.9471 105.7s
-  polish_companies_bankr llp        8 s2 gibbs_ms         0.9578 0.0s
 
 === 46956 seismic-bumps: n=2578 (loại trùng 6), d=15, C=2, sha256=a68e537beee4
-           seismic-bumps llp        8 s0 gibbs_init_warm  0.7239 88.5s
-           seismic-bumps llp        8 s0 base_start       0.7150 0.0s
-           seismic-bumps llp        8 s0 gibbs_init_base  0.7333 73.5s
-           seismic-bumps llp        8 s0 gibbs_init_cold  0.7432 73.4s
-           seismic-bumps llp        8 s0 gibbs_ms         0.7239 0.0s
-           seismic-bumps llp        8 s1 gibbs_init_warm  0.7472 88.3s
-           seismic-bumps llp        8 s1 base_start       0.7031 0.0s
-           seismic-bumps llp        8 s1 gibbs_init_base  0.7428 73.5s
-           seismic-bumps llp        8 s1 gibbs_init_cold  0.7445 73.4s
-           seismic-bumps llp        8 s1 gibbs_ms         0.7472 0.0s
-           seismic-bumps llp        8 s2 gibbs_init_warm  0.7658 88.6s
-           seismic-bumps llp        8 s2 base_start       0.7383 0.0s
-           seismic-bumps llp        8 s2 gibbs_init_base  0.7798 73.5s
-           seismic-bumps llp        8 s2 gibbs_init_cold  0.7603 73.3s
-           seismic-bumps llp        8 s2 gibbs_ms         0.7798 0.0s
