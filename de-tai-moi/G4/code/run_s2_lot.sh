@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nghiên cứu 2 (S2) — chạy tập đánh giá MỚI theo de-tai-moi/S2/S2_PLAN.md (chỉ sau khi S2 đã đóng băng).
-# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C V1D V1E S3}
+# Dùng:  bash run_s2_lot.sh <LOT> /kaggle/working        LOT ∈ {S2X S2D S2T S2C1 S2C2 S2G S2R S2E V0A V0B V1A V1B V1C V1D V1E S3 S3B S3BC}
 #   S2X  (GPU T4 × 2): THĂM DÒ, chỉ trên dataset cũ của NC1 (S2_PLAN §5.1): ánh xạ phản ứng Φ(r) của TabPFN v2 (GPU 0) và
 #                      TabICL v2 (GPU 1). Không chạm tập đánh giá S2, nên chạy được trước khi đóng băng
 #   S2D  (CPU)       : bộ test + tải dữ liệu, mã băm, kiểm tiêu chí sau loại trùng (S2_PLAN §3.4) → s2_dataset_hashes.csv
@@ -193,6 +193,40 @@ case $LOT in
     ( s3_ 1 tabicl_v2 pll --backend tabicl_v2 --save_dir "$ND"
       s3_ 1 tabicl_v2 llp --backend tabicl_v2 --save_dir "$ND"
       s3_ 1 tabdpt pll --backend tabdpt --save_dir "$ND" ) &
+    wait ;;
+  S3B|S3BC)
+    # LƯỢT BỔ SUNG trên dataset Study 3 (de-tai-moi/S3/S3B_PLAN.md, ghi trước 12/11/2026; ngoài protocol Study 3).
+    # S3BC (notebook CPU): baseline không nơ-ron (B1). S3B (notebook GPU): naive, hard-EM, oracle (B2) rồi chuỗi warm
+    # 100 vòng quét trên PLL (B3). Hai lượt độc lập, chạy song song ở hai notebook.
+    # Chạy tiếp được: chạy lại đúng lượt với output cũ (s3b_*.csv, s3b_npz/). Cần s2_code_v16
+    python -c "from icgibbs.g7.methods import BASELINES_CPU, SUPP_TFM" || { echo "BẢN CODE CŨ: dùng s2_code_v16.zip"; exit 3; }
+    ND="$OUT/s3b_npz"; mkdir -p "$ND"
+    PFN2=$(python -c "from icgibbs.g7.registry import S3_TABPFN_V2, S3_BINARY; print(','.join(str(d) for d in S3_TABPFN_V2 if d in S3_BINARY))")
+    b_ () {   # b_ <GPU ('' = CPU)> <tên> <setting> <đối số run_g7...>
+      local g=$1 tag=$2 st=$3 lv; shift 3
+      [ $st = llp ] && lv="llp=8" || lv="pll=0.6"
+      CUDA_VISIBLE_DEVICES=$g python run_g7.py --split s3 --eval-ok --supp --seeds 0,1,2 --settings $st --levels "$lv" \
+        "$@" --out "$OUT/s3b_${tag}_${st}.csv" >> "$OUT/s3b_${tag}_${st}.log" 2>&1
+      if [ -n "$g" ]; then echo "GPU$g xong s3b_${tag}_${st}: $(date)"; else echo "CPU xong s3b_${tag}_${st}: $(date)"; fi
+    }
+    tfm_ () { local g=$1 be=$2 st=$3; shift 3; b_ $g tfm_$be $st --part tfm --only naive,hard_em_warm,oracle --backend $be "$@"; }
+    long_ () { local g=$1 be=$2; b_ $g long_$be pll --part v0 --starts warm --sweeps 100 --backend $be --save_dir "$ND"; }
+    if [ "$LOT" = S3BC ]; then            # notebook CPU riêng (không cần GPU): chỉ B1
+      b_ "" cpu pll --part baselines
+      b_ "" cpu llp --part baselines
+      echo "S3BC xong: $(date)"; exit 0
+    fi
+    ( tfm_ 0 tabpfn_v3 pll
+      tfm_ 0 tabpfn_v3 llp
+      tfm_ 0 tabpfn_v2 pll --datasets 4538
+      tfm_ 0 tabpfn_v2 llp --datasets $PFN2
+      long_ 0 tabpfn_v3 ) &
+    ( tfm_ 1 tabicl_v2 pll
+      tfm_ 1 tabicl_v2 llp
+      tfm_ 1 tabdpt pll
+      tfm_ 1 tabdpt llp
+      long_ 1 tabdpt
+      long_ 1 tabicl_v2 ) &
     wait ;;
   V1E)
     # V2 (V2/V1E_PLAN.md, ghi trước 10/11): E1 hoàn tất V1D-2/V1D-4 sau sửa D-V1D-1; E2 đếm dataset mở rộng (CPU);

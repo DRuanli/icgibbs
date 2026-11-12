@@ -629,7 +629,27 @@ BASELINES = {
 }
 
 
-def baselines_for(setting: str) -> dict:
+def _cpu(cell, name):
+    """S3B_PLAN §3: baseline CPU, cấu hình cố định. kNN dùng ma trận đã chuẩn hoá; cây dùng mã thứ tự (có NaN)."""
+    from ..baselines_cpu import GBDTSelfLLP, GBDTSelfPLL, PLkNN
+    w = cell.weak
+    if name == "plknn":
+        return Out(PLkNN().fit(cell.Mtr, w.S).predict_proba(cell.Mte), 0)
+    if cell.setting == "llp":
+        return Out(GBDTSelfLLP(cell.seed).fit(cell.Xtr, w.bags, w.counts).predict_proba(cell.Xte), 0)
+    return Out(GBDTSelfPLL(cell.seed).fit(cell.Xtr, w.S).predict_proba(cell.Xte), 0)
+
+
+BASELINES_CPU = {
+    "llp": {"gbdtself_def": lambda c: _cpu(c, "gbdt")},
+    "pll": {"plknn_def": lambda c: _cpu(c, "plknn"), "gbdtself_def": lambda c: _cpu(c, "gbdt")},
+}
+SUPP_TFM = ("naive", "hard_em_warm", "oracle")
+
+
+def baselines_for(setting: str, supp: bool = False) -> dict:
+    if supp:
+        return dict(BASELINES_CPU[setting])
     if setting == "pu_scar":
         return dict(BASELINES["pu"])
     if setting == "pu_sar":

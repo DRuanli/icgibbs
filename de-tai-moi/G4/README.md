@@ -26,6 +26,59 @@ Theo [02_QUY_TRINH_CONG_KIEM_DUYET.md](../../research-handbook/02_QUY_TRINH_CONG
 | [pilot/PILOT_MANYCLASS_REPORT.md](pilot/PILOT_MANYCLASS_REPORT.md) | Thí điểm PLL nhiều lớp (lượt v5): chọn TabICL v2 cho RQ5 |
 | `results/` | CSV, log, hình |
 
+## Lượt bổ sung S3B và S3BC dùng `s2_code_v16.zip` (12/11/2026) — BỔ SUNG, ngoài protocol Study 3
+
+Kế hoạch ghi trước ở [S3/S3B_PLAN](../S3/S3B_PLAN.md), commit `d9e6062`. Hai lượt độc lập, **chạy song song ở hai notebook**:
+
+| Lượt | Notebook | Nội dung | Ước lượng |
+|---|---|---|---|
+| **S3BC** | CPU (không bật GPU) | B1: baseline không nơ-ron (PL-kNN, GBDT tự huấn luyện) | 1 phiên, vài giờ |
+| **S3B** | GPU T4 × 2 | B2: naive, hard-EM, oracle với 4 TFM; rồi B3: chuỗi warm 100 vòng quét trên PLL | 2 phiên |
+
+**Cả hai notebook:** Internet On; *Add data:* `icgibbs-g4` bản mới có `s2_code_v16.zip`. Notebook GPU cần thêm Secret `TABPFN_TOKEN`. Không cần output của lượt S3.
+
+- **Ô 1 (giống nhau ở hai notebook):**
+```python
+!pip install -q tabpfn==9.2.0 tabicl==2.2.0 tabdpt==1.3.1 cleanlab==2.9.0 dill "git+https://github.com/ML-KULeuven/SAR-PU.git@6e4fc3d8c84ac3512669a4e36ffcb5086f5b42a7#subdirectory=sarpu"
+import os, glob, shutil
+from kaggle_secrets import UserSecretsClient
+try:
+    os.environ["TABPFN_TOKEN"] = UserSecretsClient().get_secret("TABPFN_TOKEN")
+except Exception:
+    pass
+src = glob.glob("/kaggle/input/**/s2_code_v16/code/run_s2_lot.sh", recursive=True)
+print(src); assert len(src) == 1
+shutil.rmtree("/kaggle/working/code", ignore_errors=True)
+shutil.copytree(os.path.dirname(src[0]), "/kaggle/working/code", ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache"))
+os.makedirs("/kaggle/working/s3b_npz", exist_ok=True)              # từ phiên 2 của S3B: chạy tiếp
+for f in glob.glob("/kaggle/input/**/s3b_npz/*.npz", recursive=True):
+    shutil.copy(f, "/kaggle/working/s3b_npz/")
+for f in glob.glob("/kaggle/input/**/s3b_*.csv", recursive=True):
+    shutil.copy(f, "/kaggle/working/")
+print(len(glob.glob("/kaggle/working/s3b_*.csv")), "tệp csv cũ;", len(glob.glob("/kaggle/working/s3b_npz/*.npz")), "npz cũ")
+```
+- **Ô 2:** notebook CPU đặt `LOT = "S3BC"`, notebook GPU đặt `LOT = "S3B"`.
+```python
+LOT = "S3B"        # notebook CPU: "S3BC"
+import subprocess, os, signal
+os.chdir("/kaggle/working/code")
+log_path = f"/kaggle/working/s2_{LOT}_master_log.txt"
+with open(log_path, "a") as log:
+    p = subprocess.Popen(["bash", "run_s2_lot.sh", LOT, "/kaggle/working"], stdout=log,
+                         stderr=subprocess.STDOUT, start_new_session=True)
+    try:
+        p.wait(timeout=11 * 3600)
+        print("Lượt chạy xong hết.")
+    except subprocess.TimeoutExpired:
+        os.killpg(p.pid, signal.SIGTERM); p.wait()
+        print("Đã dừng sau 11 giờ để lưu output; cần chạy phiên 2.")
+print(open(log_path).read()[-4000:])
+```
+- **Kiểm nhanh sau khoảng 20 phút:** dòng đầu của `s2_S3B_master_log.txt` (hoặc `s2_S3BC_…`) là "lượt S3B bắt đầu"; các tệp `s3b_*.csv` bắt đầu có dòng `ok`.
+- **Phiên 2 của S3B:** notebook mới, thêm output phiên 1, dán y hệt hai ô.
+- **Gửi lại:** mọi tệp `s2_S3B*`, `s3b_*.csv`, `s3b_*.log` của cả hai notebook, và thư mục `s3b_npz/` của notebook GPU.
+- **Chấm:** `S3/s3b_report.py`, đã viết và commit trước khi có số (đặt dữ liệu vào `S3/raw/S3B/`).
+
 ## Study 3 bản gọn — lượt S3 dùng `s2_code_v14.zip` (phiên 1) và `s2_code_v15.zip` (từ phiên 2) — XÁC NHẬN
 
 > **11/11:** từ phiên 2 dùng `s2_code_v15.zip`. Bản này chỉ khác v14 ở `run_s2_lot.sh`: việc được chia lại cho cân giữa hai GPU, còn ô, seed và cấu hình giữ nguyên. Ô 1 dưới đây đã đổi sang tìm `s2_code_v15`.

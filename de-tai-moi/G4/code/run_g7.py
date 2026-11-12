@@ -196,6 +196,9 @@ def main(argv=None):
     ap.add_argument("--explore", action="store_true",
                     help="THĂM DÒ (V2): cho phép --part rhat (R4) hoặc --part v0 (giai đoạn 1) trên --split s2; với rhat dùng mọi "
                          "dataset của S2, không chỉ 3 nhỏ nhất")
+    ap.add_argument("--supp", action="store_true",
+                    help="S3B (S3/S3B_PLAN.md): lượt bổ sung trên Study 3 — tfm (naive, hard_em_warm, oracle), baselines CPU, "
+                         "hoặc chuỗi warm dài 100 vòng quét")
     ap.add_argument("--l_cache", default="", help="V1D: thư mục bộ nhớ đệm của learner L (rỗng = tắt)")
     ap.add_argument("--l_only", action="store_true",
                     help="V1D: với --part v0, chỉ tính learner L vào --l_cache (CPU), không chạy TFM")
@@ -245,6 +248,16 @@ def main(argv=None):
         if not a.eval_ok:
             ap.error("Study 3 chỉ chạy khi protocol đã đóng băng: cần thêm --eval-ok")
         lv = parse_levels(a.levels)
+        onl = sorted(x.strip() for x in a.only.split(",") if x.strip())
+        supp_ok = a.supp and a.weak_variant == "iid" and not a.n_train_max and a.source == "openml" and (
+            (a.part == "tfm" and onl and set(onl) <= set(methods_mod.SUPP_TFM) and not a.sweeps and not a.mh_check)
+            or (a.part == "baselines" and not a.sweeps)
+            or (a.part == "v0" and a.sweeps == 100 and a.starts.strip() == "warm" and not a.l_only))
+        if a.supp and not supp_ok:
+            ap.error("S3B: --part tfm --only naive,hard_em_warm,oracle | --part baselines | --part v0 --starts warm --sweeps 100")
+        if supp_ok:                                         # phần còn lại của khoá Study 3 vẫn áp dụng
+            a_part, a_sweeps, a_starts = a.part, a.sweeps, a.starts
+            a.part, a.sweeps, a.starts = "v0", 0, "warm,base,cold"
         if (a.part != "v0" or a.sweeps or a.weak_variant != "iid" or a.n_train_max or a.source != "openml"
                 or any(x.strip() not in ("llp", "pll") for x in a.settings.split(",") if x.strip())
                 or any([float(v) for v in lv[x.strip()]] != [{"llp": 8.0, "pll": 0.6}[x.strip()]]
@@ -252,6 +265,10 @@ def main(argv=None):
                 or sorted(x.strip() for x in a.starts.split(",")) != ["base", "cold", "warm"]
                 or sorted(int(x) for x in a.seeds.split(",")) != [0, 1, 2]):
             ap.error("Study 3: chỉ --part v0 với LLP túi 8 và PLL q 0,6, seed 0,1,2, 30 vòng quét, nhãn yếu iid")
+        if supp_ok:
+            a.part, a.sweeps, a.starts = a_part, a_sweeps, a_starts
+    if a.supp and a.split != "s3":
+        ap.error("--supp chỉ dùng với --split s3")
     if a.split in ("eval", "s2") and not a.eval_ok:
         ap.error("tập đánh giá chỉ chạy khi đã mở (G7 cho eval, S2 sau khi đóng băng): cần thêm --eval-ok")
     if a.split == "s2" and (a.part == "ablation" or (a.part in ("rhat", "v0") and not a.explore) or a.n_train_max
@@ -503,7 +520,7 @@ def run_cell(a, writer, t, X_all, sha_t, setting, level, seed, only, code, cfg, 
         if any(todo(m) for m in TFM_METHODS[setting]) or (mh and todo("gibbs_warm_mh")):
             run_tfm_methods(cell, cond, fin, todo, emit, monitor=monitor, guard=attempt, mh_check=mh)
     else:
-        for m, fn in baselines_for(setting).items():
+        for m, fn in baselines_for(setting, supp=a.supp).items():
             if todo(m):
                 def _b(m=m, fn=fn):
                     t0 = time.time()
