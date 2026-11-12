@@ -1,0 +1,14 @@
+## H-A. Study 3: trần của việc chọn chuỗi (trung bình theo dataset)
+              X       L  best_single_chain  wpll_pick_global  X_wpll_pick_per_tfm  X_oracle_pick_per_tfm
+setting                                                                                                 
+llp      0.8282  0.7830             0.8413            0.8208               0.8243                 0.8349
+pll      0.8083  0.7168             0.8157            0.8085               0.8161                 0.8163
+  best_single_chain        − X: +0.0109   thắng/thua 14/2
+  X_oracle_pick_per_tfm    − X: +0.0072   thắng/thua 12/1
+  X_wpll_pick_per_tfm      − X: +0.0008   thắng/thua 7/5
+  wpll_pick_global         − X: -0.0044   thắng/thua 7/9
+
+## H-B. Study 2 (TabICL v2, một chuỗi): phần khoảng cách naive → oracle đã lấy lại
+  LLP túi 8 (AUC)    naive 0.724 | baseline tune tốt nhất 0.799 | chuỗi đơn 0.840 | oracle 0.879 | lấy lại 75% (baseline: 48%)
+  PLL q 0,3 (acc)    naive 0.840 | baseline tune tốt nhất 0.850 | chuỗi đơn 0.862 | oracle 0.870 | lấy lại 73% (baseline: 31%)
+  PLL q 0,6 (acc)    naive 0.647 | baseline tune tốt nhất 0.839 | chuỗi đơn 0.851 | oracle 0.870 | lấy lại 91% (baseline: 86%)
