@@ -21,6 +21,21 @@
 | Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
 | Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
 
+## 0i. Bản thảo NeurIPS 2027 của bài v2 (12/11/2026)
+
+- **Trạng thái:** bản nháp 2 ở `paper/` (biên dịch bằng `make` trong `paper/`), phần chính 9 trang với style tạm, phụ lục 27 trang. Đã qua ba vòng phản biện độc lập (toán, kiểm toán số liệu, kiểu NeurIPS) và sửa một lượt; vòng 2 kiểm việc sửa.
+- **Đọc trước:**
+  - [V2/PAPER_V2_PLAN.md](V2/PAPER_V2_PLAN.md): câu chuyện của bài, phân tích thăm dò mới, cấu trúc;
+  - [G9/REVIEW_V2_RESPONSE.md](G9/REVIEW_V2_RESPONSE.md): từng ý phản biện và cách xử lý, kèm danh sách chưa xử lý;
+  - `G9/reviews/REVIEW_V2_*.md`: bốn biên bản.
+- **Số liệu:** `paper/scripts/make_v2.py` sinh `numbers_v2.tex` và mọi bảng, hình mới. `make data` chạy cả bốn script.
+- **Thăm dò trên Study 3** (`S3/s3_explore.py`): bản gộp nhiều TFM hơn L ở 20/20 dataset; lợi của nhiều điểm xuất phát đến từ điểm xuất phát learner; bản gộp không hơn có ý nghĩa so với riêng TabICL v2. Trong bài luôn ghi "exploratory".
+- **Việc mở trước khi nộp:**
+  - style chính thức của NeurIPS 2027 và kiểm lại số trang (hiện không dư dòng nào);
+  - mục "Pending" về giấy phép trong checklist (dataset OpenML, checkpoint, bộ PALM);
+  - đối chiếu nội dung từng chỗ trích (G10), nhất là `heckerman2000`;
+  - các thí nghiệm reviewer sẽ đòi, cần GPU: baseline dạng cây/kNN cho PLL và LLP; Study 3 với q và cỡ túi khác; thêm dataset đa lớp.
+
 ## 1. Đề tài trong một đoạn
 
 **In-Context Gibbs** học từ nhãn yếu bằng một TFM bảng có sẵn (TabPFN v2, TabICL v2), không huấn luyện lại.

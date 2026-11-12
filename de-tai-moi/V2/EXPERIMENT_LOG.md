@@ -51,10 +51,19 @@
 | **S3** phiên 1 (xác nhận) | 10/11 05:21 – khoảng 16:21 | khớp **7cc9679** (`s2_code_v14.zip`) | Study 3 bản gọn: 20 dataset mới, LLP túi 8 và PLL q 0,6, 4 TFM × 3 chuỗi, seed 0–2 | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mọi dòng ok. Xong: PLL của TabICL và TabPFN-3 (16/71 cặp TFM × dataset), learner L cho cả 60 ô. Bước mã băm lỗi tải (RemoteDisconnected) ở 46924, 4538, 46933, sẽ thử lại ở phiên sau. **Chưa chấm**: chỉ chấm khi đủ dữ liệu |
 | S3 phiên 2 | 11/11 06:06 – khoảng 17:06 | khớp **2e04ac4** (`s2_code_v15.zip`) | phần còn lại | Kaggle 2 × T4 | 11 giờ (tự dừng) | ok một phần | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; mã băm 20/20 dataset ok và đạt tiêu chí. Xong TabICL, TabPFN-3, TabDPT trên cả 20 dataset (180 npz); TabPFN v2 mới 1/33 npz. **Chưa chấm** |
 | S3 phiên 3 | 11/11 17:47 – 12/11 01:49 | khớp **2e04ac4** (`s2_code_v15.zip`) | TabPFN v2 (11 dataset) | Kaggle 2 × T4 | 8 giờ 2 phút | **ok, đủ** | `S3/raw/S3/` | bộ test 161 qua, 2 bỏ qua; 213/213 npz, 71/71 cặp; 180 npz cũ không đổi. **Chấm chính thức 12/11** bằng `S3/s3_report.py`: H1 đúng (p Holm 0,0004), H2 đúng (0,000002), H3 sai (AUC 0,766), C4 không đạt (14,1%), C5 đạt. [S3_REPORT](../S3/S3_REPORT.md) |
-| S3 xem tạm (12/11, theo yêu cầu của thầy) | — | — | chạy `S3/s3_report.py` không sửa trên 60/71 cặp (thiếu TabPFN v2) | CPU | — | **tạm thời, không phải kết luận** | `S3/results/interim_s2/` | H1, H2 đúng; H3 AUC 0,796 (dưới 0,80); C4 13,3% (không đạt); C5 đạt. Protocol không đổi gì sau khi xem; kết luận chỉ lấy từ lần chấm đủ 71 cặp |
+| S3 xem tạm (commit 11/11 17:48 UTC, tức 12/11 giờ Việt Nam; theo yêu cầu của thầy) | — | — | chạy `S3/s3_report.py` không sửa trên 60/71 cặp (thiếu TabPFN v2) | CPU | — | **tạm thời, không phải kết luận** | `S3/results/interim_s2/` | H1, H2 đúng; H3 AUC 0,796 (dưới 0,80); C4 13,3% (không đạt); C5 đạt. Protocol không đổi gì sau khi xem; kết luận chỉ lấy từ lần chấm đủ 71 cặp |
 
 ## Kiểm sau mỗi lượt
 | Lượt | Số dòng dự kiến | Số dòng ok | Lỗi | Bảng / lần chia / nhãn yếu | Tính tất định | Ghi chú |
 |---|---|---|---|---|---|---|
 | V0A + V0B | 318 + 312 | 318 + 312 | 0 | V0 so với Study 1: 18/18 ô khớp; R4 so với Study 2: 114/114 ô khớp | `gibbs_init_warm` = `gibbs_warm` của Study 1 ở 44/44 ô (chênh 0); chuỗi a của R4 = `gibbs_warm` của Study 2 (chênh tối đa 5·10⁻⁵) | Chấm bằng `v0_report.py`, không sửa sau khi xem số. Kết quả: [V0_REPORT](V0_REPORT.md). P1 đúng, P2 sai, P3 đúng, P4 sai (79,2%); cổng V0 qua một phần. Phân tích thăm dò viết sau khi xem số: `v0_explore.py` |
 | V1A + V1B | 405 + 825 (V1A thiếu 12 ô, tức 60 dòng) | 345 + 825 | 0 dòng lỗi; 4 dataset lỗi tải ở V1A | 138/138 bộ (dataset, setting, seed) khớp `sha256_split` và `weak_hash` của Study 1/2; 27 bộ tập phát triển không có bản ghi cũ cùng mức, hai TFM cùng mã băm | `gibbs_init_warm` = `gibbs_warm` của Study 1/2 ở 186/186 ô (chênh 0); L giống nhau giữa hai TFM 69/69 ô | Chấm bằng `v1_aggregate.py`, không sửa sau khi xem số: chọn A1; P5 sai, P6 đúng, P7 đúng; không nhóm nào ≥ 3 thụt lùi. Kết quả: [V1_REPORT](V1_REPORT.md). Thầy quyết không chạy bù; cổng V1-A chốt 05/11 |
+
+## Phân tích sau khi chấm xác nhận Study 3 (12/11/2026) — không chạy GPU
+
+| Việc | Script | Đầu ra | Tính chất |
+|---|---|---|---|
+| Phân rã Study 3: từng chuỗi, các tổ hợp trung bình, bỏ một TFM, cùng/khác lưu vực, chi phí | `S3/s3_explore.py` (viết **sau** khi chấm) | `S3/results/s3_explore.json`, `s3_explore.txt`, `s3_explore_cells.csv`, `s3_explore_datasets.csv` | **thăm dò**; chỉ đọc dự đoán đã lưu trong 213 tệp npz |
+| Sinh số, bảng, hình của bài v2 | `paper/scripts/make_v2.py` | `paper/numbers_v2.tex`, `paper/tables/s3_*.tex`, `app_s3_*.tex`, `app_v2_pred.tex`, `app_chainmap.tex`, `app_moments.tex`, `app_s1_chains.tex`, `paper/figures/s3_datasets.pdf`, `chainmap.pdf` | không tạo số mới ngoài các phép tóm tắt |
+| Tính lại Study 3 độc lập (kiểm toán viên, script riêng) | ngoài repo | `G9/reviews/REVIEW_V2_AUDIT_01.md` | khớp toàn bộ số xác nhận và thăm dò |
+
