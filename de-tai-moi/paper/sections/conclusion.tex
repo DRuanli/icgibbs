@@ -1,7 +1,6 @@
 \section{Conclusion}\label{sec:conclusion}
-Under exchangeability, a frozen tabular foundation model's predictive is the full conditional of a Gibbs sampler over
-unknown labels. \ours{} turns this into one procedure for candidate sets and label proportions: a single chain with a
-robust TFM outperformed the strongest specialised learners on new datasets, a response map of the TFM governs where a
-chain ends, and averaging over starts and over TFMs removed most of the resulting failures in a third pre-registered
-study. Open problems are a diagnostic of stalling that needs no labels, guarantees for uncorrected blocks beyond one
-conjugate model, and weak labels whose observation process depends on the features.
+Under exchangeability, a frozen TFM's predictive is the full conditional of a Gibbs sampler over unknown labels.
+\ours{} turns this into one procedure for candidate sets and label proportions: a single chain with a robust TFM
+outperformed specialised learners on new datasets, and averaging over starts and TFMs removed most failures of single
+chains. Open problems: a label-free diagnostic of stalling, response-map bounds with usable constants, and
+feature-dependent weak labels.

@@ -23,7 +23,7 @@ one forward pass per changed label. Contexts above 2{,}000 points are subsampled
 
 \paragraph{Warm start and prediction.} A chain starts from a cheap estimate $P_0$ of the labels: for PLL, the TFM fitted
 on one candidate per point chosen uniformly at random, cross-fitted over 5 folds; for LLP, linear DLLP
-\citep{dllp}. Initial labels are drawn from $P_0$ restricted by $\lik$ (for LLP, conditioned on the bag counts).
+\citep{dllp}. Initial labels are drawn from $P_0$ restricted by $\lik$.
 After $T$ sweeps, of which the first $T_0$ are discarded, the prediction for a test point is the Rao--Blackwellised
 average over $S$ evenly spaced samples,
 \begin{equation}\label{eq:predict}
@@ -37,8 +37,8 @@ predictions \eqref{eq:predict} with equal weights: the \emph{warm} start above; 
 the prediction of a specialised weak-label learner $L$ tuned on the weak labels alone (DLLP with an MLP for LLP, CC
 \citep{feng2020provably} for PLL); and a \emph{cold} start drawn from the normalised likelihood. The \emph{multi-TFM}
 sampler averages the multi-start predictions of several TFMs, again with equal weights. Neither average needs labels
-or a selection step. The TFMs stay frozen, but the learner start trains a small model.
+or a selection step. The TFMs stay frozen throughout, but the starts are not free of training: the LLP warm start
+fits a linear model, and the learner start a tuned one.
 
-\paragraph{Cost and settings.} A chain costs $TK+S$ forward passes and no gradient step. All settings were fixed on
-development datasets before any evaluation and are shared by all datasets and studies: $K=10$, $T=30$, $T_0=10$, $S=10$,
-i.e.\ 310 forward passes per chain.
+\paragraph{Cost and settings.} A chain costs $TK+S$ forward passes. All settings were fixed on development datasets
+before any evaluation and are shared by all datasets and studies: $K=10$, $T=30$, $T_0=10$, $S=10$ (310 passes).

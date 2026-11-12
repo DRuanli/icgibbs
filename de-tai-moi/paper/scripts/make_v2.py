@@ -521,6 +521,12 @@ def main():
     md = max(e7f.diff_pi.abs().max(), e7f.diff_tilde.abs().max())
     mant, expo = f"{md:.1e}".split("e")
     v["th-e7f-maxdiff"] = rf"\ensuremath{{{mant}\times10^{{{int(expo)}}}}}"
+    e7m = pd.read_csv(os.path.join(G4, "r1a", "e7f_affine_check.csv"))
+    v["th-e7m-n"] = len(e7m)
+    mdm = max((e7m.mean_pi_matrix - e7m.mean_pi_closed).abs().max(), (e7m.mean_tilde_matrix - e7m.mean_tilde_closed).abs().max(),
+              (e7m.free_mean_tilde_matrix - e7m.free_mean_tilde_closed).abs().max())
+    mant_, expo_ = f"{mdm:.0e}".split("e")
+    v["th-e7m-maxdiff"] = rf"\ensuremath{{{mant_}\times10^{{{int(expo_)}}}}}"
     e7e = pd.read_csv(os.path.join(G4, "r1a", "e7e_llp_bag_block.csv"))
     asym = e7e[~e7e.setting.str.contains("44")]
     small = asym[(asym.K == 10) & (asym.n <= 160)]

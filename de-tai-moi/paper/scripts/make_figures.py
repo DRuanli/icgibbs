@@ -94,7 +94,7 @@ def mechanism(out, both=True):
     mon = {"tabpfn_v2": monitors(sel(load_s1(raw))), "tabicl_v2": monitors(sel(load_files(raw, ["L6"], "g7_tabicl_*.csv")))}
     style = {"tabpfn_v2": dict(color=BLUE, marker="o", ls="-", label="TabPFN v2"),
              "tabicl_v2": dict(color=ORANGE, marker="D", ls="--", label="TabICL v2")}
-    fig, axes = plt.subplots(2 if both else 1, 4, figsize=(5.5, 2.65 if both else 1.45), sharex="row", sharey="row",
+    fig, axes = plt.subplots(2 if both else 1, 4, figsize=(5.5, 2.65 if both else 1.3), sharex="row", sharey="row",
                              squeeze=False)
     for col, ds in enumerate(COLLAPSE):
         C = int(x[x.dataset == ds].n_classes.iloc[0])

@@ -2,8 +2,9 @@
 % Source: G2/02_CLOSEST_WORKS.md, G2/related_work_matrix.csv (36 works). Update the search <= 30 days before submission.
 \textbf{Weak labels.} Specialised learners are trained with a loss tailored to the observation, for partial labels
 \citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}. Unified frameworks treat many types with one
-expectation--maximisation scheme \citep{glws,ill,count_wsl}, assuming conditionally independent predictions. We replace
-training by inference: latent labels are sampled jointly, and their dependence is modelled through the TFM's context.
+EM scheme \citep{glws,ill,count_wsl}, assuming conditionally independent predictions. We replace
+the training of a task-specific predictor by inference with a frozen TFM: latent labels are sampled jointly, and their
+dependence is modelled through the TFM's context.
 \textbf{Tabular foundation models.} Prior-fitted networks approximate the PPD of a prior over datasets
 \citep{muller2022pfn}; later models extend their range \citep{tabpfn3} or pretrain on real tables \citep{tabdpt}, and
 theory studies when transformers learn PPDs in context \citep{ppd_icl_theory}. Their behaviour with imperfect or

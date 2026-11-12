@@ -2,16 +2,18 @@
 % Every number comes from numbers.tex / numbers_v2.tex. Claims: matrix rows 2, 3, 6, 8, 13, 14, 15, 16, 18.
 Tabular foundation models (TFMs) predict labels in context without training, but they need labelled examples. We show
 that a frozen TFM can learn from weak labels, such as candidate sets or label proportions within bags, without updating
-a weight. Under exchangeability, the distribution of one unknown label given all the others is a posterior predictive
-with the other points as context, which is what a TFM computes. \ours{} therefore samples the latent labels with forward
-passes, brings in the weak labels through their likelihood, and predicts by averaging over the samples. We prove that
-its exact variants target the Bayes posterior when the TFM is exact and, for the sampler as run with a real TFM, that a
-one-dimensional response map of the TFM governs where a chain ends: with two attractors, the start decides. Three
-pre-registered studies test the method. On \val{s2-n-total} new datasets, a single chain with TabICL~v2 outperformed
-the strongest specialised learners for label proportions (\val{s2-llp-cmp-diff} AUC over DLLP) and partial labels; with
-TabPFN~v2 the same chain stalled under heavy ambiguity, which the response map explains. On \val{s3-n-total} further
-datasets with four TFMs, averaging chains from several starts (\val{s3-h1-mean}, $p\val{s3-h1-prel}$) and then over
-TFMs (\val{s3-h2-mean}, $p\val{s3-h2-prel}$) improved on the single chain and matched the best TFM of each dataset. Two
-registered criteria failed: a label-free diagnostic of stalling, and a bound on how often one TFM falls behind a tuned
-specialised learner.
+its weights. Under exchangeability, the distribution of one unknown label given all the others is a posterior
+predictive with the other points as context, which is what a TFM computes. \ours{} therefore samples the latent labels
+with forward passes, brings in the weak labels through their likelihood, and predicts by averaging over the samples.
+Its exact variants target the Bayes posterior when the TFM is exact. For the sampler as run, we show that under a
+homogeneity assumption on the TFM a one-dimensional response map bounds where a chain can go, so that with two
+attractors the start matters. Three pre-registered studies test the method. On \val{s2-n-total} new datasets a single
+chain with TabICL~v2 outperformed specialised learners for label proportions (\val{s2-llp-cmp-diff} AUC over the
+registered comparator, \val{s2-llp-strongest-diff} over the strongest baseline) and, narrowly, for partial labels;
+with TabPFN~v2 the same chain had fallen short under heavy ambiguity. On \val{s3-n-total} further datasets with four
+TFMs, averaging chains from several starts, one of them a tuned specialised learner (\val{s3-h1-mean},
+$p\val{s3-h1-prel}$; median \val{s3-h1-median}), and then over TFMs (\val{s3-h2-mean}, $p\val{s3-h2-prel}$) improved on
+the single chain and matched the best TFM of each dataset. Two registered criteria failed: a label-free diagnostic of
+stalling, and a limit on how often the multi-start average of one TFM falls behind the better of its single chain and
+the tuned learner.
 \end{abstract}

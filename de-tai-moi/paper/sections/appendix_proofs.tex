@@ -57,6 +57,13 @@ the same counts are joined by a sequence of swaps preserving the counts, each wi
 \cref{cor:positivity}; bags are independent, so the product chain is irreducible (the lazy version is also aperiodic).
 \end{proof}
 
+\paragraph{Full statement of \cref{thm:exact}.} (a) For instance-level weak labels the single-site chain satisfies detailed
+balance with respect to $\pi$ and is irreducible and aperiodic on $\mathrm{supp}(\pi)$, hence converges geometrically.
+(b) For LLP the swap chain, whose acceptance ratio needs two forward passes, is reversible and irreducible on
+$\mathrm{supp}(\pi)$. (c) The inductive estimator \eqref{eq:predict} converges almost surely to
+$\bar p(y_*\mid x_*)=\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, and
+$\lvert\bar p-p(y_*\mid x_*,X,\W)\rvert\le\TV\big(p(y\mid X,\W),\,p(y\mid x_*,X,\W)\big)$, which is zero when the prior is
+\emph{separable}; the transductive chain converges to $p(y_*\mid x_*,X,\W)$ exactly.
 \begin{proof}[Proof of \cref{thm:exact}(c)]
 (Inductive.) The ergodic theorem for a finite irreducible chain applied to the bounded function
 $y\mapsto p(y_*\mid x_*,(X,y))$, with (A1), gives almost sure convergence of \eqref{eq:predict} to $\bar p$.
@@ -82,6 +89,9 @@ $f=p(\cdot\mid x_*,X,\W)$. Its risk is finite (at most $\log C$ for the log scor
 \end{proof}
 
 \subsection{Theorem 2}
+For the random-scan single-site kernel, with $\varepsilon_{\TV}$ the TV error of the TFM's conditionals and $\kappa$ a
+constant that depends only on $\lik$, $\bar\varepsilon\le\min\{1,2\kappa\varepsilon_{\TV}\}$, and predictions inherit the
+error additively; both are shown at the end of the proof.
 \begin{proof}[Proof of \cref{thm:stability}]
 \emph{Existence and uniqueness.} The state space is finite, so $\tilde P$ has a stationary distribution. With $\tfm>0$
 every single-site update and every MH acceptance probability is positive, so $\tilde P$ has the transition graph of $P$
@@ -100,7 +110,7 @@ so the error is at most $2\kappa\varepsilon_{\TV}$ with $\kappa=\sup\max_k\lik_i
 \end{proof}
 \emph{Relation to classical bounds.} With $E=\tilde P-P$ and the fundamental matrix $Z$, $\tilde\pi-\pi=\nu Z$
 \citep{schweitzer1968,meyer1980}, which gives $\TV(\tilde\pi,\pi)\le\tau_1(Z)\bar\varepsilon$ with $\tau_1(Z)\le\tau(P)$
-\citep{seneta1988,cho2001}; \eqref{eq:stability} is the weaker, more interpretable form. It is attained by a two-state
+\citep{seneta1988,cho2001}; the bound of \cref{thm:stability} is the weaker, more interpretable form. It is attained by a two-state
 chain. For a single-site sweep the per-sweep error is at most $\lvert F\rvert$ times the per-update error; the MH swap
 kernel has error at most $4\varepsilon_\infty$, with $\varepsilon_\infty=\sup\lvert\log\tfm-\log\ppd\rvert$.
 
@@ -148,15 +158,16 @@ context then also loses the labelled points of the block).
 $\E_P[f(Y')\mid Y=y]-f(y)=A-a\,f(y)$ for all $y$, with $a\neq0$. Let
 $d(y)=\E_{\tilde P}[f(Y')\mid y]-\E_P[f(Y')\mid y]$. Then for any stationary distributions $\pi$ of $P$ and $\tilde\pi$ of
 $\tilde P$, $\tilde\pi(f)-\pi(f)=\tilde\pi(d)/a$.
-(b) In the model above with free blocks, $\tilde\pi(f_c)=\pi(f_c)$ for all $n$, $u<U$ and $c$.
-(c) With blocks over all points, $\E_{\tilde\pi}[k_c]=U(L_c+\alpha')/(N+C\alpha')$ with
-$\alpha'=\alpha\,K(n-1)/((K-1)n)$: the uncorrected chain has exactly the posterior mean of the model with prior
-$\mathrm{Dir}(\alpha',\dots,\alpha')$. Consequently
+(b) In the model above with free blocks, $\tilde\pi(f_c)=\pi(f_c)$ for all $n$, $u\le U$ and $c$.
+(c) With blocks of $M<n$ points over all points, $\E_{\tilde\pi}[k_c]=U(L_c+\alpha')/(N+C\alpha')$ with
+$\alpha'=\alpha(n-1)/(n-M)$, which is $\alpha\,K(n-1)/((K-1)n)$ for $M=n/K$: the counts of the uncorrected chain have
+exactly the posterior mean of the model with prior $\mathrm{Dir}(\alpha',\dots,\alpha')$. Consequently, for $M=n/K$,
 \[
   \tilde\pi(f_c)-\pi(f_c)=\frac{U(\alpha'-\alpha)(N-CL_c)}{(n+C\alpha)(N+C\alpha')(N+C\alpha)}
-  =\frac{\alpha(1-\lambda)(1-Cp_c)}{\lambda(K-1)\,n}\,\big(1+O(1/n)\big),
+  =\frac{\alpha(1-\lambda)(1-Cp_c)}{(K-1)\,N}\,\big(1+O(C\alpha/N)\big),
 \]
-with $\lambda=N/n$ and $p_c=L_c/N$ held fixed.
+with $\lambda=N/n$ and $p_c=L_c/N$. The bias is governed by the number of labelled points: it does not vanish as $n$
+grows with $N$ fixed. The predictor itself is not the posterior mean under $\alpha'$, only the counts are.
 \end{proposition}
 \begin{proof}
 (a) Stationarity of $\tilde\pi$ gives $0=\sum_y\tilde\pi(y)\big(\E_{\tilde P}[f(Y')\mid y]-f(y)\big)=\tilde\pi(A-af+d)$, so
@@ -176,7 +187,7 @@ PPD given the context, $(L_c-l_c+k_c-j_c+\alpha)/D$ with $D=n-M+C\alpha$. Hence
 Using $\E u=MU/n$, $\E[ul]=M^2NU/n^2-V$ and $\E u^2=V+M^2U^2/n^2$, the two brackets simplify to
 $\frac{MU}{n}\big[L_c\frac{n-M}{n-1}+\alpha\big]$ and $\frac{MU}{n}\big[N\frac{n-M}{n-1}+C\alpha\big]$. Setting the drift to
 zero under $\tilde\pi$ gives $\E_{\tilde\pi}k_c=U\big[L_c+\alpha\frac{n-1}{n-M}\big]/\big[N+C\alpha\frac{n-1}{n-M}\big]$, and
-$\frac{n-1}{n-M}=\frac{K(n-1)}{(K-1)n}$. Under $\pi$, by exchangeability, $\E_\pi k_c=U(L_c+\alpha)/(N+C\alpha)$. The
+$\frac{n-1}{n-M}=\frac{K(n-1)}{(K-1)n}$ when $M=n/K$. Under $\pi$, by exchangeability, $\E_\pi k_c=U(L_c+\alpha)/(N+C\alpha)$. The
 displayed difference follows from $f_c(k)=(L_c+k_c+\alpha)/(n+C\alpha)$ and $\alpha'-\alpha=\alpha(n-K)/((K-1)n)$.
 \end{proof}
 
@@ -184,11 +195,14 @@ displayed difference follows from $f_c(k)=(L_c+k_c+\alpha)/(n+C\alpha)$ and $\al
 of one step) $\times$ (relaxation time of the mean, $1/a$), and it does not involve how far the joint distribution of a
 block is from the product of its marginals. In (c), removing the labelled points of the block from the context shrinks
 the chain towards the prior mean, by an amount proportional to $1/n$, to $1/(K-1)$, and to the ratio of free to labelled
-points; the bias vanishes when the labelled frequencies equal the prior mean. The closed form agrees with the
-stationary means computed from full transition matrices to within \val{th-e7f-maxdiff} in \val{th-e7f-n} configurations.
+points; the bias vanishes when the labelled frequencies equal the prior mean. The closed form of (c) agrees with the fixed point of the
+affine drift to within \val{th-e7f-maxdiff} in \val{th-e7f-n} configurations, and the drift fixed points agree with the
+stationary means computed from full transition matrices to within \val{th-e7m-maxdiff} in \val{th-e7m-n} further
+configurations with $n\le200$.
 
 \paragraph{What the identity does not cover.} (i) The scan of \cref{prop:predbias} draws a fresh block at every step;
-\cref{alg:icg} partitions a permutation, for which we have only numerical agreement of the leading term. (ii) With weak
+\cref{alg:icg} partitions a permutation, for which the identity is not exact: we have only numerical agreement of the
+leading term. (ii) With weak
 labels that tilt the draws (PU, PLL), the drift of the exact kernel is no longer affine and free blocks are biased: in
 the pooled PU model the predictor is off by up to \val{th-pu-free-max} with free blocks and by at most
 \val{th-pu-all-max} with blocks over all points, which is why the latter are our default. (iii) For LLP the uncorrected bag-block kernel is biased already in its first moment. In a model with two
@@ -214,13 +228,14 @@ not subsampled ($n-m$ does not exceed the context limit). We write $f_k=\lvert B
 $r_k=r_{-B_k}(Y_{s,k-1})$ for the accuracy of the context when block $k$ is updated, $U_k=F\cap(B_1\cup\dots\cup B_{k-1})$
 and $V_k=F\cap(B_{k+1}\cup\dots\cup B_K)$ for the free points already and not yet updated, $o_i$ for the correctness of
 point $i$ at the start of the sweep and $\xi_i$ for the correctness of its redraw. $\mathcal F_s$ is the history up to the
-end of sweep $s$. Since $n_F>m$, $F\setminus B_k\neq\emptyset$ and $r_k$ is well defined.
+end of sweep $s$. Since $n_F>m$, $F\setminus B_k\neq\emptyset$ and $r_k$ is well defined. We use the conventions
+$\inf\emptyset=+\infty$ and $\sup\emptyset=-\infty$ in $\underline\Phi$ and $\overline\Phi$.
 
 \begin{lemma}[One sweep]\label{lem:sweep}
 (i) Assume $(\mathrm H^-_\delta)$ and let $x$ be an $\mathcal F_s$-measurable level with $\underline\Phi(x-\nu)-\delta\ge x$.
 On the event $\{R_s\ge x\}$,
 $P\big(R_{s+1}\ge\underline\Phi(x-\nu)-\delta-\lambda\mid\mathcal F_s\big)\ge1-p(\nu,\lambda)$.
-(ii) Assume $(\mathrm H^+_\delta)$ and let $x$ satisfy $\overline\Phi(x+\nu)+\delta\le x$. On $\{R_s\le x\}$,
+(ii) Assume $(\mathrm H^+_\delta)$ and let $x$ be an $\mathcal F_s$-measurable level with $\overline\Phi(x+\nu)+\delta\le x$. On $\{R_s\le x\}$,
 $P\big(R_{s+1}\le\overline\Phi(x+\nu)+\delta+\lambda\mid\mathcal F_s\big)\ge1-p(\nu,\lambda)$.
 \end{lemma}
 \begin{proof}
@@ -230,13 +245,13 @@ $P\big(R_{s+1}\le\overline\Phi(x+\nu)+\delta+\lambda\mid\mathcal F_s\big)\ge1-p(
 \end{equation}
 Let $Z_k=\sum_{i\in U_k}(\xi_i-c_i)$, where $c_i$ is the conditional probability that the redraw of $i$ is correct given
 the state just before its block is updated, and let
-$N_k=\sum_{i\in U_k}h_i+Z_k+\sum_{i\in V_k}(o_i-R_s)$ and $\mathcal E=\{N_k>-\nu(n_F-m)\text{ for all }k\}$.
+$\Xi_k=\sum_{i\in U_k}h_i+Z_k+\sum_{i\in V_k}(o_i-R_s)$ and $\mathcal E=\{\Xi_k>-\nu(n_F-m)\text{ for all }k\}$.
 
 \emph{On $\mathcal E$, $r_k\ge x-\nu$ for all $k$.} Induction on $k$. Suppose $r_j\ge x-\nu$ for $j<k$ (nothing to assume for
 $k=1$). Then $\Phi(r_j)\ge\underline\Phi(x-\nu)$, and $(\mathrm H^-_\delta)$ applied to each block $j<k$ with
 $f_j>0$ gives $\sum_{i\in U_k}c_i\ge\sum_{i\in U_k}h_i+\sum_{j<k}f_j(\Phi(r_j)-\delta)\ge\sum_{i\in U_k}h_i+\lvert U_k\rvert x$.
 Also $\sum_{i\in V_k}o_i=\lvert V_k\rvert R_s+\sum_{i\in V_k}(o_i-R_s)\ge\lvert V_k\rvert x+\sum_{i\in V_k}(o_i-R_s)$. Adding the
-two in \eqref{eq:rk}, $(n_F-f_k)r_k\ge(n_F-f_k)x+N_k$, and on $\mathcal E$, since $f_k\le m$,
+two in \eqref{eq:rk}, $(n_F-f_k)r_k\ge(n_F-f_k)x+\Xi_k$, and on $\mathcal E$, since $f_k\le m$,
 $r_k>x-\nu(n_F-m)/(n_F-f_k)\ge x-\nu$.
 
 \emph{End of the sweep.} Every free point is redrawn once, so $R_{s+1}=n_F^{-1}\big(\sum_{i\in F}c_i+Z\big)$ with
@@ -244,15 +259,17 @@ $Z=\sum_{i\in F}(\xi_i-c_i)$. On $\mathcal E$, by $(\mathrm H^-_\delta)$, $\sum_
 $\sum_{i\in F}c_i\ge\sum_kf_k(\Phi(r_k)-\delta)\ge n_F(\underline\Phi(x-\nu)-\delta)$, hence
 $R_{s+1}\ge\underline\Phi(x-\nu)-\delta+Z/n_F$.
 
-\emph{Probabilities.} Give each of the three parts of $N_k$ the budget $t=\nu(n_F-m)/3=\nu a n_F/3$. The set $U_k$ is the
+\emph{Probabilities.} Give each of the three parts of $\Xi_k$ the budget $t=\nu(n_F-m)/3=\nu a n_F/3$. The set $U_k$ is the
 intersection of $F$ with the first $(k-1)$ blocks of the permutation, which is independent of $\mathcal F_s$; so
 $\sum_{U_k}h_i$ is a sum over a sample without replacement of at most $n$ elements of the population
 $\{h_i\mathbb 1[i\in F]\}_{i\le n}$, which has sum 0 and range at most $2h_{\max}$, and by Hoeffding's inequality for
 sampling without replacement \citep[Section~6]{hoeffding1963} it is below $-t$ with probability at most
 $\exp(-t^2/(2nh_{\max}^2))$. In the same way $\sum_{V_k}(o_i-R_s)$ is a sample from $\{(o_i-R_s)\mathbb 1[i\in F]\}$, with
 sum 0 and range at most 1, and is below $-t$ with probability at most $\exp(-2t^2/n)$. Conditionally on the permutation,
-$Z_k$ is a martingale in the order of the redraws, with at most $n_F$ increments, each in an interval of length 1, so
-by the Azuma--Hoeffding inequality $P(Z_k\le-t)\le\exp(-2t^2/n_F)$. With $n=n_F/\rho$ and $\rho\le1$, each of the three
+$Z_k$ is a martingale in the order of the redraws, with at most $n_F$ increments; each increment $\xi_i-c_i$ lies in
+the interval $[-c_i,1-c_i]$ of length 1, whose endpoints are determined by the past, so Hoeffding's lemma applied
+conditionally to each increment (the martingale form of Hoeffding's inequality with predictable ranges) gives
+$P(Z_k\le-t)\le\exp(-2t^2/n_F)$. With $n=n_F/\rho$ and $\rho\le1$, each of the three
 is at most $\exp(-c\rho n_F\nu^2)$, and a union bound over $k\le K$ gives $P(\mathcal E^c\mid\mathcal F_s)\le3Ke^{-c\rho n_F\nu^2}$.
 Finally $P(Z/n_F\le-\lambda)\le e^{-2n_F\lambda^2}$ by the same inequality. (If $h_{\max}=0$ the first part is zero and
 $c=2a^2/9$.) Part (ii) is symmetric, with $\overline\Phi$, the upper half of the assumption and the opposite tails.
@@ -262,8 +279,9 @@ $c=2a^2/9$.) Part (ii) is symmetric, with $\overline\Phi$, the upper half of the
 Let $\psi(x)=\underline\Phi(x-\nu)-\delta-\lambda$, which is non-decreasing.
 (a) The condition $\psi(x)\ge x$ implies $\underline\Phi(x-\nu)-\delta\ge x$, so by \cref{lem:sweep}(i), on $\{R_{s'}\ge x\}$,
 $R_{s'+1}\ge\psi(x)\ge x$ with conditional probability at least $1-p$. Applying this at $s'=s,\dots,s+H-1$ gives
-$P(R_{s'}\ge x\text{ for all }s<s'\le s+H)\ge(1-p)^H\ge1-Hp$, and
-$\E[\tau-s]=\sum_{H\ge0}P(\tau-s>H)\ge\sum_{H\ge0}(1-p)^H=1/p$.
+$P(R_{s'}\ge x\text{ for all }s<s'\le s+H)\ge\max\{0,1-p\}^H\ge1-Hp$ for every integer $H\ge1$. If $p<1$,
+$\E[\tau-s]=\sum_{H\ge0}P(\tau-s>H)\ge\sum_{H\ge0}(1-p)^H=1/p$ ($\tau$ may be infinite); if $p\ge1$ the claim is
+trivial, since $\tau-s\ge1$.
 (b) is symmetric, with \cref{lem:sweep}(ii).
 (c) Let $q_0=r_0$, $q_{j+1}=\min\{\psi(q_j),b\}$, and let $J$ be the first index with $q_J\ge b$; since
 $\psi(q_j)\ge q_j+\gamma$ while $q_j<b$, $J\le\lceil(b-r_0)/\gamma\rceil$. If $R_j\ge q_j$ and $q_j<b$, then
@@ -273,15 +291,19 @@ $P(R_j\ge q_j\text{ for all }j\le J)\ge1-Jp$.
 \end{proof}
 
 \paragraph{Remarks.} (i) \emph{What each conclusion needs.} Staying up needs only the lower half of the assumption,
-staying down only the upper half, and each proof uses the assumption only at states the chain visits before leaving
-the region in question. (ii) \emph{Two basins.} Suppose $\Phi$ is non-decreasing and $\ell$-Lipschitz and $g$ changes sign
+staying down only the upper half. The proofs use the assumption only at the pairs (state before a block update, block)
+of the sweeps in question, and for a floor only when the context accuracy $r_{-B}$ is at least $x-\nu$; if a block has
+a single free point, the assumption constrains that point individually. (ii) \emph{Two basins.} Suppose $\Phi$ is non-decreasing and $\ell$-Lipschitz and $g$ changes sign
 from negative to positive at $u$. Any $x>u$ with $g(x)\ge\delta+\ell\nu+\lambda$ is a floor; choosing
 $\nu=\lambda=(g(x)-\delta)/(\ell+1)$ gives $p\le(1+3K)\exp\!\big(-c\rho n_F(g(x)-\delta)^2/(\ell+1)^2\big)$, so the expected
 time to fall below $x$ grows exponentially with $n_F$; symmetrically below $u$. (iii) \emph{Looseness.} The margin $\nu$
 pays for the worst case in which all blocks of a sweep see a context that is off in the same direction, and
 Hoeffding's inequality uses ranges instead of variances. In simulations with a synthetic TFM whose response map is
-known and for which the assumption holds with $\delta=0$ ($n=3{,}000$, $K=10$), the proven invariant band has half-width
-\val{th-band-bound-half} and the simulated 99\% band \val{th-band-obs-half}. The qualitative statements hold for every
+known and for which the assumption holds with $\delta=0$ ($n=3{,}000$, $K=10$), the proven two-sided invariant band for
+$H=60$ sweeps at total failure probability 0.05 has half-width \val{th-band-bound-half}, and the simulated 99\% band
+\val{th-band-obs-half}. For a slope-one map with $\delta=0$ and all labels unknown, a floor over 30 sweeps at failure
+probability 0.05 needs a gain margin $\nu+\lambda$ of \val{th-margin-1k}, \val{th-margin-3k}, \val{th-margin-10k} and
+\val{th-margin-100k} at $n_F=10^3$, $3\times10^3$, $10^4$ and $10^5$. The qualitative statements hold for every
 $n$, but the bands are informative only for large $n_F$. (iv) \emph{Subsampled contexts.} When the context is subsampled
 to a fixed size, the accuracy the TFM sees is that of a random subsample, which adds a deviation term to $\nu$; we do not
 state that extension, and the empirical check of \cref{sec:tfm} includes cells with subsampled contexts. (v) \emph{LLP.}
@@ -290,8 +312,9 @@ the lemma does not apply.
 
 \begin{proposition}[Stationary moments for an affine map]\label{prop:moments}
 In the setting of \cref{lem:sweep}, let all points be free ($\rho=1$), $K$ divide $n$, and suppose that every redraw in
-block $k$ is correct with probability exactly $c_0+b\,r_k$, where $0<c_0$ and $c_0+b<1$, $0\le b<1$ (that is,
-$\Phi(r)=c_0+br$, $h\equiv0$, $\delta=0$). Then (a) $\E[R_{s+1}\mid\mathcal F_s]=\alpha_0+\alpha_1R_s$ and
+block $k$ is correct, independently given the context, with probability exactly $c_0+b\,r_k$, where $0<c_0$,
+$c_0+b<1$ and $0\le b<1$ (a point-wise affine response, stronger than \cref{ass:H} with $\Phi(r)=c_0+br$, $h\equiv0$,
+$\delta=0$, which constrains block averages only). Then (a) $\E[R_{s+1}\mid\mathcal F_s]=\alpha_0+\alpha_1R_s$ and
 $\operatorname{Var}[R_{s+1}\mid\mathcal F_s]=q_0+q_1R_s+q_2R_s^2$, with coefficients given by a $K$-step recursion; (b) under the
 stationary distribution of the chain, $\E R=r^*=c_0/(1-b)$, the lag-one autocorrelation of $(R_s)$ is $\alpha_1$,
 $\lvert\alpha_1\rvert<1$, and $\operatorname{Var}R\cdot(1-\alpha_1^2-q_2)=q_0+q_1r^*+q_2{r^*}^2$.
@@ -307,8 +330,8 @@ covariance of $W_k$. By induction on $k$, the mean of $(N_{\le k},O)$ is affine 
 $S$; $R_{s+1}=\sum_kN_k/n$ inherits both, which is (a). For (b), the chain is finite, irreducible and aperiodic because
 every redraw is correct with probability in $(0,1)$, so it has a unique stationary distribution, under which
 $\E R=\alpha_0+\alpha_1\E R$. If $\alpha_1=1$ then $\alpha_0=0$ and $\E[R_{s+1}\mid R_s=0]=0$, impossible since $c_0>0$; so
-$\E R=\alpha_0/(1-\alpha_1)$. If $R_s=r^*$ the recursion gives $\E r_k=r^*$ and $\E N_k=m(c_0+br^*)=mr^*$ for every $k$, so
-$r^*$ is the fixed point of $R\mapsto\alpha_0+\alpha_1R$. The covariance of $R_{s+1}$ and $R_s$ is $\alpha_1\operatorname{Var}R$.
+$\E R=\alpha_0/(1-\alpha_1)$. The recursion for the means is affine in $S$ and can be evaluated at any real $S$; at $S=nr^*$ it gives
+$\E r_k=r^*$ and $\E N_k=m(c_0+br^*)=mr^*$ for every $k$, so $r^*$ is the fixed point of $R\mapsto\alpha_0+\alpha_1R$. The covariance of $R_{s+1}$ and $R_s$ is $\alpha_1\operatorname{Var}R$.
 The law of total variance gives $\operatorname{Var}R=\E[\operatorname{Var}(R_{s+1}\mid R_s)]+\alpha_1^2\operatorname{Var}R$; the
 first term is positive, so $\alpha_1^2<1$, and expanding it with $\E R^2=\operatorname{Var}R+{r^*}^2$ gives the last identity.
 \end{proof}

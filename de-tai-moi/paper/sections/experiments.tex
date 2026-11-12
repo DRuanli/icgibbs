@@ -10,18 +10,17 @@ by 20 random configurations scored on a validation split \emph{with weak labels 
 MLP or a linear model, LLP-VAT \citep{tsai2020llpvat}, EasyLLP \citep{easy_llp} and GLWS \citep{glws}; for PLL, PRODEN
 \citep{proden}, GLWS/ILL \citep{glws,ill}, RC and CC \citep{feng2020provably}. With the same TFM
 we also run the \emph{naive TFM} (one label per point consistent with the weak labels), \emph{hard-EM} (arg max instead
-of sampling) and an \emph{oracle}. \ours{} is never tuned per dataset. A rule applied to development datasets (datasets set
-aside for choosing settings, never used for evaluation) fixed the \emph{primary comparators}: linear DLLP in its default
-configuration and tuned CC. A \emph{cell} is one run (TFM, dataset, setting, seed); a \emph{pair} is a (TFM, dataset)
+of sampling) and an \emph{oracle}. \ours{} is never tuned per dataset. A rule applied to development datasets (set aside for
+choosing settings) fixed the \emph{primary comparators}: linear DLLP in its default configuration and tuned CC. A \emph{cell} is one run (TFM, dataset, setting, seed); a \emph{pair} is a (TFM, dataset)
 averaged over seeds; differences below 0.001 count as ties.
 
 \paragraph{Studies 1 and 2: one chain against specialised learners.} H2 (LLP) and H4 (PLL) require the single chain to
 beat the primary comparator and the naive TFM (two-sided Wilcoxon signed-rank over datasets, Holm-adjusted) \emph{and}
 to beat the baseline with the best mean score on $\ge$70\% of datasets (LLP), or to match or beat it on $\ge$60\% at each
-level (PLL). H3 compares it with hard-EM on log loss (Bayesian signed-rank test \citep{benavoli2017bayesian}).
-\emph{Study~1} used 24 OpenML-CC18 datasets \citep{bischl2021openml} with TabPFN~v2 as the registered TFM and TabICL~v2
-as a registered ablation. \emph{Study~2} replicated it on \val{s2-n-total} new datasets from five curated suites
-\citep[e.g.][]{grinsztajn2022tree} with TabICL~v2, changing nothing else (H2$'$--H4$'$).
+level (PLL); H3 compares it with hard-EM on log loss \citep{benavoli2017bayesian}. \emph{Study~1} used 24 OpenML-CC18
+datasets \citep{bischl2021openml} with TabPFN~v2 and, as a registered ablation, TabICL~v2. \emph{Study~2} replicated it
+on \val{s2-n-total} new datasets from five curated suites \citep[e.g.][]{grinsztajn2022tree} with TabICL~v2, changing
+nothing else (H2$'$--H4$'$).
 
 \paragraph{Study 3: several starts and several TFMs.} \emph{Study~3} used \val{s3-n-total} further datasets
 (\val{s3-n-binary} binary with LLP, \val{s3-n-multi} multiclass with PLL at $q=0.6$) from the same suites, OpenML-CC18
@@ -35,7 +34,7 @@ fails, i.e.\ is more than 0.02 below the better of the multi-start average and $
 tuned learner $L$ in at most 10\% of (TFM, dataset) pairs. C5$''$: the multi-TFM average is on average within 0.01 of
 the best TFM of each dataset and more than 0.02 behind it on at most 3. The only baseline of Study~3 is $L$ (tuned
 DLLP-MLP and tuned CC, the strongest LLP baseline and the primary PLL comparator of Study~2). All protocols were
-committed before the evaluation tables were downloaded, and development between the studies was exploratory
+committed before the evaluation data were downloaded; development between studies was exploratory
 (\cref{app:prereg,app:dev}).
 
 \begin{table}[t]
@@ -43,14 +42,14 @@ committed before the evaluation tables were downloaded, and development between 
 \caption{Studies 1 and 2, pre-registered tests of the single chain. $\Delta$: mean over datasets of (\ours{} $-$
 comparator), 3 seeds each; W/T/L: datasets won/tied/lost; $p_{\mathrm{Holm}}$: two-sided Wilcoxon signed-rank,
 Holm-adjusted within each hypothesis. Bold: significant in favour of \ours{}. The two PLL rows against CC coincide
-after rounding (\val{s2-pll3-cmp-diff4} \val{s2-pll3-cmp-ci4} and \val{s2-pll6-cmp-diff4} \val{s2-pll6-cmp-ci4}).}
+only after rounding (\cref{app:s2-s1}).}
 \label{tab:main}
 \setlength{\tabcolsep}{3.2pt}
 \resizebox{\textwidth}{!}{\input{tables/main_results}}
 \end{table}
 
 \subsection{One chain with a robust TFM outperforms specialised learners}\label{sec:s2}
-In Study~2 all pre-registered tests passed (\cref{tab:main}, right; \cref{app:s2-s1}). On LLP the single chain improved
+In Study~2 all pre-registered tests passed (\cref{tab:main}, right). On LLP the single chain improved
 AUC over the primary comparator by \val{s2-llp-cmp-diff} \val{s2-llp-cmp-ci} (\val{s2-llp-cmp-wtl}) and over the
 strongest LLP baseline, \val{s2-llp-strongest-name}, by \val{s2-llp-strongest-diff} \val{s2-llp-strongest-ci}
 (better on \val{s2-llp-strongest-wins} datasets) \claim{6}. On PLL it improved accuracy over tuned CC by
@@ -61,8 +60,7 @@ a second chain (\cref{sec:ablation}). With the same TFM and warm start, sampling
 lower log loss than hard-EM in \val{s2-h3-frac} of \val{s2-h3-cells} cells (registered H3$'$) and higher mean accuracy
 at $q=0.6$ (\val{s2-mean-gibbs-pll6} against \val{s2-mean-hardem-pll6}) \claim{7}. Averaging over samples adds little to
 predicting from the last sample alone (\val{s2-mean-sem-pll6}; \cref{tab:s2means}). The gain over the naive TFM is
-large for candidate sets and bag counts and absent where naive labels carry all the information
-(\cref{app:secondary}) \claim{12}.
+absent where naive labels carry all the information (\cref{app:secondary}) \claim{12}.
 
 \subsection{Stalling, and what response maps do and do not explain}\label{sec:tfm}
 Study~1, with TabPFN~v2, did not meet its criteria (\cref{tab:main}, left). \ours{} improved on the naive TFM by
@@ -76,30 +74,29 @@ of three stayed low (\val{s1-fin-pfn-opt}; \cref{tab:s1chains}). With TabICL~v2 
 at \val{s1-fin-icl-min} or above, the registered ablation passed every test (\cref{app:s1-tabicl}), and Study~2 then
 tested that TFM prospectively \claim{13}.
 
-\Cref{fig:mechanism} shows the gain $\Phi(r)-r$ of one sweep from an assignment with a fraction $r$ of correct labels
-and uniformly placed errors. It is positive throughout with TabICL~v2 and negative for intermediate $r$ with TabPFN~v2,
-so the map separates the two TFMs. It is not a faithful model of the chains, however: three of the four TabPFN~v2
-datasets climbed through the region of negative gain. On \val{v2-p8-n} cells of development runs (both TFMs, LLP and
-PLL; exploratory, \cref{app:dev}), chains ended above the fixed point of the uniform-error map in
-\val{v2-uni-above-all} of cells (median error \val{v2-p9-uniform}). A chain's own errors sit on points the TFM finds
-ambiguous and harm the context less than uniform ones, so for the uniform map only the lower half of \cref{ass:H} is
-plausible: it can indicate that a chain will climb, not that it will stall. With errors placed according to the chain's
-own marginals the fixed point is within a median of \val{v2-p8-med} of the final accuracy (\cref{fig:chainmap})
-\claim{17}; since those marginals come from the chain whose end is predicted, this shows that chains settle at a fixed
-point of a one-dimensional map and that the placement of errors matters, not that \cref{thm:basins} forecasts anything.
-Two development predictions written in advance probed the mechanism: started from tuned CC, TabPFN~v2 chains ended at
-label accuracies \val{v2-p1-rmin}--\val{v2-p1-rmax} on three of the four datasets (\val{v2-p1-n} of \val{v2-p1-n}
-runs), and on an LLP dataset with negative gain at the starting accuracy the chain fell below its start (AUC
-\val{v2-p3-ttt-gibbs} from \val{v2-p3-ttt-start}); a third, that semeion would collapse from such a start, was wrong.
-Quantitatively the theorem is silent at these sizes: for $n_F$ between \val{th-nF-four} it certifies a floor only for
-margins above about \val{th-margin-3k} to \val{th-margin-1k}, and the measured gains are at most \val{th-gain-absmax}.
-We rely on it for the mechanism and its scaling with $n_F$, not as a certificate.
+\Cref{fig:mechanism} shows the gain $\Phi(r)-r$ measured by redrawing every block given an assignment with a fraction
+$r$ of correct labels and uniformly placed errors. It is positive throughout with TabICL~v2 and negative for
+intermediate $r$ with TabPFN~v2, so the map separates the two TFMs. It is not a faithful model of the chains, however:
+three of the four TabPFN~v2 datasets climbed through the region of negative gain. On \val{v2-p8-n} cells of development
+runs (both TFMs, LLP and PLL; exploratory, \cref{app:dev}), chains ended above the fixed point of the uniform-error
+map in \val{v2-uni-above-all} of cells (median error \val{v2-p9-uniform}): a chain's own errors sit on points the TFM
+finds ambiguous and harm the context less than uniform ones. For the uniform map only the lower half of \cref{ass:H}
+is therefore plausible; it can indicate that a chain will climb, not that it will stall. With errors placed according
+to the chain's own marginals the fixed point is within a median of \val{v2-p8-med} of the final accuracy
+(\cref{fig:chainmap}) \claim{17}. Those marginals come from the chain whose end is predicted, so this shows that chains
+settle at a fixed point of a one-dimensional map and that the placement of errors matters, not that
+\cref{thm:basins} forecasts anything. Of three development predictions about starts written in advance, two held (started
+from tuned CC, TabPFN~v2 chains ended at label accuracies \val{v2-p1-rmin}--\val{v2-p1-rmax} on three of the four
+datasets) and one, that semeion would collapse from such a start, was wrong. Quantitatively the theorem is silent at these sizes: for
+$n_F$ between \val{th-nF-four} it needs margins above about \val{th-margin-3k} to \val{th-margin-1k}, and the measured
+gains are at most \val{th-gain-absmax}.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/mechanism_map}
-\caption{Response maps for PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes: gain $\Phi(r)-r$ of
-one Gibbs sweep started from a fraction $r$ of correct labels, errors placed uniformly (3 seeds; needs true labels).}
+\caption{Response maps for PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes: gain $\Phi(r)-r$
+when every block is redrawn given an assignment with a fraction $r$ of correct labels and uniformly placed errors
+(needs true labels). On optdigits the context is subsampled, outside the scope of \cref{thm:basins}.}
 \label{fig:mechanism}
 \end{figure}
 
@@ -131,23 +128,21 @@ failures for TabPFN-3 (\val{s3-h3-auc-tabpfn_v3}) and TabICL~v2 (\val{s3-h3-auc-
 (\val{s3-h3-auc-tabdpt}) or TabPFN~v2 (\val{s3-h3-auc-tabpfn_v2}): we have no label-free diagnostic that transfers
 across TFMs. C4$''$ also failed: with one TFM, the multi-start sampler was more than 0.02 behind the better of its
 single chain and $L$ in \val{s3-c4-n} of \val{s3-n-pairs} pairs (\val{s3-c4-rate}): \val{s3-c4-vs-v1} behind the
-single chain, \val{s3-c4-vs-L} behind $L$, \val{s3-c4-both} behind both (\cref{app:s3}) \claim{18}. One TFM with several starts is thus not guaranteed to
-match a tuned specialised learner; their registered descriptive comparison was not significant (\val{s3-a1L-mean},
-$p=\val{s3-a1L-p}$).
+single chain, \val{s3-c4-vs-L} behind $L$, \val{s3-c4-both} behind both (\cref{app:s3}) \claim{18}. The registered descriptive
+comparison of one TFM's multi-start average with $L$ was not significant (\val{s3-a1L-mean}, $p=\val{s3-a1L-p}$).
 
 \paragraph{Exploratory analysis.} The following was not registered and was computed after the confirmatory scoring
 (\cref{app:s3}). (i) The multi-TFM average was above $L$ on all \val{s3x-X-L-w} datasets, by \val{s3x-X-L-mean} on
 average \val{s3x-X-L-ci}, and by the measure of C4$''$ it regressed in \val{s3x-X-reg} of \val{s3-n-pairs} pairs; the
 average of single chains over TFMs, which does not use $L$, was above $L$ on all \val{s3-n-binary} LLP datasets but only
-\val{s3x-Xwarm-L-pll-wtl} (W/T/L) on PLL, with one dataset \val{s3x-Xwarm-L-pll-min} behind \claim{19}.
-(ii) The benefit of several starts comes from the learner start: the chain started from $L$ alone matches the
-three-start average (\val{s3x-base-A1}), the cold start adds little, and averaging the single chain with $L$'s own
-prediction, with no further chain, does as well as the registered average (\val{s3x-warmL-A1},
+\val{s3x-Xwarm-L-pll-wtl} (W/T/L) on PLL \claim{19}. (ii) The benefit of several starts comes from the learner start:
+the chain started from $L$ alone matches the three-start average (\val{s3x-base-A1}), the cold start adds little, and
+averaging the single chain with $L$'s own prediction, with no further chain, does as well (\val{s3x-warmL-A1},
 $p=\val{s3x-warmL-A1-p}$). (iii) The three chains ended within 0.03 of each other in label accuracy in
 \val{s3x-basin-same} of cells; the PLL gain of the multi-start average is \val{s3x-basin-G-pll-diff} in the other cells
-and \val{s3x-basin-G-pll-same} where chains agree, as \cref{thm:basins} suggests. (iv) TabICL~v2 carries much of the
-multi-TFM result: the average is not significantly better than TabICL~v2's own multi-start average
-(\val{s3x-X-A1-tabicl_v2}, $p=\val{s3x-X-A1-tabicl_v2-p}$); averaging over TFMs buys not having to know this in advance.
+and \val{s3x-basin-G-pll-same} where chains agree. (iv) TabICL~v2 carries much of the multi-TFM result: the average is
+not significantly better than TabICL~v2's own multi-start average (\val{s3x-X-A1-tabicl_v2},
+$p=\val{s3x-X-A1-tabicl_v2-p}$); averaging over TFMs buys not having to know this in advance.
 
 \subsection{Real weak labels, exactness and cost}\label{sec:real}\label{sec:ablation}
 On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; single chain with TabICL~v2,
@@ -156,9 +151,8 @@ registered in Study~1), \ours{} had the highest mean accuracy on all three and t
 exact when the TFM is, was not consistently better than the default at the same 30 sweeps (MH minus default with
 TabICL~v2: \val{s2e-mh-llp} AUC on LLP, \val{s2e-mh-pll6} accuracy on PLL at $q=0.6$; \cref{tab:s2e}) and was a median
 \val{s2e-mh-cost-median} times slower; the comparison confounds bias with slower mixing. Chains do not mix at the level
-of individual labels, and in an exploratory rerun of Study~2 with a second chain H4$'$ at $q=0.6$ no longer passes
-($p_{\mathrm{Holm}}=\val{r4-b-pll6-p}$), while with the two chains averaged every test passes (\cref{tab:r4}): that
-result depends on Monte Carlo variation, which averaging reduces.
+of individual labels: in an exploratory rerun of Study~2 with a second chain, H4$'$ at $q=0.6$ no longer passes
+($p_{\mathrm{Holm}}=\val{r4-b-pll6-p}$), while with the two chains averaged every test passes (\cref{tab:r4}).
 On one T4 GPU a chain took a median of \val{s2-cost-median-s}\,s in Study~2 and between
 \val{s3x-cost-sec-tabicl_v2}\,s (TabICL~v2) and \val{s3x-cost-sec-tabpfn_v2}\,s (TabPFN~v2) in Study~3; the
 \val{s3x-cost-nchains} chains of the multi-TFM average took a median of \val{s3x-cost-X-min} minutes per dataset and seed,

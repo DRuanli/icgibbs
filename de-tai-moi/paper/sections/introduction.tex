@@ -15,27 +15,27 @@ of one unknown label given all the others is precisely such a PPD, with the othe
 the context (\cref{lem:fullcond}). A forward pass of a frozen TFM is therefore the full conditional of a Gibbs sampler
 over the latent labels, and weak labels enter only through their likelihood. \ours{} samples the unknown labels block
 by block with forward passes, respecting candidate sets or bag counts, and predicts by averaging the TFM's predictions
-over the samples (\cref{sec:method}). No weight of the TFM is updated.
+over the samples (\cref{sec:method}). No weight of the TFM is updated; only a chain's start may use a trained model.
 
 \paragraph{Evidence from three pre-registered studies.} Each study fixed its hypotheses, comparators and tests before its
 evaluation data were touched, and each was designed around what the previous one found. Study~1, with TabPFN~v2, showed
-large gains over the naive use of the TFM but missed its criteria: under heavy ambiguity the chains stalled near an
+large gains over the naive use of the TFM but missed its criteria: under heavy ambiguity some chains never left an
 uninformative labelling. Study~2 changed only the TFM, to TabICL~v2, on \val{s2-n-total} new datasets
-(\cref{tab:main}): a single chain outperformed the strongest specialised baselines for label proportions, by
-\val{s2-llp-cmp-diff} AUC over DLLP, and for partial labels, by about one accuracy point over tuned CC. When does a
-chain stall? We answer with a \emph{response map}, the expected label accuracy after one sweep as a function of the
-accuracy before it. For the sampler exactly as it is run, the map bounds where a chain can go (\cref{thm:basins}):
-with two attractors the start decides, for a time exponential in the number of unknown labels. We therefore average
-chains from several starts, one of them a specialised learner, and then average over TFMs. Study~3 tested both steps on
-\val{s3-n-total} further datasets with four TFMs (\cref{tab:s3}): both hypotheses were confirmed, and the multi-TFM
-average matched the best TFM of each dataset without knowing which it is. Two registered criteria failed: a label-free
-signal did not identify stalled chains across TFMs, and with a single TFM the multi-start average fell behind a tuned
-specialised learner in \val{s3-c4-rate} of cases.
+(\cref{tab:main}): a single chain outperformed the specialised baselines for label proportions, by
+\val{s2-llp-cmp-diff} AUC over the registered comparator and \val{s2-llp-strongest-diff} over the strongest one, and for
+partial labels, by about one accuracy point over tuned CC. To study when a chain stalls we use a \emph{response map}:
+the accuracy of the TFM's relabelling as a function of the accuracy of the labels in its context. Under the assumption
+that this map describes the TFM, it bounds where the sampler as run can go (\cref{thm:basins}); with two attractors
+the start matters. We therefore average chains from several starts, one of them a tuned specialised learner, and then
+average over TFMs. Study~3 tested both steps on \val{s3-n-total} further datasets with four TFMs (\cref{tab:s3}): both
+hypotheses were confirmed, and the multi-TFM average matched the best TFM of each dataset without knowing which it is.
+Two registered criteria failed: a label-free signal did not identify failing chains across TFMs, and with one TFM the
+multi-start average was more than 0.02 behind the better of its single chain and the tuned learner in
+\val{s3-c4-rate} of cases, against a registered limit of 10\%.
 
-\paragraph{Contributions.} (1) \ours{}, which turns a frozen TFM into a sampler over latent labels for instance-level
-and group-level weak labels \claim{2}, with averages over starts and over TFMs \claim{14}\claim{15}. (2) Theory:
-exactness with an exact TFM \claim{3}, stability with an approximate, even incompatible one \claim{4}, and, for the
-default sampler with a real TFM, invariant floors and ceilings of the label accuracy with an exponential escape time
-\claim{16}. (3) Three pre-registered studies on \val{all-n-datasets} datasets
-\claim{6}\claim{8}\claim{14}\claim{15} and three real partial-label datasets \claim{9}, with the failures
-\claim{13}\claim{18} reported as prominently as the confirmations.
+\paragraph{Contributions.} (1) \ours{}, a sampler over latent labels built from a frozen TFM, for instance-level and
+group-level weak labels \claim{2}, with averages over starts and over TFMs \claim{14}\claim{15}. (2) Theory: exactness
+with an exact TFM \claim{3}, stability with an approximate one \claim{4}, and, for the default sampler under a
+homogeneity assumption, invariant floors and ceilings of the label accuracy \claim{16}. (3) Three pre-registered
+studies on \val{all-n-datasets} datasets \claim{6}\claim{8}\claim{14}\claim{15} and three real partial-label datasets
+\claim{9}, with the failures \claim{13}\claim{18} reported as prominently as the confirmations.
