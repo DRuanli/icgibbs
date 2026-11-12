@@ -1,35 +1,27 @@
 \section{Theory}\label{sec:theory}
-% Source: G4/PROOFS.md §1-§5, §7 (self-review + independent review, 26/10/2026). Full proofs: Appendix A.
-% Numbering here -> PROOFS.md: Lemma 1 = Bổ đề 1; Thm 1 = Định lý 1(a)(b)(c); Prop 1 = Mệnh đề 3;
-% Thm 2 = Định lý 2; Prop 2 = Mệnh đề 4; Prop 3 = Mệnh đề 5 + 6.
+% Sources: G4/PROOFS.md §1-§5, §7 (Lemma 1, Thm 1, Prop 1, Thm 2, Prop 2, Prop 3 = PROOFS Bổ đề 1, Định lý 1, Mệnh đề 3,
+% Định lý 2, Mệnh đề 4, Mệnh đề 5+6); V2/W1_R1A_REPORT.md §2.6 (Thm 3 = Bổ đề 3 + Mệnh đề 4'), §2.8 (Prop 4 = Mệnh đề 6),
+% §5.7 (Prop 5 = Mệnh đề 5). Two independent reviews: V2/reviews/W1_REVIEW_INDEPENDENT_01/02.md. Proofs: Appendix A.
 
-We state what holds when the TFM is exact, what survives when it is not, and what the default sampler of
-\cref{alg:icg} is \emph{not} covered by. Proofs are in \cref{app:proofs}.
-
+Proofs are in \cref{app:proofs}.
+\subsection{Exact and approximate TFMs}
 \begin{lemma}[Full conditionals]\label{lem:fullcond}
 Under the exchangeable prior, \eqref{eq:lemma1} holds for every $i$ and every $y$ with $p(y_{-i}\mid X)>0$.
 \end{lemma}
-
+\vspace{-0.6ex}
 \begin{theorem}[Exactness]\label{thm:exact}
 Assume (A0)--(A3) and $\tfm=\ppd$. (a) For instance-level weak labels, single-site Gibbs updates
-$\pi(y_i=k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\lik_i(k)$ satisfy detailed balance with respect to $\pi$, and the
-chain is irreducible and aperiodic on $\mathrm{supp}(\pi)$, hence converges geometrically. (b) For LLP, the MH chain
-that swaps two differently labelled points of one bag, with acceptance ratio computed from two forward passes, is
-reversible and irreducible on $\mathrm{supp}(\pi)$. (c) The inductive estimator \eqref{eq:predict} converges almost
-surely to $\bar p(y_*\mid x_*)=\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, and
-$\lvert\bar p-p(y_*\mid x_*,X,\W)\rvert\le\TV\big(p(y\mid X,\W),\,p(y\mid x_*,X,\W)\big)$, which is zero when the prior
-is \emph{separable} (the feature distribution carries no information about $p(y\mid x)$); the transductive chain converges to
-$p(y_*\mid x_*,X,\W)$ exactly.
+$\pi(y_i=k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\lik_i(k)$ are reversible with respect to $\pi$, and the chain is
+irreducible and aperiodic on $\mathrm{supp}(\pi)$. (b) For LLP, the MH chain that swaps two differently labelled points
+of one bag, at two forward passes per proposal, is reversible and irreducible on $\mathrm{supp}(\pi)$. (c) The estimator
+\eqref{eq:predict} converges almost surely to $\bar p=\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, which differs from
+$p(y_*\mid x_*,X,\W)$ by at most $\TV\big(p(y\mid X,\W),p(y\mid x_*,X,\W)\big)$: zero when the feature distribution
+carries no information about $p(y\mid x)$ under the prior, and zero for the transductive chain.
 \end{theorem}
 
-\begin{proposition}[Bayes optimality under the prior]\label{prop:bayes}
-For any strictly proper scoring rule, $p(y_*\mid x_*,X,\W)$ uniquely minimises the Bayes risk over all measurable
-predictors of $(X,\W,x_*)$, the expectation being taken under the TFM's prior.
-\end{proposition}
-
-With an exact TFM, \ours{} thus computes the Bayes answer under the TFM's prior \claim{3}\claim{10}; on real data, which
-need not follow that prior, the evidence is empirical. A real TFM is only approximately a PPD, and its conditionals need
-not be compatible with any joint distribution. The next result covers the sampler as run.
+Since $p(y_*\mid x_*,X,\W)$ is the unique Bayes-optimal predictor under the prior for any strictly proper scoring rule
+(\cref{prop:bayes}), with an exact TFM \ours{} computes the Bayes answer under the TFM's prior \claim{3}\claim{10}. A
+real TFM is only approximately a PPD, and its conditionals need not be compatible with any joint distribution.
 
 \begin{theorem}[Stability under an approximate TFM]\label{thm:stability}
 Let $P$ be the kernel of the algorithm with the exact PPD (stationary distribution $\pi$) and $\tilde P$ the same algorithm
@@ -39,37 +31,78 @@ are incompatible, and
   \TV(\tilde\pi,\pi)\le\tau(P)\,\bar\varepsilon,\qquad
   \tau(P)=\sum_{t\ge0}\delta(P^t),\quad \bar\varepsilon=\sum_y\tilde\pi(y)\,\TV\big(\tilde P(y,\cdot),P(y,\cdot)\big),
 \end{equation}
-where $\delta$ is Dobrushin's ergodicity coefficient. For the random-scan single-site kernel, with $\varepsilon_{\TV}$ the TV
-error of the TFM's conditionals and $\kappa$ a constant that depends only on $\lik$,
-$\bar\varepsilon\le\min\{1,\,2\kappa\,\varepsilon_{\TV}\}$; predictions inherit the error additively (\cref{app:proofs}).
+where $\delta$ is Dobrushin's ergodicity coefficient. For single-site updates $\bar\varepsilon$ is at most a constant
+times the TV error of the TFM's conditionals, and predictions inherit the error additively (\cref{app:proofs}).
 \end{theorem}
 
-The bound reads as (integrated mixing time of the exact chain) $\times$ (error per step) \claim{4}. When the
-conditionals are incompatible, $\tilde\pi$ is in general not the posterior $\pi$; the theorem bounds how far it is. Its form is classical
-\citep{schweitzer1968,meyer1980,seneta1988,cho2001} and tight in general; what is new is that a chain built from an
-incompatible TFM still has a unique stationary distribution, with error terms a TFM actually has, non-asymptotically and
-including MH steps, unlike the iterative-imputation analysis of \citet{liu2014}.
+The bound is (integrated mixing time of the exact chain) $\times$ (error per step) \claim{4}. Its form is classical
+\citep{schweitzer1968,meyer1980,seneta1988,cho2001}; what is new is that a chain built from an incompatible TFM still has
+a unique stationary distribution, with non-asymptotic error terms and MH steps included, unlike the
+iterative-imputation analysis of \citet{liu2014}. In general $\tilde\pi\neq\pi$.
 
-\paragraph{Blocks and scope.} A block update becomes exact when its proposal, the product of block-wise TFM predictives (for
-LLP, conditioned on bag counts), is accepted with the MH ratio computed by Brook's lemma along the changed labels
-(\cref{prop:blocks}(a), \cref{app:proofs}); without that step, \cref{thm:stability} still applies, but its error term is
-controlled only under an extra stability assumption and grows with $n$ for fixed $K$ (\cref{prop:blocks}(b)). The default
-configuration of our experiments, uncorrected blocks with $K=10$ and bag-blocks for LLP, is therefore not covered by a
-non-vacuous guarantee. \Cref{sec:ablation} shows that the exact sampler does not predict better, at many times the cost.
+\paragraph{Uncorrected blocks.} A block update is exact when its proposal, the product of the TFM's predictives over the
+block, is accepted with an MH ratio (\cref{prop:blocks}). The default sampler skips that step, and for it
+\eqref{eq:stability} is vacuous: on exactly solvable problems $\TV(\tilde\pi,\pi)$ does not shrink with $n$. Predictions
+behave better: in a conjugate model with unconstrained unknown labels, the stationary mean of the predictor equals the
+exact posterior mean under a prior concentration inflated by $K(n-1)/((K-1)n)$, a bias of order $1/(nK)$
+(\cref{prop:predbias}). For other weak labels, bag-blocks in particular, we have numerical evidence only
+(\cref{app:blockbias}).
+
+\subsection{The sampler as run: response maps, basins and the role of the start}\label{sec:dynamics}
+The next result does not assume that the TFM is close to a PPD. It asks where the label accuracy of a chain goes,
+for \cref{alg:icg} as run on instance-level weak labels: uncorrected blocks, a fresh random partition in every sweep,
+any deterministic TFM, context not subsampled. It does not cover LLP, whose bag updates are not independent draws. Let
+$F$ be the set of points whose label is unknown, $n_F=\lvert F\rvert$, $\rho=n_F/n$, and $y^\circ$ the true labels, which
+only the analysis uses. The \emph{label accuracy} is $r(y)=n_F^{-1}\sum_{i\in F}\mathbb 1[y_i=y_i^\circ]$, and $R_s$ is its
+value after sweep $s$. For a block $B$, $c_i(y,B)$ is the probability that the redraw of $i\in B\cap F$ is correct, and
+$r_{-B}(y)$ the accuracy on $F\setminus B$, the part of the context the TFM sees.
+
+\begin{assumption}[Homogeneous response, $(\mathrm H_\delta)$]\label{ass:H}
+There are a function $\Phi:[0,1]\to[0,1]$ (the \emph{response map}), fixed offsets $h_i$ with $\lvert h_i\rvert\le h_{\max}$
+and $\sum_{i\in F}h_i=0$, and $\delta\ge0$ such that for every state $y$ and every block $B$ with $B\cap F\neq\emptyset$,
+\[
+  \Big\lvert\,\frac{1}{\lvert B\cap F\rvert}\sum_{i\in B\cap F}\big(c_i(y,B)-h_i\big)-\Phi\big(r_{-B}(y)\big)\Big\rvert\le\delta .
+\]
+$(\mathrm H^-_\delta)$ keeps only the lower bound ($\ge\Phi-\delta$), $(\mathrm H^+_\delta)$ only the upper bound.
+\end{assumption}
+
+How well the TFM labels a block thus depends on \emph{how many} context labels are right, up to per-point difficulty
+$h_i$ and a tolerance $\delta$ for \emph{which} ones are right; $\Phi$ need not be monotone or continuous. Let
+$\underline\Phi(x)=\inf_{r\ge x}\Phi(r)$, $\overline\Phi(x)=\sup_{r\le x}\Phi(r)$, and for margins $\nu,\lambda>0$,
+$p(\nu,\lambda)=e^{-2n_F\lambda^2}+3K\,e^{-c\rho n_F\nu^2}$ with $c=a^2\min\{\tfrac29,\tfrac{1}{18h_{\max}^2}\}$ and
+$a=1-\lceil n/K\rceil/n_F$.
+
+\begin{theorem}[Floors, ceilings and basins]\label{thm:basins}
+Run \cref{alg:icg} on instance-level weak labels with a deterministic TFM, the full context and $n_F>\lceil n/K\rceil$.
+Write $p=p(\nu,\lambda)$.
+\begin{enumerate}
+\item[(a)] \emph{Floor.} Under $(\mathrm H^-_\delta)$, if $\underline\Phi(x-\nu)-\delta-\lambda\ge x$ and $R_{s}\ge x$, then
+  $R_{s'}\ge x$ for all $s<s'\le s+H$ with probability at least $1-Hp$, and the first sweep $\tau$ at which the chain falls
+  below $x$ satisfies $\E[\tau-s]\ge 1/p$.
+\item[(b)] \emph{Ceiling.} Under $(\mathrm H^+_\delta)$, if $\overline\Phi(x+\nu)+\delta+\lambda\le x$ and $R_s\le x$, then
+  $R_{s'}\le x$ for all $s<s'\le s+H$ with probability at least $1-Hp$.
+\item[(c)] \emph{Progress.} Under $(\mathrm H^-_\delta)$, if $\underline\Phi(x-\nu)-\delta-\lambda\ge x+\gamma$ for all
+  $x\in[r_0,b)$ and some $\gamma>0$, then a chain with $R_0\ge r_0$ satisfies $R_J\ge b$ for some
+  $J\le\lceil(b-r_0)/\gamma\rceil$ with probability at least $1-Jp$.
+\end{enumerate}
+\end{theorem}
+
+Read with the \emph{gain} $g(r)=\Phi(r)-r$. Where $g$ is positive with a margin, the chain climbs (c) and cannot fall
+back (a); where it is negative, it cannot climb (b). If $g$ changes sign once, from positive to negative, every start
+reaches the same band. If $g$ is negative on an interval and positive above it, there are two basins: a chain that
+starts above the crossing stays up, one that starts below stays down, and leaving a basin takes at least $1/p$ sweeps,
+exponential in $n_F$ \claim{16}. Thirty sweeps cannot repair a start in the wrong basin; hence the multi-start sampler,
+since a learner start usually lies above the crossing even when the warm start does not. The constants are loose, and
+for affine $\Phi$ the stationary mean and variance of $R_s$ have a closed form (\cref{app:dynamics}). Whether the
+assumption holds for a real TFM is an empirical question (\cref{sec:tfm}).
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
-labels; let $\tilde\eta_k(x)=P(\tilde w=k\mid x)$ be the function that a consistent learner fitted on these labels
-approaches, and $\eta_k(x)=p(y=k\mid x)$ the true posterior.
-
-\begin{proposition}[When the naive TFM suffices]\label{prop:naive}
-(a) If the naive label depends on $x$ only through $y$, with equal off-diagonal entries in each column of the channel,
-then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with $\lambda_k>0$, so the naive target ranks points exactly as $\eta_k$; this covers
-PU-SCAR, class-dependent noise, SSL with labels missing completely at random, PLL with independent distractors and LLP with
-random bags. (b) If the naive labels are drawn from the observation by a kernel that does not depend on the parameter,
-their Fisher information is at most that of the observation, with equality iff the observation's score is a function of
-the naive labels: equality holds for PU-SCAR and label noise, whereas for PLL and LLP the naive labels coarsen the
-observation (for LLP with bags of 8, about $3\%$ of the information in the bag counts in a logistic model).
-\end{proposition}
-
-Only for candidate sets and bag counts, then, does the naive TFM leave information that the sampler can recover through
-$\lik$; this predicted, before evaluation, where \ours{} would beat the naive TFM \claim{12} (\cref{app:secondary}).
+labels. \Cref{prop:naive} (\cref{app:proofs}) shows that (a) when the naive label depends on $x$ only through $y$ through
+a symmetric channel, the regression function of the naive labels is an increasing affine transform of the true
+posterior, so the naive target ranks points correctly: this covers PU with labels selected completely at random,
+class-dependent noise, semi-supervised learning, PLL with independent distractors and LLP with random bags; and (b) the
+naive labels never carry more Fisher information than the observation, with equality for PU and label noise, whereas
+for PLL and LLP they coarsen it (for bags of 8, to about $3\%$ in a logistic model). Only for candidate sets and bag
+counts, then, does the naive TFM leave information that the sampler can recover through $\lik$; this predicted, before
+evaluation, where \ours{} would beat the naive TFM \claim{12}
+(\cref{app:secondary}).

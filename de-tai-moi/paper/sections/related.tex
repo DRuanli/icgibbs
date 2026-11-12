@@ -1,50 +1,15 @@
 \section{Related work}\label{sec:related}
 % Source: G2/02_CLOSEST_WORKS.md, G2/related_work_matrix.csv (36 works). Update the search <= 30 days before submission.
-
-\paragraph{Learning from weak labels.} Each type of weak supervision has its own family of learners, trained by
-gradient descent with a loss tailored to the observation: for partial labels, progressive identification of the true
-label \citep{proden}, consistent risk estimators \citep{feng2020provably} and contrastive disambiguation \citep{pico};
-for label proportions, bag-level losses \citep{dllp,easy_llp}, consistency regularisation \citep{tsai2020llpvat} and
-belief propagation over bags \citep{bp_llp}. Unified frameworks treat many types with one expectation--maximisation
-scheme \citep{glws,ill,count_wsl}; GLWS computes the E-step exactly with an automaton over label sequences, under the
-assumption that predictions are conditionally independent given the inputs. We share the goal of one procedure for many
-weak-label types, but replace training by inference: the latent labels are sampled jointly, and their dependence is
-modelled through the TFM's context rather than assumed away.
-
-\paragraph{Tabular foundation models and in-context learning.} Prior-fitted networks are trained to approximate the
-posterior predictive distribution of a prior over datasets \citep{muller2022pfn}; TabPFN \citep{hollmann2023tabpfn,tabpfn_nature}
-and TabICL \citep{qu2025tabicl,tabicl_v2} turned this into strong off-the-shelf predictors for small tables, and recent
-theory studies when transformers learn posterior predictives in context \citep{ppd_icl_theory}. Their behaviour with
-imperfect context labels has been measured \citep{noise_immunity} and, for unlabelled context, analysed theoretically
-\citep{unlabeled_icl_theory}; other work pretrains new in-context models for a single weak-label type, such as
-positive--unlabelled data \citep{inctx_pu} or semi-supervised learning \citep{ic_ssl}. We instead keep a general TFM
-frozen and use it as the conditional of Bayesian inference over latent labels, for any weak label with a known
-observation model.
-
-\paragraph{Gibbs sampling with learned conditionals.} Drawing labels from TabPFN's predictive has been used for
-single-pass multiple imputation of a missing outcome \citep{sepin_mi}, and transformers have been pretrained to impute
-missing features \citep{tabimpute}. Iterative imputation with chained conditional models
-\citep{liu2014} and amortised Gibbs samplers \citep{apgs} are closest in spirit; our sampler conditions every label on all
-others, uses the weak-label likelihood, and has guarantees even for incompatible conditionals.
-
-\begin{table}[t]
-\centering
-\caption{Positioning against the closest works. ``Partial'': exact posterior over labels inside an EM loop, with
-conditionally independent predictions.}
-\label{tab:related}
-\small
-\setlength{\tabcolsep}{4pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lccccc@{}}
-\toprule
- & no training & tabular & several weak-label & inference over latent & dependence among \\
- & (frozen model) & data & types & labels with guarantees & latent labels \\
-\midrule
-In-Context PU \citep{inctx_pu} & -- (pretrains a PFN) & \checkmark & -- (PU only) & -- & -- \\
-GLWS \citep{glws}, ILL \citep{ill} & -- & -- & \checkmark & partial & -- \\
-TabPFN imputation \citep{sepin_mi} & \checkmark & \checkmark & -- (missing outcome) & -- & -- \\
-Noise immunity \citep{noise_immunity} & \checkmark & \checkmark & -- (label noise) & -- (measurement) & -- \\
-\textbf{\ours{} (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-\bottomrule
-\end{tabular}}
-\end{table}
+\textbf{Weak labels.} Specialised learners are trained with a loss tailored to the observation, for partial labels
+\citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}. Unified frameworks treat many types with one
+expectation--maximisation scheme \citep{glws,ill,count_wsl}, assuming conditionally independent predictions. We replace
+training by inference: latent labels are sampled jointly, and their dependence is modelled through the TFM's context.
+\textbf{Tabular foundation models.} Prior-fitted networks approximate the PPD of a prior over datasets
+\citep{muller2022pfn}; later models extend their range \citep{tabpfn3} or pretrain on real tables \citep{tabdpt}, and
+theory studies when transformers learn PPDs in context \citep{ppd_icl_theory}. Their behaviour with imperfect or
+missing context labels has been studied \citep{noise_immunity,unlabeled_icl_theory}; other work pretrains new in-context
+models for one weak-label type \citep{inctx_pu,ic_ssl}. We keep a general TFM frozen.
+\textbf{Gibbs sampling with learned conditionals.} TabPFN's predictive has been used for single-pass imputation
+\citep{sepin_mi,tabimpute}. Iterative imputation with chained conditional models \citep{liu2014} and amortised Gibbs
+samplers \citep{apgs} are closest in spirit; our sampler conditions every label on all others, uses the weak-label likelihood, and has guarantees for
+incompatible conditionals (\cref{tab:related}, \cref{app:related}).

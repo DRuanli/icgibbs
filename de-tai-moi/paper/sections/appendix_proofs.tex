@@ -71,6 +71,10 @@ part (a) (for LLP, the swap chain combined with single-site updates of $x_*$, ea
 $p(y_*\mid x_*,X,\W)$.
 \end{proof}
 
+\begin{proposition}[Bayes optimality under the prior]\label{prop:bayes}
+For any strictly proper scoring rule $S$, $p(y_*\mid x_*,X,\W)$ uniquely minimises the Bayes risk $\E[S(f,y_*)]$ over all
+measurable predictors $f$ of $(X,\W,x_*)$, the expectation being taken under the TFM's prior.
+\end{proposition}
 \begin{proof}[Proof of \cref{prop:bayes}]
 By the tower property, $\E[S(f,y_*)]=\E\big[\E[S(f,y_*)\mid X,\W,x_*]\big]$. For each value of $(X,\W,x_*)$, $f$ is a fixed
 distribution and $y_*\sim p(\cdot\mid x_*,X,\W)$; strict propriety gives the unique minimiser
@@ -122,10 +126,219 @@ $\bar\varepsilon_B\le2\kappa_B\,m_f(m-1)\beta$; \cref{thm:stability} with $P=P_{
 with $n$. For bag-blocks, $\kappa_B$ is the inverse probability that all bags of a group match their counts under the
 product proposal: for $n\approx2{,}000$ and $K=10$, $\log_{10}\kappa_B\approx15.8$ for bags of 8. On an exactly solvable
 LLP problem (3 bags of 4), the uncorrected bag-block chain has $\TV(\tilde\pi,\pi)$ between 0 and about 0.6 depending on
-the prior and grouping, so the approximation is real at small $n$; at our sizes we measure its effect on predictions
-instead (\cref{sec:ablation}).
+the prior and grouping, so the approximation is real at small $n$. \Cref{app:blockbias} explains why bounds of this kind cannot be
+rescued and what can be said about predictions instead.
+
+\subsection{Uncorrected blocks: bias of the predictor}\label{app:blockbias}
+\Cref{prop:blocks}(b) and \cref{thm:stability} bound the distance between label distributions. For predictions a
+first-moment argument is sharper. We state it in a pooled conjugate model, in which it is exact.
+
+\paragraph{Model.} $C$ classes with prior $\mathrm{Dir}(\alpha,\dots,\alpha)$ and no features. Of $n$ points,
+$N$ are labelled, $L_c$ of them in class $c$, and $U=n-N$ are free with no weak label (semi-supervised learning). The
+state is the vector $k=(k_c)$ of class counts among the free points. The exact PPD of a new point is
+$f_c(k)=(L_c+k_c+\alpha)/(n+C\alpha)$, so the stationary mean of the predictor \eqref{eq:predict} is the stationary mean
+of $f_c$. One step redraws the free points of a random block given all labels outside the block: the exact kernel $P$
+draws them jointly from their conditional distribution (so the posterior $\pi$ is stationary), the uncorrected kernel
+$\tilde P$ independently from the PPD given the context, as \cref{alg:icg} does. Blocks are either \emph{free} (a uniform
+subset of $u$ free points) or \emph{all} (a uniform subset of $M=n/K$ of all points, the default of our sampler: the
+context then also loses the labelled points of the block).
+
+\begin{proposition}[Bias of the predictor under uncorrected blocks]\label{prop:predbias}
+(a) Let $P,\tilde P$ be Markov kernels on a finite state space and $f$ a function with
+$\E_P[f(Y')\mid Y=y]-f(y)=A-a\,f(y)$ for all $y$, with $a\neq0$. Let
+$d(y)=\E_{\tilde P}[f(Y')\mid y]-\E_P[f(Y')\mid y]$. Then for any stationary distributions $\pi$ of $P$ and $\tilde\pi$ of
+$\tilde P$, $\tilde\pi(f)-\pi(f)=\tilde\pi(d)/a$.
+(b) In the model above with free blocks, $\tilde\pi(f_c)=\pi(f_c)$ for all $n$, $u<U$ and $c$.
+(c) With blocks over all points, $\E_{\tilde\pi}[k_c]=U(L_c+\alpha')/(N+C\alpha')$ with
+$\alpha'=\alpha\,K(n-1)/((K-1)n)$: the uncorrected chain has exactly the posterior mean of the model with prior
+$\mathrm{Dir}(\alpha',\dots,\alpha')$. Consequently
+\[
+  \tilde\pi(f_c)-\pi(f_c)=\frac{U(\alpha'-\alpha)(N-CL_c)}{(n+C\alpha)(N+C\alpha')(N+C\alpha)}
+  =\frac{\alpha(1-\lambda)(1-Cp_c)}{\lambda(K-1)\,n}\,\big(1+O(1/n)\big),
+\]
+with $\lambda=N/n$ and $p_c=L_c/N$ held fixed.
+\end{proposition}
+\begin{proof}
+(a) Stationarity of $\tilde\pi$ gives $0=\sum_y\tilde\pi(y)\big(\E_{\tilde P}[f(Y')\mid y]-f(y)\big)=\tilde\pi(A-af+d)$, so
+$\tilde\pi(f)=(A+\tilde\pi(d))/a$; the same with $d\equiv0$ gives $\pi(f)=A/a$.
+(b) Let $j_c$ be the number of free points of the block currently in class $c$. Given the block, the context has
+$n-u$ points with class counts $L_c+k_c-j_c$. Under $P$ the new labels of the block are Dirichlet--multinomial, under
+$\tilde P$ independent categorical; both have marginals $(L_c+k_c-j_c+\alpha)/(n-u+C\alpha)$, hence the same expected new
+count, and $d\equiv0$ for $f=k_c$. Averaging over the block ($\E[j_c]=uk_c/U$) gives the drift
+$\E_P[k_c'-k_c\mid k]=A-a\,k_c$ with $a=\frac uU\big(1-\frac{U-u}{n-u+C\alpha}\big)>0$, so (a) applies; $f_c$ is affine in $k_c$.
+(c) Let $l$ be the number of labelled points in the block and $u=M-l$; $l$ is hypergeometric with $\E l=MN/n$ and
+$\operatorname{Var}l=V=M\frac Nn\frac Un\frac{n-M}{n-1}$. Given $l$, the block contains in expectation $lL_c/N$ labelled
+points of class $c$ and $uk_c/U$ free points currently in class $c$, and each of its $u$ free points is redrawn from the
+PPD given the context, $(L_c-l_c+k_c-j_c+\alpha)/D$ with $D=n-M+C\alpha$. Hence
+\[
+  \E_{\tilde P}[k_c'-k_c\mid k]=\frac{L_c\,\E[u(1-l/N)]+\alpha\,\E u}{D}-k_c\,\frac{\E u\,(D-U)+\E u^2}{DU}.
+\]
+Using $\E u=MU/n$, $\E[ul]=M^2NU/n^2-V$ and $\E u^2=V+M^2U^2/n^2$, the two brackets simplify to
+$\frac{MU}{n}\big[L_c\frac{n-M}{n-1}+\alpha\big]$ and $\frac{MU}{n}\big[N\frac{n-M}{n-1}+C\alpha\big]$. Setting the drift to
+zero under $\tilde\pi$ gives $\E_{\tilde\pi}k_c=U\big[L_c+\alpha\frac{n-1}{n-M}\big]/\big[N+C\alpha\frac{n-1}{n-M}\big]$, and
+$\frac{n-1}{n-M}=\frac{K(n-1)}{(K-1)n}$. Under $\pi$, by exchangeability, $\E_\pi k_c=U(L_c+\alpha)/(N+C\alpha)$. The
+displayed difference follows from $f_c(k)=(L_c+k_c+\alpha)/(n+C\alpha)$ and $\alpha'-\alpha=\alpha(n-K)/((K-1)n)$.
+\end{proof}
+
+\paragraph{Reading.} Part (a) is the prediction-level counterpart of \cref{thm:stability}: the bias is (expected error
+of one step) $\times$ (relaxation time of the mean, $1/a$), and it does not involve how far the joint distribution of a
+block is from the product of its marginals. In (c), removing the labelled points of the block from the context shrinks
+the chain towards the prior mean, by an amount proportional to $1/n$, to $1/(K-1)$, and to the ratio of free to labelled
+points; the bias vanishes when the labelled frequencies equal the prior mean. The closed form agrees with the
+stationary means computed from full transition matrices to within \val{th-e7f-maxdiff} in \val{th-e7f-n} configurations.
+
+\paragraph{What the identity does not cover.} (i) The scan of \cref{prop:predbias} draws a fresh block at every step;
+\cref{alg:icg} partitions a permutation, for which we have only numerical agreement of the leading term. (ii) With weak
+labels that tilt the draws (PU, PLL), the drift of the exact kernel is no longer affine and free blocks are biased: in
+the pooled PU model the predictor is off by up to \val{th-pu-free-max} with free blocks and by at most
+\val{th-pu-all-max} with blocks over all points, which is why the latter are our default. (iii) For LLP the uncorrected bag-block kernel is biased already in its first moment. In a model with two
+feature types and identical bags (\val{th-llp-n} configurations), the predictor is off by up to \val{th-llp-small-max}
+when $n\le160$ and by at most \val{th-llp-large-max} from $n=320$ on ($K=10$). (iv) A real TFM is not conjugate; the
+mechanism in (c) is still present, but its effective prior strength is unknown.
+
+\paragraph{Why label-level bounds are vacuous.} In the pooled SSL and PU models with blocks over all points
+(\val{th-e7b-n} configurations, $n\le500$, $K\in\{5,10,20\}$), the exact distance $\TV(\tilde\pi,\pi)$ lies between
+\val{th-e7b-tv-lo} and \val{th-e7b-tv-hi} and does not decrease with $n$ (for SSL at $K=10$: \val{th-e7b-tv-k10} at
+$n=\val{th-e7b-n-k10}$), while the bound $\tau_1(Z)\bar\varepsilon$ exceeds 1 in \val{th-e7b-vacuous} of them and is
+\val{th-e7b-loose-lo} to \val{th-e7b-loose-hi} times too large. The predictor, in contrast, is off by at most
+\val{th-e7b-pred-max}. A guarantee for uncorrected blocks should therefore be stated for predictions, as in
+\cref{prop:predbias}, and not for label vectors.
+
+\subsection{Dynamics of the sampler as run}\label{app:dynamics}
+\paragraph{Setting.} One sweep of \cref{alg:icg} draws a uniform permutation of $[n]$, independent of the past, and cuts
+it into $K$ consecutive blocks $B_1,\dots,B_K$ of at most $m=\lceil n/K\rceil$ points. For $k=1,\dots,K$ the free points
+of $B_k$ are redrawn independently, each from the TFM's predictive given the current labels of all points outside
+$B_k$, multiplied by its weak-label factor. Every free point is redrawn exactly once per sweep. The TFM is a
+deterministic function of (context, query); the weak-label factors are fixed (for PU, known parameters); the context is
+not subsampled ($n-m$ does not exceed the context limit). We write $f_k=\lvert B_k\cap F\rvert$,
+$r_k=r_{-B_k}(Y_{s,k-1})$ for the accuracy of the context when block $k$ is updated, $U_k=F\cap(B_1\cup\dots\cup B_{k-1})$
+and $V_k=F\cap(B_{k+1}\cup\dots\cup B_K)$ for the free points already and not yet updated, $o_i$ for the correctness of
+point $i$ at the start of the sweep and $\xi_i$ for the correctness of its redraw. $\mathcal F_s$ is the history up to the
+end of sweep $s$. Since $n_F>m$, $F\setminus B_k\neq\emptyset$ and $r_k$ is well defined.
+
+\begin{lemma}[One sweep]\label{lem:sweep}
+(i) Assume $(\mathrm H^-_\delta)$ and let $x$ be an $\mathcal F_s$-measurable level with $\underline\Phi(x-\nu)-\delta\ge x$.
+On the event $\{R_s\ge x\}$,
+$P\big(R_{s+1}\ge\underline\Phi(x-\nu)-\delta-\lambda\mid\mathcal F_s\big)\ge1-p(\nu,\lambda)$.
+(ii) Assume $(\mathrm H^+_\delta)$ and let $x$ satisfy $\overline\Phi(x+\nu)+\delta\le x$. On $\{R_s\le x\}$,
+$P\big(R_{s+1}\le\overline\Phi(x+\nu)+\delta+\lambda\mid\mathcal F_s\big)\ge1-p(\nu,\lambda)$.
+\end{lemma}
+\begin{proof}
+(i) Since $\lvert U_k\rvert+\lvert V_k\rvert=n_F-f_k$,
+\begin{equation}\label{eq:rk}
+  (n_F-f_k)\,r_k=\sum_{i\in U_k}\xi_i+\sum_{i\in V_k}o_i .
+\end{equation}
+Let $Z_k=\sum_{i\in U_k}(\xi_i-c_i)$, where $c_i$ is the conditional probability that the redraw of $i$ is correct given
+the state just before its block is updated, and let
+$N_k=\sum_{i\in U_k}h_i+Z_k+\sum_{i\in V_k}(o_i-R_s)$ and $\mathcal E=\{N_k>-\nu(n_F-m)\text{ for all }k\}$.
+
+\emph{On $\mathcal E$, $r_k\ge x-\nu$ for all $k$.} Induction on $k$. Suppose $r_j\ge x-\nu$ for $j<k$ (nothing to assume for
+$k=1$). Then $\Phi(r_j)\ge\underline\Phi(x-\nu)$, and $(\mathrm H^-_\delta)$ applied to each block $j<k$ with
+$f_j>0$ gives $\sum_{i\in U_k}c_i\ge\sum_{i\in U_k}h_i+\sum_{j<k}f_j(\Phi(r_j)-\delta)\ge\sum_{i\in U_k}h_i+\lvert U_k\rvert x$.
+Also $\sum_{i\in V_k}o_i=\lvert V_k\rvert R_s+\sum_{i\in V_k}(o_i-R_s)\ge\lvert V_k\rvert x+\sum_{i\in V_k}(o_i-R_s)$. Adding the
+two in \eqref{eq:rk}, $(n_F-f_k)r_k\ge(n_F-f_k)x+N_k$, and on $\mathcal E$, since $f_k\le m$,
+$r_k>x-\nu(n_F-m)/(n_F-f_k)\ge x-\nu$.
+
+\emph{End of the sweep.} Every free point is redrawn once, so $R_{s+1}=n_F^{-1}\big(\sum_{i\in F}c_i+Z\big)$ with
+$Z=\sum_{i\in F}(\xi_i-c_i)$. On $\mathcal E$, by $(\mathrm H^-_\delta)$, $\sum_Fh_i=0$ and $\sum_kf_k=n_F$,
+$\sum_{i\in F}c_i\ge\sum_kf_k(\Phi(r_k)-\delta)\ge n_F(\underline\Phi(x-\nu)-\delta)$, hence
+$R_{s+1}\ge\underline\Phi(x-\nu)-\delta+Z/n_F$.
+
+\emph{Probabilities.} Give each of the three parts of $N_k$ the budget $t=\nu(n_F-m)/3=\nu a n_F/3$. The set $U_k$ is the
+intersection of $F$ with the first $(k-1)$ blocks of the permutation, which is independent of $\mathcal F_s$; so
+$\sum_{U_k}h_i$ is a sum over a sample without replacement of at most $n$ elements of the population
+$\{h_i\mathbb 1[i\in F]\}_{i\le n}$, which has sum 0 and range at most $2h_{\max}$, and by Hoeffding's inequality for
+sampling without replacement \citep[Section~6]{hoeffding1963} it is below $-t$ with probability at most
+$\exp(-t^2/(2nh_{\max}^2))$. In the same way $\sum_{V_k}(o_i-R_s)$ is a sample from $\{(o_i-R_s)\mathbb 1[i\in F]\}$, with
+sum 0 and range at most 1, and is below $-t$ with probability at most $\exp(-2t^2/n)$. Conditionally on the permutation,
+$Z_k$ is a martingale in the order of the redraws, with at most $n_F$ increments, each in an interval of length 1, so
+by the Azuma--Hoeffding inequality $P(Z_k\le-t)\le\exp(-2t^2/n_F)$. With $n=n_F/\rho$ and $\rho\le1$, each of the three
+is at most $\exp(-c\rho n_F\nu^2)$, and a union bound over $k\le K$ gives $P(\mathcal E^c\mid\mathcal F_s)\le3Ke^{-c\rho n_F\nu^2}$.
+Finally $P(Z/n_F\le-\lambda)\le e^{-2n_F\lambda^2}$ by the same inequality. (If $h_{\max}=0$ the first part is zero and
+$c=2a^2/9$.) Part (ii) is symmetric, with $\overline\Phi$, the upper half of the assumption and the opposite tails.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:basins}]
+Let $\psi(x)=\underline\Phi(x-\nu)-\delta-\lambda$, which is non-decreasing.
+(a) The condition $\psi(x)\ge x$ implies $\underline\Phi(x-\nu)-\delta\ge x$, so by \cref{lem:sweep}(i), on $\{R_{s'}\ge x\}$,
+$R_{s'+1}\ge\psi(x)\ge x$ with conditional probability at least $1-p$. Applying this at $s'=s,\dots,s+H-1$ gives
+$P(R_{s'}\ge x\text{ for all }s<s'\le s+H)\ge(1-p)^H\ge1-Hp$, and
+$\E[\tau-s]=\sum_{H\ge0}P(\tau-s>H)\ge\sum_{H\ge0}(1-p)^H=1/p$.
+(b) is symmetric, with \cref{lem:sweep}(ii).
+(c) Let $q_0=r_0$, $q_{j+1}=\min\{\psi(q_j),b\}$, and let $J$ be the first index with $q_J\ge b$; since
+$\psi(q_j)\ge q_j+\gamma$ while $q_j<b$, $J\le\lceil(b-r_0)/\gamma\rceil$. If $R_j\ge q_j$ and $q_j<b$, then
+$\underline\Phi(q_j-\nu)-\delta=\psi(q_j)+\lambda\ge q_j$, so \cref{lem:sweep}(i) with $x=q_j$ gives
+$R_{j+1}\ge\psi(q_j)\ge q_{j+1}$ with conditional probability at least $1-p$. By induction
+$P(R_j\ge q_j\text{ for all }j\le J)\ge1-Jp$.
+\end{proof}
+
+\paragraph{Remarks.} (i) \emph{What each conclusion needs.} Staying up needs only the lower half of the assumption,
+staying down only the upper half, and each proof uses the assumption only at states the chain visits before leaving
+the region in question. (ii) \emph{Two basins.} Suppose $\Phi$ is non-decreasing and $\ell$-Lipschitz and $g$ changes sign
+from negative to positive at $u$. Any $x>u$ with $g(x)\ge\delta+\ell\nu+\lambda$ is a floor; choosing
+$\nu=\lambda=(g(x)-\delta)/(\ell+1)$ gives $p\le(1+3K)\exp\!\big(-c\rho n_F(g(x)-\delta)^2/(\ell+1)^2\big)$, so the expected
+time to fall below $x$ grows exponentially with $n_F$; symmetrically below $u$. (iii) \emph{Looseness.} The margin $\nu$
+pays for the worst case in which all blocks of a sweep see a context that is off in the same direction, and
+Hoeffding's inequality uses ranges instead of variances. In simulations with a synthetic TFM whose response map is
+known and for which the assumption holds with $\delta=0$ ($n=3{,}000$, $K=10$), the proven invariant band has half-width
+\val{th-band-bound-half} and the simulated 99\% band \val{th-band-obs-half}. The qualitative statements hold for every
+$n$, but the bands are informative only for large $n_F$. (iv) \emph{Subsampled contexts.} When the context is subsampled
+to a fixed size, the accuracy the TFM sees is that of a random subsample, which adds a deviation term to $\nu$; we do not
+state that extension, and the empirical check of \cref{sec:tfm} includes cells with subsampled contexts. (v) \emph{LLP.}
+Bag updates draw the labels of a bag jointly given its counts, so the redraws within a block are not independent and
+the lemma does not apply.
+
+\begin{proposition}[Stationary moments for an affine map]\label{prop:moments}
+In the setting of \cref{lem:sweep}, let all points be free ($\rho=1$), $K$ divide $n$, and suppose that every redraw in
+block $k$ is correct with probability exactly $c_0+b\,r_k$, where $0<c_0$ and $c_0+b<1$, $0\le b<1$ (that is,
+$\Phi(r)=c_0+br$, $h\equiv0$, $\delta=0$). Then (a) $\E[R_{s+1}\mid\mathcal F_s]=\alpha_0+\alpha_1R_s$ and
+$\operatorname{Var}[R_{s+1}\mid\mathcal F_s]=q_0+q_1R_s+q_2R_s^2$, with coefficients given by a $K$-step recursion; (b) under the
+stationary distribution of the chain, $\E R=r^*=c_0/(1-b)$, the lag-one autocorrelation of $(R_s)$ is $\alpha_1$,
+$\lvert\alpha_1\rvert<1$, and $\operatorname{Var}R\cdot(1-\alpha_1^2-q_2)=q_0+q_1r^*+q_2{r^*}^2$.
+\end{proposition}
+\begin{proof}
+Let $S=nR_s$, $O_j$ the number of correct labels in block $j$ at the start of the sweep, and $N_k$ the number of
+correct redraws in block $k$. Because the partition is uniform, $(O_1,\dots,O_K)$ is multivariate hypergeometric: its
+mean is affine in $S$ and its covariance matrix is quadratic in $S$. Since
+$r_k=\big(\sum_{j<k}N_j+\sum_{j>k}O_j\big)/(n-m)$, we have $N_k=mc_0+g_k^\top W_k+\varepsilon_k$, where $W_k=(N_{<k},O)$, $g_k$
+is a constant vector and $\varepsilon_k=N_k-m(c_0+br_k)$ has conditional mean zero given the past of the sweep and
+conditional variance $m(c_0+br_k)(1-c_0-br_k)$, a quadratic function of $W_k$ whose expectation needs only the mean and
+covariance of $W_k$. By induction on $k$, the mean of $(N_{\le k},O)$ is affine in $S$ and its covariance quadratic in
+$S$; $R_{s+1}=\sum_kN_k/n$ inherits both, which is (a). For (b), the chain is finite, irreducible and aperiodic because
+every redraw is correct with probability in $(0,1)$, so it has a unique stationary distribution, under which
+$\E R=\alpha_0+\alpha_1\E R$. If $\alpha_1=1$ then $\alpha_0=0$ and $\E[R_{s+1}\mid R_s=0]=0$, impossible since $c_0>0$; so
+$\E R=\alpha_0/(1-\alpha_1)$. If $R_s=r^*$ the recursion gives $\E r_k=r^*$ and $\E N_k=m(c_0+br^*)=mr^*$ for every $k$, so
+$r^*$ is the fixed point of $R\mapsto\alpha_0+\alpha_1R$. The covariance of $R_{s+1}$ and $R_s$ is $\alpha_1\operatorname{Var}R$.
+The law of total variance gives $\operatorname{Var}R=\E[\operatorname{Var}(R_{s+1}\mid R_s)]+\alpha_1^2\operatorname{Var}R$; the
+first term is positive, so $\alpha_1^2<1$, and expanding it with $\E R^2=\operatorname{Var}R+{r^*}^2$ gives the last identity.
+\end{proof}
+
+\begin{table}[h]
+\centering
+\caption{\Cref{prop:moments} against simulation with the actual sampler and a synthetic TFM with a known affine response
+map (PLL, $C=10$, $q=0.6$, $K=10$; per-point offsets with $h_{\max}=0.02$, which the proposition ignores). ``Jacobi'':
+the approximation that treats all blocks of a sweep as seeing the same context.}
+\label{tab:moments}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_moments}}
+\end{table}
+The exact standard deviation agrees with the simulated one within a factor \val{th-mom-ratio-lo}--\val{th-mom-ratio-hi}
+(\cref{tab:moments}); the Jacobi approximation is \val{th-mom-jacobi-lo}--\val{th-mom-jacobi-hi} too small, because the
+noise of early blocks propagates to later blocks through the context. The Gaussian band is an approximation; the
+proposition gives moments, not tails.
 
 \subsection{When the naive TFM suffices}
+Let $\tilde\eta_k(x)=P(\tilde w=k\mid x)$ be the function that a consistent learner fitted on naive labels $\tilde w$
+approaches, and $\eta_k(x)=p(y=k\mid x)$ the true posterior.
+\begin{proposition}[When the naive TFM suffices]\label{prop:naive}
+(a) If the naive label depends on $x$ only through $y$, with equal off-diagonal entries in each column of the channel,
+then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with $\lambda_k>0$, so the naive target ranks points exactly as $\eta_k$; this covers
+PU-SCAR, class-dependent noise, SSL with labels missing completely at random, PLL with independent distractors and LLP with
+random bags. (b) If the naive labels are drawn from the observation by a kernel that does not depend on the parameter,
+their Fisher information is at most that of the observation, with equality iff the observation's score is a function of
+the naive labels: equality holds for PU-SCAR and label noise, whereas for PLL and LLP the naive labels coarsen the
+observation (for LLP with bags of 8, about $3\%$ of the information in the bag counts in a logistic model).
+\end{proposition}
 \paragraph{Complement to \cref{prop:naive}(a).} For binary labels with class prior $\varpi$, for any score $s$,
 $\mathrm{AUC}(\eta)-\mathrm{AUC}(s)\le\E\lvert s-\tilde\eta\rvert/(\lambda\varpi(1-\varpi))$: the AUC regret of a learner fitted
 to naive labels is its own estimation error, amplified by $1/\lambda$.

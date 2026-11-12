@@ -1,0 +1,87 @@
+## E1. Trung bình theo (TFM, setting) của từng chuỗi và tổ hợp
+                      warm    base    cold       L      A1  warm+cold  warm+base  base+cold  warm+L    A1+L   n
+tfm       setting                                                                                             
+tabdpt    llp      0.7857  0.7877  0.7959  0.7830  0.7992     0.8001     0.7906     0.7986  0.8110  0.8145  12
+          pll      0.6478  0.7213  0.6480  0.7168  0.7198     0.6626     0.7208     0.7242  0.7251  0.7408   8
+tabicl_v2 llp      0.8016  0.7963  0.7909  0.7830  0.8032     0.8030     0.8041     0.7977  0.8142  0.8146  12
+          pll      0.7486  0.8056  0.7445  0.7168  0.8050     0.7675     0.8061     0.8079  0.7686  0.8074   8
+tabpfn_v2 llp      0.7840  0.7949  0.7751  0.7725  0.7980     0.7902     0.7955     0.7966  0.7926  0.8007  10
+          pll      0.4882  0.5054  0.4950  0.4961  0.4939     0.4904     0.4939     0.4998  0.5025  0.5021   1
+tabpfn_v3 llp      0.8170  0.8047  0.7994  0.7830  0.8173     0.8168     0.8176     0.8103  0.8199  0.8225  12
+          pll      0.3708  0.6918  0.3728  0.7168  0.6498     0.3736     0.6660     0.6775  0.7166  0.7475   8
+
+So với v1 (theo dataset, trung bình trên TFM):
+  base       +0.0593  W/T/L 8/5/7  p=0.2432
+  cold       -0.0044  W/T/L 3/7/10  p=0.1474
+  L          +0.0405  W/T/L 10/0/10  p=0.6742
+  A1         +0.0585  W/T/L 13/6/1  p=0.0018
+  warm+cold  +0.0081  W/T/L 10/7/3  p=0.0126
+  warm+base  +0.0595  W/T/L 13/6/1  p=0.0010
+  base+cold  +0.0610  W/T/L 10/6/4  p=0.0486
+  warm+L     +0.0664  W/T/L 15/1/4  p=0.0009
+  A1+L       +0.0799  W/T/L 16/3/1  p=0.0001
+So với A1:
+  warm       -0.0585  W/T/L 1/6/13  p=0.0018
+  base       +0.0008  W/T/L 5/6/9  p=0.3981
+  cold       -0.0629  W/T/L 0/4/16  p=0.0001
+  L          -0.0180  W/T/L 6/0/14  p=0.1429
+  warm+cold  -0.0504  W/T/L 1/6/13  p=0.0010
+  warm+base  +0.0010  W/T/L 5/13/2  p=0.3341
+  base+cold  +0.0025  W/T/L 6/8/6  p=0.9359
+  warm+L     +0.0079  W/T/L 12/1/7  p=0.2611
+  A1+L       +0.0214  W/T/L 14/2/4  p=0.0049
+Trung bình theo dataset, llp: {'warm': 0.8006, 'base': 0.7988, 'cold': 0.7935, 'L': 0.783, 'A1': 0.8074, 'warm+cold': 0.8058, 'warm+base': 0.805, 'base+cold': 0.8037, 'warm+L': 0.8127, 'A1+L': 0.8162}
+Trung bình theo dataset, pll: {'warm': 0.5891, 'base': 0.7401, 'cold': 0.5887, 'L': 0.7168, 'A1': 0.7251, 'warm+cold': 0.6014, 'warm+base': 0.7312, 'base+cold': 0.737, 'warm+L': 0.7368, 'A1+L': 0.7653}
+
+## E2. Bản gộp nhiều TFM so với L (theo dataset)
+  X           − L: +0.0637 [+0.0304, +0.1097] trung vị +0.0299  W/T/L 20/0/0  kém >0,02: 0  p=1.9e-06
+  X_warm      − L: +0.0360 [-0.0002, +0.0733] trung vị +0.0215  W/T/L 18/1/1  kém >0,02: 1  p=0.00059
+  X_warmcold  − L: +0.0441 [+0.0054, +0.0881] trung vị +0.0242  W/T/L 18/1/1  kém >0,02: 1  p=0.00059
+  X_base      − L: +0.0630 [+0.0277, +0.1115] trung vị +0.0254  W/T/L 19/0/1  kém >0,02: 0  p=2.7e-05
+  X3          − L: +0.0631 [+0.0298, +0.1092] trung vị +0.0298  W/T/L 19/1/0  kém >0,02: 0  p=1.9e-06
+  X+L         − L: +0.0578 [+0.0291, +0.0988] trung vị +0.0307  W/T/L 20/0/0  kém >0,02: 0  p=1.9e-06
+  XL_half     − L: +0.0403 [+0.0191, +0.0703] trung vị +0.0187  W/T/L 20/0/0  kém >0,02: 0  p=1.9e-06
+So với X:
+  X_warm      − X: -0.0278  W/T/L 3/8/9  p=0.02
+  X_warmcold  − X: -0.0196  W/T/L 2/10/8  p=0.044
+  X_base      − X: -0.0008  W/T/L 5/7/8  p=0.66
+  X3          − X: -0.0006  W/T/L 3/13/4  p=0.29
+  X+L         − X: -0.0059  W/T/L 6/4/10  p=0.38
+  XL_half     − X: -0.0234  W/T/L 4/0/16  p=0.0064
+Bỏ một TFM (so với X): {'tabicl_v2': (-0.0284, 20, '2/5/13'), 'tabpfn_v3': (-0.0013, 20, '5/6/9'), 'tabdpt': (-0.0012, 20, '4/8/8'), 'tabpfn_v2': (-0.0011, 11, '3/4/4')}
+Cặp TFM so với X3: {'X2_tabicl_v2+tabpfn_v3': -0.0021, 'X2_tabicl_v2+tabdpt': -0.003, 'X2_tabpfn_v3+tabdpt': -0.0288}
+
+## E6. Theo từng TFM
+  X_vs_A1_tfm    tabicl_v2  n=20 +0.0163 W/T/L 10/5/5 kém>0,02: 1 p=0.0836
+  A1_vs_L_tfm    tabicl_v2  n=20 +0.0474 W/T/L 18/0/2 kém>0,02: 1 p=0.00121
+  v1_vs_L_tfm    tabicl_v2  n=20 +0.0239 W/T/L 16/0/4 kém>0,02: 2 p=0.0328
+  X_vs_A1_tfm    tabpfn_v3  n=20 +0.0699 W/T/L 12/5/3 kém>0,02: 0 p=0.00376
+  A1_vs_L_tfm    tabpfn_v3  n=20 -0.0062 W/T/L 15/0/5 kém>0,02: 3 p=0.154
+  v1_vs_L_tfm    tabpfn_v3  n=20 -0.1180 W/T/L 11/0/9 kém>0,02: 6 p=0.812
+  X_vs_A1_tfm    tabdpt     n=20 +0.0528 W/T/L 16/2/2 kém>0,02: 0 p=0.000724
+  A1_vs_L_tfm    tabdpt     n=20 +0.0109 W/T/L 14/0/6 kém>0,02: 3 p=0.114
+  v1_vs_L_tfm    tabdpt     n=20 -0.0260 W/T/L 13/0/7 kém>0,02: 4 p=0.522
+  X_vs_A1_tfm    tabpfn_v2  n=11 +0.0173 W/T/L 8/1/2 kém>0,02: 0 p=0.0537
+  A1_vs_L_tfm    tabpfn_v2  n=11 +0.0230 W/T/L 8/0/3 kém>0,02: 2 p=0.083
+  v1_vs_L_tfm    tabpfn_v2  n=11 +0.0098 W/T/L 7/0/4 kém>0,02: 2 p=0.465
+
+## E5. TabICL v2 so với L theo setting: {"llp": [0.0186, "9/0/3"], "llp_A1": [0.0202, "10/0/2"], "pll": [0.0318, "7/0/1"], "pll_A1": [0.0882, "8/0/0"]}
+
+## E3. Ba chuỗi về cùng lưu vực (lệch r_cuối < 0,03): 0.808 {'llp': 0.9130434782608695, 'pll': 0.6133333333333333} {'tabdpt': 0.85, 'tabicl_v2': 0.8333333333333334, 'tabpfn_v2': 0.9393939393939394, 'tabpfn_v3': 0.6666666666666666}
+                      n  G_mean  G_median
+setting same_basin                       
+llp     False        12  0.0038    0.0028
+        True        126  0.0073    0.0020
+pll     False        29  0.3281    0.2211
+        True         46  0.0061    0.0000
+
+## E4. Ô PLL có chênh accuracy giữa các chuỗi ≥ 0,10: {"n_cells": 27, "n_pll_cells": 75, "conf_worst_mean": 0.2749056308286538, "conf_best_mean": 0.6442955454606939, "frac_worst_less_confident": 0.9629629629629629}
+
+## E7. Chi phí mỗi chuỗi
+              n  sec_median  sec_max  calls_median  gpu_mb_max
+backend                                                      
+tabdpt     180       119.7    202.6         310.0       486.1
+tabicl_v2  180        91.9   2290.3         310.0     10211.3
+tabpfn_v2   99       208.4    833.6         310.0      1815.6
+tabpfn_v3  180       172.4   2397.9         310.0      6326.6 
+Tổng giây của X mỗi ô: {'median': 2211.245, 'max': 12763.69}

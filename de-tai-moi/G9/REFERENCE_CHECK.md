@@ -1,4 +1,4 @@
-# Đối chiếu tài liệu tham khảo (04/11/2026)
+# Đối chiếu tài liệu tham khảo (04/11/2026; bổ sung 12/11/2026)
 
 - **Phạm vi:** 32 tài liệu được trích trong bài (`paper/refs.bib`). Các tài liệu còn lại của ma trận G2 chưa được trích, nằm ở `paper/refs_candidates.bib` và **chưa đối chiếu**. Trích thêm tài liệu nào thì phải đối chiếu trước.
 - **Cách làm:** với mỗi tài liệu, em đọc trang của nguồn chính thức hoặc nguồn thư mục đáng tin, rồi so tác giả (đủ, đúng thứ tự), tên bài, nơi đăng, năm, tập, trang, DOI. Nguồn là kỷ yếu PMLR/NeurIPS, trang arXiv, JMLR, mlanthology (BibTeX lấy từ kỷ yếu), RePEc/IDEAS, Scilit.
@@ -57,3 +57,16 @@
 | cho2001 | Scilit (Elsevier) |
 | agarwal2014 | JMLR (trang và bản PDF) |
 | grinsztajn2022tree | mlanthology (NeurIPS 2022) |
+| tabpfn3 | arXiv 2605.13986 (trang abs, v2 ngày 28/05/2026): "TabPFN-3: Technical Report", 41 tác giả, Grinsztajn … Hutter. Chưa có nơi đăng; kiểm lại trước khi nộp |
+| tabdpt | kỷ yếu NeurIPS 2025 (papers.nips.cc), tập 38: Ma, Thomas, Hosseinzadeh, Labach, Cresswell, Golestan, Yu, Caterini, Volkovs |
+| tabarena | kỷ yếu NeurIPS 2025, Datasets and Benchmarks Track, tập 38: Erickson, Purucker, Tschalzev, Holzmüller, Desai, Salinas, Hutter |
+| bischl2021openml | kỷ yếu NeurIPS Datasets and Benchmarks 2021 (tập 1). Trang kỷ yếu lặp tên Bischl hai lần; em ghi 9 tác giả, mỗi người một lần |
+| hoeffding1963 | trang thư mục UT Austin: JASA 58(301):13–30, 1963 |
+
+## Bổ sung 12/11/2026 (bản v2 của bài)
+
+- Thêm 5 tài liệu ở cuối bảng trên; tổng số tài liệu được trích là 37.
+- `tabpfn3` là báo cáo kỹ thuật trên arXiv, chưa qua bình duyệt. Trong bài chỉ dùng để nêu nguồn của mô hình.
+- TabPFN-3.5 (arXiv 2609.17895) **không** được trích trong bài: mô hình này chỉ xuất hiện ở phép chọn ghi trước giữa 3 và 3.5 trong phụ lục, mô tả bằng lời. Nếu sau này trích thì phải đối chiếu trước.
+- Phần "TabDPT được huấn luyện trên dữ liệu thật" dựa vào tóm tắt của bài và danh sách 123 dataset trong repo huấn luyện (`V2/data/tabdpt_pretrain_ids.csv`, xem W4_TFM_REPORT).
+

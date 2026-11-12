@@ -1,16 +1,17 @@
 \section{Limitations}\label{sec:limitations}
 % Each item traces to the "scope" column of G3/CLAIM_EVIDENCE_MATRIX.md.
-\textbf{Dependence on the TFM.} The method inherits its TFM's response to noisy context labels: with TabPFN~v2 it
-stalled under heavy ambiguity with many classes. The two TFMs were compared on the same data only in Study~1 and in the
-response-map analysis, so the cross-study contrast is not a controlled comparison of TFMs.
-\textbf{Theory versus the default sampler.} Our guarantees cover the single-site, swap and MH-corrected samplers; the
-uncorrected block samplers used by default have none that is non-vacuous. The exact sampler did not predict better overall,
-but it mixes more slowly, so the bias of the approximation has not been isolated on real data.
-Tables have at most 10{,}000 rows, and contexts above 2{,}000 points are subsampled (\val{s2-ctxsub-n} of
-\val{s2-ndata} datasets in Study~2), an approximation \cref{thm:stability} covers only through $\bar\varepsilon$, not isolated.
-\textbf{Mixing.} Thirty sweeps do not give draws from a converged posterior over individual labels, and with one chain
-per seed the PLL test of Study~2 at $q=0.6$ is sensitive to Monte Carlo variation (\cref{sec:ablation}).
-\textbf{Scope.} The claims cover LLP with bags of 8 and PLL. As \cref{prop:naive} predicts, the sampler did not improve on
-the naive TFM for PU with labels selected completely at random, class-dependent noise or semi-supervised learning, and
-it was not significantly better than the primary comparator for bags of 16 or 32 (Study~1). On PLL the gain over tuned CC
-is about one accuracy point, close to the oracle ceiling.
+\textbf{What each study supports.} The comparison with specialised baselines is confirmatory only for the single chain
+(Studies~1 and~2). Study~3 has \val{s3-n-total} datasets (\val{s3-n-multi} multiclass) and one baseline, the tuned
+learner $L$, and its comparison with $L$ is exploratory. The typical gain of several starts is small (median
+\val{s3-h1-median}) and came from the learner start, which requires training a specialised learner.
+\textbf{Failed criteria.} We have no label-free diagnostic of stalling that transfers across TFMs, and with one TFM the
+multi-start sampler fell behind a tuned learner in \val{s3-c4-rate} of cases.
+\textbf{TFMs.} TFM developers may have used some of our public datasets; we excluded TabDPT's pretraining sets from
+Study~3 but cannot check the others.
+\textbf{Theory versus practice.} The exactness results do not cover the uncorrected blocks used by default, for which
+\cref{prop:predbias} is exact in one conjugate model only. \Cref{thm:basins} covers the default sampler but not LLP or
+subsampled contexts, its constants are loose, and its assumption was checked with maps that need true labels.
+\textbf{Scope and cost.} The claims cover LLP with bags of 8 and PLL with uniformly drawn distractors. The sampler did
+not improve on the naive TFM for PU, label noise or semi-supervised learning, nor significantly on the primary
+comparator for bags of 16 or 32; in development runs bags of 32 and instance-dependent candidate sets were hard for
+every TFM (\cref{app:dev}). The four-TFM average costs twelve chains.

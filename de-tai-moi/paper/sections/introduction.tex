@@ -1,48 +1,41 @@
 \section{Introduction}\label{sec:intro}
 
 Labels in tabular data often arrive weak: an annotator who cannot decide records a \emph{candidate set}, and data
-released under privacy constraints give only the \emph{proportion} of each label within groups. Each such form of weak supervision has its own family of learners,
-trained per task with a loss designed for that observation and tuned on validation splits that, too, carry only weak
-labels \citep{proden,feng2020provably,dllp,tsai2020llpvat,glws}.
+released under privacy constraints give only the \emph{proportion} of each label within groups. Each form of weak
+supervision has its own family of learners, trained per task with a loss designed for that observation \citep{proden,feng2020provably,dllp,tsai2020llpvat,glws}.
 
-Tabular foundation models (TFMs) have changed what is possible on small tables with clean labels. TabPFN
-\citep{hollmann2023tabpfn,tabpfn_nature} and TabICL \citep{qu2025tabicl,tabicl_v2} predict the label of a query point
-in a single forward pass, conditioning on a labelled context, without any training or tuning. Weak labels do not fit
-this interface: the context must be labelled. The obvious workaround, filling the context with one plausible label per
-point, throws away much of what the weak labels say: for candidate sets and label proportions, the guessed labels carry only a
-fraction of the information in the observation (\cref{prop:naive}).
+Tabular foundation models (TFMs) such as TabPFN \citep{hollmann2023tabpfn,tabpfn_nature} and TabICL
+\citep{qu2025tabicl,tabicl_v2} predict the label of a query point in one forward pass, conditioning on a labelled
+context, without training. Weak labels do not fit this interface: the context must be labelled. Filling it with one
+plausible label per point discards most of what candidate sets and label proportions say (\cref{prop:naive}).
 
 \paragraph{A TFM is already a Gibbs sampler for unknown labels.} A TFM approximates the posterior predictive distribution
-(PPD) of its prior, $p(y_*\mid x_*,D)$ \citep{muller2022pfn}. Under the exchangeability built into that prior, the
-conditional distribution of one unknown label given all the others is precisely such a PPD, with the other points and
-their current labels as the context (\cref{lem:fullcond}). A forward pass of a frozen TFM is therefore the full
-conditional of a Gibbs sampler over the latent labels, and weak labels enter only through their likelihood. \ours{}
-exploits this: it samples the unknown labels block by block with forward passes, respecting candidate sets or bag counts,
-and predicts by averaging the TFM's predictions over the samples (\cref{sec:method}). No weight is updated, and the same
-procedure handles instance-level and group-level weak labels.
+(PPD) of its prior \citep{muller2022pfn}. Under the exchangeability built into that prior, the conditional distribution
+of one unknown label given all the others is precisely such a PPD, with the other points and their current labels as
+the context (\cref{lem:fullcond}). A forward pass of a frozen TFM is therefore the full conditional of a Gibbs sampler
+over the latent labels, and weak labels enter only through their likelihood. \ours{} samples the unknown labels block
+by block with forward passes, respecting candidate sets or bag counts, and predicts by averaging the TFM's predictions
+over the samples (\cref{sec:method}). No weight of the TFM is updated.
 
-\paragraph{Evidence from two pre-registered studies.} We evaluated the method in two studies whose hypotheses, comparators
-and tests were fixed before the evaluation data were touched. Study~1, with TabPFN~v2, showed large gains over the naive
-use of the TFM and located what limits them: on partial labels with high ambiguity and many classes, TabPFN~v2 reinforces
-an uninformative labelling, and the chains stall. In the registered TFM ablation with TabICL~v2, which pulls such labellings back
-towards the truth, the same sampler passed every test. Study~2 put this to a prospective test on \val{s2-n-total} new datasets, changing only
-the TFM (\cref{tab:main}). \ours{} outperformed the strongest specialised baselines for learning from label proportions,
-by \val{s2-llp-cmp-diff} AUC over DLLP on \val{s2-llp-cmp-w} of \val{s2-llp-cmp-n} datasets, and from partial labels, by
-about one accuracy point over tuned CC at both ambiguity levels, with no collapse on datasets with many classes. On three
-real partial-label datasets it was the most accurate method (\cref{sec:real}).
+\paragraph{Evidence from three pre-registered studies.} Each study fixed its hypotheses, comparators and tests before its
+evaluation data were touched, and each was designed around what the previous one found. Study~1, with TabPFN~v2, showed
+large gains over the naive use of the TFM but missed its criteria: under heavy ambiguity the chains stalled near an
+uninformative labelling. Study~2 changed only the TFM, to TabICL~v2, on \val{s2-n-total} new datasets
+(\cref{tab:main}): a single chain outperformed the strongest specialised baselines for label proportions, by
+\val{s2-llp-cmp-diff} AUC over DLLP, and for partial labels, by about one accuracy point over tuned CC. When does a
+chain stall? We answer with a \emph{response map}, the expected label accuracy after one sweep as a function of the
+accuracy before it. For the sampler exactly as it is run, the map bounds where a chain can go (\cref{thm:basins}):
+with two attractors the start decides, for a time exponential in the number of unknown labels. We therefore average
+chains from several starts, one of them a specialised learner, and then average over TFMs. Study~3 tested both steps on
+\val{s3-n-total} further datasets with four TFMs (\cref{tab:s3}): both hypotheses were confirmed, and the multi-TFM
+average matched the best TFM of each dataset without knowing which it is. Two registered criteria failed: a label-free
+signal did not identify stalled chains across TFMs, and with a single TFM the multi-start average fell behind a tuned
+specialised learner in \val{s3-c4-rate} of cases.
 
-\paragraph{Contributions.}
-\begin{itemize}
-  \item \textbf{Method} (\cref{sec:method}): \ours{}, which turns a frozen TFM into a sampler over latent labels for
-        instance-level and group-level weak labels, at the cost of a few hundred forward passes \claim{2}.
-  \item \textbf{Theory} (\cref{sec:theory}): with an exact TFM the exact variants of the sampler target the Bayes posterior and their predictor
-        is Bayes-optimal under the TFM's prior \claim{3}; with an approximate TFM, even one whose conditionals are
-        incompatible, it has a unique stationary distribution whose error is bounded by the TFM's error times the mixing
-        time of the exact chain \claim{4}; and the naive use of a TFM loses information exactly for candidate sets and
-        bag counts \claim{12}.
-  \item \textbf{Evidence} (\cref{sec:exp}): a pre-registered confirmatory study in which \ours{} beats the strongest
-        specialised baselines on both settings \claim{6}\claim{8}, supported by real partial labels \claim{9}.
-  \item \textbf{Mechanism} (\cref{sec:mechanism,sec:tfm}): the gain comes from modelling the dependence among latent labels
-        \claim{7}, and it is realised when the TFM is robust to noisy context labels, which a one-sweep response map makes
-        visible \claim{13}.
-\end{itemize}
+\paragraph{Contributions.} (1) \ours{}, which turns a frozen TFM into a sampler over latent labels for instance-level
+and group-level weak labels \claim{2}, with averages over starts and over TFMs \claim{14}\claim{15}. (2) Theory:
+exactness with an exact TFM \claim{3}, stability with an approximate, even incompatible one \claim{4}, and, for the
+default sampler with a real TFM, invariant floors and ceilings of the label accuracy with an exponential escape time
+\claim{16}. (3) Three pre-registered studies on \val{all-n-datasets} datasets
+\claim{6}\claim{8}\claim{14}\claim{15} and three real partial-label datasets \claim{9}, with the failures
+\claim{13}\claim{18} reported as prominently as the confirmations.

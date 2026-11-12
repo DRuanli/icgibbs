@@ -4,6 +4,7 @@ text width; colours are a CVD-checked pair and every series also differs by mark
 
   figures/s2_gaps.pdf    Study 2, per dataset: Gibbs − primary comparator (LLP bag 8: AUC vs DLLP-linear;
                          PLL: accuracy vs CC-tuned, q = 0.3 and 0.6). Points are means over 3 seeds.
+  figures/mechanism_map.pdf  top row of mechanism.pdf only (main text)
   figures/mechanism.pdf  Why the TFM matters (PLL, q = 0.6, the four datasets with >= 8 classes, Study 1 datasets):
                          (top) one-sweep response gain Phi(r) − r of a Gibbs sweep started from an assignment with
                          fraction r of correct labels (S2X, exploratory); (bottom) fraction of correct training labels
@@ -82,7 +83,7 @@ def monitors(d):
     return rows
 
 
-def mechanism(out):
+def mechanism(out, both=True):
     x = pd.concat([pd.read_csv(f) for f in sorted(glob.glob(os.path.join(ROOT, "S2", "raw", "S2X", "s2x_*.csv")))])
     x = x[x.status == "ok"].copy()
     x["rho"] = x.rho.astype(str)
@@ -93,7 +94,8 @@ def mechanism(out):
     mon = {"tabpfn_v2": monitors(sel(load_s1(raw))), "tabicl_v2": monitors(sel(load_files(raw, ["L6"], "g7_tabicl_*.csv")))}
     style = {"tabpfn_v2": dict(color=BLUE, marker="o", ls="-", label="TabPFN v2"),
              "tabicl_v2": dict(color=ORANGE, marker="D", ls="--", label="TabICL v2")}
-    fig, axes = plt.subplots(2, 4, figsize=(5.5, 2.65), sharex="row", sharey="row")
+    fig, axes = plt.subplots(2 if both else 1, 4, figsize=(5.5, 2.65 if both else 1.45), sharex="row", sharey="row",
+                             squeeze=False)
     for col, ds in enumerate(COLLAPSE):
         C = int(x[x.dataset == ds].n_classes.iloc[0])
         ax = axes[0, col]
@@ -106,6 +108,8 @@ def mechanism(out):
         ax.set_xlim(0, 0.9)
         ax.set_xticks([0, 0.4, 0.8])
         ax.set_xlabel("$r$ (fraction correct)")
+        if not both:
+            continue
         ax = axes[1, col]
         ax.grid(axis="y", color=GRID, lw=0.5)
         for be, s in style.items():
@@ -114,11 +118,12 @@ def mechanism(out):
         ax.set_ylim(0, 1.02)
         ax.set_xlabel("sweep")
     axes[0, 0].set_ylabel(r"gain $\Phi(r)-r$")
-    axes[1, 0].set_ylabel("fraction correct")
+    if both:
+        axes[1, 0].set_ylabel("fraction correct")
     h, lab = axes[0, 0].get_legend_handles_labels()
-    fig.legend(h, lab, frameon=False, loc="lower center", ncol=2, handlelength=2.6, bbox_to_anchor=(0.5, -0.02))
-    fig.tight_layout(h_pad=0.6, w_pad=0.4, rect=(0, 0.05, 1, 1))
-    fig.savefig(os.path.join(out, "mechanism.pdf"))
+    fig.legend(h, lab, frameon=False, loc="lower center", ncol=2, handlelength=2.6, bbox_to_anchor=(0.5, -0.02 if both else -0.06))
+    fig.tight_layout(h_pad=0.6, w_pad=0.4, rect=(0, 0.05 if both else 0.08, 1, 1))
+    fig.savefig(os.path.join(out, "mechanism.pdf" if both else "mechanism_map.pdf"))
     plt.close(fig)
 
 
@@ -127,6 +132,7 @@ def main():
     os.makedirs(out, exist_ok=True)
     s2_gaps(out)
     mechanism(out)
+    mechanism(out, both=False)
     print("figures written to", out)
 
 

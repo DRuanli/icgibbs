@@ -1,14 +1,34 @@
 \input{sections/appendix_proofs}
 
 \FloatBarrier
+\section{Pseudocode}\label{app:alg}
+\begin{algorithm}[h]
+\caption{\ours{}, one chain (block version; LLP uses bag-blocks). No TFM weight is updated.}
+\label{alg:icg}
+\begin{algorithmic}[1]
+\Require features $X$, weak labels $\W$ with model $\lik$, frozen TFM $\tfm$; $K$ blocks, $T$ sweeps, burn-in $T_0$, $S$ samples
+\State $P_0\gets$ warm start; draw $y\sim P_0\cdot\lik$ \Comment{LLP: conditioned on bag counts}
+\For{$t=1,\dots,T$}
+  \State partition all points (LLP: all bags) at random into blocks $B_1,\dots,B_K$
+  \For{$k=1,\dots,K$}
+    \State $Q\gets\tfm(\cdot\mid x_i,D_{-B_k})$ for all $i\in B_k$ \Comment{one forward pass}
+    \State PLL: draw $y_i\propto Q_i\,\lik_i$ for free $i\in B_k$; \quad LLP: draw $y_{B_g}\sim\prod_{i\in B_g}Q_i$ given counts $w_g$, for $B_g\subseteq B_k$
+    \State \textit{(optional)} accept the new $y_{B_k}$ with the MH probability of \cref{prop:blocks}(a)
+  \EndFor
+\EndFor
+\State \Return $\hat p(y_*\mid x_*)=\frac1S\sum_s\tfm(y_*\mid x_*,(X,y^{(s)}))$ over $S$ evenly spaced states $y^{(s)}$ with $t>T_0$
+\end{algorithmic}
+\end{algorithm}
+
+\FloatBarrier
 \section{Pre-registration and timeline}\label{app:prereg}
-Both studies were run under a written protocol with hypotheses, comparators, tests, datasets and decision rules fixed
+All three studies were run under a written protocol with hypotheses, comparators, tests, datasets and decision rules fixed
 before any evaluation data were used; every later change was logged as a dated deviation. In the anonymised repository
 each freeze is a commit, and every result file records the hashes of the code that produced it.
 
 \begin{table}[!htbp]
 \centering
-\caption{Timeline of the two studies (2026, UTC). ``Exploratory'' marks analyses that were not part of the registered
+\caption{Timeline of the three studies (2026, UTC). ``Exploratory'' marks analyses that were not part of the registered
 tests.}
 \label{tab:timeline}
 \small
@@ -30,6 +50,11 @@ added, subsampled to 10{,}000 rows). Exploratory response-map runs on Study~1 da
 2--3 Nov & Study~2 runs; confirmatory analysis with the pre-written script. One post-hoc fix of a floating-point tie in
 the analysis (a tie counted as a loss); no conclusion changed. Failed cells of one baseline rerun once. \\
 3 Nov & Exploratory runs on Study~1 datasets: $\widehat R$ and MH-corrected blocks with TabICL~v2. \\
+4--10 Nov & Development of the multi-start and multi-TFM samplers on earlier and development datasets (exploratory;
+\cref{app:dev}); analysis of the response-map dynamics (\cref{thm:basins}). \\
+10 Nov 04:21 & \textbf{Study~3 frozen} (commit), before its code, its scoring script and any download of its tables. \\
+10--12 Nov & Study~3 runs (three sessions); one interim look at 60 of 71 pairs on 11 Nov; confirmatory scoring with the
+pre-written script on 12 Nov; exploratory decomposition afterwards (\cref{app:s3}). \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -49,6 +74,16 @@ confirmatory test.
 \resizebox{\textwidth}{!}{\input{tables/app_s1_tabicl}}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/mechanism}
+\caption{PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes. Top: response maps as in
+\cref{fig:mechanism}. Bottom: fraction of correct training labels along the chains of the main runs, one line per seed
+(diagnostic only; the sampler never sees the true labels). With TabPFN~v2 the chains stall where the gain is negative;
+with TabICL~v2 they label 93--99\% of the training points correctly within 5--15 sweeps.}
+\label{fig:mechanism-full}
+\end{figure}
+
 \FloatBarrier
 \section{Study 2: sensitivity analysis, all baselines and per-dataset results}\label{app:s2-s1}
 \paragraph{Sensitivity.} Five datasets were flagged before any data were downloaded (repeated measurements of the same
@@ -64,6 +99,15 @@ levels.
 \small
 \resizebox{\textwidth}{!}{\input{tables/app_s2_s1}}
 \end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/s2_gaps}
+\caption{Study 2, per dataset: \ours{} (single chain) minus the primary comparator (positive favours \ours{}), mean over 3
+seeds. (a) LLP with bags of 8, AUC against linear DLLP. (b) PLL, accuracy against tuned CC at two candidate-set rates; a
+bar joins the two rates of a dataset.}
+\label{fig:s2gaps}
+\end{figure}
 
 \paragraph{All baselines.} Against each baseline separately (Holm over all baseline--level pairs of a setting),
 \ours{} is significantly better than all ten LLP baselines; on PLL every mean difference is positive and 7 of 16 pairs are
@@ -102,6 +146,190 @@ gas-drift entry uses one seed.}
 \label{tab:s2means}
 \small
 \resizebox{\textwidth}{!}{\input{tables/s2_means}}
+\end{table}
+
+\FloatBarrier
+\section{Study 3: protocol, datasets and further results}\label{app:s3}
+\paragraph{Protocol.} The protocol registers the hypotheses as H1--H3 and the criteria as C4 and C5; we write them with
+a double prime to keep them apart from those of Studies~1 and~2. It was committed before the code of the study, before
+the scoring script and before any Study~3 table was downloaded, and the scoring script was committed before any
+result existed. Nothing of the method was changed on these datasets: the chain settings are those of \cref{sec:method},
+the three starts and the equal weights were chosen on development data (\cref{app:dev}). A (TFM, dataset) pair counts
+if all three seeds ran without error; all \val{s3-n-pairs} pairs did (\val{s3-n-cells} cells). The protocol also
+recorded our expectations: that both hypotheses and all three criteria would hold. Two did not.
+
+\paragraph{Datasets.} Candidates were taken, from metadata only, from the suites of Study~2 and OpenML-CC18, after
+excluding \val{s3-excl-ids} dataset identifiers: every dataset used in Study~1, Study~2 or development, and the
+\val{s3-tabdpt-ids} datasets on which TabDPT was pretrained. The size and class-balance criteria of Study~2 were applied
+at their most relaxed registered tier, which left \val{s3-review-n} candidates; a manual review by Study~2's rules
+(real data only; no dataset from the same source as one already used; one dataset per source) kept
+\val{s3-review-keep} and removed \val{s3-review-syn} synthetic datasets, \val{s3-review-source} that share a source with
+a dataset used earlier and \val{s3-review-dup} duplicate source. \val{s3-sub-n} datasets with more than 10{,}000 rows were
+subsampled to 10{,}000 (stratified, fixed seed) before splitting. \val{s3-flag-n} datasets were flagged in advance for
+group or sequence structure. Known weaknesses, recorded in the protocol: the multiclass group has only
+\val{s3-n-multi} datasets, which is why the tests pool both settings and per-setting results are descriptive; three
+datasets had been on the reserve list of Study~2 (their tables had been hashed, no method had been run on them); and we
+cannot tell whether the developers of TabPFN-3 or TabICL~v2 used any of these datasets.
+
+\paragraph{Execution.} Three sessions (10--12 November 2026). One change was made to the pre-written scoring script
+before any scoring: a download error at the dataset-hash step is treated as ``not checked'' instead of as a failed
+criterion (no dataset was affected). The order of the GPU queues was rebalanced between sessions. One interim look at
+60 of the 71 pairs was taken on 11 November with the pre-written script; nothing was changed afterwards. The files of
+completed cells were byte-identical across sessions.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/s3_datasets}
+\caption{Study 3, per dataset (mean over 3 seeds), ordered by the gain of the multi-TFM average over the tuned
+learner $L$. ``Single chain'' and ``multi-start'' are means over the TFMs run on the dataset.}
+\label{fig:s3}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\caption{Study 3, per dataset: test score of the single chain (``1'') and the multi-start average (``ms'') for each TFM,
+the multi-TFM average and the tuned learner $L$ (mean over 3 seeds). $n$ is the number of rows after de-duplication and
+subsampling. TabPFN~v2 ran only within its published limits.}
+\label{tab:s3-datasets}
+\resizebox{\textwidth}{!}{\input{tables/app_s3_datasets}}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Study 3 by TFM. $G$: mean of multi-start $-$ single chain; regr.: pairs counted by C4$''$; AUC(H3$''$): the
+diagnostic within the TFM. Last three columns (exploratory): mean difference over datasets and W/T/L.}
+\label{tab:s3-tfm}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_s3_tfm}}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{The \val{s3-c4-n} (TFM, dataset) pairs in which the multi-start average is more than 0.02 below the better of the
+single chain and $L$ (criterion C4$''$), ordered by the size of the regression.}
+\label{tab:s3-regress}
+\small
+\input{tables/app_s3_regress}
+\end{table}
+
+\paragraph{Regressions.} The pairs of \cref{tab:s3-regress} are of two kinds: single chains that stall so deeply that
+the average of three starts does not recover (cnae-9, micro-mass), and datasets on which $L$ is better than every chain
+of that TFM (coupon, seismic-bumps, climate-crashes). The single chain itself was more than 0.02 below $L$ in
+\val{s3-c4-v1-reg} of the \val{s3-n-pairs} pairs. In \val{s3-flip-cells} cells the single chain had an AUC below 0.5 on
+LLP, i.e.\ it converged to the labelling with the two classes exchanged within bags' counts.
+
+\begin{table}[h]
+\centering
+\caption{Exploratory decomposition of Study 3 (not registered; computed after the confirmatory scoring from the stored
+predictions, no chain was rerun). Mean test score over datasets (within-TFM rows: mean over the TFMs of each dataset),
+and difference to the registered average with W/T/L over the \val{s3-n-total} datasets and a two-sided Wilcoxon
+signed-rank $p$, unadjusted.}
+\label{tab:s3-explore}
+\small
+\input{tables/app_s3_explore}
+\end{table}
+
+\paragraph{Exploratory decomposition.} \Cref{tab:s3-explore} separates the ingredients of the two averages. Within one
+TFM, everything that includes the learner start or the learner's prediction is close to the registered three-start
+average, and everything that does not is close to the single chain; adding $L$'s prediction to the three-start average
+gives \val{s3x-A1L-A1} ($p=\val{s3x-A1L-A1-p}$). Across TFMs, the average of the chains started from $L$ equals the
+registered multi-TFM average (\val{s3x-Xbase-X}), the average of single chains is \val{s3x-Xwarm-X} below it, and
+TabPFN~v2, available on \val{s3-n-pfn2} datasets, makes no difference. With TabICL~v2 alone, the configuration of
+Study~2, the single chain was above $L$ by \val{s3x-tabicl-v1-L-llp} on LLP (\val{s3x-tabicl-v1-L-llp-wtl}) and
+\val{s3x-tabicl-v1-L-pll} on PLL (\val{s3x-tabicl-v1-L-pll-wtl}), and its multi-start average by
+\val{s3x-tabicl-A1-L-llp} and \val{s3x-tabicl-A1-L-pll} (\val{s3x-tabicl-A1-L-llp-wtl} and
+\val{s3x-tabicl-A1-L-pll-wtl}); here too single chains stalled on individual datasets (\cref{tab:s3-datasets}). These
+comparisons were chosen after seeing the confirmatory results and carry no error control.
+
+\FloatBarrier
+\section{Development between Study 2 and Study 3}\label{app:dev}
+The multi-start and multi-TFM samplers were developed between 4 and 10 November 2026 on the datasets of Studies~1 and~2
+and on development datasets. All of it is exploratory. To keep ourselves honest we wrote the plan of every run, the
+analysis script and numbered predictions with thresholds before the run; \cref{tab:devpred} lists every prediction and
+its outcome, including the \val{v2-pred-wrong} of \val{v2-pred-n} that were wrong.
+
+\begin{table}[h]
+\centering
+\caption{Predictions written before each development run, and outcomes. ``Regression'': more than 0.02 below the better
+of the single chain and the tuned learner $L$. Missing numbers (P1--P4, P10) belong to an earlier phase with a different
+aggregation rule, which was abandoned.}
+\label{tab:devpred}
+\small
+\resizebox{\textwidth}{!}{\input{tables/app_v2_pred}}
+\end{table}
+
+\paragraph{Choice of the average.} Three ways of combining the three chains were compared on \val{v2-gate-npairs}
+(TFM, dataset) pairs (\val{v2-gate-ncells} cells; TabICL~v2 and TabPFN~v2; four LLP datasets of TabPFN~v2 are missing
+because of download errors): equal weights, and two stacking rules that use weak-label fit. The registered rule chose
+the combination with the fewest regressions: equal weights (\val{v2-gate-R-A1} against \val{v2-gate-R-A2} and
+\val{v2-gate-R-A3}). On these pairs the equal-weight average gained \val{v2-gate-G-A1} over the single chain on average
+(better on \val{v2-gate-win}, worse on \val{v2-gate-loss}, tied on \val{v2-gate-tie}) and was never more than 0.02 below
+it; the size of this gain is what made us expect, wrongly, that a typical dataset of Study~3 would gain little and few
+would regress. Running the three chains for a third of the sweeps each, at the cost of one chain, lost the gain (P12).
+
+\paragraph{TFMs.} TabPFN-3 was preferred to its successor by a registered rule on speed (the latter was
+\val{v2-pfn-ratio} times slower per call on a T4). Under uniformly placed errors TabPFN-3 keeps the low attractor of
+TabPFN~v2 on the four stalling datasets of Study~1 (P11), yet its chains started from $L$ reach high accuracy on them,
+and so do those of TabPFN~v2 on three of the four (P14 was wrong for that reason): stalling is a matter of the start as
+much as of the TFM. On 23 development and earlier datasets the four-TFM average was \val{v2-p16-gap} from the best TFM
+of each dataset (P16), which fixed criterion C5$''$.
+
+\paragraph{Response maps.} For every cell of the earlier runs we measured the one-sweep response at a grid of accuracy
+levels, placing errors either uniformly or according to the stored label marginals of the chain (wrong points chosen
+with probability proportional to one minus the marginal of the true label), and predicted the final label accuracy by a
+rule fixed in advance: start at the chain's initial accuracy and follow the sign of the interpolated gain to the next
+crossing. \Cref{tab:chainmap} and \cref{fig:chainmap} give the errors. The 90th percentile of the error with
+chain-seeded maps is \val{v2-p8-p90}.
+
+\begin{table}[h]
+\centering
+\caption{Median absolute error of the predicted final label accuracy, by the way errors are placed when the response
+map is measured (``structured'': according to the warm start, PLL only).}
+\label{tab:chainmap}
+\small
+\input{tables/app_chainmap}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/chainmap}
+\caption{Final label accuracy of the warm-start chains of \val{v2-p8-n} development cells against the fixed point
+predicted from a response map, with errors placed (a) by the chain's own label marginals, (b) uniformly.}
+\label{fig:chainmap}
+\end{figure}
+
+\paragraph{Diagnostics.} A first label-free signal, the disagreement of three short probe chains, carried no information
+(P15). The second, the disagreement of the warm-start and learner-start chains, was proposed on old runs, held on new
+development cells (P18, AUC \val{v2-p18-auc} on \val{v2-p18-n} cells) and then failed its registered threshold in
+Study~3 (H3$''$).
+
+\paragraph{Harder settings, not pursued.} With bags of 32 every TFM had cells in which the chain converged to exchanged
+classes, and the multi-start average repaired them only in part. Candidate sets whose distractors depend on the instance
+(drawn in proportion to a classifier's probabilities) were much harder than uniform ones. Bags formed by clustering the
+features were easier than random bags and were dropped. These settings are left to future work.
+
+\FloatBarrier
+\section{Positioning against the closest works}\label{app:related}
+\begin{table}[h]
+\centering
+\caption{Positioning against the closest works. ``Partial'': exact posterior over labels inside an EM loop, with
+conditionally independent predictions.}
+\label{tab:related}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+ & no training & tabular & several weak-label & inference over latent & dependence among \\
+ & (frozen model) & data & types & labels with guarantees & latent labels \\
+\midrule
+In-Context PU \citep{inctx_pu} & -- (pretrains a PFN) & \checkmark & -- (PU only) & -- & -- \\
+GLWS \citep{glws}, ILL \citep{ill} & -- & -- & \checkmark & partial & -- \\
+TabPFN imputation \citep{sepin_mi} & \checkmark & \checkmark & -- (missing outcome) & -- & -- \\
+Noise immunity \citep{noise_immunity} & \checkmark & \checkmark & -- (label noise) & -- (measurement) & -- \\
+\textbf{\ours{} (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}}
 \end{table}
 
 \FloatBarrier
@@ -197,7 +425,7 @@ baselines). Bold: best non-oracle accuracy.}
 \paragraph{Datasets.} Study~1 uses every OpenML-CC18 dataset with real (non-synthetic) data, 500 to 10{,}000 rows, at
 most 500 features and, for binary tasks, a minority class of at least 10\% (multiclass: 3--10 classes), one per source;
 Study~2 applies the same criteria to five curated suites after excluding OpenML-CC18 and Study~1
-(\cref{tab:datasets}). Duplicate rows are removed before splitting. TFMs receive ordinally encoded features; MLP
+(\cref{tab:datasets}); the selection for Study~3 is described in \cref{app:s3}. Duplicate rows are removed before splitting. TFMs receive ordinally encoded features; MLP
 baselines receive median-imputed, standardised features with one-hot encoded categories, fitted on the training split.
 
 \paragraph{Baselines and tuning.} Each baseline runs in the configuration of its original code or paper and tuned by 20
@@ -271,8 +499,9 @@ table and figure of this paper are available in an anonymised repository and wil
 
 \paragraph{Compute.} All runs used free Kaggle sessions with two NVIDIA T4 GPUs (TFM-based methods) or CPUs (baselines).
 Study~1 used about 42 hours of two-GPU sessions and 26 hours of four-process CPU sessions; Study~2 about 4 GPU-hours
-and 80 CPU process-hours (two sessions of about ten hours with four processes each); the exploratory lots about 13 hours
-of two-GPU sessions. Development and pilot runs before each freeze are not included.
+and 80 CPU process-hours (two sessions of about ten hours with four processes each); the exploratory lots of Studies~1 and~2 about 13 hours
+of two-GPU sessions; Study~3 three two-GPU sessions of 8 to 11 hours; the development runs of \cref{app:dev} six further
+sessions of at most 11 hours. Development and pilot runs before each freeze are not included.
 
 \paragraph{Broader impacts.} Learning from weak labels lowers the cost of annotation and makes coarse or ambiguous labels
 usable. Learning from label proportions also recovers individual-level predictions from data released only in
