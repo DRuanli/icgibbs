@@ -3,18 +3,22 @@
 \toprule
  & Prediction (written before the run) & Result & Outcome \\
 \midrule
+P1 & a chain of TabPFN~v2 started from tuned CC ends above 0.80 label accuracy in 9/9 runs and is within 0.02 of CC & 0.95--0.99; above CC on 3/3 datasets & correct \\
+P2 & on semeion, where the gain is negative at 0.85--0.95, that chain still ends below 0.50 & ends at 0.76--0.81 & wrong \\
+P3 & LLP, TabPFN~v2: where the gain is negative at the start, the chain ends below its start (2 datasets) & 2/2 datasets & correct \\
+P4 & choosing the chain by weak-label fit picks a near-best start in $\ge 80\%$ of cells & 19/24 (79.2\%) & wrong \\
 P5 & stacking with $L$ has fewer regressions than equal averaging (TabPFN~v2) & 1 regression each & wrong \\
 P6 & aggregators differ by $<0.005$ in mean gain (TabICL~v2) & max.\ gap 0.0031 & correct \\
-P7 & equal averaging gains over the single chain in all four groups & +0.0019 to +0.0043 & correct \\
+P7 & the chosen average is not below the single chain by more than 0.002 in any of four groups & +0.0019 to +0.0043 & correct \\
 P8 & chain-seeded map predicts final label accuracy: median error $\le 0.10$ & 0.016 (234 cells) & correct \\
 P9 & chain-seeded map is more accurate than the uniform map & 0.016 vs.\ 0.073 & correct \\
 P11 & TabPFN-3 has no low attractor on the four stalling datasets & 0/4 datasets & wrong \\
 P12 & multi-start at equal cost ($3\times10$ sweeps) still gains, $\le 3$ regressions & 6 regressions & wrong \\
-P13 & four-TFM average within 0.01 of the best TFM (13 datasets, seed 0) & \ensuremath{-}0.008; 2 worse by $>0.02$ & correct \\
+P13 & four-TFM average within 0.01 of the best TFM on average, $>0.02$ behind on $\le 2$ datasets (seed 0) & \ensuremath{-}0.008; 2 worse by $>0.02$ & correct \\
 P14 & TabPFN-3 multi-start beats TabPFN~v2 multi-start by 0.05 on $\ge 3/4$ stalling datasets & 1/4 & wrong \\
 P15 & disagreement of three 3-sweep probe chains predicts basin splits (AUC $\ge 0.75$) & AUC 0.45 & wrong \\
-P16 & four-TFM average within 0.01 of the best TFM (23 datasets, 3 seeds) & \ensuremath{-}0.004; 1 worse by $>0.02$ & correct \\
-P17 & multi-start gains with TabPFN-3 and TabDPT, $\le 3$ regressions each & +0.0115 / +0.0002; 2 / 2 & correct \\
+P16 & same on 23 datasets, 3 seeds ($\le 3$ behind), and not below any single TFM on average & \ensuremath{-}0.004; 1 worse by $>0.02$ & correct \\
+P17 & multi-start gains with TabPFN-3 and TabDPT, $\le 2$ regressions each & +0.0115 / +0.0002; 2 / 2 & correct \\
 P18 & post-chain diagnostic: AUC $\ge 0.80$ on new development cells & AUC 0.86 (138 cells) & correct \\
 \bottomrule
 \end{tabular}

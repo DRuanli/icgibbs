@@ -70,3 +70,12 @@
 - TabPFN-3.5 (arXiv 2609.17895) **không** được trích trong bài: mô hình này chỉ xuất hiện ở phép chọn ghi trước giữa 3 và 3.5 trong phụ lục, mô tả bằng lời. Nếu sau này trích thì phải đối chiếu trước.
 - Phần "TabDPT được huấn luyện trên dữ liệu thật" dựa vào tóm tắt của bài và danh sách 123 dataset trong repo huấn luyện (`V2/data/tabdpt_pretrain_ids.csv`, xem W4_TFM_REPORT).
 
+
+## Bổ sung sau vòng phản biện (12/11/2026)
+
+| Khoá | Nguồn đã đọc |
+|---|---|
+| heckerman2000 | trang JMLR (jmlr.org/papers/v1/heckerman00a.html): JMLR 1:49–75, 2000; 5 tác giả. **Nội dung:** tóm tắt không nhắc pseudo-Gibbs; phần "ordered pseudo-Gibbs sampler" nằm trong thân bài, em chưa đọc lại bản PDF → việc của G10 |
+| chen2015gibbs | PubMed Central (PMC4572746): J. Stat. Comput. Simul. 85(16):3266–3275, doi 10.1080/00949655.2014.968159; trang ghi tên bài theo chính tả Mỹ ("Behavior"), đăng trực tuyến 10/2014, số báo năm 2015. Tóm tắt nói rõ: phân phối giới hạn phụ thuộc thứ tự quét khi các điều kiện không tương thích |
+
+Tổng số tài liệu được trích: 39.

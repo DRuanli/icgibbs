@@ -84,6 +84,16 @@ with TabICL~v2 they label 93--99\% of the training points correctly within 5--15
 \label{fig:mechanism-full}
 \end{figure}
 
+\begin{table}[h]
+\centering
+\caption{Label accuracy of the single chains of Study~1 (PLL, $q=0.6$) on the four datasets with at least eight
+classes: mean starting value, final value (mean of the last five sweeps) and test accuracy for each of the three
+seeds, sorted. Label accuracies use the true training labels and are diagnostics only.}
+\label{tab:s1chains}
+\small
+\input{tables/app_s1_chains}
+\end{table}
+
 \FloatBarrier
 \section{Study 2: sensitivity analysis, all baselines and per-dataset results}\label{app:s2-s1}
 \paragraph{Sensitivity.} Five datasets were flagged before any data were downloaded (repeated measurements of the same
@@ -246,13 +256,13 @@ comparisons were chosen after seeing the confirmatory results and carry no error
 The multi-start and multi-TFM samplers were developed between 4 and 10 November 2026 on the datasets of Studies~1 and~2
 and on development datasets. All of it is exploratory. To keep ourselves honest we wrote the plan of every run, the
 analysis script and numbered predictions with thresholds before the run; \cref{tab:devpred} lists every prediction and
-its outcome, including the \val{v2-pred-wrong} of \val{v2-pred-n} that were wrong.
+its outcome, including the \val{v2-pred-wrong} of \val{v2-pred-n} that were wrong (the number P10 was never assigned).
 
 \begin{table}[h]
 \centering
 \caption{Predictions written before each development run, and outcomes. ``Regression'': more than 0.02 below the better
-of the single chain and the tuned learner $L$. Missing numbers (P1--P4, P10) belong to an earlier phase with a different
-aggregation rule, which was abandoned.}
+of the single chain and the tuned learner $L$. P1--P4 belong to a first phase in which one chain was selected by
+weak-label fit; P4 failed and the selection rule was replaced by averaging.}
 \label{tab:devpred}
 \small
 \resizebox{\textwidth}{!}{\input{tables/app_v2_pred}}
@@ -264,8 +274,8 @@ because of download errors): equal weights, and two stacking rules that use weak
 the combination with the fewest regressions: equal weights (\val{v2-gate-R-A1} against \val{v2-gate-R-A2} and
 \val{v2-gate-R-A3}). On these pairs the equal-weight average gained \val{v2-gate-G-A1} over the single chain on average
 (better on \val{v2-gate-win}, worse on \val{v2-gate-loss}, tied on \val{v2-gate-tie}) and was never more than 0.02 below
-it; the size of this gain is what made us expect, wrongly, that a typical dataset of Study~3 would gain little and few
-would regress. Running the three chains for a third of the sweeps each, at the cost of one chain, lost the gain (P12).
+it. This small gain is why we expected a typical dataset of Study~3 to gain little, which held (median
+\val{s3-h1-median}), and few pairs to regress, which did not. Running the three chains for a third of the sweeps each, at the cost of one chain, lost the gain (P12).
 
 \paragraph{TFMs.} TabPFN-3 was preferred to its successor by a registered rule on speed (the latter was
 \val{v2-pfn-ratio} times slower per call on a T4). Under uniformly placed errors TabPFN-3 keeps the low attractor of
@@ -305,7 +315,7 @@ Study~3 (H3$''$).
 
 \paragraph{Harder settings, not pursued.} With bags of 32 every TFM had cells in which the chain converged to exchanged
 classes, and the multi-start average repaired them only in part. Candidate sets whose distractors depend on the instance
-(drawn in proportion to a classifier's probabilities) were much harder than uniform ones. Bags formed by clustering the
+(drawn in proportion to a classifier's probabilities), run with TabICL~v2 only, were much harder than uniform ones. Bags formed by clustering the
 features were easier than random bags and were dropped. These settings are left to future work.
 
 \FloatBarrier
@@ -313,7 +323,8 @@ features were easier than random bags and were dropped. These settings are left 
 \begin{table}[h]
 \centering
 \caption{Positioning against the closest works. ``Partial'': exact posterior over labels inside an EM loop, with
-conditionally independent predictions.}
+conditionally independent predictions. $^{\ast}$The TFM is frozen; the LLP warm start trains a linear DLLP model and the
+learner start a tuned specialised learner (\cref{sec:method}).}
 \label{tab:related}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -327,7 +338,7 @@ In-Context PU \citep{inctx_pu} & -- (pretrains a PFN) & \checkmark & -- (PU only
 GLWS \citep{glws}, ILL \citep{ill} & -- & -- & \checkmark & partial & -- \\
 TabPFN imputation \citep{sepin_mi} & \checkmark & \checkmark & -- (missing outcome) & -- & -- \\
 Noise immunity \citep{noise_immunity} & \checkmark & \checkmark & -- (label noise) & -- (measurement) & -- \\
-\textbf{\ours{} (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\textbf{\ours{} (ours)} & \checkmark$^{\ast}$ & \checkmark & \checkmark & \checkmark & \checkmark \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -507,10 +518,9 @@ sessions of at most 11 hours. Development and pilot runs before each freeze are 
 usable. Learning from label proportions also recovers individual-level predictions from data released only in
 aggregate; when aggregation was chosen to protect individuals, such models can weaken that protection, and releases of
 aggregated data should be assessed with this in mind. We have not measured how much individual-level information the
-sampler recovers from bag counts. \todo{quantify, or keep this sentence (G9/REVIEW\_RESPONSE\_PLAN R8)}
+sampler recovers from bag counts.
 
 \paragraph{Use of large language models.} An AI assistant was used for writing code, drafting proofs that the authors
 checked, running analyses through the pre-written scripts, and drafting text. The authors designed the studies, approved
 every pre-registration and decision, ran all experiments and are responsible for all content.
-\todo{align with the venue's LLM policy; docs/AI\_USAGE.md}
 \FloatBarrier

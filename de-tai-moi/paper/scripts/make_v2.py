@@ -441,7 +441,7 @@ def main():
          "1 regression each", verdict(g["P5"]["verdict"])),
         ("P6", "aggregators differ by $<0.005$ in mean gain (TabICL~v2)",
          f"max.\\ gap {max(g['P6']['max_gap_by_setting'].values()):.4f}", verdict(g["P6"]["verdict"])),
-        ("P7", "equal averaging gains over the single chain in all four groups",
+        ("P7", "the chosen average is not below the single chain by more than 0.002 in any of four groups",
          f"{f3(min(g['P7']['G_chosen_by_group'].values()), nd=4)} to {f3(max(g['P7']['G_chosen_by_group'].values()), nd=4)}",
          verdict(g["P7"]["verdict"])),
         ("P8", "chain-seeded map predicts final label accuracy: median error $\\le 0.10$",
@@ -452,15 +452,15 @@ def main():
          f"{P11['tabpfn_v3']}/4 datasets", verdict(c["P11"]["verdict"])),
         ("P12", "multi-start at equal cost ($3\\times10$ sweeps) still gains, $\\le 3$ regressions",
          f"{c['P12']['total_R']} regressions", verdict(c["P12"]["verdict"])),
-        ("P13", "four-TFM average within 0.01 of the best TFM (13 datasets, seed 0)",
+        ("P13", "four-TFM average within 0.01 of the best TFM on average, $>0.02$ behind on $\\le 2$ datasets (seed 0)",
          f"{f3(c['P13']['mean_X_minus_best'])}; {c['P13']['n_lose_gt_002']} worse by $>0.02$", verdict(c["P13"]["verdict"])),
         ("P14", "TabPFN-3 multi-start beats TabPFN~v2 multi-start by 0.05 on $\\ge 3/4$ stalling datasets",
          f"{c['P14']['n_pass']}/4", verdict(c["P14"]["verdict"])),
         ("P15", "disagreement of three 3-sweep probe chains predicts basin splits (AUC $\\ge 0.75$)",
          f"AUC {c['P15']['AUC_s1_T1']:.2f}", verdict(c["P15"]["verdict"])),
-        ("P16", "four-TFM average within 0.01 of the best TFM (23 datasets, 3 seeds)",
+        ("P16", "same on 23 datasets, 3 seeds ($\\le 3$ behind), and not below any single TFM on average",
          f"{f3(d['P16']['mean_X4_minus_oracle'])}; {d['P16']['n_lose_gt_002']} worse by $>0.02$", verdict(d["P16"]["verdict"])),
-        ("P17", "multi-start gains with TabPFN-3 and TabDPT, $\\le 3$ regressions each",
+        ("P17", "multi-start gains with TabPFN-3 and TabDPT, $\\le 2$ regressions each",
          f"{f3(d['P17']['tabpfn_v3']['G'], nd=4)} / {f3(d['P17']['tabdpt']['G'], nd=4)}; {d['P17']['tabpfn_v3']['R']} / "
          f"{d['P17']['tabdpt']['R']}", verdict(d["P17"]["verdict"])),
         ("P18", "post-chain diagnostic: AUC $\\ge 0.80$ on new development cells",
@@ -533,6 +533,122 @@ def main():
     v["th-delta-pfn-res-lo"], v["th-delta-pfn-res-hi"] = f3(pf.resid_late_signed_median.min()), f3(pf.resid_late_signed_median.max())
     v["th-delta-pfn-p10-min"] = f3(pf.resid_late_signed_p10.min())
     v["th-delta-plant-max"] = f"{wd.delta_plant_median.max():.3f}"
+
+    # ------------------------------------------------------------------ additions after the review round of 12 Nov
+    S2 = os.path.join(ROOT, "S2", "results")
+    c2 = json.load(open(os.path.join(S2, "s2_confirmatory.json")))
+    st = c2["H2_llp8"]["strongest"]
+    v["s2-llp-strongest-diff"] = f3(st["mean_diff"])
+    v["s2-llp-strongest-ci"] = ci([st["ci_lo"], st["ci_hi"]])
+    for q, k in (("0.3", "pll3"), ("0.6", "pll6")):
+        cc = c2["H4_pll"][q]["comparator"]
+        v[f"s2-{k}-cmp-diff4"] = f3(cc["mean_diff"], nd=4)
+        v[f"s2-{k}-cmp-ci4"] = f"[{f3(cc['ci_lo'], nd=4)}, {f3(cc['ci_hi'], nd=4)}]"
+    tl = pd.read_csv(os.path.join(S2, "s2_table_llp8.csv"), index_col=0)
+    tp = {q: pd.read_csv(os.path.join(S2, f"s2_table_pll_{q}.csv"), index_col=0) for q in (0.3, 0.6)}
+    for m, k in (("gibbs_warm", "gibbs"), ("hard_em_warm", "hardem"), ("sem_warm", "sem")):
+        v[f"s2-mean-{k}-llp"] = f"{tl[m].mean():.3f}"
+        v[f"s2-mean-{k}-pll3"] = f"{tp[0.3][m].mean():.3f}"
+        v[f"s2-mean-{k}-pll6"] = f"{tp[0.6][m].mean():.3f}"
+    # single chains averaged over TFMs vs L, by setting (exploratory)
+    for stg in ("llp", "pll"):
+        h = xds[xds.setting == stg]
+        dd_ = (h.X_warm - h.L).to_numpy()
+        v[f"s3x-Xwarm-L-{stg}"] = f3(dd_.mean())
+        v[f"s3x-Xwarm-L-{stg}-wtl"] = f"{int((dd_ >= 0.001).sum())}/{int((abs(dd_) < 0.001).sum())}/{int((dd_ <= -0.001).sum())}"
+        v[f"s3x-Xwarm-L-{stg}-min"] = f3(dd_.min())
+    v["s3-c4-both"] = int(((pairs.A1 < pairs.v1 - 0.02) & (pairs.A1 < pairs.L - 0.02)).sum())
+    v["s3-c4-vs-L-rate"] = pct(v["s3-c4-vs-L"] / len(pairs), 1)
+    v["s3-h3-nneg"] = s["H3"]["n_cells"] - s["H3"]["n_pos"]
+    gap = s["C5"]["mean_gap"]
+    v["s3-c5-gap"] = "0.000" if abs(gap) < 0.0005 else f3(gap)
+    v["s3x-cost-nchains"] = "9 or 12"
+    # regressions table from the pair table (avoids double rounding through the summary file)
+    rg = pairs[pairs.reg].copy()
+    rg["by"] = rg.A1 - np.maximum(rg.v1, rg.L)
+    L = [r"\begin{tabular}{@{}llrrr@{}}", r"\toprule", r"TFM & Dataset & single & multi-start & $L$ \\", r"\midrule"]
+    for r in rg.sort_values("by").itertuples():
+        nm = meta.loc[int(r.dataset_id), "name"]
+        L.append(rf"{TFM[r.tfm]} & {esc(SHORT.get(nm, nm))} & {r.v1:.3f} & {r.A1:.3f} & {r.L:.3f} \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    tex("app_s3_regress.tex", L)
+    # uniform response map: on which side are its errors? (development cells)
+    un = cm[cm.plant == "uniform"]
+    for be in ("tabicl_v2", "tabpfn_v2"):
+        h = un[un.backend == be]
+        v[f"v2-uni-above-{be}"] = pct((h.r_final > h.r_hat).mean())
+    v["v2-uni-above-all"] = pct((un.r_final > un.r_hat).mean())
+    # what Theorem 3 certifies at a given size: smallest margin nu + lambda (slope-1 map, delta = 0, h_max = 0, rho = 1,
+    # K = 10) such that a floor holds for H = 30 sweeps with probability 0.95
+    def margin(nF, K=10, H=30, fail=0.05):
+        pp = fail / H
+        a_ = 1 - 1 / K
+        c_ = a_ * a_ * 2 / 9
+        lam = np.sqrt(np.log(2 / pp) / (2 * nF))
+        nu = np.sqrt(np.log(6 * K / pp) / (c_ * nF))
+        return nu + lam
+    for nF, k in ((1000, "1k"), (3000, "3k"), (10000, "10k"), (100000, "100k")):
+        v[f"th-margin-{k}"] = f"{margin(nF):.2f}"
+    # Study 1 chains with the two TFMs on the four datasets of the response-map figure
+    import glob
+    import sys
+    sys.path.insert(0, HERE)
+    import make_figures as mf
+    rawg7 = os.path.join(ROOT, "G7", "raw")
+    sel = lambda d_: d_[(d_.setting == "pll") & (d_.level == 0.6) & (d_.method == "gibbs_warm") & d_.dataset.isin(mf.COLLAPSE)]
+    runs = {"tabpfn_v2": sel(mf.load_s1(rawg7)), "tabicl_v2": sel(mf.load_files(rawg7, ["L6"], "g7_tabicl_*.csv"))}
+    L = [r"\begin{tabular}{@{}llrrr@{}}", r"\toprule",
+         r"TFM & Dataset & start & final label accuracy (3 seeds) & test accuracy (3 seeds) \\", r"\midrule"]
+    fin = {}
+    for be in ("tabpfn_v2", "tabicl_v2"):
+        mons = mf.monitors(runs[be])
+        for ds in mf.COLLAPSE:
+            ms = [m_ for (d0, _, m_) in mons if d0 == ds]
+            f_ = sorted(float(np.mean(m_[-5:])) for m_ in ms)
+            s0 = float(np.mean([m_[0] for m_ in ms]))
+            acc = sorted(runs[be][runs[be].dataset == ds].acc.tolist())
+            fin[(be, ds)] = f_
+            L.append(rf"{TFM[be]} & {ds} & {s0:.2f} & " + ", ".join(f"{t:.2f}" for t in f_) + " & " +
+                     ", ".join(f"{t:.2f}" for t in acc) + r" \\")
+        if be == "tabpfn_v2":
+            L.append(r"\addlinespace")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    tex("app_s1_chains.tex", L)
+    rng_ = lambda f_: f"{min(f_):.2f}--{max(f_):.2f}"
+    v["s1-fin-pfn-mfeat"] = rng_(fin[("tabpfn_v2", "mfeat-factors")])
+    v["s1-fin-pfn-semeion"] = rng_(fin[("tabpfn_v2", "semeion")])
+    v["s1-fin-pfn-mice"] = rng_(fin[("tabpfn_v2", "MiceProtein")])
+    v["s1-fin-pfn-opt"] = ", ".join(f"{t:.2f}" for t in fin[("tabpfn_v2", "optdigits")])
+    v["s1-fin-icl-min"] = f"{min(min(fin[('tabicl_v2', ds)]) for ds in mf.COLLAPSE):.2f}"
+    sx = pd.concat([pd.read_csv(f_) for f_ in sorted(glob.glob(os.path.join(ROOT, "S2", "raw", "S2X", "s2x_*.csv")))])
+    sx = sx[(sx.status == "ok") & (sx.q == 0.6) & sx.dataset.isin(mf.COLLAPSE)]
+    gg = sx.groupby(["dataset", "backend", "rho"]).agg(r=("r_actual", "mean"), phi=("phi", "mean")).reset_index()
+    v["th-gain-absmax"] = f"{(gg.phi - gg.r).abs().max():.2f}"
+    v["th-nF-four"] = f"{int(sx.groupby('dataset').n_train.first().min()):,} to {int(sx.groupby('dataset').n_train.first().max()):,}".replace(",", "{,}")
+    v0 = json.load(open(os.path.join(V2, "v0_summary.json")))
+    rf_ = [t for vals in v0["P1"]["r_final"].values() for t in vals]
+    v["v2-p1-rmin"], v["v2-p1-rmax"] = f"{min(rf_):.2f}", f"{max(rf_):.2f}"
+    v["v2-p1-n"] = v0["P1"]["n_runs"]
+    p3 = v0["P3"]["tic-tac-toe"]
+    v["v2-p3-ttt-gibbs"], v["v2-p3-ttt-start"] = f"{p3['auc_gibbs_init_base']:.3f}", f"{p3['auc_base_start']:.3f}"
+    # development predictions P1-P4 (first phase), prepended to the table
+    early = [
+        ("P1", "a chain of TabPFN~v2 started from tuned CC ends above 0.80 label accuracy in 9/9 runs and is within 0.02 of CC",
+         f"{min(rf_):.2f}--{max(rf_):.2f}; above CC on 3/3 datasets", verdict(v0["P1"]["verdict"])),
+        ("P2", "on semeion, where the gain is negative at 0.85--0.95, that chain still ends below 0.50",
+         "ends at " + "--".join(f"{t:.2f}" for t in (min(v0["P2"]["r_final"]), max(v0["P2"]["r_final"]))), verdict(v0["P2"]["verdict"])),
+        ("P3", "LLP, TabPFN~v2: where the gain is negative at the start, the chain ends below its start (2 datasets)",
+         "2/2 datasets", "correct"),
+        ("P4", "choosing the chain by weak-label fit picks a near-best start in $\\ge 80\\%$ of cells",
+         f"{v0['P4']['n_correct']}/{v0['P4']['n_eligible']} ({100 * v0['P4']['rate']:.1f}\\%)", verdict(v0["P4"]["verdict"])),
+    ]
+    assert all(v0["P3"][k_]["verdict"].startswith("ĐÚNG") for k_ in ("tic-tac-toe", "cylinder-bands"))
+    rows = early + rows
+    L = [r"\begin{tabular}{@{}llll@{}}", r"\toprule", r" & Prediction (written before the run) & Result & Outcome \\",
+         r"\midrule"] + [rf"{a_} & {b_} & {c_} & {d_} \\" for a_, b_, c_, d_ in rows] + [r"\bottomrule", r"\end{tabular}"]
+    tex("app_v2_pred.tex", L)
+    v["v2-pred-n"] = len(rows)
+    v["v2-pred-wrong"] = sum(r_[3] == "wrong" for r_ in rows)
 
     lines = ["% generated by paper/scripts/make_v2.py — do not edit", r"\makeatletter"]
     lines += [rf"\@namedef{{v@{k}}}{{{val}}}" for k, val in sorted(v.items())]
