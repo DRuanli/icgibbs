@@ -10,9 +10,9 @@ by 20 random configurations scored on a validation split \emph{with weak labels 
 MLP or a linear model, LLP-VAT \citep{tsai2020llpvat}, EasyLLP \citep{easy_llp} and GLWS \citep{glws}; for PLL, PRODEN
 \citep{proden}, GLWS/ILL \citep{glws,ill}, RC and CC \citep{feng2020provably}. With the same TFM
 we also run the \emph{naive TFM} (one label per point consistent with the weak labels), \emph{hard-EM} (arg max instead
-of sampling) and an \emph{oracle}. \ours{} is never tuned per dataset. A rule applied to development datasets (set aside for
-choosing settings) fixed the \emph{primary comparators}: linear DLLP in its default configuration and tuned CC. A \emph{cell} is one run (TFM, dataset, setting, seed); a \emph{pair} is a (TFM, dataset)
-averaged over seeds; differences below 0.001 count as ties.
+of sampling) and an \emph{oracle} (the TFM given the true labels). \ours{} is never tuned per dataset. A rule applied to development datasets (set aside for
+choosing settings) fixed the \emph{primary comparators}: linear DLLP in its default configuration and tuned CC. In Study~3 a \emph{cell} is one run (TFM, dataset, seed), a \emph{pair} a (TFM, dataset)
+averaged over seeds, and differences below 0.001 count as ties (Studies~1 and~2 count exact ties only).
 
 \paragraph{Studies 1 and 2: one chain against specialised learners.} H2 (LLP) and H4 (PLL) require the single chain to
 beat the primary comparator and the naive TFM (two-sided Wilcoxon signed-rank over datasets, Holm-adjusted) \emph{and}
@@ -57,9 +57,9 @@ strongest LLP baseline, \val{s2-llp-strongest-name}, by \val{s2-llp-strongest-di
 (\val{s2-pll3-oracle-gap} and \val{s2-pll6-oracle-gap} points below it), and was at least as accurate as the strongest
 PLL baseline on \val{s2-pll3-rule60} and \val{s2-pll6-rule60} datasets \claim{8}; at $q=0.6$ the test does not survive
 a second chain (\cref{sec:ablation}). With the same TFM and warm start, sampling beats taking the arg max: \ours{} had
-lower log loss than hard-EM in \val{s2-h3-frac} of \val{s2-h3-cells} cells (registered H3$'$) and higher mean accuracy
+lower log loss than hard-EM in \val{s2-h3-frac} of \val{s2-h3-cells} (dataset, setting) comparisons (registered H3$'$) and higher mean accuracy
 at $q=0.6$ (\val{s2-mean-gibbs-pll6} against \val{s2-mean-hardem-pll6}) \claim{7}. Averaging over samples adds little to
-predicting from the last sample alone (\val{s2-mean-sem-pll6}; \cref{tab:s2means}). The gain over the naive TFM is
+predicting from the last sample alone (``stochastic EM'': \val{s2-mean-sem-pll6}; \cref{tab:s2means}). The gain over the naive TFM is
 absent where naive labels carry all the information (\cref{app:secondary}) \claim{12}.
 
 \subsection{Stalling, and what response maps do and do not explain}\label{sec:tfm}
@@ -67,8 +67,8 @@ Study~1, with TabPFN~v2, did not meet its criteria (\cref{tab:main}, left). \our
 \val{s1-llp-naive-diff} AUC on LLP and \val{s1-pll3-naive-diff} and \val{s1-pll6-naive-diff} accuracy on PLL, and led
 the primary comparators on LLP and on PLL at $q=0.3$, short of significance. At $q=0.6$ it beat tuned CC on
 \val{s1-pll6-rest-w} of the \val{s1-pll6-rest-n} datasets with fewer than eight classes (\val{s1-pll6-rest-diff} on
-average), but on the four with at least eight classes the chains ended far from the truth, for an overall deficit of
-\val{s1-pll6-cmp-diff}: the label accuracy stayed at its starting value on mfeat-factors (\val{s1-fin-pfn-mfeat}),
+average), but on the four with at least eight classes chains ended far from the truth (overall
+\val{s1-pll6-cmp-diff}): the label accuracy stayed at its starting value on mfeat-factors (\val{s1-fin-pfn-mfeat}),
 reached only \val{s1-fin-pfn-semeion} on semeion and \val{s1-fin-pfn-mice} on MiceProtein, and on optdigits one seed
 of three stayed low (\val{s1-fin-pfn-opt}; \cref{tab:s1chains}). With TabICL~v2 every chain on these datasets ended
 at \val{s1-fin-icl-min} or above, the registered ablation passed every test (\cref{app:s1-tabicl}), and Study~2 then
@@ -77,7 +77,7 @@ tested that TFM prospectively \claim{13}.
 \Cref{fig:mechanism} shows the gain $\Phi(r)-r$ measured by redrawing every block given an assignment with a fraction
 $r$ of correct labels and uniformly placed errors. It is positive throughout with TabICL~v2 and negative for
 intermediate $r$ with TabPFN~v2, so the map separates the two TFMs. It is not a faithful model of the chains, however:
-three of the four TabPFN~v2 datasets climbed through the region of negative gain. On \val{v2-p8-n} cells of development
+with TabPFN~v2, chains on optdigits (\val{s1-fin-pfn-opt-high} of 3 seeds) climbed through the region of negative gain. On \val{v2-p8-n} cells of development
 runs (both TFMs, LLP and PLL; exploratory, \cref{app:dev}), chains ended above the fixed point of the uniform-error
 map in \val{v2-uni-above-all} of cells (median error \val{v2-p9-uniform}): a chain's own errors sit on points the TFM
 finds ambiguous and harm the context less than uniform ones. For the uniform map only the lower half of \cref{ass:H}
@@ -85,11 +85,10 @@ is therefore plausible; it can indicate that a chain will climb, not that it wil
 to the chain's own marginals the fixed point is within a median of \val{v2-p8-med} of the final accuracy
 (\cref{fig:chainmap}) \claim{17}. Those marginals come from the chain whose end is predicted, so this shows that chains
 settle at a fixed point of a one-dimensional map and that the placement of errors matters, not that
-\cref{thm:basins} forecasts anything. Of three development predictions about starts written in advance, two held (started
-from tuned CC, TabPFN~v2 chains ended at label accuracies \val{v2-p1-rmin}--\val{v2-p1-rmax} on three of the four
-datasets) and one, that semeion would collapse from such a start, was wrong. Quantitatively the theorem is silent at these sizes: for
-$n_F$ between \val{th-nF-four} it needs margins above about \val{th-margin-3k} to \val{th-margin-1k}, and the measured
-gains are at most \val{th-gain-absmax}.
+\cref{thm:basins} forecasts anything. Of three predictions about starts written in advance, two held (started from tuned CC,
+TabPFN~v2 chains ended at label accuracies \val{v2-p1-rmin}--\val{v2-p1-rmax} on three of the datasets); one was wrong. Quantitatively the theorem is silent at these sizes: on the
+\val{th-scope-n} datasets within its scope ($n_F$ from \val{th-scope-nF}) a floor over 30 sweeps needs a gain margin of
+\val{th-scope-margin} even with $\delta=0$ (\cref{app:dynamics}), and the measured gains are at most \val{th-scope-gain}.
 
 \begin{figure}[t]
 \centering

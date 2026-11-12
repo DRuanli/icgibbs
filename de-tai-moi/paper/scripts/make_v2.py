@@ -134,7 +134,7 @@ def main():
     v["s3-c4-vs-v1"] = int((pairs.A1 < pairs.v1 - 0.02).sum())
     v["s3-c4-vs-L"] = int((pairs.A1 < pairs.L - 0.02).sum())
     v["s3-c4-v1-reg"] = int((pairs.v1 < pairs.L - 0.02).sum())          # single chain worse than L by > 0.02
-    v["s3-c5-gap"] = f3(s["C5"]["mean_gap"])
+    v["s3-c5-gap"] = "0.000" if abs(s["C5"]["mean_gap"]) < 0.0005 else f3(s["C5"]["mean_gap"])
     v["s3-c5-nlose"] = s["C5"]["n_lose_gt_002"]
     v["s3-a1L-mean"] = f3(s["A1_vs_L"]["mean"])
     v["s3-a1L-wl"] = f"{s['A1_vs_L']['win']}/{s['A1_vs_L']['loss']}"
@@ -604,7 +604,7 @@ def main():
     sel = lambda d_: d_[(d_.setting == "pll") & (d_.level == 0.6) & (d_.method == "gibbs_warm") & d_.dataset.isin(mf.COLLAPSE)]
     runs = {"tabpfn_v2": sel(mf.load_s1(rawg7)), "tabicl_v2": sel(mf.load_files(rawg7, ["L6"], "g7_tabicl_*.csv"))}
     L = [r"\begin{tabular}{@{}llrrr@{}}", r"\toprule",
-         r"TFM & Dataset & start & final label accuracy (3 seeds) & test accuracy (3 seeds) \\", r"\midrule"]
+         r"TFM & Dataset & after sweep 1 & final label accuracy (3 seeds) & test accuracy (3 seeds) \\", r"\midrule"]
     fin = {}
     for be in ("tabpfn_v2", "tabicl_v2"):
         mons = mf.monitors(runs[be])
@@ -620,6 +620,8 @@ def main():
             L.append(r"\addlinespace")
     L += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s1_chains.tex", L)
+    v["s1-fin-pfn-opt-high"] = sum(t > 0.8 for t in fin[("tabpfn_v2", "optdigits")])
+    v["s1-fin-pfn-mice-max"] = f"{max(fin[('tabpfn_v2', 'MiceProtein')]):.2f}"
     rng_ = lambda f_: f"{min(f_):.2f}--{max(f_):.2f}"
     v["s1-fin-pfn-mfeat"] = rng_(fin[("tabpfn_v2", "mfeat-factors")])
     v["s1-fin-pfn-semeion"] = rng_(fin[("tabpfn_v2", "semeion")])
@@ -630,7 +632,19 @@ def main():
     sx = sx[(sx.status == "ok") & (sx.q == 0.6) & sx.dataset.isin(mf.COLLAPSE)]
     gg = sx.groupby(["dataset", "backend", "rho"]).agg(r=("r_actual", "mean"), phi=("phi", "mean")).reset_index()
     v["th-gain-absmax"] = f"{(gg.phi - gg.r).abs().max():.2f}"
-    v["th-nF-four"] = f"{int(sx.groupby('dataset').n_train.first().min()):,} to {int(sx.groupby('dataset').n_train.first().max()):,}".replace(",", "{,}")
+    nt = sx.groupby("dataset").n_train.first()
+    scope = nt[nt * (1 - 1 / 10) <= 2000]                 # context not subsampled (K = 10, limit 2,000)
+    out = nt[nt * (1 - 1 / 10) > 2000]
+    gs = gg[gg.dataset.isin(scope.index)]
+    v["th-scope-n"] = len(scope)
+    v["th-scope-nF"] = f"{int(scope.min()):,} to {int(scope.max()):,}".replace(",", "{,}")
+    v["th-scope-margin"] = f"{margin(int(scope.max())):.2f} to {margin(int(scope.min())):.2f}"
+    v["th-scope-gain"] = f"{(gs.phi - gs.r).abs().max():.2f}"
+    v["th-out-name"] = ", ".join(out.index)
+    v["th-out-nF"] = ", ".join(f"{int(t):,}".replace(",", "{,}") for t in out)
+    v["th-out-margin"] = ", ".join(f"{margin(int(t)):.2f}" for t in out)
+    go = gg[gg.dataset.isin(out.index)]
+    v["th-out-gain"] = f"{(go.phi - go.r).abs().max():.2f}"
     v0 = json.load(open(os.path.join(V2, "v0_summary.json")))
     rf_ = [t for vals in v0["P1"]["r_final"].values() for t in vals]
     v["v2-p1-rmin"], v["v2-p1-rmax"] = f"{min(rf_):.2f}", f"{max(rf_):.2f}"

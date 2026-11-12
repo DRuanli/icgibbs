@@ -34,7 +34,7 @@
   \newcommand{\pending}[1]{\errmessage{Unresolved checklist answer: #1}}
 \else
   % claim pointers are hidden unless \showclaimstrue (internal audit builds only)
-  \newcommand{\claim}[1]{\ifshowclaims\textsuperscript{\textcolor{ForestGreen}{\sffamily[C#1]}}\fi}
+  \newcommand{\claim}[1]{\ifshowclaims\textsuperscript{\textcolor{ForestGreen}{\sffamily[C#1]}}\else\unskip\fi}
   \newcommand{\todo}[1]{\textcolor{BrickRed}{\sffamily\small[TODO: #1]}}
   \newcommand{\pending}[1]{\textbf{\textcolor{BrickRed}{[Pending: #1]}}}
 \fi

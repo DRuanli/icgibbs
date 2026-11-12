@@ -6,8 +6,8 @@ supervision has its own family of learners, trained per task with a loss designe
 
 Tabular foundation models (TFMs) such as TabPFN \citep{hollmann2023tabpfn,tabpfn_nature} and TabICL
 \citep{qu2025tabicl,tabicl_v2} predict the label of a query point in one forward pass, conditioning on a labelled
-context, without training. Weak labels do not fit this interface: the context must be labelled. Filling it with one
-plausible label per point discards most of what candidate sets and label proportions say (\cref{prop:naive}).
+context, without training. Weak labels do not fit this interface: the context must be labelled. A TFM given one
+plausible label per point uses only part of what candidate sets and label proportions say (\cref{prop:naive}).
 
 \paragraph{A TFM is already a Gibbs sampler for unknown labels.} A TFM approximates the posterior predictive distribution
 (PPD) of its prior \citep{muller2022pfn}. Under the exchangeability built into that prior, the conditional distribution

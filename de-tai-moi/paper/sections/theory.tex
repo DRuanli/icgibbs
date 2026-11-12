@@ -94,9 +94,10 @@ which motivates the multi-start sampler. The constants are loose: the theorem de
 and at the sizes of our datasets it certifies nothing (\cref{sec:tfm}, \cref{app:dynamics}).
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
-labels. For weak labels generated independently of the features given the true label (PU, binary label noise,
-semi-supervised learning, but also PLL with independent distractors and LLP with random bags), the naive target ranks
-points as the true posterior does; but the naive labels carry less Fisher information than the observation exactly
-for PLL and LLP (\cref{prop:naive}). Only there can the sampler recover information through $\lik$, which predicted,
-before evaluation, where \ours{} would beat the naive TFM \claim{12}
+labels. When weak labels are generated independently of the features given the true label, the naive target ranks
+points as the true posterior does (\cref{prop:naive}). For PU and label noise the naive labels are the observation and
+nothing is lost. For PLL they carry less Fisher information than the candidate sets, and for LLP a learner that treats
+them as independent point labels uses about $3\%$ of the information in the counts of bags of 8. Only for PLL and LLP,
+then, can the sampler recover information through $\lik$, which predicted, before evaluation, where \ours{} would beat
+the naive TFM \claim{12}
 (\cref{app:secondary}).

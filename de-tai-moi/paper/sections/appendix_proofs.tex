@@ -164,9 +164,9 @@ $\alpha'=\alpha(n-1)/(n-M)$, which is $\alpha\,K(n-1)/((K-1)n)$ for $M=n/K$: the
 exactly the posterior mean of the model with prior $\mathrm{Dir}(\alpha',\dots,\alpha')$. Consequently, for $M=n/K$,
 \[
   \tilde\pi(f_c)-\pi(f_c)=\frac{U(\alpha'-\alpha)(N-CL_c)}{(n+C\alpha)(N+C\alpha')(N+C\alpha)}
-  =\frac{\alpha(1-\lambda)(1-Cp_c)}{(K-1)\,N}\,\big(1+O(C\alpha/N)\big),
+  =\frac{\alpha(1-\lambda)(1-Cp_c)}{(K-1)\,N}\cdot\frac{n-K}{n+C\alpha}\cdot\frac{N^2}{(N+C\alpha')(N+C\alpha)},
 \]
-with $\lambda=N/n$ and $p_c=L_c/N$. The bias is governed by the number of labelled points: it does not vanish as $n$
+with $\lambda=N/n$ and $p_c=L_c/N$; the last two factors are $1-O(K/n)-O(C\alpha/N)$. The bias is governed by the number of labelled points: it does not vanish as $n$
 grows with $N$ fixed. The predictor itself is not the posterior mean under $\alpha'$, only the counts are.
 \end{proposition}
 \begin{proof}
@@ -359,8 +359,10 @@ then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with $\lambda_k>0$, so the naive target 
 PU-SCAR, class-dependent noise, SSL with labels missing completely at random, PLL with independent distractors and LLP with
 random bags. (b) If the naive labels are drawn from the observation by a kernel that does not depend on the parameter,
 their Fisher information is at most that of the observation, with equality iff the observation's score is a function of
-the naive labels: equality holds for PU-SCAR and label noise, whereas for PLL and LLP the naive labels coarsen the
-observation (for LLP with bags of 8, about $3\%$ of the information in the bag counts in a logistic model).
+the naive labels. Equality holds for PU-SCAR and label noise, where the naive labels are the observation, and for LLP
+when the naive labels match the bag counts. For PLL the inequality was strict in every case we computed. For LLP the
+loss arises at the learner: the point-wise (composite) likelihood on naive labels has a Godambe information of about
+$3\%$ of the information in the counts for bags of 8 in a logistic model.
 \end{proposition}
 \paragraph{Complement to \cref{prop:naive}(a).} For binary labels with class prior $\varpi$, for any score $s$,
 $\mathrm{AUC}(\eta)-\mathrm{AUC}(s)\le\E\lvert s-\tilde\eta\rvert/(\lambda\varpi(1-\varpi))$: the AUC regret of a learner fitted

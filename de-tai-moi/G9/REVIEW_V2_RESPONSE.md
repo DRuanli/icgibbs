@@ -2,7 +2,7 @@
 
 - **Biên bản:** [toán](reviews/REVIEW_V2_MATH_01.md), [kiểm toán số liệu](reviews/REVIEW_V2_AUDIT_01.md), [kiểu NeurIPS](reviews/REVIEW_V2_NEURIPS_01.md). Cả ba do agent chưa thấy quá trình viết thực hiện.
 - **Bản được phản biện:** bản nháp 1, commit `0278914`.
-- **Trạng thái:** đã sửa trong bản nháp 2; vòng 2 (kiểm việc sửa) đang chạy, biên bản sẽ ở `reviews/REVIEW_V2_ROUND2.md`.
+- **Trạng thái:** đã sửa trong bản nháp 2; vòng 2 ([biên bản](reviews/REVIEW_V2_ROUND2.md)) đã kiểm việc sửa, các phát hiện mới của vòng 2 đã sửa trong bản nháp 3 (xem §5).
 
 ## 1. Kết quả ba vòng
 
@@ -46,3 +46,30 @@
 | Ước lượng δ của Giả định 1 trên TFM thật | Dữ liệu đã lưu chỉ cho phần dư trung bình theo vòng quét, tức cận dưới của δ. Bài nay nói thẳng giả định chỉ được kiểm qua hệ quả |
 | Mục "Pending" về giấy phép trong checklist | Phải đối chiếu giấy phép từng dataset OpenML, các checkpoint và bộ PALM. Bản final cố ý không biên dịch được khi mục này còn mở |
 | Style chính thức của NeurIPS 2027 | Chưa phát hành |
+
+## 5. Vòng 2 (kiểm việc sửa, 12/11/2026)
+
+- **Người rà:** một agent mới, không tham gia vòng 1 và không tham gia việc sửa.
+- **Kết quả trên 75 mục của vòng 1:** 34 đã sửa, 23 sửa một phần, 16 chưa sửa, 2 chỗ việc sửa sinh lỗi mới. Phần "chưa sửa" chủ yếu là lỗi nhỏ, lỗi trình bày và các ý cần thí nghiệm mới.
+- **Số liệu:** mọi con số mới được tính lại từ dữ liệu thô đều khớp.
+- **Điểm kiểu NeurIPS:** Overall từ 4 lên **5** (dao động 4–6); Soundness 2 → 3, Contribution 2 → 3, Presentation giữ 2 (sát 3).
+
+| Phát hiện mới | Mức | Xử lý trong bản nháp 3 |
+|---|---|---|
+| N1. Câu "naive labels carry less Fisher information … exactly for PLL and LLP" sai với LLP: nhãn ngây thơ khớp số đếm túi nên thông tin Fisher bằng nhau; con số 3% là thông tin Godambe của hợp lý từng điểm. Lỗi này có từ bài gốc | lớn | Sửa cả đoạn ở §5 và phát biểu (b) của mệnh đề ở phụ lục theo đúng `G4/PROOFS.md`: với LLP, mất mát nằm ở *learner* coi nhãn ngây thơ là nhãn độc lập |
+| N2. Câu "n_F từ 756 đến 3.934 cần biên 0,17–0,30" gắn sai số | lớn | Sinh lại theo từng dataset: 3 dataset trong phạm vi định lý (n_F 756–1.395) cần biên 0,25–0,35, gain đo được ≤ 0,14; optdigits nằm ngoài phạm vi |
+| N3. "Ba trong bốn dataset leo qua vùng gain âm" chưa chính xác | nhỏ | Chỉ còn nói về optdigits (2/3 seed) |
+| N4, N5. Chú thích hình quỹ đạo mâu thuẫn với §6.3; cột "start" của bảng chuỗi thực ra là sau vòng quét 1 | nhỏ | Sửa chú thích và tên cột |
+| N6. Phần dư của Mệnh đề độ lệch thiếu thừa số | nhỏ | Viết công thức chính xác dạng tích ba thừa số |
+| N7. Quy tắc hoà 0,001 phát biểu chung, trong khi Bảng 1 đếm hoà chính xác | nhỏ | Ghi rõ: Study 3 dùng ngưỡng 0,001; Study 1–2 chỉ đếm hoà chính xác (như đã ghi trước) |
+| N15. Nhãn [C#] ẩn để lại khoảng trắng trước dấu câu | nhỏ | Thêm `\unskip` vào macro |
+| N16. "38 cells" trái định nghĩa "cell"; "stochastic EM", "oracle" chưa định nghĩa | nhỏ | Đổi thành "(dataset, setting) comparisons"; thêm định nghĩa |
+| N18. Bảng 2 in "gap +0.000" | nhỏ | In "0.000" |
+| Gợi ý: bảng "cấu hình – mức bằng chứng – chi phí" | — | Thêm Bảng ở Phụ lục F |
+
+**Còn lại sau vòng 2** (chưa làm trong đợt này):
+- các lỗi nhỏ và lỗi trình bày chưa sửa trong biên bản vòng 2;
+- ước lượng δ của Giả định 1;
+- baseline chạy bằng CPU trên các lần chia đã lưu của Study 3 (PL-kNN hoặc IPAL, cây tăng cường với loss PLL/LLP). Người rà coi đây là cải thiện giá trị nhất không cần GPU. Việc này là **thí nghiệm mới ngoài protocol**, nên cần thầy quyết định và phải ghi trước;
+- các thí nghiệm cần GPU mà reviewer sẽ đòi: naive TFM, hard-EM, oracle ở Study 3; chạy dài T ≥ 100 trên ô kẹt; ánh xạ phản ứng trên Study 3.
+

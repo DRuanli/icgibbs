@@ -79,16 +79,17 @@ confirmatory test.
 \includegraphics[width=\textwidth]{figures/mechanism}
 \caption{PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes. Top: response maps as in
 \cref{fig:mechanism}. Bottom: fraction of correct training labels along the chains of the main runs, one line per seed
-(diagnostic only; the sampler never sees the true labels). With TabPFN~v2 the chains stall where the gain is negative;
-with TabICL~v2 they label 93--99\% of the training points correctly within 5--15 sweeps.}
+(diagnostic only; the sampler never sees the true labels). With TabPFN~v2 several chains end far below the truth,
+though not all stay within the region of negative gain (\cref{tab:s1chains}); with TabICL~v2 all chains reach high
+label accuracy within 5--15 sweeps.}
 \label{fig:mechanism-full}
 \end{figure}
 
 \begin{table}[h]
 \centering
 \caption{Label accuracy of the single chains of Study~1 (PLL, $q=0.6$) on the four datasets with at least eight
-classes: mean starting value, final value (mean of the last five sweeps) and test accuracy for each of the three
-seeds, sorted. Label accuracies use the true training labels and are diagnostics only.}
+classes: mean value after the first sweep, final value (mean of the last five sweeps) and test accuracy for each of
+the three seeds, sorted. Label accuracies use the true training labels and are diagnostics only.}
 \label{tab:s1chains}
 \small
 \input{tables/app_s1_chains}
@@ -254,6 +255,30 @@ Study~2, the single chain was above $L$ by \val{s3x-tabicl-v1-L-llp} on LLP (\va
 \val{s3x-tabicl-A1-L-llp} and \val{s3x-tabicl-A1-L-pll} (\val{s3x-tabicl-A1-L-llp-wtl} and
 \val{s3x-tabicl-A1-L-pll-wtl}); here too single chains stalled on individual datasets (\cref{tab:s3-datasets}). These
 comparisons were chosen after seeing the confirmatory results and carry no error control.
+
+\paragraph{Which configuration, on what evidence.} For a reader deciding what to run, \cref{tab:configs} separates the
+three configurations by the kind of evidence behind them.
+
+\begin{table}[h]
+\centering
+\caption{The three configurations, the evidence for each and their cost. ``Confirmatory'': a pre-registered test
+passed; ``exploratory'': computed after the registered scoring, without error control.}
+\label{tab:configs}
+\small
+\begin{tabular}{@{}p{0.2\textwidth}p{0.36\textwidth}p{0.22\textwidth}p{0.14\textwidth}@{}}
+\toprule
+Configuration & Against specialised learners & Against simpler variants & Cost \\
+\midrule
+Single chain, one TFM & confirmatory with TabICL~v2 (Study~2); criteria missed with TabPFN~v2 (Study~1) &
+confirmatory: lower log loss than hard-EM & 1 chain \\
+Multi-start, one TFM & registered descriptive test not significant (\val{s3-a1L-mean}, $p=\val{s3-a1L-p}$);
+\val{s3-c4-vs-L} of \val{s3-n-pairs} pairs more than 0.02 behind $L$ & confirmatory: above the single chain (H1$''$);
+exploratory: no better than the chain started from $L$ & 3 chains and tuning $L$ \\
+Multi-TFM & exploratory: above $L$ on \val{s3x-X-L-wtl} datasets (W/T/L) & confirmatory: above the average TFM (H2$''$),
+level with the best (C5$''$) & \val{s3x-cost-nchains} chains and tuning $L$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \FloatBarrier
 \section{Development between Study 2 and Study 3}\label{app:dev}
