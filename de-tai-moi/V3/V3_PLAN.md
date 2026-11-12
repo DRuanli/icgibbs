@@ -1,6 +1,7 @@
 # Bài v3: chương trình nghiên cứu (12/11/2026)
 
-- **Trạng thái:** bản đề xuất của em, chờ thầy duyệt. Chưa có thí nghiệm nào của v3 được ghi trước hay chạy.
+- **ĐÃ CHUYỂN (12/11/2026):** thầy quyết định tách v3 thành bài riêng ở kho `DRuanli/neur-v3`. Bản đang dùng là `v3/V3_PLAN.md` ở kho đó (bản 2, luận điểm đã đổi sang "tỉ giá quy đổi"). Tài liệu này là bản 1, giữ làm hồ sơ, không cập nhật nữa. Mục 7 (tách hay gộp) đã được quyết: tách.
+- **Trạng thái lúc viết:** bản đề xuất của em, chờ thầy duyệt. Chưa có thí nghiệm nào của v3 được ghi trước hay chạy.
 - **Mục tiêu thầy đặt:** bài v3 ở mức đột phá, 8–10 điểm NeurIPS 2027 (hạn nộp ước 05/2027).
 - **Điều em không hứa được:** mức 8–10 không lập kế hoạch ra được. Tài liệu này chọn hướng có trần cao nhất mà em thấy, và đặt các cổng dừng sớm để không tốn sức vào hướng chết. Ước lượng chủ quan của em: khoảng 40–50% đạt mức 6 trở lên, khoảng 10–15% đạt mức 8 trở lên.
 

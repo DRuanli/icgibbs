@@ -1,6 +1,6 @@
 # HANDOFF: trạng thái đề tài A để làm tiếp ở chat khác
 
-*Cập nhật 04/11/2026, commit sau `2ff12b4`. Mỗi khi trạng thái đổi, sửa tài liệu này trước tiên. Kho riêng tư: `github.com/DRuanli/icgibbs`, nhánh `main`, thư mục gốc của đề tài là `de-tai-moi/`.*
+*Cập nhật 12/11/2026 (mục 0j, 0i); phần còn lại cập nhật 04/11/2026, commit sau `2ff12b4`. Mỗi khi trạng thái đổi, sửa tài liệu này trước tiên. Kho riêng tư: `github.com/DRuanli/icgibbs`, nhánh `main`, thư mục gốc của đề tài là `de-tai-moi/`.*
 
 ## 0. Đọc gì trước
 
@@ -20,6 +20,13 @@
 | Giao thức đóng băng của Study 1 | `G5/EXPERIMENT_PROTOCOL.md`, `G5/FREEZE_RECORD.md` |
 | Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
 | Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
+
+## 0j. Tách bài v3 (12/11/2026)
+
+- **Thầy quyết định 12/11/2026:** v3 là một bài riêng, làm ở Project riêng và kho riêng `github.com/DRuanli/neur-v3`. Bài v2 (kho này) để nguyên và gửi một tạp chí; đích không còn là NeurIPS 2027.
+- Kho `neur-v3` chứa bản chụp của `de-tai-moi/` tại commit `120c4d9` (thư mục `prior/`, không gồm các file `*_preds.jsonl`), code, sổ tay bản 1.1 và hồ sơ v3. Chương trình nghiên cứu mới nhất của v3 là `v3/V3_PLAN.md` **ở kho đó**; `V3/V3_PLAN.md` ở kho này là bản 1 và không còn được cập nhật.
+- **Việc còn lại ở kho này:** chấm S3B / S3BC khi thầy gửi kết quả (`S3/s3b_report.py`), đưa vào bài v2, chuyển bài sang mẫu của tạp chí thầy chọn, xử lý mục giấy phép còn treo và các ý nhỏ của `G9/reviews/REVIEW_V2_ROUND2.md`. Sau khi chấm S3B, chép kết quả sang `prior/` của kho `neur-v3` (mốc M1 của v3 cần nó).
+- Ranh giới giữa hai bài: `v3/OVERLAP_WITH_V2.md` ở kho `neur-v3`.
 
 ## 0i. Bản thảo NeurIPS 2027 của bài v2 (12/11/2026)
 
