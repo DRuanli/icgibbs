@@ -14,6 +14,7 @@ Outputs
   paper/figures/s3_datasets.pdf, chainmap.pdf
 Run:  python paper/scripts/make_v2.py
 """
+import glob
 import json
 import os
 
@@ -140,6 +141,13 @@ def main():
     v["s3-a1L-wl"] = f"{s['A1_vs_L']['win']}/{s['A1_vs_L']['loss']}"
     v["s3-a1L-p"] = f"{s['A1_vs_L']['p_two_sided']:.2f}"
     v["s3-flip-cells"] = s["label_flip_cells_v1"]
+    _c3 = pd.read_csv(os.path.join(ROOT, "S3", "results", "s3_cells.csv"))
+    _fl = _c3[(_c3.setting == "llp") & (_c3.v1 < 0.5)].v1
+    assert len(_fl) == s["label_flip_cells_v1"]
+    v["s3-flip-range"] = f"{_fl.min():.2f}--{_fl.max():.2f}"
+    _rg = pairs[pairs.A1 < np.maximum(pairs.v1, pairs.L) - 0.02]
+    v["s3-reg-Lbetter-n"] = int((_rg.L > _rg.A1).sum())            # pairs in which L beats the multi-start average
+    v["s3-reg-v1stall-n"] = int(((_rg.L > _rg.A1) & (_rg.v1 < _rg.L - 0.02)).sum())
     pairs["G"] = pairs.A1 - pairs.v1
     pairs["reg"] = pairs.A1 < np.maximum(pairs.v1, pairs.L) - 0.02
     for t in ORDER:
@@ -184,7 +192,7 @@ def main():
         r" & Statement & Result & Outcome \\", r"\midrule",
         rf"H1$''$ & multi-start $>$ single chain & {v['s3-h1-mean']} {v['s3-h1-ci']}, {v['s3-h1-wtl']}, "
         rf"$p${v['s3-h1-prel']} & \textbf{{confirmed}} \\",
-        rf"H2$''$ & multi-TFM $>$ one TFM & {v['s3-h2-mean']} {v['s3-h2-ci']}, {v['s3-h2-wtl']}, "
+        rf"H2$''$ & multi-TFM $>$ a TFM drawn at random & {v['s3-h2-mean']} {v['s3-h2-ci']}, {v['s3-h2-wtl']}, "
         rf"$p${v['s3-h2-prel']} & \textbf{{confirmed}} \\",
         rf"H3$''$ & diagnostic AUC $\ge 0.80$ & {v['s3-h3-auc']} {v['s3-h3-ci']} & not confirmed \\",
         rf"C4$''$ & regressions $\le 10\%$ & {v['s3-c4-n']}/{v['s3-n-pairs']} ({v['s3-c4-rate']}) & not met \\",
@@ -534,6 +542,8 @@ def main():
     v["th-llp-small-max"] = f"{max(small.pred_err_type0.abs().max(), small.pred_err_type1.abs().max()):.3f}"
     v["th-llp-large-max"] = f"{max(large.pred_err_type0.abs().max(), large.pred_err_type1.abs().max()):.4f}"
     v["th-llp-n"] = len(e7e)
+    k5 = asym[asym.K == 5]
+    v["th-llp-k5-max"] = f"{max(k5.pred_err_type0.abs().max(), k5.pred_err_type1.abs().max()):.2f}"
     wd = pd.read_csv(os.path.join(V2, "w1_delta.csv"))
     pf = wd[wd.backend == "tabpfn_v2"]
     v["th-delta-pfn-res-lo"], v["th-delta-pfn-res-hi"] = f3(pf.resid_late_signed_median.min()), f3(pf.resid_late_signed_median.max())
@@ -568,7 +578,9 @@ def main():
     v["s3-h3-nneg"] = s["H3"]["n_cells"] - s["H3"]["n_pos"]
     gap = s["C5"]["mean_gap"]
     v["s3-c5-gap"] = "0.000" if abs(gap) < 0.0005 else f3(gap)
-    v["s3x-cost-nchains"] = "9 or 12"
+    ntf = sorted(set(int(k) for k in pd.read_csv(os.path.join(ROOT, "S3", "results", "s3_datasets.csv")).n_tfm))
+    v["s3x-cost-nchains"] = " or ".join(str(3 * k) for k in ntf)
+    v["s3x-cost-nchains-max"] = 3 * max(ntf)
     # regressions table from the pair table (avoids double rounding through the summary file)
     rg = pairs[pairs.reg].copy()
     rg["by"] = rg.A1 - np.maximum(rg.v1, rg.L)
@@ -584,6 +596,23 @@ def main():
         h = un[un.backend == be]
         v[f"v2-uni-above-{be}"] = pct((h.r_final > h.r_hat).mean())
     v["v2-uni-above-all"] = pct((un.r_final > un.r_hat).mean())
+    up = un[un.setting == "pll"]                       # instance-level weak labels only (Assumption 1 does not cover LLP)
+    v["v2-uni-above-pll"] = pct((up.r_final > up.r_hat).mean())
+    v["v2-uni-pll-n"] = len(up)
+    # exploratory lower bound of delta from chain-seeded versus uniform maps at equal r (V2/analysis/w1_delta_chain.py)
+    dl = pd.read_csv(os.path.join(V2, "w1_delta_chain.csv"))
+    dls = dl[dl.in_scope]
+    v["th-dlb-med"] = f"{dls.delta_lb_chain.median():.2f}"
+    v["th-dlb-p90"] = f"{dls.delta_lb_chain.quantile(0.9):.2f}"
+    v["th-dlb-max"] = f"{dls.delta_lb_chain.max():.2f}"
+    v["th-dlb-n"] = len(dls)
+    v["th-dlb-nds"] = dls.dataset.nunique()
+    v["th-dlb-struct-med"] = f"{dls.delta_lb_struct.median():.3f}"
+    # coverage of P12 and P13 (development predictions scored on incomplete runs)
+    v["v2-p12-ncells"] = len(glob.glob(os.path.join(ROOT, "V2", "raw", "V1C", "v1c_f_npz", "*.npz")))
+    v["v2-p12-nplan"] = len(pd.read_csv(os.path.join(V2, "v1_cells.csv")))
+    v["v2-p13-n"] = c["P13"]["n_datasets"]
+    v["v2-p13-nplan"] = len(pd.read_csv(os.path.join(V2, "v1c_e_table.csv")))
     # what Theorem 3 certifies at a given size: smallest margin nu + lambda (slope-1 map, delta = 0, h_max = 0, rho = 1,
     # K = 10) such that a floor holds for H = 30 sweeps with probability 0.95
     def margin(nF, K=10, H=30, fail=0.05):
@@ -596,7 +625,7 @@ def main():
     for nF, k in ((1000, "1k"), (3000, "3k"), (10000, "10k"), (100000, "100k")):
         v[f"th-margin-{k}"] = f"{margin(nF):.2f}"
     # Study 1 chains with the two TFMs on the four datasets of the response-map figure
-    import glob
+    pass  # glob imported at module level
     import sys
     sys.path.insert(0, HERE)
     import make_figures as mf
@@ -605,13 +634,15 @@ def main():
     runs = {"tabpfn_v2": sel(mf.load_s1(rawg7)), "tabicl_v2": sel(mf.load_files(rawg7, ["L6"], "g7_tabicl_*.csv"))}
     L = [r"\begin{tabular}{@{}llrrr@{}}", r"\toprule",
          r"TFM & Dataset & after sweep 1 & final label accuracy (3 seeds) & test accuracy (3 seeds) \\", r"\midrule"]
-    fin = {}
+    fin, rising = {}, {}
     for be in ("tabpfn_v2", "tabicl_v2"):
         mons = mf.monitors(runs[be])
         for ds in mf.COLLAPSE:
             ms = [m_ for (d0, _, m_) in mons if d0 == ds]
             f_ = sorted(float(np.mean(m_[-5:])) for m_ in ms)
+            rising[(be, ds)] = sum(float(np.mean(m_[-5:]) - np.mean(m_[-15:-10])) > 0.03 for m_ in ms)
             s0 = float(np.mean([m_[0] for m_ in ms]))
+            v[f"s1-start-{be.replace('_', '')}-{ds}"] = f"{s0:.2f}"
             acc = sorted(runs[be][runs[be].dataset == ds].acc.tolist())
             fin[(be, ds)] = f_
             L.append(rf"{TFM[be]} & {ds} & {s0:.2f} & " + ", ".join(f"{t:.2f}" for t in f_) + " & " +
@@ -620,6 +651,8 @@ def main():
             L.append(r"\addlinespace")
     L += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s1_chains.tex", L)
+    rr = [(be, ds, k) for (be, ds), k in rising.items() if k]
+    v["s1-rising-list"] = "; ".join(f"{TFM[be]}, {ds}: {k} of 3" for be, ds, k in rr) if rr else "none"
     v["s1-fin-pfn-opt-high"] = sum(t > 0.8 for t in fin[("tabpfn_v2", "optdigits")])
     v["s1-fin-pfn-mice-max"] = f"{max(fin[('tabpfn_v2', 'MiceProtein')]):.2f}"
     rng_ = lambda f_: f"{min(f_):.2f}--{max(f_):.2f}"
@@ -627,7 +660,7 @@ def main():
     v["s1-fin-pfn-semeion"] = rng_(fin[("tabpfn_v2", "semeion")])
     v["s1-fin-pfn-mice"] = rng_(fin[("tabpfn_v2", "MiceProtein")])
     v["s1-fin-pfn-opt"] = ", ".join(f"{t:.2f}" for t in fin[("tabpfn_v2", "optdigits")])
-    v["s1-fin-icl-min"] = f"{min(min(fin[('tabicl_v2', ds)]) for ds in mf.COLLAPSE):.2f}"
+    v["s1-fin-icl-min"] = f"{min(min(fin[('tabicl_v2', ds)]) for ds in mf.COLLAPSE):.3f}"
     sx = pd.concat([pd.read_csv(f_) for f_ in sorted(glob.glob(os.path.join(ROOT, "S2", "raw", "S2X", "s2x_*.csv")))])
     sx = sx[(sx.status == "ok") & (sx.q == 0.6) & sx.dataset.isin(mf.COLLAPSE)]
     gg = sx.groupby(["dataset", "backend", "rho"]).agg(r=("r_actual", "mean"), phi=("phi", "mean")).reset_index()

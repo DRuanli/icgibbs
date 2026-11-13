@@ -11,9 +11,10 @@ Under the exchangeable prior, \eqref{eq:lemma1} holds for every $i$ and every $y
 Assume (A0)--(A3) and $\tfm=\ppd$. The single-site Gibbs chain with updates
 $\pi(y_i=k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\lik_i(k)$ for instance-level weak labels and, for LLP, the MH chain
 that swaps two differently labelled points of a bag are reversible with respect to $\pi$ and irreducible on its
-support. The estimator \eqref{eq:predict} then converges almost surely to $\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, which
-equals $p(y_*\mid x_*,X,\W)$ for the transductive chain, and for the inductive one when the feature distribution
-carries no information about $p(y\mid x)$ under the prior (in general up to a TV term, \cref{app:proofs}).
+support. The inductive estimator \eqref{eq:predict} then converges almost surely to
+$\sum_y\pi(y)\,p(y_*\mid x_*,(X,y))$, which equals $p(y_*\mid x_*,X,\W)$ when the feature distribution carries no
+information about $p(y\mid x)$ under the prior (in general up to a TV term, \cref{app:proofs}); the transductive chain,
+in which $x_*$ joins as a free point, converges to $p(y_*\mid x_*,X,\W)$ exactly.
 \end{theorem}
 
 With an exact TFM the exact variants of \ours{} thus compute the Bayes-optimal predictor under the TFM's prior
@@ -25,7 +26,7 @@ next result bounds how far it is from the posterior.
 \begin{theorem}[Stability under an approximate TFM]\label{thm:stability}
 Let $P$ be the kernel of an exact variant with the exact PPD (stationary distribution $\pi$) and $\tilde P$ the same
 kernel with a TFM $\tfm>0$. Then $\tilde P$ has a unique stationary distribution $\tilde\pi$, and
-$\TV(\tilde\pi,\pi)\le\tau(P)\,\bar\varepsilon$, where $\tau(P)=\sum_{t\ge0}\delta(P^t)$ with $\delta$ Dobrushin's
+$\TV(\tilde\pi,\pi)\le\tau(P)\,\bar\varepsilon$, where $\tau(P)=\sum_{t\ge0}\vartheta(P^t)$ with $\vartheta$ Dobrushin's
 ergodicity coefficient and $\bar\varepsilon=\sum_y\tilde\pi(y)\,\TV(\tilde P(y,\cdot),P(y,\cdot))$.
 \end{theorem}
 
@@ -54,8 +55,8 @@ the context the TFM sees.
 
 \begin{assumption}[Homogeneous response, $(\mathrm H_\delta)$]\label{ass:H}
 There are a function $\Phi:[0,1]\to[0,1]$ (the \emph{response map}), fixed offsets $h_i$ with $\lvert h_i\rvert\le h_{\max}$
-and $\sum_{i\in F}h_i=0$, and $\delta\ge0$ such that for every state $y$ and every block $B$ of at most $\lceil n/K\rceil$
-points with $B\cap F\neq\emptyset$ and $F\not\subseteq B$,
+and $\sum_{i\in F}h_i=0$, and $\delta\ge0$ such that for every state $y$ and every block $B$ of $\lfloor n/K\rfloor$ or
+$\lceil n/K\rceil$ points with $B\cap F\neq\emptyset$ and $F\not\subseteq B$,
 \[
   \Big\lvert\,\frac{1}{\lvert B\cap F\rvert}\sum_{i\in B\cap F}\big(c_i(y,B)-h_i\big)-\Phi\big(r_{-B}(y)\big)\Big\rvert\le\delta .
 \]
@@ -78,8 +79,8 @@ Run \cref{alg:icg} in the setting above with $n_F>\lceil n/K\rceil$, write $p=p(
   below $x$ satisfies $\E[\tau-s]\ge 1/p$.
 \item[(b)] \emph{Ceiling.} Under $(\mathrm H^+_\delta)$, if $\overline\Phi(x+\nu)+\delta+\lambda\le x$ and $R_s\le x$, then
   $R_{s'}\le x$ for all $s<s'\le s+H$ with probability at least $1-Hp$.
-\item[(c)] \emph{Progress.} Under $(\mathrm H^-_\delta)$, if $\underline\Phi(x-\nu)-\delta-\lambda\ge x+\gamma$ for all
-  $x\in[r_0,b)$ and some $\gamma>0$, then a chain with $R_0\ge r_0$ satisfies $R_J\ge b$ for some
+\item[(c)] \emph{Progress.} Under $(\mathrm H^-_\delta)$, if, for some levels $r_0<b\le1$ and some $\gamma>0$,
+  $\underline\Phi(x-\nu)-\delta-\lambda\ge x+\gamma$ for all $x\in[r_0,b)$, then a chain with $R_0\ge r_0$ satisfies $R_J\ge b$ for some
   $J\le\lceil(b-r_0)/\gamma\rceil$ with probability at least $1-Jp$.
 \end{enumerate}
 \end{theorem}
@@ -91,17 +92,22 @@ has two basins: a chain that starts sufficiently far above the crossing stays up
 below stays down, and the expected time to leave is at least $1/p$ sweeps, which for a fixed fraction of unknown labels
 and fixed margins grows exponentially with $n_F$ \claim{16}. In this model more sweeps do not repair a start in the wrong
 basin, which motivates the multi-start sampler. Real chains also mix slowly: run for 100 instead of 30 sweeps
-(\cref{sec:s3b}), \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains reached the multi-start average or the tuned learner,
-while chains kept improving on average (\val{s3b-b3-gain}), most with TabPFN-3, whose label accuracy was still rising
-after 100 sweeps. A stalled chain is therefore a mixture of a wrong basin and slow mixing, and the theorem speaks only
-to the first. The constants are loose: the theorem describes a mechanism and its scaling,
+(\cref{sec:s3b}), \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains came within 0.02 of the better of the
+multi-start average and the tuned learner, while accuracy rose on average (\val{s3b-b3-gain}), most with TabPFN-3,
+whose label accuracy rose by more than 0.03 after sweep 30 in \val{s3b-b3-tabpfn_v3-rising} of its
+\val{s3b-b3-tabpfn_v3-n} cells. Our data cannot separate a wrong basin from slow mixing; the theorem describes only the
+former, and only in a model of the TFM. The constants are loose: the theorem describes a mechanism and its scaling,
 and at the sizes of our datasets it certifies nothing (\cref{sec:tfm}, \cref{app:dynamics}).
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
-labels. When weak labels are generated independently of the features given the true label, the naive target ranks
-points as the true posterior does (\cref{prop:naive}). For PU and label noise the naive labels are the observation and
-nothing is lost. For PLL they carry less Fisher information than the candidate sets, and for LLP a learner that treats
-them as independent point labels uses about $3\%$ of the information in the counts of bags of 8. Only for PLL and LLP,
+labels. When the naive label depends on the features only through the true label, through a channel with equal
+off-diagonal entries in each column (positive-unlabelled (PU) data with labels selected completely at random, binary
+label noise, semi-supervised learning, PLL with uniform independent distractors, LLP with random bags), the naive
+target ranks points within each class as the true posterior does (\cref{prop:naive}). For PU, label noise and
+semi-supervised learning the naive labels are the observation: nothing is lost by them, and the sampler can only add
+the bias of uncorrected blocks. For PLL they carried less Fisher information than the candidate sets in every case we
+computed, and for LLP a learner that treats them as independent point labels uses about $3\%$ of the information in
+the counts of bags of 8 (both for a logistic model). Only for PLL and LLP,
 then, can the sampler recover information through $\lik$, which predicted, before evaluation, where \ours{} would beat
 the naive TFM \claim{12}
 (\cref{app:secondary}).

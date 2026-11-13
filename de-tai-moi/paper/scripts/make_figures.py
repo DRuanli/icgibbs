@@ -87,8 +87,12 @@ def mechanism(out, both=True):
     x = pd.concat([pd.read_csv(f) for f in sorted(glob.glob(os.path.join(ROOT, "S2", "raw", "S2X", "s2x_*.csv")))])
     x = x[x.status == "ok"].copy()
     x["rho"] = x.rho.astype(str)
-    g = x.groupby(["q", "dataset", "n_classes", "backend", "rho"]).agg(r=("r_actual", "mean"), phi=("phi", "mean")).reset_index()
+    x["gain_s"] = x.phi - x.r_actual
+    g = x.groupby(["q", "dataset", "n_classes", "backend", "rho"]).agg(r=("r_actual", "mean"), phi=("phi", "mean"),
+                                                                     lo=("gain_s", "min"), hi=("gain_s", "max"),
+                                                                     nseed=("seed", "nunique")).reset_index()
     g["gain"] = g.phi - g.r
+    assert (g[g.q == 0.6].nseed == 3).all()             # caption: mean over 3 seeds, range shaded
     raw = os.path.join(ROOT, "G7", "raw")
     sel = lambda d: d[(d.setting == "pll") & (d.level == 0.6) & (d.method == "gibbs_warm") & d.dataset.isin(COLLAPSE)]
     mon = {"tabpfn_v2": monitors(sel(load_s1(raw))), "tabicl_v2": monitors(sel(load_files(raw, ["L6"], "g7_tabicl_*.csv")))}
@@ -103,6 +107,7 @@ def mechanism(out, both=True):
         ax.grid(axis="y", color=GRID, lw=0.5)
         for be, s in style.items():
             h = g[(g.q == 0.6) & (g.dataset == ds) & (g.backend == be)].sort_values("r")
+            ax.fill_between(h.r, h.lo, h.hi, color=s["color"], alpha=0.18, lw=0)
             ax.plot(h.r, h.gain, color=s["color"], ls=s["ls"], lw=1.1, marker=s["marker"], ms=2.6, label=s["label"])
         ax.set_title(f"{ds} ($C={C}$)", loc="left", fontsize=6.8)
         ax.set_xlim(0, 0.9)

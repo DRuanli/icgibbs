@@ -28,11 +28,13 @@ For every $i$ and every assignment $y$ with $p(y_{-i}\mid X)>0$,
 (\cref{lem:fullcond}): the conditional of one latent label given all the others is the PPD of a query point $x_i$ with
 the rest of the current assignment as its context. Multiplying by the weak-label factor gives the full conditional of
 $\pi$ in \eqref{eq:target}, $\pi(y_i=k\mid y_{-i})\propto\tfm(k\mid x_i,D_{-i})\,\lik_i(k)$. A Gibbs sweep over latent
-labels therefore needs only forward passes of a frozen TFM, and the weak labels enter only through $\lik$.
+labels therefore needs only forward passes of a frozen TFM, and the weak labels enter only through $\lik$. A real TFM
+only approximates the PPD, so for it this is an approximate Gibbs kernel.
 
 \paragraph{Blocks.} One forward pass per label would cost $n$ passes per sweep. We instead partition all $n$ points at
 random into $K$ blocks in every sweep and, for each block $B$, query the TFM once with the context $D_{-B}$ (the other
-blocks with their current labels). For PLL, each free $y_i$, $i\in B$, is drawn from
+blocks with their current labels). For PLL, each \emph{free} $y_i$, $i\in B$ (a label not fixed by the weak labels, i.e.\ with at least two
+candidates), is drawn from
 $\propto\tfm(\cdot\mid x_i,D_{-B})\,\lik_i(\cdot)$; blocks include the points whose label is fixed, so that the context
 keeps its composition. For LLP, blocks are groups of whole bags, and each bag's labels are drawn from
 $\prod_{i\in B_g}\tfm(y_i\mid x_i,D_{-B})$ conditioned on its counts, exactly, by dynamic programming. An optional
@@ -45,15 +47,17 @@ on one candidate per point chosen uniformly at random, cross-fitted over 5 folds
 After $T$ sweeps, of which the first $T_0$ are discarded, the prediction for a test point is the Rao--Blackwellised
 average over $S$ evenly spaced samples,
 \begin{equation}\label{eq:predict}
-  \hat p(y_*\mid x_*)=\frac1S\sum_{s=1}^S\tfm(y_*\mid x_*,(X,y^{(s)})),
+  \hat p(y_*\mid x_*)=\frac1S\sum_{s=1}^S\tfm(y_*\mid x_*,(X,y^{(s)})).
 \end{equation}
 This \emph{inductive} predictor is our default; in the \emph{transductive} variant, an ablation, test points join the chain.
 
-\paragraph{Several starts and several TFMs.} \Cref{sec:theory} shows that where a chain ends can depend on where it
-starts. The \emph{multi-start} sampler runs three chains that differ only in their initial labels and averages their
+\paragraph{Several starts and several TFMs.} In the model of \cref{sec:dynamics}, which covers instance-level weak
+labels, where a chain ends can depend on where it starts; for LLP we have only empirical evidence of this
+(\cref{app:s3,app:dev}). The \emph{multi-start} sampler runs three chains that differ only in their initial labels and averages their
 predictions \eqref{eq:predict} with equal weights: the \emph{warm} start above; a \emph{learner} start, in which $P_0$ is
 the prediction of a specialised weak-label learner $L$ tuned on the weak labels alone (DLLP with an MLP for LLP, CC
-\citep{feng2020provably} for PLL); and a \emph{cold} start drawn from the normalised likelihood. The \emph{multi-TFM}
+\citep{feng2020provably} for PLL); and a \emph{cold} start drawn from the normalised likelihood (for PLL, uniformly from each candidate set; for LLP,
+uniformly among the labellings that match each bag's counts). The \emph{multi-TFM}
 sampler averages the multi-start predictions of several TFMs, again with equal weights. Neither average needs labels
 or a selection step. The TFMs stay frozen throughout, but the starts are not free of training. What is fitted, by
 configuration: the single chain fits nothing for PLL (its warm start uses the TFM itself) and a linear DLLP model for

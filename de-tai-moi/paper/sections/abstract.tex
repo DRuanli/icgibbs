@@ -2,18 +2,24 @@
 Tabular foundation models (TFMs) predict labels in context without training, but they need labelled examples. We show
 that a frozen TFM can learn from weak labels, such as candidate sets or label proportions within bags, without updating
 its weights. Under exchangeability, the distribution of one unknown label given all the others is a posterior
-predictive with the other points as context, which is what a TFM computes. \ours{} therefore samples the latent labels
-with forward passes, brings in the weak labels through their likelihood, and predicts by averaging over the samples.
-Its exact variants target the Bayes posterior when the TFM is exact. For the sampler as run, a homogeneity assumption
-on the TFM gives floors and ceilings for the label accuracy of a chain, so that where a chain starts can matter. Three
-pre-registered studies test the method. On \val{s2-n-total} new datasets a single chain with TabICL~v2 outperformed
-specialised learners for label proportions (\val{s2-llp-cmp-diff} AUC over the registered comparator) and, narrowly,
-for partial labels; with TabPFN~v2 the same chain had fallen short under heavy ambiguity. On \val{s3-n-total} further
-datasets with four TFMs, averaging chains from several starts, one of them a tuned specialised learner, improved on the
-single chain (\val{s3-h1-mean}, one-sided $p\val{s3-h1-prel}$; median \val{s3-h1-median}), and averaging over TFMs
-improved on a single TFM (\val{s3-h2-mean}, $p\val{s3-h2-prel}$). Two registered criteria failed, and with one TFM the
-multi-start average was not significantly better than the tuned learner. In a supplementary analysis registered after
-Study~3 was scored, the multi-TFM average beat untuned tree-based self-training on \val{s3b-x-gbdt-win} of
-\val{s3b-x-gbdt-n} datasets and partial-label $k$NN on all \val{s3b-x-plknn-n}; a single chain was not clearly better
-than the tree-based learner, and running chains for 100 instead of 30 sweeps rarely repaired a stalled chain.
+predictive with the other points as context, which is what a TFM approximates. \ours{} therefore samples the latent
+labels with forward passes, brings in the weak labels through their likelihood, and predicts by averaging over the
+samples. Its exact variants target the Bayes posterior when the TFM is exact. For the default sampler on instance-level
+weak labels with unsubsampled contexts, a homogeneity assumption on the TFM gives floors and ceilings for the label
+accuracy of a chain that hold with high probability; they show qualitatively that where a chain starts can matter, but
+certify nothing at our sample sizes. Three pre-registered studies test the method. On \val{s2-n-total} new datasets a
+single chain with TabICL~v2 outperformed specialised neural and linear learners for label proportions (\val{s2-llp-cmp-diff} AUC
+over the registered comparator, linear DLLP; \val{s2-llp-strongest-diff} over the strongest baseline) and, narrowly,
+for partial labels (one test did not survive a second chain); with TabPFN~v2 the same chain had fallen short under
+heavy ambiguity. On \val{s3-n-total} further datasets with four TFMs, averaging chains from several starts, one of them
+a tuned specialised learner, improved on the single chain (\val{s3-h1-mean} in pooled AUC and accuracy, one-sided
+$p\val{s3-h1-prel}$; median \val{s3-h1-median}), and averaging over TFMs improved on the expected score of a TFM drawn
+at random (\val{s3-h2-mean}, $p\val{s3-h2-prel}$) but not significantly on TabICL~v2 alone (exploratory). Two
+registered criteria failed, and with one TFM the multi-start average was not significantly better than the tuned
+learner. In a supplementary analysis registered after Study~3 was scored, and so designed with its results known, the
+multi-TFM average beat untuned tree-based self-training on all \val{s3x-x-gbdt-llp-n} label-proportion datasets
+(median \val{s3x-x-gbdt-llp-median} AUC) and partial-label $k$NN on all \val{s3b-x-plknn-n} partial-label datasets; a
+single chain was level with the tree-based learner on label proportions; and running chains for 100 instead of 30
+sweeps repaired only \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains, although, against our registered
+prediction, it raised accuracy on average (\val{s3b-b3-gain}, mostly with TabPFN-3).
 \end{abstract}

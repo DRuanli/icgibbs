@@ -1,6 +1,6 @@
 # HANDOFF: trạng thái đề tài A để làm tiếp ở chat khác
 
-*Cập nhật 12/11/2026 (mục 0j, 0i); phần còn lại cập nhật 04/11/2026, commit sau `2ff12b4`. Mỗi khi trạng thái đổi, sửa tài liệu này trước tiên. Kho riêng tư: `github.com/DRuanli/icgibbs`, nhánh `main`, thư mục gốc của đề tài là `de-tai-moi/`.*
+*Cập nhật 13/11/2026 (mục 0l, 0k), 12/11/2026 (0j, 0i); phần còn lại cập nhật 04/11/2026, commit sau `2ff12b4`. Mỗi khi trạng thái đổi, sửa tài liệu này trước tiên. Kho: `github.com/DRuanli/icgibbs` (**đang công khai**, kiểm bằng GitHub API ngày 13/11/2026), nhánh `main`, thư mục gốc của đề tài là `de-tai-moi/`.*
 
 ## 0. Đọc gì trước
 
@@ -20,6 +20,18 @@
 | Giao thức đóng băng của Study 1 | `G5/EXPERIMENT_PROTOCOL.md`, `G5/FREEZE_RECORD.md` |
 | Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
 | Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
+
+## 0l. Bài v2 bản TMLR sau vòng phản biện 3 (13/11/2026)
+
+- **Trạng thái:** bản nộp được cho TMLR (đích mặc định; chờ thầy xác nhận tạp chí). `paper/main.pdf` 42 trang; chính văn và Broader Impact Statement trong 12 trang. `make data && make pdf && make submission` sinh lại mọi số, PDF, gói nguồn ẩn danh `_submission/source.zip` và phụ lục bổ sung `_submission/supplement.zip` (không vào git).
+- **Vòng 3:** kiểm toán số liệu S3B (`G9/reviews/REVIEW_V2_AUDIT_R3.md`) và phản biện theo tiêu chí TMLR (`G9/reviews/REVIEW_V2_TMLR_R3.md`, khuyến nghị sửa lớn). Mọi ý đã xử lý trong bài, trừ các việc cần chạy thêm; bảng đối chiếu ở `G9/REVIEW_V2_RESPONSE.md` §6.
+- **Phân tích thăm dò mới** (viết sau khi chấm; trong bài luôn ghi exploratory): `S3/s3_round3_explore.py`, `V2/analysis/w1_delta_chain.py`. Kết quả đáng chú ý: chuỗi khởi từ L của mỗi TFM, lấy trung bình, ngang bản gộp nhiều TFM (−0,001, 5/7/8) với 1/3 chi phí; cận dưới ước lượng δ ≥ 0,05 (trung vị).
+- **Việc mở, cần thầy quyết:**
+  1. xác nhận TMLR (hoặc tạp chí khác);
+  2. hai kho `icgibbs` và `neur-v3` đang công khai: nên chuyển sang riêng tư khi nộp bản ẩn danh;
+  3. có chạy một lượt Kaggle CPU (ghi trước) cho GBDT-PLL có tune, ensemble của L, IPAL/InvCal không (F7, F8);
+  4. có lập kho ẩn danh (anonymous.4open.science) cho người phản biện không (F10).
+- **Trước khi nộp:** nêu tên tác giả chỉ ở bản camera-ready; chạy lại `make submission` với `--forbid` tên tác giả và đơn vị.
 
 ## 0k. S3B / S3BC đã chấm (13/11/2026)
 

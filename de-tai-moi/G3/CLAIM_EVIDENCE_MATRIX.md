@@ -30,5 +30,18 @@
 | 24 | Chuỗi đơn có log loss thấp hơn hard-EM ở 17/20 dataset (p < 0,001) nhưng điểm gần như bằng (LLP +0,001) *(thêm 13/11/2026)* | §6.5 | kiểm định B2 ghi trước | như trên | — |
 | 25 | Chạy 100 vòng: sửa được 5/35 ô kẹt, lợi trung bình +0,053; dự đoán P22 SAI *(thêm 13/11/2026)* | Abstract, §5.2, §6.5, Limitations | dự đoán ghi trước (P22) | `S3/results/s3b_summary.json`, `s3b_long_cells.csv` | 3 TFM, PLL q 0,6 |
 | 26 | Bảng "chạy gì": điểm, chi phí, mức bằng chứng từng cấu hình *(thêm 13/11/2026)* | §6.6, Bảng 5 | tổng hợp; mỗi dòng ghi mức bằng chứng | `paper/scripts/make_s3b.py` | — |
+| 27 | Chuỗi khởi từ L của mỗi TFM, lấy trung bình, ngang bản gộp nhiều TFM với 1/3 chi phí; chuỗi đơn mọi TFM + dự đoán L hơn L 20/0/0 nhưng kém bản gộp *(thêm 13/11/2026, vòng 3)* | §6.4 (v), §6.6, Bảng khuyến nghị | — | `S3/results/s3_round3_explore.json` (R5; `S3/s3_round3_explore.py`, viết sau khi chấm) | mô tả; Wilcoxon hai phía không hiệu chỉnh | **Thăm dò.** Xbase − X −0,001 (5/7/8, p 0,66); XwarmL − L +0,037 (20/0/0); XwarmL − X −0,027 (4/0/16) | Chưa có ensemble của L | Luôn ghi exploratory |
+| 28 | Cận dưới ước lượng của δ (Giả thiết 1) trên TFM thật *(thêm 13/11/2026, vòng 3)* | §6.3, Phụ lục A Remark (iv), Limitations | Giả thiết 1 | `V2/results/w1_delta_chain.csv` (`V2/analysis/w1_delta_chain.py`) | trung vị, p90, max trên 78 ô PLL trong phạm vi | **Thăm dò.** δ ≥ 0,05 (trung vị), 0,12 (p90), 0,14 (max); gieo đều và có cấu trúc chỉ khác 0,009 | Có nhiễu đo; chỉ TabPFN v2, TabICL v2, dữ liệu phát triển | — |
+| 29 | Từ số đếm của túi 8, chuỗi đơn khôi phục đúng nhãn của trung vị 90% điểm huấn luyện (so với 72% khi rút ngẫu nhiên khớp số đếm) *(thêm 13/11/2026, vòng 3)* | Broader Impact Statement | — | `S3/results/s3_round3_explore.json` (R6) | trung vị theo dataset | **Thăm dò.** 90% (61–96%) | 12 dataset LLP của Study 3 | — |
+| 30 | Ở PU-SCAR, nhiễu phụ thuộc lớp và SSL, phương pháp kém TFM ngây thơ ở cả 6 mức đã đăng ký *(thêm 13/11/2026, vòng 3)* | Theory, Limitations, Phụ lục M | Mệnh đề 5 | `G8/results/g8_confirmatory.json` (`numbers_appendix.tex`, khoá `s1-*-naive-*`) | chênh trung bình, W/T/L | **Study 1, ủng hộ** (6/6 mức âm, tới −0,054 AUC) | Chỉ TabPFN v2 | Thay câu "did not improve" |
 
 **Ghi chú 12/11/2026 (vòng phản biện 2 của bài v2):** phát biểu (b) của mệnh đề "naive TFM" trong bài gốc sai với LLP (nhãn ngây thơ khớp số đếm túi nên thông tin Fisher bằng nhau; 3% là thông tin Godambe của hợp lý từng điểm). Bài v2 đã sửa; tuyên bố 12 nay đọc là: với PLL nhãn ngây thơ mất thông tin Fisher, với LLP mất mát nằm ở learner coi chúng là nhãn độc lập.
+
+
+**Cập nhật 13/11/2026 (vòng phản biện 3, `G9/REVIEW_V2_RESPONSE.md` §6):**
+- #15: H2″ chỉ so với một TFM **chọn ngẫu nhiên**; bài viết đúng như vậy ở abstract, intro, Bảng 2; không hơn có ý nghĩa so với riêng TabICL v2 (thăm dò).
+- #16: bỏ chữ "invariant"; các sàn, trần giữ "with high probability"; chỉ cho nhãn yếu cấp mẫu và context không bị cắt (4/20 dataset của Study 3); không chứng nhận gì ở cỡ dữ liệu của bài.
+- #21: abstract chỉ nêu phần LLP (12/12, trung vị +0,017 AUC) và PL-kNN 8/8; GBDT-PLL gần mức lớp đông nhất ở 3/8 dataset PLL; thiết kế khi đã biết kết quả Study 3.
+- #23: tách theo bối cảnh: LLP, L thua GBDT 9/12; PLL, L hơn PL-kNN 7/8. Câu "not the strongest baseline" chỉ cho LLP.
+- #25: thêm 19/72 ô tăng > 0,03 sau vòng 30; dữ liệu không tách được lưu vực sai và trộn chậm.
+- #26: bảng khuyến nghị nay xếp theo chi phí, chi phí đọc từ `n_tfm_calls`, có 5 hàng thăm dò (#27).

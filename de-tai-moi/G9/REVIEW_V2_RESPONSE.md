@@ -73,3 +73,79 @@
 - baseline chạy bằng CPU trên các lần chia đã lưu của Study 3 (PL-kNN hoặc IPAL, cây tăng cường với loss PLL/LLP). Người rà coi đây là cải thiện giá trị nhất không cần GPU. Việc này là **thí nghiệm mới ngoài protocol**, nên cần thầy quyết định và phải ghi trước;
 - các thí nghiệm cần GPU mà reviewer sẽ đòi: naive TFM, hard-EM, oracle ở Study 3; chạy dài T ≥ 100 trên ô kẹt; ánh xạ phản ứng trên Study 3.
 
+
+## 6. Vòng 3 (13/11/2026): kiểm toán số liệu S3B và phản biện theo tiêu chí TMLR
+
+- **Biên bản:** `G9/reviews/REVIEW_V2_AUDIT_R3.md` (0 nghiêm trọng, 4 lớn, 17 nhỏ) và `G9/reviews/REVIEW_V2_TMLR_R3.md` (khuyến nghị sửa lớn; 0 nghiêm trọng, 10 lớn, 12 nhỏ, 4 trình bày).
+- **Bản sau khi sửa:** `paper/main.pdf` (42 trang; chính văn và Broader Impact Statement trong 12 trang, tài liệu tham khảo từ trang 13), gói nguồn ẩn danh `paper/_submission/source.zip`, phụ lục bổ sung `paper/_submission/supplement.zip` (cả hai sinh bằng `make submission`).
+- **Phân tích mới, đều là thăm dò (exploratory), viết sau khi đã chấm:**
+  - `S3/s3_round3_explore.py` → `S3/results/s3_round3_explore.json`: tách H1″, H2″ theo bối cảnh; B1 theo bối cảnh; tỉ lệ lớp đông nhất; độ lệch chuẩn theo seed; bộ so sánh cùng thông tin; độ đúng nhãn LLP; chuỗi 100 vòng (giá trị đúng vòng 30/100, độ lặp lại của TabDPT); số lượt gọi TFM; lần xem tạm B3.
+  - `V2/analysis/w1_delta_chain.py` → `V2/results/w1_delta_chain.csv`: cận dưới ước lượng của δ.
+
+### 6.1 Kiểm toán số liệu (L1–L4, N1–N16)
+
+| Mục | Xử lý |
+|---|---|
+| L1 chi phí hard-EM gõ tay sai | Cột chi phí của bảng khuyến nghị đọc `n_tfm_calls` từ CSV thô: naive 1, hard-EM 101/106, chuỗi 310/315. §6.5–6.6 nói hard-EM tốn khoảng 1/3 số lượt |
+| L2 abstract, intro chỉ nêu vế đúng của P22 | Cả hai vế ở abstract và intro: sửa được 5/35, nhưng trái dự đoán, độ chính xác vẫn tăng +0,053 |
+| L3 định nghĩa "repaired" | theory.tex và §6.5: "came within 0.02 of the better of the multi-start average and the tuned learner" |
+| L4 "L không phải baseline mạnh nhất" chỉ đúng ở LLP | Macro theo bối cảnh: LLP, L thua GBDT 9/12 (−0,013); PLL, L hơn PL-kNN 7/8 (+0,097). Câu kết luận giới hạn vào LLP |
+| N1 r30/r100 là trung bình cửa sổ | Chú thích Bảng B3 nói rõ cửa sổ 28–32 và 96–100, kèm giá trị đúng vòng 30 và 100 |
+| N2 "still rising" | Thêm cột "rose > 0.03 after 30" (5/10/4, tổng 19); bỏ chữ "therefore" |
+| N3 burn-in 33, TabDPT không tất định | Ghi ở §6.5 và chú thích: 12/24 chuỗi TabDPT khác ngay trong 30 vòng đầu (tới 0,14) |
+| N4 baseline tốt hơn chọn theo dataset | Ghi rõ trong §6.5; Phụ lục F, sai lệch (ii): chọn theo bối cảnh cho +0,031, 9/1/10, p_Holm 0,522 |
+| N5 số phép kiểm định | "three comparisons registered as descriptive, two-sided, Holm-adjusted together" |
+| N6 hard-EM theo bối cảnh, TFM | LLP +0,001; PLL +0,050 (5/1/2); TabDPT LLP là ngoại lệ (0,814 so với 0,786) |
+| N7 giải thích PL-kNN | "three datasets on which it stalled (exploratory; median +0.029, 5/0/3)" |
+| N8 "on average" | Thêm, kèm "more than 0.02 below on 12 of 20" |
+| N9 learner tự nó | "multi-start 0.650, chain from L 0.692; the learner itself 0.717 (exploratory)" |
+| N10 deviation thật | Phụ lục F có đoạn "Deviations" (i)–(iii) đúng như `S3B_REPORT.md` §7 |
+| N11 "whatever the missing cells gave" | "could have held only if the missing cells had lost more than 0.32 accuracy each" (tính từ commit phiên 1) |
+| N12 cấu hình GBDT | "100 iterations, learning rate 0.1, no early stopping, 2-fold out-of-fold relabelling" |
+| N13 kết luận | "did not clearly do so" |
+| N14 số gõ tay | "twelve" → macro; "5 of" → macro; chi phí từ dữ liệu; ngày giờ chỉ còn trong bảng mốc thời gian |
+| N15 "Trained parts" | "tuned L; LLP: also linear DLLP" |
+| N16 lỗ đánh số dự đoán | Phụ lục G: P19–P21 thuộc lượt V1E đã huỷ, chưa chạy; P22 ở Phụ lục F |
+
+### 6.2 Phản biện TMLR (F1–F26)
+
+| Mục | Xử lý | Còn lại |
+|---|---|---|
+| F1 Định lý 3 ngoài phạm vi | Abstract, contributions, intro, related, method, limitations đều nói rõ: nhãn yếu cấp mẫu, context không bị cắt, "with high probability", "certify nothing at our sample sizes". Bỏ chữ "invariant" | — |
+| F2 bảo đảm của biến thể chính xác bị gán cho sampler mặc định | Related: bảo đảm chỉ cho biến thể chính xác; Bảng định vị ghi "(exact variants only)"; intro, conclusion: "for an exact TFM … approximately so for a real one"; §6.7 "and the context is not subsampled"; Định lý 1 tách giới hạn quy nạp và chuyển nạp (câu thay thế N12 vòng 2) | — |
+| F3 "therefore a mixture …" | "Our data cannot separate a wrong basin from slow mixing; the theorem describes only the former, and only in a model of the TFM" | — |
+| F4 phép kiểm chain-seeded vòng tròn | Câu mới: trạng thái gieo gần trạng thái cuối nên gần dừng; chỉ cho thấy vị trí lỗi quan trọng | **Không** làm phép kiểm chéo giữa các chuỗi |
+| F5 "robust TFM", "specialised learners" | Tiêu đề §6.2: "Study 2: one chain with TabICL v2 outperformed specialised neural and linear learners"; bỏ "robust"; conclusion nói thêm chuỗi đơn ngang GBDT ở LLP Study 3 | — |
+| F6 H2″ chỉ so với TFM ngẫu nhiên | Abstract, intro, Bảng 2 ("a TFM drawn at random"), §6.4 ("a weak benchmark"), limitations; nêu không hơn riêng TabICL v2 | — |
+| F7 GBDT-PLL suy biến; thiết kế khi đã biết kết quả | Chọn phương án (b): abstract chỉ nêu LLP 12/12 (trung vị +0,017 AUC) và PL-kNN 8/8; §6.5 nói GBDT ở 3/8 dataset PLL nằm trong 0,02 của tỉ lệ lớp đông nhất (ở 1 trong đó X cũng vậy); bảng B1 thêm cột lớp đông nhất; ghi "designed with its results known", "two-sided, Holm over three"; trích Hüllermeier & Beringer cho PL-kNN; nêu IPAL, InvCal, ∝SVM chưa chạy | **Không** chạy lại GBDT-PLL có tune (cần dữ liệu OpenML, tức một lượt Kaggle CPU) |
+| F8 bảng "What to run" | Gộp Bảng 4 vào bảng khuyến nghị; xếp theo chi phí; hàng chuỗi đơn ghi "confirmatory with TabICL v2 only (Study 2)"; thêm 5 hàng thăm dò: chuỗi từ L, chuỗi đơn trung bình qua TFM, chuỗi đơn qua TFM + L, chuỗi từ L trung bình qua TFM, multi-start TabICL v2. Bộ so sánh cùng thông tin: chuỗi đơn mọi TFM + dự đoán L hơn L 20/0/0 nhưng kém X (−0,027, 4/0/16); chuỗi từ L trung bình qua TFM ngang X (−0,001, 5/7/8) với 1/3 chi phí | **Không** chạy ensemble của L (cần Kaggle); bài nói rõ |
+| F9 tác hại ở PU, nhiễu, SSL | Limitations, theory, Phụ lục M: kém naive ở 6/6 mức (tới −0,054 AUC); D3 cũng thoả khi phương pháp kém hơn; nêu khả năng do sai lệch của khối không sửa | — |
+| F10 ghi trước không kiểm được | `supplement.zip`: README, `freeze_log.csv` (giờ commit và SHA-256 của mọi file đóng băng; không ghi mã commit vì kho công khai), script chấm (đã thay tên định danh), SHA-256 của 95 file kết quả thô. Bài nói rõ giờ commit do tác giả đặt; chỉ Study 3 và S3B có script chấm commit trước kết quả; Study 1, 2 thì script commit cùng kết quả đầu tiên. "Reviewers" → "Internal reviews" | Chưa có kho ẩn danh (anonymous.4open.science) — cần thầy quyết |
+| F11 abstract | Thêm đơn vị gộp, "+0.041 over the strongest baseline", PLL không qua với chuỗi thứ hai, cả hai vế P22 | — |
+| F12 thống kê | Quy tắc hoà (chỉ cho W/T/L); "two-sided" cho B1 và cho A1 − L; bảng tách theo bối cảnh (Bảng `tab:s3-split`); độ lệch chuẩn theo seed (trung vị 0,013–0,027) | — |
+| F13 Mệnh đề 5 | Thân bài dùng câu thay thế N10; MĐ 5(a) thêm M_kk > b_k, "binary … T00 + T11 > 1", "same probability q"; "in every case we computed"; intro "computed for a logistic model" | — |
+| F14 lượng từ, δ | Giả thiết 1: khối cỡ ⌊n/K⌋ hoặc ⌈n/K⌉; cận dưới ước lượng δ ≥ 0,05 (trung vị, 78 ô PLL trong phạm vi, tới 0,14) ở §6.3, Remark (iv), Limitations | — |
+| F15 Remark (iii), A.5(iii) | Nêu ánh xạ Φ = 0,45 + 0,5r, dải bị cắt ở 1, h_max; thêm K = 5 (tới 0,13) | — |
+| F16 bằng chứng trong phạm vi | Dẫn semeion (0,17 → 0,34–0,37 trong vùng gain âm) cạnh optdigits; tỉ lệ "above the fixed point" riêng PLL 94% (108 ô) | — |
+| F17 Phụ lục E, Bảng 23 | Câu thay thế m3 (9/10 cặp L hơn multi-start; cặp còn lại chỉ kém chuỗi đơn của chính nó; 4 ô AUC 0,30–0,49); P12 trên 145/234 ô, P13 trên 13/15 dataset | — |
+| F18 PLL thật | Nêu lý do đăng ký TabICL v2 (> 10 lớp); "by small margins on two of them" | — |
+| F19 sampling vs arg max | "in log loss … in accuracy only at q = 0.6" | — |
+| F20 Broader impact | Độ đúng nhãn LLP khôi phục từ số đếm: trung vị 90% (61–96%), so với 72% nếu rút ngẫu nhiên khớp số đếm | — |
+| F21 sai lệch Study 1 | Bảng mốc thời gian nêu quy tắc 60% của H4 và vì sao không đổi phán quyết; định nghĩa H1–H5 | — |
+| F22 văn liệu | Thêm 8 tài liệu đã đối chiếu (`REFERENCE_CHECK.md`, mục vòng 3): Hogwild/asynchronous Gibbs, SEM, data augmentation, PL-kNN, IPAL, InvCal, ∝SVM | Celeux & Diebolt: chỉ đối chiếu qua danh mục tham khảo của một bài khác |
+| F23 thuật ngữ | free, H1–H5, giới hạn TabPFN v2 (≤ 500 đặc trưng, ≤ 10 lớp), tên các suite, quy tắc chọn đối thủ chính, cold start, TabPFN-3.5, PU, "far from the truth" | — |
+| F24 ký hiệu | TFM nay là p̃ (q chỉ còn là tỉ lệ distractor); Δ₁, Δ₂; Dobrushin ϑ; Λ-Lipschitz; đoạn "Notation" ở đầu Phụ lục A liệt kê các chữ còn dùng lại | H, τ, λ, a, S vẫn dùng lại, có định nghĩa tại chỗ |
+| F25 bảng, hình | Bảng tuning dùng cột xuống dòng, không thu nhỏ; bảng dataset in đủ tên; gộp Bảng 4 vào Bảng 5; Hình 1 có dải min–max theo 3 seed | — |
+| F26 câu chữ | Đã sửa mọi mục liệt kê; trích dẫn arXiv không còn "In"; tabimpute ghi v4; Balakrishnan trích bản Annals of Statistics 2017 | "+0.110" ba chữ số (c2): giữ, vì mọi khoảng tin cậy trong bài đều ba chữ số |
+
+### 6.3 Mục của vòng 2 còn treo
+
+- N17 (chuỗi MiceProtein còn tăng ở vòng 30): chú thích Bảng `tab:s1chains` liệt kê các chuỗi tăng > 0,03 giữa vòng 16–20 và 26–30.
+- Các mục khác của vòng 2 được xử lý qua F1–F26 ở trên.
+
+### 6.4 Chưa làm, và lý do
+
+1. Chạy lại GBDT-PLL có tune, chạy ensemble của L, thêm IPAL/InvCal/∝SVM: cần dữ liệu OpenML, tức một lượt Kaggle CPU có ghi trước. Bài đã nói rõ các giới hạn này.
+2. Phép kiểm response map không vòng tròn (dự đoán chuỗi B bằng map của chuỗi A) và response map trên dataset Study 3: chưa làm; bài đã bỏ khẳng định dự báo.
+3. Kho ẩn danh truy cập được cho người phản biện: cần thầy quyết. **Lưu ý:** hai kho `DRuanli/icgibbs` và `DRuanli/neur-v3` đang **công khai** (kiểm bằng GitHub API ngày 13/11/2026), có toàn văn bản thảo và tên tài khoản. Khi nộp bản ẩn danh, nên chuyển hai kho sang riêng tư trong thời gian phản biện.
+4. Study 3 với q và cỡ túi khác: ngoài phạm vi; Limitations giữ phạm vi "bags of 8, q ≤ 0.6".

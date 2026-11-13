@@ -90,7 +90,7 @@ Các con số này phải đi vào bài qua `make_v2.py` (khoá `s3b-*`), không
 
 ## 6. Việc còn lại
 
-1. Sửa bài v2 theo mục 5 (đang làm, 13/11/2026).
+1. Sửa bài v2 theo mục 5: **xong** (13/11/2026), cùng các ý của vòng phản biện 3 (`G9/REVIEW_V2_RESPONSE.md` §6).
 
 ## 7. Sai lệch so với kế hoạch (ghi 13/11/2026, sau kiểm toán vòng 3)
 

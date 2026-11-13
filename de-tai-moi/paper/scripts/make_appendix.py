@@ -65,7 +65,15 @@ def s1_secondary():
     out += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s1_secondary.tex", out)
     d3 = ex["D3"]
-    return dict(d1=ex["D1"], d2=ex["D2"], d3=d3)
+    # settings in which the naive labels lose no information: In-Context Gibbs minus naive TFM at every level
+    nl = [(st, lv, x["naive"]) for st in ("pu_scar", "noisy", "ssl") for lv, x in sec[st].items()]
+    extra = {"s1-nolose-nlev": len(nl), "s1-nolose-nneg": sum(nv["mean_diff"] < 0 for _, _, nv in nl)}
+    for st, lv, nv in nl:
+        key = {"pu_scar": "puscar", "noisy": "noise", "ssl": "ssl"}[st] + f"{float(lv) * 100:.0f}" if st == "ssl" else \
+            {"pu_scar": "puscar", "noisy": "noise", "ssl": "ssl"}[st] + str(lv).replace("0.", "")
+        extra[f"s1-{key}-naive-diff"] = f3(nv["mean_diff"])
+        extra[f"s1-{key}-naive-wtl"] = wtl(nv)
+    return dict(d1=ex["D1"], d2=ex["D2"], d3=d3, extra=extra)
 
 
 def s1_tabicl(v):
@@ -225,26 +233,26 @@ def datasets():
 
     rows1 = [(did, nm, "binary") for did, (nm, _) in EVAL_BINARY.items()] + [(did, nm, "multiclass") for did, (nm, _) in EVAL_MULTICLASS.items()]
     rows2 = [(int(r.did), r["name"], r.group) for _, r in fin.iterrows()]
-    out = [r"\begin{tabular}{@{}rlrrrc@{\hspace{1.5em}}rlrrrc@{}}", r"\toprule",
-           r"\multicolumn{6}{@{}l}{Study 1 (OpenML-CC18)} & \multicolumn{6}{l}{Study 2 (new curated suites)} \\",
-           r"\cmidrule(r){1-6}\cmidrule(l){7-12}",
-           r"ID & name & $n$ & $d$ & $C$ & S1 & ID & name & $n$ & $d$ & $C$ & S1 \\", r"\midrule"]
     L = []
     for did, nm, _ in rows1:
         x = h1.loc[did]
-        L.append((str(did), esc(nm)[:24], f"{int(x.n):,}", str(int(x.d)), str(int(x.n_classes)), r"\checkmark" if did in S1_EXCLUDE else ""))
+        L.append((str(did), esc(nm), f"{int(x.n):,}", str(int(x.d)), str(int(x.n_classes)), r"\checkmark" if did in S1_EXCLUDE else ""))
     R = []
     for did, nm, _ in rows2:
         x = h2.loc[did]
         n = S2_SUBSAMPLE.get(did, int(x.n))
-        R.append((str(did), esc(nm)[:24], f"{n:,}" + ("$^\\ast$" if did in S2_SUBSAMPLE else ""), str(int(x.d)), str(int(x.n_classes)),
+        R.append((str(did), esc(nm), f"{n:,}" + ("$^\\ast$" if did in S2_SUBSAMPLE else ""), str(int(x.d)), str(int(x.n_classes)),
                   r"\checkmark" if did in S2_S1_EXCLUDE else ""))
-    m = max(len(L), len(R))
-    L += [("",) * 6] * (m - len(L))
-    R += [("",) * 6] * (m - len(R))
-    for a, b in zip(L, R):
-        out.append(" & ".join(a + b) + r" \\")
-    out += [r"\bottomrule", r"\end{tabular}"]
+    # full names (review F25): each study in two halves side by side, the studies one below the other
+    out = []
+    for title, rows in (("Study 1 (OpenML-CC18)", L), ("Study 2 (new curated suites)", R)):
+        h = (len(rows) + 1) // 2
+        a_, b_ = rows[:h], rows[h:] + [("",) * 6] * (2 * h - len(rows))
+        out += [r"\begin{tabular}{@{}rlrrrc@{\hspace{1.2em}}rlrrrc@{}}", r"\toprule",
+                rf"\multicolumn{{12}}{{@{{}}l}}{{{title}}} \\", r"\midrule",
+                r"ID & name & $n$ & $d$ & $C$ & S1 & ID & name & $n$ & $d$ & $C$ & S1 \\", r"\midrule"]
+        out += [" & ".join(x + y) + r" \\" for x, y in zip(a_, b_)]
+        out += [r"\bottomrule", r"\end{tabular}", r"\par\medskip"]
     tex("app_datasets.tex", out)
 
 
@@ -262,6 +270,7 @@ def main():
     v["s1-d1-p"] = f"{sec['d1']['p_one_sided']:.3f}"
     v["s1-d2-p"] = f"{sec['d2']['p_one_sided']:.3f}"
     v["s1-d3-max"] = f3(max(sec["d3"].values()))
+    v.update(sec["extra"])
     lines = [HDR, r"\makeatletter"] + [f"\\@namedef{{v@{k}}}{{{x}}}" for k, x in sorted(v.items())] + [r"\makeatother"]
     open(os.path.join(PAPER, "numbers_appendix.tex"), "w").write("\n".join(lines) + "\n")
     print(f"appendix tables written; {len(v)} numbers")

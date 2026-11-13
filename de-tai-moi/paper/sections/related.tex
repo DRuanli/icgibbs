@@ -1,7 +1,9 @@
 \section{Related work}\label{sec:related}
 % Source: G2/02_CLOSEST_WORKS.md, G2/related_work_matrix.csv (36 works). Update the search <= 30 days before submission.
 \textbf{Weak labels.} Specialised learners are trained with a loss tailored to the observation, for partial labels
-\citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}; for label
+\citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}; older non-neural learners use nearest neighbours for partial
+labels \citep{hullermeier2006plknn,zhang2015ipal} and calibrated or proportion-constrained SVMs for label proportions
+\citep{ruping2010invcal,yu2013propsvm}; for label
 proportions the number of samples needed grows linearly with the bag size \citep{busafekete2025llp}. Unified frameworks treat many types with one
 EM scheme \citep{glws,ill,count_wsl}, assuming conditionally independent predictions. We replace
 the training of a task-specific predictor by inference with a frozen TFM: latent labels are sampled jointly, and their
@@ -17,7 +19,13 @@ labels through their likelihood.
 \citep{sepin_mi,tabimpute}. Drawing labels from a PFN's predictive to resample future data underlies martingale
 posteriors for PFNs \citep{nagler2025martingale,ng2025tabmgp}, and iterating in-context learning on its own outputs
 samples from a model's prior \citep{zhu2024iterated}. Iterative imputation with chained conditional models \citep{liu2014}
-and amortised Gibbs samplers \citep{apgs} are closest in spirit. Our sampler conditions every latent label on all others,
-uses the weak-label likelihood, and has guarantees for incompatible conditionals (\cref{tab:related}, \cref{app:related}).
-That iterative procedures over latent labels converge only from some starts is known for EM \citep{balakrishnan2014em};
-our floors and ceilings (\cref{thm:basins}) are a counterpart for the sampler as run.
+and amortised Gibbs samplers \citep{apgs} are closest in spirit. Our sampler conditions each block of latent labels on
+the current labels of all other points and uses the weak-label likelihood; its exact variants (single-site, swap-MH,
+block-MH) have guarantees for incompatible conditionals, while the default uncorrected-block sampler has only the
+prediction-level analysis of \cref{prop:predbias} (\cref{tab:related}, \cref{app:related}). Redrawing a block given the
+others' current labels resembles Hogwild and asynchronous Gibbs sampling, whose bias and mixing have been analysed
+\citep{johnson2013hogwild,desa2016asyncgibbs}; the variant we call stochastic EM, which predicts from a single draw
+of the labels, follows \citet{celeux1985sem}, and alternating draws of latent data and parameters is data augmentation
+\citep{tanner1987da}. That iterative procedures
+over latent labels converge only from some starts is known for EM \citep{balakrishnan2014em}; our floors and ceilings
+(\cref{thm:basins}) are a counterpart, in a model of the TFM, for the sampler on instance-level weak labels.

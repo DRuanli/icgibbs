@@ -2,5 +2,7 @@
 Learning from weak labels lowers the cost of annotation and makes coarse or ambiguous labels usable. Learning from label
 proportions also recovers individual-level predictions from data released only in aggregate; when aggregation was
 chosen to protect individuals, such models can weaken that protection, and releases of aggregated data should be
-assessed with this in mind. We have not measured how much individual-level information the sampler recovers from bag
-counts.
+assessed with this in mind. On the label-proportion datasets of Study~3, with bags of 8, the single chain labelled a
+median of \val{s3x-llp-rfin-med} of training points correctly (range \val{s3x-llp-rfin-min} to
+\val{s3x-llp-rfin-max} over datasets), against \val{s3x-llp-rcold-med} for labels drawn at random consistently with
+the bag counts (exploratory).

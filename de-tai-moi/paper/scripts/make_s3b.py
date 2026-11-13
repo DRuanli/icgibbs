@@ -3,9 +3,10 @@ make_s3b.py — numbers and tables for the supplementary analysis S3B (registere
 Nothing here is typed by hand: every value is read from the pre-written scoring script's outputs.
 
 Inputs  S3/results/s3b_summary.json, s3b_cpu_datasets.csv, s3b_tfm_pairs.csv, s3b_long_cells.csv   (S3/s3b_report.py)
-        S3/results/s3_pairs.csv (Study 3 pairs, for the cost-quality table)
+        S3/results/s3_round3_explore.json, s3_round3_datasets.csv, s3_explore.json   (EXPLORATORY, written after scoring:
+        S3/s3_round3_explore.py, S3/s3_explore.py); every number from them is labelled exploratory in the paper
 Outputs paper/numbers_s3b.tex; paper/tables/s3b_main.tex, app_s3b_tfm.tex, app_s3b_long.tex, app_s3b_cpu.tex,
-        s3b_recommend.tex
+        s3b_recommend.tex (s3b_main.tex was merged into it)
 Run:    python paper/scripts/make_s3b.py
 """
 import json
@@ -56,6 +57,9 @@ def main():
     cpu = pd.read_csv(os.path.join(S3, "s3b_cpu_datasets.csv"))
     tp = pd.read_csv(os.path.join(S3, "s3b_tfm_pairs.csv"))
     lc = pd.read_csv(os.path.join(S3, "s3b_long_cells.csv"))
+    rx = json.load(open(os.path.join(S3, "s3_round3_explore.json")))           # exploratory
+    rxd = pd.read_csv(os.path.join(S3, "s3_round3_datasets.csv"))               # exploratory
+    ex = json.load(open(os.path.join(S3, "s3_explore.json")))                   # exploratory
     assert s["B1"]["complete"] and s["B2"]["complete"] and len(lc) == 72 and len(s["B3"]["tfms_complete"]) == 3
     assert s["hash_mismatch_cpu"] == 0 and s["hash_mismatch_tfm"] == 0 and s["hash_mismatch_long"] == 0
     v = {}
@@ -123,18 +127,74 @@ def main():
         v[f"s3b-b3-{t_}-r100"] = f3(d["r100"], sign=False, nd=2)
         v[f"s3b-b3-{t_}-gain"] = f3(d["mean_gain"])
         v[f"s3b-b3-{t_}-rep"] = f"{d['n_repaired']}/{d['n_stuck']}"
+    # ---- exploratory additions (round-3 review; S3/s3_round3_explore.py) -------------------------------------
+    def put(prefix, d, test=True):
+        v[f"{prefix}-mean"], v[f"{prefix}-median"], v[f"{prefix}-wtl"] = f3(d["mean"]), f3(d["median"]), wtl(d)
+        v[f"{prefix}-win"], v[f"{prefix}-loss"], v[f"{prefix}-n"] = d["win"], d["loss"], d["n"]
+        if test and "p" in d:
+            v[f"{prefix}-p"] = pval(d["p"])
+    for st in ("llp", "pll"):
+        for h in ("H1", "H2"):
+            put(f"s3x-{h.lower()}-{st}", rx["R1"][st][h])
+        for k, d in rx["R2"][st].items():
+            put(f"s3x-{k.lower().replace('_', '-')}-{st}", d)
+    put("s3x-l-setbase", rx["R2"]["L_vs_setting_baseline"])
+    v["s3x-l-setbase-pholm"] = pval(rx["R2"]["L_vs_setting_baseline"]["p_holm_with_other_two"])
+    r3 = rx["R3"]
+    v["s3x-gbdt-near-major-n"] = r3["n_gbdt_within_002_of_majority"]
+    v["s3x-gbdt-below-major-n"] = r3["n_gbdt_below_majority"]
+    v["s3x-gbdt-near-major-xtoo-n"] = r3["n_gbdt_near_majority_X_too"]
+    v["s3x-pll-n"] = r3["n"]
+    sdv = [x for st in ("llp", "pll") for x in rx["R4"][st].values()]
+    v["s3x-seed-sd-lo"], v["s3x-seed-sd-hi"] = f"{min(sdv):.3f}", f"{max(sdv):.3f}"
+    for k, d in rx["R5"].items():
+        kk = k.lower().replace("_", "")
+        v[f"s3x-r5-{kk}-llp"] = f3(d["mean_llp"], sign=False)
+        v[f"s3x-r5-{kk}-pll"] = f3(d["mean_pll"], sign=False)
+        if "vs_X" in d:
+            put(f"s3x-r5-{kk}-vx", d["vs_X"])
+            put(f"s3x-r5-{kk}-vl", d["vs_L"])
+    r6 = rx["R6"]
+    v["s3x-llp-rfin-med"] = pct(r6["rfin_warm_median"])
+    v["s3x-llp-rfin-min"], v["s3x-llp-rfin-max"] = pct(r6["rfin_warm_min"]), pct(r6["rfin_warm_max"])
+    v["s3x-llp-rcold-med"] = pct(r6["rstart_cold_median"])
+    v["s3x-llp-rmajor-med"] = pct(r6["majority_train_median"])
+    r7 = rx["R7"]
+    for t_, d in r7.items():
+        v[f"s3b-b3-{t_}-rising"] = d["still_rising"]
+        v[f"s3b-b3-{t_}-n"] = d["n"]
+        v[f"s3b-b3-{t_}-at30"] = f3(d["r_at30"], sign=False, nd=2)
+        v[f"s3b-b3-{t_}-at100"] = f3(d["r_at100"], sign=False, nd=2)
+    r9 = rx["R9"]
+    v["s3b-b3-nmissing"], v["s3b-b3-nlooked"] = r9["n_missing"], r9["n_looked_other_tfms"]
+    v["s3b-b3-interim-gain"] = f3(r9["mean_gain_session1"])
+    v["s3b-b3-interim-need"] = f"{r9['loss_needed_per_missing_cell']:.2f}"
+    v["s3b-b3-dpt-differ"] = r7["tabdpt"]["n_differ_first30"]
+    v["s3b-b3-dpt-maxdiff"] = f"{r7['tabdpt']['max_diff_first30']:.2f}"
+    calls = rx["R8"]
+    one = lambda k: calls[k][0] if len(calls[k]) == 1 else None
+    cost = {m: (one(f"{m}|llp"), one(f"{m}|pll")) for m in ("naive", "hard_em_warm", "gibbs_init_warm", "gibbs_init_base",
+                                                            "gibbs_ms", "oracle")}
+    assert all(None not in c_ for c_ in cost.values()), cost
+    for m, (a_, b_) in cost.items():
+        v[f"s3b-calls-{m.replace('_', '')}-llp"], v[f"s3b-calls-{m.replace('_', '')}-pll"] = a_, b_
+    v["s3b-calls-chain"] = cost["gibbs_init_base"][0]          # a chain without the TFM warm start (LLP and PLL)
+    assert cost["gibbs_init_base"][0] == cost["gibbs_init_base"][1] == cost["gibbs_init_warm"][0]
+    v["s3b-calls-warm-extra-pll"] = cost["gibbs_init_warm"][1] - cost["gibbs_init_base"][1]
+    # hard-EM by setting (W/T/L) and by TFM
+    tpd = tp.groupby(["setting", "dataset_id"])[["v1", "m_hard_em_warm"]].mean().reset_index()
+    for st in ("llp", "pll"):
+        h = tpd[tpd.setting == st]
+        dd_ = (h.v1 - h.m_hard_em_warm).to_numpy()
+        v[f"s3b-v1-minus-hardem-{st}-wtl"] = f"{int((dd_ >= 0.001).sum())}/{int((abs(dd_) < 0.001).sum())}/{int((dd_ <= -0.001).sum())}"
+    v["s3b-dpt-llp-hardem"] = f3(bt[("tabdpt", "llp")]["hard_em"], sign=False)
+    v["s3b-dpt-llp-v1"] = f3(bt[("tabdpt", "llp")]["v1"], sign=False)
+    e1 = {(x["tfm"], x["setting"]): x for x in ex["E1_by_tfm_setting"]}
+    v["s3x-pfn3-pll-base"] = f3(e1[("tabpfn_v3", "pll")]["base"], sign=False)
+    v["s3x-pfn3-pll-L"] = f3(e1[("tabpfn_v3", "pll")]["L"], sign=False)
+
     # ---- tables
     m_l, m_p = b1d["means_llp"], b1d["means_pll"]
-    tex("s3b_main.tex", [
-        r"\begin{tabular}{@{}lccl@{}}", r"\toprule",
-        r"Method & LLP, AUC & PLL, acc. & Training \\", r"\midrule",
-        rf"Multi-TFM average & {f3(m_l['X'], False)} & {f3(m_p['X'], False)} & starts use $L$ and linear DLLP \\",
-        rf"Multi-start, mean over TFMs & {f3(m_l['meanA1'], False)} & {f3(m_p['meanA1'], False)} & starts use $L$ and linear DLLP \\",
-        rf"Single chain, mean over TFMs & {f3(m_l['meanv1'], False)} & {f3(m_p['meanv1'], False)} & LLP start: linear DLLP \\",
-        rf"Tuned learner $L$ & {f3(m_l['meanL'], False)} & {f3(m_p['meanL'], False)} & tuned on weak labels \\",
-        rf"GBDT self-training & {f3(m_l['gbdtself_def'], False)} & {f3(m_p['gbdtself_def'], False)} & default configuration \\",
-        rf"PL-$k$NN ($k=10$) & -- & {f3(m_p['plknn_def'], False)} & none \\",
-        r"\bottomrule", r"\end{tabular}"])
     L = [r"\begin{tabular}{@{}llrrrrr@{}}", r"\toprule",
          r"TFM & Setting ($n$) & naive & hard-EM & single chain & multi-start & oracle \\", r"\midrule"]
     for t_ in ORDER:
@@ -146,42 +206,76 @@ def main():
                      rf"{r['A1']:.3f} & {r['oracle']:.3f} \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s3b_tfm.tex", L)
-    L = [r"\begin{tabular}{@{}lrrrrr@{}}", r"\toprule",
-         r"TFM & cells & stuck & repaired & gain (all) & label acc.\ sweep 30 $\to$ 100 \\", r"\midrule"]
+    L = [r"\begin{tabular}{@{}lrrrrrr@{}}", r"\toprule",
+         r"TFM & cells & stuck & repaired & gain (all) & label acc.\ $\approx$30 $\to$ $\approx$100 & rose $>0.03$ after 30 \\",
+         r"\midrule"]
     for t_ in ("tabicl_v2", "tabpfn_v3", "tabdpt"):
         d = b3["by_tfm"][t_]
         L.append(rf"{TFM[t_]} & {d['n']} & {d['n_stuck']} & {d['n_repaired']} & {f3(d['mean_gain'])} & "
-                 rf"{d['r30']:.2f} $\to$ {d['r100']:.2f} \\")
-    L += [r"\midrule", rf"All & {b3['n_cells']} & {b3['n_stuck']} & {b3['n_repaired']} & {f3(b3['mean_gain'])} & \\",
-          r"\bottomrule", r"\end{tabular}"]
+                 rf"{d['r30']:.2f} $\to$ {d['r100']:.2f} & {r7[t_]['still_rising']} \\")
+    assert sum(r7[t_]["still_rising"] for t_ in r7) == b3["n_still_rising"]
+    L += [r"\midrule", rf"All & {b3['n_cells']} & {b3['n_stuck']} & {b3['n_repaired']} & {f3(b3['mean_gain'])} & & "
+          rf"{b3['n_still_rising']} \\", r"\bottomrule", r"\end{tabular}"]
     tex("app_s3b_long.tex", L)
-    L = [r"\begin{tabular}{@{}llrrrrrr@{}}", r"\toprule",
-         r"Setting & Dataset & GBDT & PL-$k$NN & single & multi-start & $L$ & multi-TFM \\", r"\midrule"]
+    L = [r"\begin{tabular}{@{}llrrrrrrr@{}}", r"\toprule",
+         r"Setting & Dataset & majority & GBDT & PL-$k$NN & single & multi-start & $L$ & multi-TFM \\", r"\midrule"]
+    maj = rxd.set_index("dataset_id").majority
     for _, r in cpu.sort_values(["setting", "dataset_id"]).iterrows():
         pk = "--" if np.isnan(r.plknn_def) else f"{r.plknn_def:.3f}"
-        L.append(rf"{r.setting.upper()} & {int(r.dataset_id)} & {r.gbdtself_def:.3f} & {pk} & {r.meanv1:.3f} & "
+        mj = f"{maj[r.dataset_id]:.3f}" if r.setting == "pll" else "--"
+        L.append(rf"{r.setting.upper()} & {int(r.dataset_id)} & {mj} & {r.gbdtself_def:.3f} & {pk} & {r.meanv1:.3f} & "
                  rf"{r.meanA1:.3f} & {r.meanL:.3f} & {r.X:.3f} \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     tex("app_s3b_cpu.tex", L)
     # cost-quality table (Study 3 datasets; means over datasets; the single chain and multi-start averaged over TFMs)
     nv = tp.groupby(["setting", "dataset_id"]).m_naive.mean().groupby("setting").mean()
     he = tp.groupby(["setting", "dataset_id"]).m_hard_em_warm.mean().groupby("setting").mean()
-    rows = [
-        ("Naive TFM", nv["llp"], nv["pll"], "1 pass", "none", "registered supplement"),
-        ("Hard-EM with the TFM", he["llp"], he["pll"], r"$\approx$310 passes", "LLP start: linear DLLP", "registered supplement"),
-        ("Single chain", m_l["meanv1"], m_p["meanv1"], "310 passes", "LLP start: linear DLLP", "confirmatory (Studies 1--2)"),
-        ("Multi-start", m_l["meanA1"], m_p["meanA1"], r"3 chains $+$ tuned $L$", "tuned $L$", "confirmatory vs.\\ single chain"),
-        ("Multi-TFM average", m_l["X"], m_p["X"], r"9--12 chains $+$ tuned $L$", "tuned $L$", "confirmatory vs.\\ one TFM"),
-        ("GBDT self-training", m_l["gbdtself_def"], m_p["gbdtself_def"], "CPU", "default", "registered supplement"),
-        ("PL-$k$NN", np.nan, m_p["plknn_def"], "CPU", "none", "registered supplement"),
-        ("Tuned learner $L$", m_l["meanL"], m_p["meanL"], "20 tuning runs", "tuned", "Study 3 reference"),
+    ntf = sorted(set(int(k) for k in pd.read_csv(os.path.join(S3, "s3_datasets.csv")).n_tfm))
+    k_lo, k_hi = min(ntf), max(ntf)
+    r5 = rx["R5"]
+    em_l, em_p = ex["E1_means_llp"], ex["E1_means_pll"]
+    pas = lambda m: f"{cost[m][0]} / {cost[m][1]}"
+    LT = r"tuned $L$; LLP: also linear DLLP"
+    rows = [   # (configuration, LLP, PLL, TFM forward passes, trained parts, evidence); ordered by cost
+        ("Naive TFM", nv["llp"], nv["pll"], pas("naive"), "none", "registered supplement"),
+        ("Hard-EM with the TFM", he["llp"], he["pll"], pas("hard_em_warm"), "LLP start: linear DLLP", "registered supplement"),
+        ("Single chain", m_l["meanv1"], m_p["meanv1"], pas("gibbs_init_warm"), "LLP start: linear DLLP",
+         r"confirmatory with TabICL~v2 only (Study~2)"),
+        ("Single chain from $L$", em_l["base"], em_p["base"], r"1 chain", r"tuned $L$", "exploratory"),
+        (rf"Single chains, averaged over TFMs", r5["Xwarm"]["mean_llp"], r5["Xwarm"]["mean_pll"],
+         rf"{k_lo}--{k_hi} chains", "LLP start: linear DLLP", "exploratory"),
+        (r"Single chains over TFMs, averaged with $L$", r5["XwarmL"]["mean_llp"], r5["XwarmL"]["mean_pll"],
+         rf"{k_lo}--{k_hi} chains", LT, "exploratory"),
+        (r"Chains from $L$, averaged over TFMs", r5["Xbase"]["mean_llp"], r5["Xbase"]["mean_pll"],
+         rf"{k_lo}--{k_hi} chains", r"tuned $L$", "exploratory"),
+        ("Multi-start", m_l["meanA1"], m_p["meanA1"], r"3 chains", LT, r"confirmatory vs.\ single chain"),
+        (r"Multi-start, TabICL~v2 only", r5["icl_A1"]["mean_llp"], r5["icl_A1"]["mean_pll"], r"3 chains", LT,
+         "exploratory (TFM chosen after Study 1)"),
+        ("Multi-TFM average", m_l["X"], m_p["X"], rf"{3 * k_lo}--{3 * k_hi} chains", LT,
+         r"confirmatory vs.\ a TFM drawn at random"),
+        ("Tuned learner $L$", m_l["meanL"], m_p["meanL"], "none (20 tuning runs)", r"tuned on weak labels", "Study~3 reference"),
+        ("GBDT self-training", m_l["gbdtself_def"], m_p["gbdtself_def"], "none (CPU)", "fixed configuration",
+         "registered supplement"),
+        ("PL-$k$NN", np.nan, m_p["plknn_def"], "none (CPU)", "none", "registered supplement"),
     ]
-    L = [r"\begin{tabular}{@{}lcclll@{}}", r"\toprule",
-         r"Configuration & LLP, AUC & PLL, acc. & Cost per run & Trained parts & Evidence \\", r"\midrule"]
+    rr = r">{\raggedright\arraybackslash}"
+    L = [rf"\begin{{tabular}}{{@{{}}{rr}p{{0.235\linewidth}}cc{rr}p{{0.12\linewidth}}{rr}p{{0.17\linewidth}}{rr}p{{0.22\linewidth}}@{{}}}}",
+         r"\toprule",
+         r"Configuration & LLP, AUC & PLL, acc. & TFM passes (LLP / PLL) & Trained parts & Evidence \\", r"\midrule"]
     for name, a, b, c, tr, ev in rows:
         L.append(rf"{name} & {'--' if np.isnan(a) else f'{a:.3f}'} & {b:.3f} & {c} & {tr} & {ev} \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     tex("s3b_recommend.tex", L)
+    L = [r"\begin{tabular}{@{}llrrrr@{}}", r"\toprule", r"Hypothesis & Setting ($n$) & mean & median & W/T/L & $p$ \\",
+         r"\midrule"]
+    for h, lab in (("H1", r"H1$''$: multi-start $-$ single chain"), ("H2", r"H2$''$: multi-TFM $-$ random TFM")):
+        for st in ("llp", "pll"):
+            d = rx["R1"][st][h]
+            L.append(rf"{lab} & {st.upper()} ({d['n']}) & {f3(d['mean'])} & {f3(d['median'])} & {wtl(d)} & " +
+                     (r"$<$0.001" if d["p"] < 0.001 else f"{d['p']:.3f}") + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    tex("app_s3_split.tex", L)
+    v["s3x-base-llp"], v["s3x-base-pll"] = f3(em_l["base"], False), f3(em_p["base"], False)
     v["s3b-naive-llp"], v["s3b-naive-pll"] = f3(nv["llp"], False), f3(nv["pll"], False)
     v["s3b-hardem-llp"], v["s3b-hardem-pll"] = f3(he["llp"], False), f3(he["pll"], False)
     with open(os.path.join(PAPER, "numbers_s3b.tex"), "w") as f:

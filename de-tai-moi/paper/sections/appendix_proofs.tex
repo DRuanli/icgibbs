@@ -2,6 +2,21 @@
 % Translated from G4/PROOFS.md (self-reviewed; independently reviewed 26/10/2026: 0 critical, 4 major, 12 minor, all
 % addressed). Keep in sync with that file. Citations marked VERIFY in refs.bib must be checked (G4-6) before submission.
 
+\paragraph{Notation.} The main symbols are: $X$, $y$, $\W$ the features, latent labels and weak labels; $\lik$ the
+weak-label likelihood; $\ppd$ the exact posterior predictive (PPD) and $\tfm$ the TFM's approximation of it; $\pi$ the
+target posterior over $y$; $K$ the number of blocks, $T$, $T_0$ and $S$ the number of sweeps, the burn-in and the number
+of samples; $F$ the free points, $n_F=\lvert F\rvert$, $\rho=n_F/n$; $r$ the label accuracy and $R_s$ its value after
+sweep $s$; $\Phi$ the response map and $g(r)=\Phi(r)-r$ its gain; $L$ the tuned learner of the learner start. Some
+letters are reused locally, always with a definition: $q$ is the probability that a wrong class enters a candidate set;
+$\delta$ is the tolerance of \cref{ass:H} and $\vartheta$ Dobrushin's coefficient; $\Delta_1,\Delta_2$ are the
+per-dataset differences of Study~3; $p$ is also the failure probability $p(\nu,\lambda)$ of \cref{thm:basins} and a
+$p$-value in \cref{sec:exp}; $H$ counts sweeps in \cref{thm:basins}, while $(\mathrm H_\delta)$ names the assumption
+and H1--H5, H2$'$--H4$'$ and H1$''$--H3$''$ the hypotheses of the three studies; $\tau$ is the integrated coefficient of
+\cref{thm:stability} and a first-passage time in \cref{thm:basins}; $\lambda$ is a margin in \cref{thm:basins}, the
+labelled fraction $N/n$ in \cref{prop:predbias} and $\lambda_k$ a slope in \cref{prop:naive}; $a$ is $1-\lceil
+n/K\rceil/n_F$ in \cref{thm:basins} and a drift coefficient in \cref{prop:predbias}; $S$ is also a scoring rule in the
+proof of \cref{prop:bayes}, $S_i$ a candidate set, and $S=nR_s$ in the proof of \cref{prop:moments}.
+
 \paragraph{Assumptions.} (A0) $\W\sim p(\W\mid X,y)$, independent of $(x_*,y_*)$ given $(X,y)$; nuisance parameters of
 the observation model, if any, are a priori independent of $(\phi,X,y)$. (A1) $\tfm(\cdot\mid x,D)=\ppd(\cdot\mid x,D)$ for
 every context the algorithm queries. (A2) $\ppd(k\mid x,D)>0$ for all $k$ and every context of positive probability.
@@ -98,8 +113,8 @@ every single-site update and every MH acceptance probability is positive, so $\t
 and is irreducible; $\tilde\pi$ is unique. Compatibility of the conditionals of $\tfm$ is never used.
 \emph{Perturbation identity.} Let $\Delta=\tilde\pi-\pi$ and $\nu=\tilde\pi(\tilde P-P)$, so $\nu(\Omega)=0$. From
 $\tilde\pi=\tilde\pi\tilde P$ and $\pi=\pi P$, $\Delta=\nu+\Delta P$, and iterating, $\Delta=\sum_{t<T}\nu P^t+\Delta P^T$.
-\emph{Contraction.} For a signed measure $\mu$ with $\mu(\Omega)=0$, $\lVert\mu K\rVert_1\le\delta(K)\lVert\mu\rVert_1$.
-If $\tau(P)<\infty$ then $\delta(P^T)\to0$, the remainder vanishes, and $\lVert\Delta\rVert_1\le\lVert\nu\rVert_1\tau(P)$; if
+\emph{Contraction.} For a signed measure $\mu$ with $\mu(\Omega)=0$, $\lVert\mu K\rVert_1\le\vartheta(K)\lVert\mu\rVert_1$.
+If $\tau(P)<\infty$ then $\vartheta(P^T)\to0$, the remainder vanishes, and $\lVert\Delta\rVert_1\le\lVert\nu\rVert_1\tau(P)$; if
 $\tau(P)=\infty$ there is nothing to prove (no aperiodicity is needed). Finally
 $\lVert\nu\rVert_1\le\sum_y\tilde\pi(y)\lVert\tilde P(y,\cdot)-P(y,\cdot)\rVert_1=2\bar\varepsilon$.
 \emph{Single-site error.} $\tilde P(y,\cdot)-P(y,\cdot)$ averages the differences of the single-site updates, and each is the
@@ -207,7 +222,8 @@ labels that tilt the draws (PU, PLL), the drift of the exact kernel is no longer
 the pooled PU model the predictor is off by up to \val{th-pu-free-max} with free blocks and by at most
 \val{th-pu-all-max} with blocks over all points, which is why the latter are our default. (iii) For LLP the uncorrected bag-block kernel is biased already in its first moment. In a model with two
 feature types and identical bags (\val{th-llp-n} configurations), the predictor is off by up to \val{th-llp-small-max}
-when $n\le160$ and by at most \val{th-llp-large-max} from $n=320$ on ($K=10$). (iv) A real TFM is not conjugate; the
+when $n\le160$ and by at most \val{th-llp-large-max} from $n=320$ on at $K=10$, and by up to \val{th-llp-k5-max} at
+$K=5$. (iv) A real TFM is not conjugate; the
 mechanism in (c) is still present, but its effective prior strength is unknown.
 
 \paragraph{Why label-level bounds are vacuous.} In the pooled SSL and PU models with blocks over all points
@@ -293,20 +309,28 @@ $P(R_j\ge q_j\text{ for all }j\le J)\ge1-Jp$.
 \paragraph{Remarks.} (i) \emph{What each conclusion needs.} Staying up needs only the lower half of the assumption,
 staying down only the upper half. The proofs use the assumption only at the pairs (state before a block update, block)
 of the sweeps in question, and for a floor only when the context accuracy $r_{-B}$ is at least $x-\nu$; if a block has
-a single free point, the assumption constrains that point individually. (ii) \emph{Two basins.} Suppose $\Phi$ is non-decreasing and $\ell$-Lipschitz and $g$ changes sign
-from negative to positive at $u$. Any $x>u$ with $g(x)\ge\delta+\ell\nu+\lambda$ is a floor; choosing
-$\nu=\lambda=(g(x)-\delta)/(\ell+1)$ gives $p\le(1+3K)\exp\!\big(-c\rho n_F(g(x)-\delta)^2/(\ell+1)^2\big)$, so the expected
+a single free point, the assumption constrains that point individually. (ii) \emph{Two basins.} Suppose $\Phi$ is non-decreasing and $\Lambda$-Lipschitz and $g$ changes sign
+from negative to positive at $u$. Any $x>u$ with $g(x)\ge\delta+\Lambda\nu+\lambda$ is a floor; choosing
+$\nu=\lambda=(g(x)-\delta)/(\Lambda+1)$ gives $p\le(1+3K)\exp\!\big(-c\rho n_F(g(x)-\delta)^2/(\Lambda+1)^2\big)$, so the expected
 time to fall below $x$ grows exponentially with $n_F$; symmetrically below $u$. (iii) \emph{Looseness.} The margin $\nu$
 pays for the worst case in which all blocks of a sweep see a context that is off in the same direction, and
 Hoeffding's inequality uses ranges instead of variances. In simulations with a synthetic TFM whose response map is
-known and for which the assumption holds with $\delta=0$ ($n=3{,}000$, $K=10$), the proven two-sided invariant band for
-$H=60$ sweeps at total failure probability 0.05 has half-width \val{th-band-bound-half}, and the simulated 99\% band
-\val{th-band-obs-half}. For a slope-one map with $\delta=0$ and all labels unknown, a floor over 30 sweeps at failure
+known and for which the assumption holds with $\delta=0$ ($n=3{,}000$, $K=10$, per-point offsets $h_{\max}=0.02$, the
+map $\Phi(r)=0.45+0.5r$ with fixed point $r^*=0.9$), the proven invariant band for $H=60$ sweeps at total failure
+probability 0.05 reaches \val{th-band-bound-half} below $r^*$ (and is cut at 1 above), while the simulated 99\% band has
+half-width \val{th-band-obs-half}. For a slope-one map with $\delta=0$, $K=10$, $h_{\max}\le\frac12$ and all labels
+unknown, a floor over 30 sweeps at failure
 probability 0.05 needs a gain margin $\nu+\lambda$ of \val{th-margin-1k}, \val{th-margin-3k}, \val{th-margin-10k} and
 \val{th-margin-100k} at $n_F=10^3$, $3\times10^3$, $10^4$ and $10^5$. The qualitative statements hold for every
-$n$, but the bands are informative only for large $n_F$. (iv) \emph{Subsampled contexts.} When the context is subsampled
+$n$, but the bands are informative only for large $n_F$. (iv) \emph{The size of $\delta$ for real TFMs.} If \cref{ass:H} holds, two states with the same $r$ give
+responses, averaged over a sweep, within $2\delta$ of each other (up to the small difference between $r_{-B}$ and $r$).
+The response maps of \cref{app:dev} measured with chain-seeded and with uniform errors at equal $r$ therefore give an
+estimated lower bound on $\delta$: on the \val{th-dlb-n} PLL cells within the theorem's scope (\val{th-dlb-nds} datasets,
+TabICL~v2 and TabPFN~v2), $\delta\ge\val{th-dlb-med}$ in the median cell, \val{th-dlb-p90} at the 90th percentile and
+\val{th-dlb-max} at most, while uniform and structured placements differ by only \val{th-dlb-struct-med} (median of the
+same bound). These are exploratory estimates that include measurement noise. (v) \emph{Subsampled contexts.} When the context is subsampled
 to a fixed size, the accuracy the TFM sees is that of a random subsample, which adds a deviation term to $\nu$; we do not
-state that extension, and the empirical check of \cref{sec:tfm} includes cells with subsampled contexts. (v) \emph{LLP.}
+state that extension, and the empirical check of \cref{sec:tfm} includes cells with subsampled contexts. (vi) \emph{LLP.}
 Bag updates draw the labels of a bag jointly given its counts, so the redraws within a block are not independent and
 the lemma does not apply.
 
@@ -354,10 +378,13 @@ proposition gives moments, not tails.
 Let $\tilde\eta_k(x)=P(\tilde w=k\mid x)$ be the function that a consistent learner fitted on naive labels $\tilde w$
 approaches, and $\eta_k(x)=p(y=k\mid x)$ the true posterior.
 \begin{proposition}[When the naive TFM suffices]\label{prop:naive}
-(a) If the naive label depends on $x$ only through $y$, with equal off-diagonal entries in each column of the channel,
-then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with $\lambda_k>0$, so the naive target ranks points exactly as $\eta_k$; this covers
-PU-SCAR, class-dependent noise, SSL with labels missing completely at random, PLL with independent distractors and LLP with
-random bags. (b) If the naive labels are drawn from the observation by a kernel that does not depend on the parameter,
+(a) If the naive label depends on $x$ only through $y$, through a channel $M$ with equal off-diagonal entries in each
+column ($M_{y,k}=b_k$ for $y\neq k$) and $M_{k,k}>b_k$, then $\tilde\eta_k=b_k+\lambda_k\eta_k$ with
+$\lambda_k=M_{k,k}-b_k>0$, so the naive target ranks points exactly as $\eta_k$; this covers PU-SCAR, binary
+class-dependent noise with $T_{00}+T_{11}>1$, SSL with labels missing completely at random, PLL in which every wrong
+class enters the candidate set independently with the same probability $q<1$, and LLP with random bags. For accuracy
+with several classes, the arg max is preserved when $b_k$ and $\lambda_k$ do not depend on $k$, as for PLL with uniform
+distractors. (b) If the naive labels are drawn from the observation by a kernel that does not depend on the parameter,
 their Fisher information is at most that of the observation, with equality iff the observation's score is a function of
 the naive labels. Equality holds for PU-SCAR and label noise, where the naive labels are the observation, and for LLP
 when the naive labels match the bag counts. For PLL the inequality was strict in every case we computed. For LLP the
