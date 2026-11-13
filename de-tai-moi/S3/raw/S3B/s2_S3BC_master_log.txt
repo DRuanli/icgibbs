@@ -1,0 +1,5 @@
+lượt S3BC bắt đầu: Thu Nov 12 03:00:42 PM UTC 2026
+170 passed, 2 skipped, 29304 warnings in 1149.16s (0:19:09)
+CPU xong s3b_cpu_pll: Thu Nov 12 03:54:29 PM UTC 2026
+CPU xong s3b_cpu_llp: Thu Nov 12 04:04:04 PM UTC 2026
+S3BC xong: Thu Nov 12 04:04:04 PM UTC 2026

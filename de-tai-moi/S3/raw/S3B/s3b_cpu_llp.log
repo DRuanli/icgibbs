@@ -1,0 +1,61 @@
+run_g7 · part=baselines · split=s3 · backend=tabpfn_v2 · code=py-25e62524b4c1 · config=df15c9043eabdf1c
+
+=== 1038 gina_agnostic: n=3468 (loại trùng 0), d=970, C=2, sha256=25f003e6d8d4
+           gina_agnostic llp        8 s0 gbdtself_def     0.9597 44.7s
+           gina_agnostic llp        8 s1 gbdtself_def     0.9325 45.2s
+           gina_agnostic llp        8 s2 gbdtself_def     0.9546 45.5s
+
+=== 1046 mozilla4: n=10000 (loại trùng 0), d=5, C=2, sha256=1c656b42f012
+                mozilla4 llp        8 s0 gbdtself_def     0.9572 3.3s
+                mozilla4 llp        8 s1 gbdtself_def     0.9645 3.3s
+                mozilla4 llp        8 s2 gbdtself_def     0.9552 3.3s
+
+=== 1467 climate-model-simulation-crashes: n=540 (loại trùng 0), d=20, C=2, sha256=4ecbcf60bae7
+  climate-model-simulati llp        8 s0 gbdtself_def     0.5763 1.1s
+  climate-model-simulati llp        8 s1 gbdtself_def     0.7307 1.0s
+  climate-model-simulati llp        8 s2 gbdtself_def     0.6540 1.0s
+
+=== 1487 ozone-level-8hr: n=2526 (loại trùng 8), d=72, C=2, sha256=17aff100106c
+         ozone-level-8hr llp        8 s0 gbdtself_def     0.9104 5.5s
+         ozone-level-8hr llp        8 s1 gbdtself_def     0.8875 5.5s
+         ozone-level-8hr llp        8 s2 gbdtself_def     0.8821 5.5s
+
+=== 4134 Bioresponse: n=3751 (loại trùng 0), d=1776, C=2, sha256=d4457c69bc91
+             Bioresponse llp        8 s0 gbdtself_def     0.7438 66.7s
+             Bioresponse llp        8 s1 gbdtself_def     0.7650 84.3s
+             Bioresponse llp        8 s2 gbdtself_def     0.7807 77.1s
+
+=== 46916 coil2000_insurance_policies: n=8380 (loại trùng 1442), d=85, C=2, sha256=194642f0d85a
+  coil2000_insurance_pol llp        8 s0 gbdtself_def     0.6698 6.3s
+  coil2000_insurance_pol llp        8 s1 gbdtself_def     0.5972 6.4s
+  coil2000_insurance_pol llp        8 s2 gbdtself_def     0.6469 6.5s
+
+=== 46924 E-CommereShippingData: n=10000 (loại trùng 0), d=10, C=2, sha256=2fc2b4184684
+   E-CommereShippingData llp        8 s0 gbdtself_def     0.7336 3.6s
+   E-CommereShippingData llp        8 s1 gbdtself_def     0.7489 3.6s
+   E-CommereShippingData llp        8 s2 gbdtself_def     0.7457 3.4s
+
+=== 46935 HR_Analytics_Job_Change_of_Data_Scientists: n=10000 (loại trùng 49), d=12, C=2, sha256=00ca064d79da
+  HR_Analytics_Job_Chang llp        8 s0 gbdtself_def     0.7794 3.6s
+  HR_Analytics_Job_Chang llp        8 s1 gbdtself_def     0.7906 3.7s
+  HR_Analytics_Job_Chang llp        8 s2 gbdtself_def     0.7743 3.6s
+
+=== 46937 in_vehicle_coupon_recommendation: n=10000 (loại trùng 74), d=24, C=2, sha256=c93437c8cee1
+  in_vehicle_coupon_reco llp        8 s0 gbdtself_def     0.7208 4.0s
+  in_vehicle_coupon_reco llp        8 s1 gbdtself_def     0.7069 3.9s
+  in_vehicle_coupon_reco llp        8 s2 gbdtself_def     0.6956 4.1s
+
+=== 46947 online_shoppers_intention: n=10000 (loại trùng 125), d=17, C=2, sha256=d43d15d922e6
+  online_shoppers_intent llp        8 s0 gbdtself_def     0.9173 4.1s
+  online_shoppers_intent llp        8 s1 gbdtself_def     0.8884 4.1s
+  online_shoppers_intent llp        8 s2 gbdtself_def     0.9174 4.1s
+
+=== 46950 polish_companies_bankruptcy: n=5850 (loại trùng 60), d=64, C=2, sha256=ef8fdda81fd4
+  polish_companies_bankr llp        8 s0 gbdtself_def     0.9248 7.7s
+  polish_companies_bankr llp        8 s1 gbdtself_def     0.9348 8.0s
+  polish_companies_bankr llp        8 s2 gbdtself_def     0.9409 7.9s
+
+=== 46956 seismic-bumps: n=2578 (loại trùng 6), d=15, C=2, sha256=a68e537beee4
+           seismic-bumps llp        8 s0 gbdtself_def     0.5758 3.2s
+           seismic-bumps llp        8 s1 gbdtself_def     0.7133 3.2s
+           seismic-bumps llp        8 s2 gbdtself_def     0.5736 3.1s

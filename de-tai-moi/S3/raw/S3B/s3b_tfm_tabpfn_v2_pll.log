@@ -1,0 +1,13 @@
+run_g7 · part=tfm · split=s3 · backend=tabpfn_v2 · code=py-25e62524b4c1 · config=df15c9043eabdf1c
+
+=== 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  GesturePhaseSegmentati pll      0.6 s0 oracle           0.7468 33.0s
+  GesturePhaseSegmentati pll      0.6 s0 naive            0.4632 28.8s
+  GesturePhaseSegmentati pll      0.6 s0 hard_em_warm     0.5560 434.1s
+  GesturePhaseSegmentati pll      0.6 s1 oracle           0.7471 30.6s
+  GesturePhaseSegmentati pll      0.6 s1 naive            0.4581 30.7s
+  GesturePhaseSegmentati pll      0.6 s1 hard_em_warm     0.5189 436.9s
+  GesturePhaseSegmentati pll      0.6 s2 oracle           0.7400 30.5s
+  GesturePhaseSegmentati pll      0.6 s2 naive            0.4183 30.8s
+  GesturePhaseSegmentati pll      0.6 s2 hard_em_warm     0.5037 434.5s

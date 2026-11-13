@@ -1,0 +1,65 @@
+run_g7 · part=baselines · split=s3 · backend=tabpfn_v2 · code=py-25e62524b4c1 · config=df15c9043eabdf1c
+
+=== 42 soybean: n=631 (loại trùng 52), d=35, C=19, sha256=d7664cd05ce1
+                 soybean pll      0.6 s0 plknn_def        0.6421 0.1s
+                 soybean pll      0.6 s0 gbdtself_def     0.1421 16.9s
+                 soybean pll      0.6 s1 plknn_def        0.6737 0.0s
+                 soybean pll      0.6 s1 gbdtself_def     0.1053 16.3s
+                 soybean pll      0.6 s2 plknn_def        0.7211 0.0s
+                 soybean pll      0.6 s2 gbdtself_def     0.1421 16.2s
+
+=== 307 vowel: n=990 (loại trùng 0), d=12, C=11, sha256=83c2517899d5
+                   vowel pll      0.6 s0 plknn_def        0.4074 0.0s
+                   vowel pll      0.6 s0 gbdtself_def     0.2761 14.2s
+                   vowel pll      0.6 s1 plknn_def        0.3569 0.0s
+                   vowel pll      0.6 s1 gbdtself_def     0.2593 13.3s
+                   vowel pll      0.6 s2 plknn_def        0.3300 0.0s
+                   vowel pll      0.6 s2 gbdtself_def     0.2761 14.2s
+
+=== 1468 cnae-9: n=1052 (loại trùng 28), d=856, C=9, sha256=2dccf0b9f20a
+                  cnae-9 pll      0.6 s0 plknn_def        0.5285 0.0s
+                  cnae-9 pll      0.6 s0 gbdtself_def     0.4146 68.0s
+                  cnae-9 pll      0.6 s1 plknn_def        0.4937 0.0s
+                  cnae-9 pll      0.6 s1 gbdtself_def     0.3639 67.7s
+                  cnae-9 pll      0.6 s2 plknn_def        0.5443 0.0s
+                  cnae-9 pll      0.6 s2 gbdtself_def     0.3418 65.6s
+
+=== 1478 har: n=10000 (loại trùng 0), d=561, C=6, sha256=02a3c6c5b71d
+                     har pll      0.6 s0 plknn_def        0.8790 0.5s
+                     har pll      0.6 s0 gbdtself_def     0.9637 187.6s
+                     har pll      0.6 s1 plknn_def        0.8707 0.5s
+                     har pll      0.6 s1 gbdtself_def     0.9703 213.0s
+                     har pll      0.6 s2 plknn_def        0.8833 0.6s
+                     har pll      0.6 s2 gbdtself_def     0.9650 203.6s
+
+=== 1515 micro-mass: n=571 (loại trùng 0), d=1300, C=20, sha256=dc80148dd12a
+              micro-mass pll      0.6 s0 plknn_def        0.2326 0.0s
+              micro-mass pll      0.6 s0 gbdtself_def     0.0872 143.9s
+              micro-mass pll      0.6 s1 plknn_def        0.1686 0.0s
+              micro-mass pll      0.6 s1 gbdtself_def     0.1512 141.8s
+              micro-mass pll      0.6 s2 plknn_def        0.2267 0.0s
+              micro-mass pll      0.6 s2 gbdtself_def     0.1279 143.8s
+
+=== 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a
+  GesturePhaseSegmentati pll      0.6 s0 plknn_def        0.4453 0.1s
+  GesturePhaseSegmentati pll      0.6 s0 gbdtself_def     0.5351 25.0s
+  GesturePhaseSegmentati pll      0.6 s1 plknn_def        0.4510 0.1s
+  GesturePhaseSegmentati pll      0.6 s1 gbdtself_def     0.5412 24.3s
+  GesturePhaseSegmentati pll      0.6 s2 plknn_def        0.4470 0.1s
+  GesturePhaseSegmentati pll      0.6 s2 gbdtself_def     0.5263 23.6s
+
+=== 40499 texture: n=5473 (loại trùng 27), d=40, C=11, sha256=2d04ae9ddd01
+                 texture pll      0.6 s0 plknn_def        0.9220 0.0s
+                 texture pll      0.6 s0 gbdtself_def     0.8002 50.2s
+                 texture pll      0.6 s1 plknn_def        0.8995 0.0s
+                 texture pll      0.6 s1 gbdtself_def     0.8386 51.2s
+                 texture pll      0.6 s2 plknn_def        0.9227 0.0s
+                 texture pll      0.6 s2 gbdtself_def     0.7582 49.9s
+
+=== 46933 hiva_agnostic: n=3825 (loại trùng 20), d=1617, C=3, sha256=98f097a3f1a3
+           hiva_agnostic pll      0.6 s0 plknn_def        0.9538 0.5s
+           hiva_agnostic pll      0.6 s0 gbdtself_def     0.9634 116.6s
+           hiva_agnostic pll      0.6 s1 plknn_def        0.9425 0.5s
+           hiva_agnostic pll      0.6 s1 gbdtself_def     0.9556 122.7s
+           hiva_agnostic pll      0.6 s2 plknn_def        0.9399 0.5s
+           hiva_agnostic pll      0.6 s2 gbdtself_def     0.9573 120.1s

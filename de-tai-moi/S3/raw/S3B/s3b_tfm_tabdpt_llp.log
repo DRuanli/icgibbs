@@ -1,0 +1,134 @@
+run_g7 · part=tfm · split=s3 · backend=tabdpt · code=py-25e62524b4c1 · config=57bf7b7cf64086f7
+
+=== 1038 gina_agnostic: n=3468 (loại trùng 0), d=970, C=2, sha256=25f003e6d8d4
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+           gina_agnostic llp        8 s0 oracle           0.9784 7.3s
+           gina_agnostic llp        8 s0 naive            0.6923 3.4s
+           gina_agnostic llp        8 s0 hard_em_warm     0.9636 67.1s
+           gina_agnostic llp        8 s1 oracle           0.9855 3.4s
+           gina_agnostic llp        8 s1 naive            0.6036 3.5s
+           gina_agnostic llp        8 s1 hard_em_warm     0.9749 65.8s
+           gina_agnostic llp        8 s2 oracle           0.9796 3.4s
+           gina_agnostic llp        8 s2 naive            0.7285 3.4s
+           gina_agnostic llp        8 s2 hard_em_warm     0.9617 66.0s
+
+=== 1046 mozilla4: n=10000 (loại trùng 0), d=5, C=2, sha256=1c656b42f012
+                mozilla4 llp        8 s0 oracle           0.9757 18.4s
+                mozilla4 llp        8 s0 naive            0.8998 18.5s
+                mozilla4 llp        8 s0 hard_em_warm     0.9242 234.1s
+                mozilla4 llp        8 s1 oracle           0.9761 18.8s
+                mozilla4 llp        8 s1 naive            0.9338 18.8s
+                mozilla4 llp        8 s1 hard_em_warm     0.9473 234.0s
+                mozilla4 llp        8 s2 oracle           0.9811 18.7s
+                mozilla4 llp        8 s2 naive            0.9184 18.7s
+                mozilla4 llp        8 s2 hard_em_warm     0.9507 228.2s
+
+=== 1467 climate-model-simulation-crashes: n=540 (loại trùng 0), d=20, C=2, sha256=4ecbcf60bae7
+  climate-model-simulati llp        8 s0 oracle           0.9025 0.4s
+  climate-model-simulati llp        8 s0 naive            0.5652 0.3s
+  climate-model-simulati llp        8 s0 hard_em_warm     0.7872 7.7s
+  climate-model-simulati llp        8 s1 oracle           0.8866 0.3s
+  climate-model-simulati llp        8 s1 naive            0.7268 0.3s
+  climate-model-simulati llp        8 s1 hard_em_warm     0.6424 7.6s
+  climate-model-simulati llp        8 s2 oracle           0.9228 0.3s
+  climate-model-simulati llp        8 s2 naive            0.8065 0.3s
+  climate-model-simulati llp        8 s2 hard_em_warm     0.7828 7.8s
+
+=== 1487 ozone-level-8hr: n=2526 (loại trùng 8), d=72, C=2, sha256=17aff100106c
+         ozone-level-8hr llp        8 s0 oracle           0.9507 2.1s
+         ozone-level-8hr llp        8 s0 naive            0.8017 2.2s
+         ozone-level-8hr llp        8 s0 hard_em_warm     0.9276 38.1s
+         ozone-level-8hr llp        8 s1 oracle           0.9134 2.2s
+         ozone-level-8hr llp        8 s1 naive            0.6063 2.2s
+         ozone-level-8hr llp        8 s1 hard_em_warm     0.8819 37.3s
+         ozone-level-8hr llp        8 s2 oracle           0.9326 2.1s
+         ozone-level-8hr llp        8 s2 naive            0.5456 2.1s
+         ozone-level-8hr llp        8 s2 hard_em_warm     0.8308 37.9s
+
+=== 4134 Bioresponse: n=3751 (loại trùng 0), d=1776, C=2, sha256=d4457c69bc91
+             Bioresponse llp        8 s0 oracle           0.8558 3.9s
+             Bioresponse llp        8 s0 naive            0.5539 3.9s
+             Bioresponse llp        8 s0 hard_em_warm     0.7603 84.1s
+             Bioresponse llp        8 s1 oracle           0.8634 3.9s
+             Bioresponse llp        8 s1 naive            0.6124 3.9s
+             Bioresponse llp        8 s1 hard_em_warm     0.7300 77.9s
+             Bioresponse llp        8 s2 oracle           0.8721 3.8s
+             Bioresponse llp        8 s2 naive            0.6124 3.9s
+             Bioresponse llp        8 s2 hard_em_warm     0.7633 75.7s
+
+=== 46916 coil2000_insurance_policies: n=8380 (loại trùng 1442), d=85, C=2, sha256=194642f0d85a
+  coil2000_insurance_pol llp        8 s0 oracle           0.7814 13.3s
+  coil2000_insurance_pol llp        8 s0 naive            0.5356 13.4s
+  coil2000_insurance_pol llp        8 s0 hard_em_warm     0.6936 183.2s
+  coil2000_insurance_pol llp        8 s1 oracle           0.7511 13.7s
+  coil2000_insurance_pol llp        8 s1 naive            0.4970 13.8s
+  coil2000_insurance_pol llp        8 s1 hard_em_warm     0.5892 193.3s
+  coil2000_insurance_pol llp        8 s2 oracle           0.7712 13.6s
+  coil2000_insurance_pol llp        8 s2 naive            0.4853 13.7s
+  coil2000_insurance_pol llp        8 s2 hard_em_warm     0.6191 191.3s
+
+=== 46924 E-CommereShippingData: n=10000 (loại trùng 0), d=10, C=2, sha256=2fc2b4184684
+   E-CommereShippingData llp        8 s0 oracle           0.7440 18.7s
+   E-CommereShippingData llp        8 s0 naive            0.7207 18.8s
+   E-CommereShippingData llp        8 s0 hard_em_warm     0.7346 235.5s
+   E-CommereShippingData llp        8 s1 oracle           0.7488 18.7s
+   E-CommereShippingData llp        8 s1 naive            0.7489 18.7s
+   E-CommereShippingData llp        8 s1 hard_em_warm     0.7426 233.0s
+   E-CommereShippingData llp        8 s2 oracle           0.7528 18.7s
+   E-CommereShippingData llp        8 s2 naive            0.7342 18.8s
+   E-CommereShippingData llp        8 s2 hard_em_warm     0.7458 231.2s
+
+=== 46935 HR_Analytics_Job_Change_of_Data_Scientists: n=10000 (loại trùng 49), d=12, C=2, sha256=00ca064d79da
+  HR_Analytics_Job_Chang llp        8 s0 oracle           0.8085 18.7s
+  HR_Analytics_Job_Chang llp        8 s0 naive            0.7465 18.7s
+  HR_Analytics_Job_Chang llp        8 s0 hard_em_warm     0.7929 240.1s
+  HR_Analytics_Job_Chang llp        8 s1 oracle           0.8081 18.7s
+  HR_Analytics_Job_Chang llp        8 s1 naive            0.7242 18.8s
+  HR_Analytics_Job_Chang llp        8 s1 hard_em_warm     0.7875 242.7s
+  HR_Analytics_Job_Chang llp        8 s2 oracle           0.7995 18.7s
+  HR_Analytics_Job_Chang llp        8 s2 naive            0.7129 18.7s
+  HR_Analytics_Job_Chang llp        8 s2 hard_em_warm     0.7774 239.8s
+
+=== 46937 in_vehicle_coupon_recommendation: n=10000 (loại trùng 74), d=24, C=2, sha256=c93437c8cee1
+  in_vehicle_coupon_reco llp        8 s0 oracle           0.8194 18.7s
+  in_vehicle_coupon_reco llp        8 s0 naive            0.6528 18.7s
+  in_vehicle_coupon_reco llp        8 s0 hard_em_warm     0.6666 234.5s
+  in_vehicle_coupon_reco llp        8 s1 oracle           0.8190 18.8s
+  in_vehicle_coupon_reco llp        8 s1 naive            0.6263 18.8s
+  in_vehicle_coupon_reco llp        8 s1 hard_em_warm     0.6505 236.0s
+  in_vehicle_coupon_reco llp        8 s2 oracle           0.8150 18.8s
+  in_vehicle_coupon_reco llp        8 s2 naive            0.6338 18.7s
+  in_vehicle_coupon_reco llp        8 s2 hard_em_warm     0.6908 240.3s
+
+=== 46947 online_shoppers_intention: n=10000 (loại trùng 125), d=17, C=2, sha256=d43d15d922e6
+  online_shoppers_intent llp        8 s0 oracle           0.9426 18.7s
+  online_shoppers_intent llp        8 s0 naive            0.8863 18.8s
+  online_shoppers_intent llp        8 s0 hard_em_warm     0.9334 235.2s
+  online_shoppers_intent llp        8 s1 oracle           0.9336 18.7s
+  online_shoppers_intent llp        8 s1 naive            0.8832 18.7s
+  online_shoppers_intent llp        8 s1 hard_em_warm     0.9208 256.9s
+  online_shoppers_intent llp        8 s2 oracle           0.9425 18.7s
+  online_shoppers_intent llp        8 s2 naive            0.9006 18.7s
+  online_shoppers_intent llp        8 s2 hard_em_warm     0.9343 244.8s
+
+=== 46950 polish_companies_bankruptcy: n=5850 (loại trùng 60), d=64, C=2, sha256=ef8fdda81fd4
+  polish_companies_bankr llp        8 s0 oracle           0.9785 7.5s
+  polish_companies_bankr llp        8 s0 naive            0.9002 7.6s
+  polish_companies_bankr llp        8 s0 hard_em_warm     0.9702 117.6s
+  polish_companies_bankr llp        8 s1 oracle           0.9825 7.5s
+  polish_companies_bankr llp        8 s1 naive            0.8038 7.6s
+  polish_companies_bankr llp        8 s1 hard_em_warm     0.9769 114.7s
+  polish_companies_bankr llp        8 s2 oracle           0.9821 7.5s
+  polish_companies_bankr llp        8 s2 naive            0.8786 7.6s
+  polish_companies_bankr llp        8 s2 hard_em_warm     0.9577 109.5s
+
+=== 46956 seismic-bumps: n=2578 (loại trùng 6), d=15, C=2, sha256=a68e537beee4
+           seismic-bumps llp        8 s0 oracle           0.7535 2.2s
+           seismic-bumps llp        8 s0 naive            0.7142 2.2s
+           seismic-bumps llp        8 s0 hard_em_warm     0.7199 38.4s
+           seismic-bumps llp        8 s1 oracle           0.7423 2.3s
+           seismic-bumps llp        8 s1 naive            0.6638 2.3s
+           seismic-bumps llp        8 s1 hard_em_warm     0.7560 41.6s
+           seismic-bumps llp        8 s2 oracle           0.8264 2.3s
+           seismic-bumps llp        8 s2 naive            0.7163 2.3s
+           seismic-bumps llp        8 s2 hard_em_warm     0.8096 40.0s

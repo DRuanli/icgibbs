@@ -67,3 +67,12 @@
 | Sinh số, bảng, hình của bài v2 | `paper/scripts/make_v2.py` | `paper/numbers_v2.tex`, `paper/tables/s3_*.tex`, `app_s3_*.tex`, `app_v2_pred.tex`, `app_chainmap.tex`, `app_moments.tex`, `app_s1_chains.tex`, `paper/figures/s3_datasets.pdf`, `chainmap.pdf` | không tạo số mới ngoài các phép tóm tắt |
 | Tính lại Study 3 độc lập (kiểm toán viên, script riêng) | ngoài repo | `G9/reviews/REVIEW_V2_AUDIT_01.md` | khớp toàn bộ số xác nhận và thăm dò |
 
+
+## Lượt bổ sung S3B / S3BC (kế hoạch `S3/S3B_PLAN.md`, ghi trước 12/11/2026, commit `d9e6062`; code `b59ef14`)
+
+| Ngày (UTC) | Việc | Kết quả kiểm | Ghi chú |
+|---|---|---|---|
+| 12/11 15:00 – 13/11 02:04 | Thầy chạy lượt S3B (GPU, 2 × T4) và S3BC (CPU) trên Kaggle, một phiên | mã băm 87 file code khớp `b59ef14` ở cả hai lượt; pytest đầu lượt 170 qua, 2 bỏ qua | lượt S3B dừng ở mốc tự ngắt 11 giờ |
+| 13/11 06:05 | Nhận hai gói kết quả; giải nén vào thư mục riêng; chép vào `S3/raw/S3B/` (không chép `code/` và `PRODEN/`) | B1 đủ (12 dataset LLP × 3 seed; 8 PLL × 3 seed × 2 baseline); B2 đủ 71 cặp; **B3 thiếu 6/72 ô**: TabDPT đủ 24, TabICL v2 21, TabPFN-3 22 (thiếu dataset 46933) | — |
+| 13/11 06:09 | Chạy `S3/s3b_report.py` (không sửa) | không ô nào lệch mã băm lần chia hay nhãn yếu so với lượt S3 | B1, B2: chấm chính thức. B3: theo quy tắc §5 của kế hoạch, chấm trên TFM đủ 24 ô (chỉ TabDPT), P22 ghi "tạm thời" |
+| 13/11 06:12 | **Xem tạm** B3 trên cả 66 ô đã có (đọc `S3/results/s3b_long_cells.csv`) | ghi trong `S3/S3B_REPORT.md` §4 | 6 ô còn thiếu sẽ chạy ở phiên sau (lượt chạy tiếp được); chấm B3 lần cuối khi đủ |
