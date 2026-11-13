@@ -1,0 +1,17 @@
+run_g7 · part=v0 · split=s3 · backend=tabdpt · code=py-25e62524b4c1 · config=e34e693427698389
+
+=== 42 soybean: n=631 (loại trùng 52), d=35, C=19, sha256=d7664cd05ce1
+
+=== 307 vowel: n=990 (loại trùng 0), d=12, C=11, sha256=83c2517899d5
+
+=== 1468 cnae-9: n=1052 (loại trùng 28), d=856, C=9, sha256=2dccf0b9f20a
+
+=== 1478 har: n=10000 (loại trùng 0), d=561, C=6, sha256=02a3c6c5b71d
+
+=== 1515 micro-mass: n=571 (loại trùng 0), d=1300, C=20, sha256=dc80148dd12a
+
+=== 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a
+
+=== 40499 texture: n=5473 (loại trùng 27), d=40, C=11, sha256=2d04ae9ddd01
+
+=== 46933 hiva_agnostic: n=3825 (loại trùng 20), d=1617, C=3, sha256=98f097a3f1a3

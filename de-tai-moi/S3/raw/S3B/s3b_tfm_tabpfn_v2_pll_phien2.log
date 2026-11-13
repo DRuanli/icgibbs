@@ -1,0 +1,3 @@
+run_g7 · part=tfm · split=s3 · backend=tabpfn_v2 · code=py-25e62524b4c1 · config=df15c9043eabdf1c
+
+=== 4538 GesturePhaseSegmentationProcessed: n=9873 (loại trùng 0), d=32, C=5, sha256=59989182d50a

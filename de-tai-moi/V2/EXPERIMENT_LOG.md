@@ -76,3 +76,6 @@
 | 13/11 06:05 | Nhận hai gói kết quả; giải nén vào thư mục riêng; chép vào `S3/raw/S3B/` (không chép `code/` và `PRODEN/`) | B1 đủ (12 dataset LLP × 3 seed; 8 PLL × 3 seed × 2 baseline); B2 đủ 71 cặp; **B3 thiếu 5/72 ô**: TabDPT đủ 24, TabICL v2 21 (thiếu 3 seed của dataset 46933), TabPFN-3 22 (thiếu 2 seed của 46933) | — |
 | 13/11 06:09 | Chạy `S3/s3b_report.py` (không sửa) | không ô nào lệch mã băm lần chia hay nhãn yếu so với lượt S3 | B1, B2: chấm chính thức. B3: theo quy tắc §5 của kế hoạch, chấm trên TFM đủ 24 ô (chỉ TabDPT), P22 ghi "tạm thời" |
 | 13/11 06:12 | **Xem tạm** B3 trên cả 67 ô đã có (đọc `S3/results/s3b_long_cells.csv`) | ghi trong `S3/S3B_REPORT.md` §4 | 5 ô còn thiếu sẽ chạy ở phiên sau; commit `392b8de` ghi nhầm "66/72", đúng là 67/72 (lượt chạy tiếp được); chấm B3 lần cuối khi đủ |
+| 13/11 06:28 – 10:58 | Thầy chạy phiên 2 của lượt S3B (chạy tiếp) | mã băm 87 file khớp `b59ef14`; pytest 170 qua; thêm đúng 5 ô B3 (46933: 3 seed TabICL v2, 2 seed TabPFN-3); 211 dòng B3 và mọi dòng B2 cũ trùng tuyệt đối | log và siêu dữ liệu phiên 2 lưu với hậu tố `_phien2` |
+| 13/11 13:53 | Chạy lại `S3/s3b_report.py` (không sửa) trên đủ 72 ô B3: chấm B3 lần cuối | B1, B2 không đổi; B3: 5/35 ô kẹt được sửa, lợi trung bình +0,053; **P22 SAI** | thay kết quả tạm thời của 06:09 |
+

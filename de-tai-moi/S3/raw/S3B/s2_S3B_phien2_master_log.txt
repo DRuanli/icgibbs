@@ -1,0 +1,14 @@
+lượt S3B bắt đầu: Fri Nov 13 06:06:22 AM UTC 2026
+170 passed, 2 skipped, 29304 warnings in 1096.55s (0:18:16)
+GPU1 xong s3b_tfm_tabicl_v2_pll: Fri Nov 13 06:26:27 AM UTC 2026
+GPU0 xong s3b_tfm_tabpfn_v3_pll: Fri Nov 13 06:26:44 AM UTC 2026
+GPU0 xong s3b_tfm_tabpfn_v3_llp: Fri Nov 13 06:28:01 AM UTC 2026
+GPU1 xong s3b_tfm_tabicl_v2_llp: Fri Nov 13 06:28:01 AM UTC 2026
+GPU0 xong s3b_tfm_tabpfn_v2_pll: Fri Nov 13 06:28:04 AM UTC 2026
+GPU0 xong s3b_tfm_tabpfn_v2_llp: Fri Nov 13 06:28:09 AM UTC 2026
+GPU1 xong s3b_tfm_tabdpt_pll: Fri Nov 13 06:28:42 AM UTC 2026
+GPU1 xong s3b_tfm_tabdpt_llp: Fri Nov 13 06:28:59 AM UTC 2026
+GPU1 xong s3b_long_tabdpt_pll: Fri Nov 13 06:29:37 AM UTC 2026
+GPU0 xong s3b_long_tabpfn_v3_pll: Fri Nov 13 09:04:51 AM UTC 2026
+GPU1 xong s3b_long_tabicl_v2_pll: Fri Nov 13 10:58:33 AM UTC 2026
+lượt S3B kết thúc: Fri Nov 13 10:58:33 AM UTC 2026
