@@ -1,13 +1,13 @@
 # Báo cáo lượt bổ sung S3B / S3BC (13/11/2026)
 
 - **Tính chất:** bổ sung, **ghi trước sau khi Study 3 đã chấm** (`S3/S3B_PLAN.md`, commit `d9e6062`). Không thay đổi kết luận nào của Study 3.
-- **Chạy:** Kaggle, một phiên, 12/11 15:00 – 13/11 02:04 UTC. Code `b59ef14` (mã băm 87 file khớp ở cả hai lượt), pytest đầu lượt 170 qua.
+- **Chạy:** Kaggle. GPU: phiên 1 12/11 15:00 – 13/11 02:04 UTC, phiên 2 13/11 06:06 – 10:58 UTC. CPU: 12/11 15:00 – 16:04 UTC. Code `b59ef14` (mã băm 87 file khớp ở cả hai lượt), pytest đầu lượt 170 qua.
 - **Chấm:** `S3/s3b_report.py`, chạy không sửa ngày 13/11/2026 06:09 UTC. Đầu ra: `S3/results/s3b_report.txt`, `s3b_summary.json`, `s3b_cpu_datasets.csv`, `s3b_tfm_pairs.csv`, `s3b_long_cells.csv`.
 - **Kiểm ô:** mọi dòng khớp mã băm lần chia và nhãn yếu của lượt S3.
 - **Độ đầy đủ:**
   - B1 đủ 20 dataset.
   - B2 đủ 71 cặp (TFM, dataset).
-  - B3: phiên 1 thiếu 5/72 ô (dataset 46933) vì lượt dừng ở mốc tự ngắt 11 giờ, nên được chấm tạm theo §5 của kế hoạch. **Phiên 2 (13/11/2026) bổ sung đủ 5 ô; B3 được chấm lần cuối trên đủ 72 ô** (mục 3). Phiên 2 dùng cùng code (87 file khớp mã băm), pytest 170 qua; 211 dòng cũ không đổi.
+  - B3: phiên 1 thiếu 5/72 ô (dataset 46933) vì lượt dừng ở mốc tự ngắt 11 giờ, nên được chấm tạm theo §5 của kế hoạch. **Phiên 2 (13/11/2026) bổ sung đủ 5 ô; B3 được chấm lần cuối trên đủ 72 ô** (mục 3). Phiên 2 dùng cùng code (87 file khớp mã băm), pytest 170 qua; 134 dòng CSV B3 và 67 file npz của phiên 1 không đổi, mọi CSV B2 trùng từng byte.
 
 Quy ước: hiệu số dương là phương pháp thứ nhất tốt hơn; hoà khi |chênh| < 0,001; AUC cho LLP túi 8, accuracy cho PLL q 0,6.
 
@@ -91,3 +91,12 @@ Các con số này phải đi vào bài qua `make_v2.py` (khoá `s3b-*`), không
 ## 6. Việc còn lại
 
 1. Sửa bài v2 theo mục 5 (đang làm, 13/11/2026).
+
+## 7. Sai lệch so với kế hoạch (ghi 13/11/2026, sau kiểm toán vòng 3)
+
+| # | Kế hoạch nói | Thực tế | Ảnh hưởng |
+|---|---|---|---|
+| D1 | §7: chấm `s3b_report.py` "đúng một lần trên dữ liệu đủ" | B3 được chấm hai lần: lần đầu trên TFM đủ ô (TabDPT) theo quy tắc thiếu ô ở §5, lúc 06:09 UTC; sau đó em xem tạm 43 ô đã có của TabICL v2 và TabPFN-3 (06:12); phiên 2 chạy 5 ô còn thiếu; B3 được chấm lại trên đủ 72 ô (13:53). Phiên 2 đã **bắt đầu lúc 06:06 UTC, trước lần xem tạm**, nên việc chạy nốt không do lần xem tạm quyết định | không đổi kết luận: vế 2 của P22 chỉ đúng được nếu 5 ô thiếu mất trung bình hơn 0,32 accuracy mỗi ô, trong khi độ chính xác 30 vòng của chúng là 0,96 |
+| D2 | §3: so L với "baseline CPU tốt hơn của từng bối cảnh" | script lấy baseline tốt hơn **theo từng dataset** (`np.maximum`), tức chọn có lợi thế nhìn sau | chọn theo bối cảnh (PL-kNN cho PLL) cho +0,031, trung vị −0,002, 9/1/10, p_Holm 0,522 (kiểm toán vòng 3). Kết luận "L không hơn" không đổi; bài nêu rõ định nghĩa đã dùng |
+| D3 | §2: GBDT "cấu hình mặc định" | code đặt `early_stopping=False` (mặc định của sklearn là `'auto'`) và dự đoán ngoài fold với 2 fold | bài mô tả đúng cấu hình đã chạy |
+
