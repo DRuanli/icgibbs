@@ -21,6 +21,12 @@
 | Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
 | Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
 
+## 0k. S3B / S3BC đã chấm (13/11/2026)
+
+- Báo cáo: `S3/S3B_REPORT.md`. B1 và B2 chính thức; B3 còn 5/72 ô (dataset 46933), chấm tạm trên TabDPT; P22 "ĐÚNG tạm thời", nhưng vế "lợi trung bình dưới 0,03" sẽ sai khi đủ ô (xem tạm 67 ô: +0,056).
+- Kết quả chính cho bài v2: X hơn GBDT tự huấn luyện 19/20 (p_Holm 0,0002) và PL-kNN 8/8 (p_Holm 0,016). Chuỗi đơn **không** hơn rõ GBDT không tune. L không mạnh hơn baseline CPU không tune.
+- Việc kế tiếp: thầy chạy phiên 2 lượt S3B; chấm B3 lần cuối; sửa bài v2 theo `S3/S3B_REPORT.md` §5.
+
 ## 0j. Tách bài v3 (12/11/2026)
 
 - **Thầy quyết định 12/11/2026:** v3 là một bài riêng, làm ở Project riêng và kho riêng `github.com/DRuanli/neur-v3`. Bài v2 (kho này) để nguyên và gửi một tạp chí; đích không còn là NeurIPS 2027.
