@@ -1,16 +1,23 @@
 \section{Related work}\label{sec:related}
 % Source: G2/02_CLOSEST_WORKS.md, G2/related_work_matrix.csv (36 works). Update the search <= 30 days before submission.
 \textbf{Weak labels.} Specialised learners are trained with a loss tailored to the observation, for partial labels
-\citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}. Unified frameworks treat many types with one
+\citep{proden,feng2020provably,pico} and for label proportions \citep{dllp,easy_llp,tsai2020llpvat,bp_llp}; for label
+proportions the number of samples needed grows linearly with the bag size \citep{busafekete2025llp}. Unified frameworks treat many types with one
 EM scheme \citep{glws,ill,count_wsl}, assuming conditionally independent predictions. We replace
 the training of a task-specific predictor by inference with a frozen TFM: latent labels are sampled jointly, and their
 dependence is modelled through the TFM's context.
 \textbf{Tabular foundation models.} Prior-fitted networks approximate the PPD of a prior over datasets
 \citep{muller2022pfn}; later models extend their range \citep{tabpfn3} or pretrain on real tables \citep{tabdpt}, and
 theory studies when transformers learn PPDs in context \citep{ppd_icl_theory}. Their behaviour with imperfect or
-missing context labels has been studied \citep{noise_immunity,unlabeled_icl_theory}; other work pretrains new in-context
-models for one weak-label type \citep{inctx_pu,ic_ssl}. We keep a general TFM frozen.
+missing context labels has been studied \citep{noise_immunity,unlabeled_icl_theory}, and iterating TabPFN on its own soft
+pseudo-labels has been used for semi-supervised learning \citep{unlabeled_icl_theory}; other work pretrains new in-context
+models for one weak-label type \citep{inctx_pu,ic_ssl,icmil}. We keep a general TFM frozen and condition on the weak
+labels through their likelihood.
 \textbf{Gibbs sampling with learned conditionals.} TabPFN's predictive has been used for single-pass imputation
-\citep{sepin_mi,tabimpute}. Iterative imputation with chained conditional models \citep{liu2014} and amortised Gibbs
-samplers \citep{apgs} are closest in spirit; our sampler conditions every label on all others, uses the weak-label likelihood, and has guarantees for
-incompatible conditionals (\cref{tab:related}, \cref{app:related}).
+\citep{sepin_mi,tabimpute}. Drawing labels from a PFN's predictive to resample future data underlies martingale
+posteriors for PFNs \citep{nagler2025martingale,ng2025tabmgp}, and iterating in-context learning on its own outputs
+samples from a model's prior \citep{zhu2024iterated}. Iterative imputation with chained conditional models \citep{liu2014}
+and amortised Gibbs samplers \citep{apgs} are closest in spirit. Our sampler conditions every latent label on all others,
+uses the weak-label likelihood, and has guarantees for incompatible conditionals (\cref{tab:related}, \cref{app:related}).
+That iterative procedures over latent labels converge only from some starts is known for EM \citep{balakrishnan2014em};
+our floors and ceilings (\cref{thm:basins}) are a counterpart for the sampler as run.

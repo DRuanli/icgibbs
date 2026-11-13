@@ -79,3 +79,19 @@
 | chen2015gibbs | PubMed Central (PMC4572746): J. Stat. Comput. Simul. 85(16):3266–3275, doi 10.1080/00949655.2014.968159; trang ghi tên bài theo chính tả Mỹ ("Behavior"), đăng trực tuyến 10/2014, số báo năm 2015. Tóm tắt nói rõ: phân phối giới hạn phụ thuộc thứ tự quét khi các điều kiện không tương thích |
 
 Tổng số tài liệu được trích: 39.
+
+## Bổ sung ngày 13/11/2026 (bản chuyển sang tạp chí)
+
+Mỗi dòng: đã mở trang arXiv (URL lấy từ kết quả tìm kiếm) và đối chiếu tên bài, tác giả, năm. Không trang nào ghi nơi đăng, nên cả sáu được trích dạng arXiv preprint.
+
+| Khoá | Tên bài, tác giả, năm như trang ghi | Trang đã mở | Dùng để nói gì trong bài |
+|---|---|---|---|
+| `busafekete2025llp` | Nearly Optimal Sample Complexity for Learning with Label Proportions — Robert Busa-Fekete, Travis Dick, Claudio Gentile, Haim Kaplan, Tomer Koren, Uri Stemmer; nộp 08/05/2025 | arxiv.org/abs/2505.05355v1 | lý thuyết số mẫu của LLP theo cỡ túi |
+| `icmil` | In-Context Multiple Instance Learning — Alexander Möllers, Marvin Sextro, Julius Hense, Gabriel Dernbach, Klaus-Robert Müller; 2026 (v2 08/09/2026) | arxiv.org/html/2606.06458 | huấn luyện trước một mô hình trong ngữ cảnh cho MIL trên dữ liệu tổng hợp |
+| `zhu2024iterated` | Eliciting the Priors of Large Language Models using Iterated In-Context Learning — Jian-Qiao Zhu, Thomas L. Griffiths; 04/06/2024 | arxiv.org/abs/2406.01860v1 | lặp học trong ngữ cảnh như một chuỗi lấy mẫu từ prior của mô hình |
+| `nagler2025martingale` | Uncertainty Quantification for Prior-Data Fitted Networks using Martingale Posteriors — Thomas Nagler, David Rügamer; 2025 (v3 01/2026) | arxiv.org/html/2505.11325v3 | rút nhãn từ dự đoán của PFN để lấy mẫu lại theo dự đoán (martingale posterior) |
+| `ng2025tabmgp` | TabMGP: Martingale Posterior with TabPFN — Kenyon Ng, Edwin Fong, David T. Frazier, Jeremias Knoblauch, Susan Wei; 29/10/2025 | arxiv.org/abs/2510.25154v2 | martingale posterior dựng trên TabPFN (chỉ nói ở mức này; cơ chế chưa đọc) |
+| `balakrishnan2014em` | Statistical guarantees for the EM algorithm: From population to sample-based analysis — Sivaraman Balakrishnan, Martin J. Wainwright, Bin Yu; 09/08/2014 | arxiv.org/abs/1408.2156v1 | vùng xuất phát mà từ đó EM hội tụ (lưu vực) |
+
+Ghi chú: `unlabeled_icl_theory` (đã có) được dùng thêm cho câu "lặp TabPFN trên nhãn giả mềm của chính nó cho bán giám sát", theo lần đọc ngày 12/11/2026.
+

@@ -286,7 +286,7 @@ def main():
         v[f"s3x-{key}-p"] = pval(pv) if pv < 0.01 else f"{pv:.2f}"
     lo = x["E2_leave_one_out_vs_X"]
     v["s3x-loo-tabicl"] = f3(lo["tabicl_v2"]["mean"])
-    v["s3x-loo-other-max"] = f3(min(lo[t]["mean"] for t in ORDER if t != "tabicl_v2"))
+    v["s3x-loo-other-max"] = f3(max(lo[t]["mean"] for t in ORDER if t != "tabicl_v2"))
     b = x["E3_basin"]
     v["s3x-basin-same"] = pct(b["frac_same"])
     v["s3x-basin-same-llp"] = pct(b["by_setting"]["llp"])

@@ -1,6 +1,24 @@
 \section{In-Context Gibbs}\label{sec:method}
 % Source: G4/METHOD_SPEC.md §2, §4, §5; code: G4/code/icgibbs/sampler.py, g7/methods.py.
-Pseudocode of one chain is given as \cref{alg:icg} in \cref{app:alg}.
+\Cref{alg:icg} gives one chain; the paragraphs below explain its steps.
+
+\begin{algorithm}[t]
+\caption{\ours{}, one chain (block version; LLP uses bag-blocks). No TFM weight is updated.}
+\label{alg:icg}
+\begin{algorithmic}[1]
+\Require features $X$, weak labels $\W$ with model $\lik$, frozen TFM $\tfm$; $K$ blocks, $T$ sweeps, burn-in $T_0$, $S$ samples
+\State $P_0\gets$ warm start; draw $y\sim P_0\cdot\lik$ \Comment{LLP: conditioned on bag counts}
+\For{$t=1,\dots,T$}
+  \State partition all points (LLP: all bags) at random into blocks $B_1,\dots,B_K$
+  \For{$k=1,\dots,K$}
+    \State $Q\gets\tfm(\cdot\mid x_i,D_{-B_k})$ for all $i\in B_k$ \Comment{one forward pass}
+    \State PLL: draw $y_i\propto Q_i\,\lik_i$ for free $i\in B_k$; \quad LLP: draw $y_{B_g}\sim\prod_{i\in B_g}Q_i$ given counts $w_g$, for $B_g\subseteq B_k$
+    \State \textit{(optional)} accept the new $y_{B_k}$ with the MH probability of \cref{prop:blocks}(a)
+  \EndFor
+\EndFor
+\State \Return $\hat p(y_*\mid x_*)=\frac1S\sum_s\tfm(y_*\mid x_*,(X,y^{(s)}))$ over $S$ evenly spaced states $y^{(s)}$ with $t>T_0$
+\end{algorithmic}
+\end{algorithm}
 
 \paragraph{The full conditional is one forward pass.} Exchangeability turns a TFM into a Gibbs kernel.
 For every $i$ and every assignment $y$ with $p(y_{-i}\mid X)>0$,
@@ -37,8 +55,10 @@ predictions \eqref{eq:predict} with equal weights: the \emph{warm} start above; 
 the prediction of a specialised weak-label learner $L$ tuned on the weak labels alone (DLLP with an MLP for LLP, CC
 \citep{feng2020provably} for PLL); and a \emph{cold} start drawn from the normalised likelihood. The \emph{multi-TFM}
 sampler averages the multi-start predictions of several TFMs, again with equal weights. Neither average needs labels
-or a selection step. The TFMs stay frozen throughout, but the starts are not free of training: the LLP warm start
-fits a linear model, and the learner start a tuned one.
+or a selection step. The TFMs stay frozen throughout, but the starts are not free of training. What is fitted, by
+configuration: the single chain fits nothing for PLL (its warm start uses the TFM itself) and a linear DLLP model for
+LLP; the multi-start and multi-TFM samplers add the learner $L$, tuned over 20 configurations on the weak labels; no
+configuration fits anything to true labels.
 
 \paragraph{Cost and settings.} A chain costs $TK+S$ forward passes. All settings were fixed on development datasets
 before any evaluation and are shared by all datasets and studies: $K=10$, $T=30$, $T_0=10$, $S=10$ (310 passes).

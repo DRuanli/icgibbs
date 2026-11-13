@@ -1,24 +1,7 @@
 \input{sections/appendix_proofs}
 
 \FloatBarrier
-\section{Pseudocode}\label{app:alg}
-\begin{algorithm}[h]
-\caption{\ours{}, one chain (block version; LLP uses bag-blocks). No TFM weight is updated.}
-\label{alg:icg}
-\begin{algorithmic}[1]
-\Require features $X$, weak labels $\W$ with model $\lik$, frozen TFM $\tfm$; $K$ blocks, $T$ sweeps, burn-in $T_0$, $S$ samples
-\State $P_0\gets$ warm start; draw $y\sim P_0\cdot\lik$ \Comment{LLP: conditioned on bag counts}
-\For{$t=1,\dots,T$}
-  \State partition all points (LLP: all bags) at random into blocks $B_1,\dots,B_K$
-  \For{$k=1,\dots,K$}
-    \State $Q\gets\tfm(\cdot\mid x_i,D_{-B_k})$ for all $i\in B_k$ \Comment{one forward pass}
-    \State PLL: draw $y_i\propto Q_i\,\lik_i$ for free $i\in B_k$; \quad LLP: draw $y_{B_g}\sim\prod_{i\in B_g}Q_i$ given counts $w_g$, for $B_g\subseteq B_k$
-    \State \textit{(optional)} accept the new $y_{B_k}$ with the MH probability of \cref{prop:blocks}(a)
-  \EndFor
-\EndFor
-\State \Return $\hat p(y_*\mid x_*)=\frac1S\sum_s\tfm(y_*\mid x_*,(X,y^{(s)}))$ over $S$ evenly spaced states $y^{(s)}$ with $t>T_0$
-\end{algorithmic}
-\end{algorithm}
+
 
 \FloatBarrier
 \section{Pre-registration and timeline}\label{app:prereg}
@@ -176,7 +159,8 @@ recorded our expectations: that both hypotheses and all three criteria would hol
 \paragraph{Datasets.} Candidates were taken, from metadata only, from the suites of Study~2 and OpenML-CC18, after
 excluding \val{s3-excl-ids} dataset identifiers: every dataset used in Study~1, Study~2 or development, and the
 \val{s3-tabdpt-ids} datasets on which TabDPT was pretrained. The size and class-balance criteria of Study~2 were applied
-at their most relaxed registered tier, which left \val{s3-review-n} candidates; a manual review by Study~2's rules
+at their most relaxed registered tier (500 to 20{,}000 rows, at most 2{,}000 features, 3 to 20 classes, a minority
+class of at least 5\% for binary tasks), which left \val{s3-review-n} candidates; a manual review by Study~2's rules
 (real data only; no dataset from the same source as one already used; one dataset per source) kept
 \val{s3-review-keep} and removed \val{s3-review-syn} synthetic datasets, \val{s3-review-source} that share a source with
 a dataset used earlier and \val{s3-review-dup} duplicate source. \val{s3-sub-n} datasets with more than 10{,}000 rows were
@@ -227,9 +211,9 @@ single chain and $L$ (criterion C4$''$), ordered by the size of the regression.}
 \input{tables/app_s3_regress}
 \end{table}
 
-\paragraph{Regressions.} The pairs of \cref{tab:s3-regress} are of two kinds: single chains that stall so deeply that
+\paragraph{Regressions.} Most pairs of \cref{tab:s3-regress} are of two kinds: single chains that stall so deeply that
 the average of three starts does not recover (cnae-9, micro-mass), and datasets on which $L$ is better than every chain
-of that TFM (coupon, seismic-bumps, climate-crashes). The single chain itself was more than 0.02 below $L$ in
+of that TFM (coupon, seismic-bumps, climate-crashes); the table lists every pair. The single chain itself was more than 0.02 below $L$ in
 \val{s3-c4-v1-reg} of the \val{s3-n-pairs} pairs. In \val{s3-flip-cells} cells the single chain had an AUC below 0.5 on
 LLP, i.e.\ it converged to the labelling with the two classes exchanged within bags' counts.
 
@@ -238,7 +222,8 @@ LLP, i.e.\ it converged to the labelling with the two classes exchanged within b
 \caption{Exploratory decomposition of Study 3 (not registered; computed after the confirmatory scoring from the stored
 predictions, no chain was rerun). Mean test score over datasets (within-TFM rows: mean over the TFMs of each dataset),
 and difference to the registered average with W/T/L over the \val{s3-n-total} datasets and a two-sided Wilcoxon
-signed-rank $p$, unadjusted.}
+signed-rank $p$, unadjusted (SciPy defaults: zero differences dropped; exact distribution without zeros, normal
+approximation otherwise).}
 \label{tab:s3-explore}
 \small
 \input{tables/app_s3_explore}
@@ -281,6 +266,53 @@ level with the best (C5$''$) & \val{s3x-cost-nchains} chains and tuning $L$ \\
 \end{table}
 
 \FloatBarrier
+\FloatBarrier
+\section{Supplementary analysis S3B: protocol and further results}\label{app:s3b}
+\paragraph{Protocol and timeline.} The plan and its scoring script were committed on 12 November 2026, after Study~3
+had been scored and before any of its runs; the code that ran was committed six minutes later, and the hashes of all \val{s3b-n-code-files}
+code files in every run match it. Three parts: B1, the two non-neural baselines on CPU, with two tests (multi-TFM
+average against each, Holm-adjusted) and one comparison of $L$ with the better of them; B2, the naive TFM, hard-EM and
+the oracle with every TFM of Study~3, with one test (single chain against hard-EM on log loss); B3, the warm-start chain
+for 100 sweeps on the PLL cells of TabICL~v2, TabPFN-3 and TabDPT, with prediction P22. Every row was checked against the
+split and weak-label hashes of Study~3; none differed. \emph{Deviation from the plan's schedule:} the GPU part needed two
+Kaggle sessions. After the first, 5 of the \val{s3b-b3-n} cells of B3 were missing; B1 and B2 were scored, B3 was scored on the one
+TFM with all its cells as the plan prescribes for incomplete runs, and the remaining cells were looked at once
+(recorded in the experiment log). The second session added exactly the 5 missing cells, leaving every earlier row
+unchanged, and B3 was scored again on all \val{s3b-b3-n} cells. The interim look had already shown that the second part of P22
+would fail whatever the missing cells gave.
+
+\paragraph{Baselines.} GBDT self-training uses histogram gradient boosting with default hyperparameters: for PLL,
+pseudo-labels restricted to each point's candidate set, reassigned out-of-fold for 3 rounds; for LLP, an out-of-fold
+regression of the bag proportion as the initial score, then 3 rounds in which the top-$c_g$ points of each bag (by
+current score) are labelled positive. PL-$k$NN predicts by a vote over the candidate sets of the $k=10$ nearest
+training points. Neither was tuned.
+
+\begin{table}[h]
+\centering
+\caption{B2: mean test score over datasets by TFM (AUC for LLP, accuracy for PLL; number of datasets in brackets).}
+\label{tab:s3b-tfm}
+\small
+\input{tables/app_s3b_tfm}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{B3: chains run for 100 instead of 30 sweeps on PLL ($q=0.6$). Stuck: the 30-sweep chain was more than 0.02
+below the better of the multi-start average and $L$ (Study~3). Repaired: the 100-sweep chain is within 0.02 of it. Gain:
+mean test accuracy after 100 minus after 30 sweeps. Label accuracy: mean over cells.}
+\label{tab:s3b-long}
+\small
+\input{tables/app_s3b_long}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{B1 per dataset (mean over 3 seeds; TFM-based columns averaged over the TFMs of each dataset).}
+\label{tab:s3b-cpu}
+\scriptsize
+\input{tables/app_s3b_cpu}
+\end{table}
+
 \section{Development between Study 2 and Study 3}\label{app:dev}
 The multi-start and multi-TFM samplers were developed between 4 and 10 November 2026 on the datasets of Studies~1 and~2
 and on development datasets. All of it is exploratory. To keep ourselves honest we wrote the plan of every run, the
@@ -533,23 +565,24 @@ known class prior (sign flipped so that positive is better).}
 
 \FloatBarrier
 \section{Statements}\label{app:statements}
-\paragraph{Data and code availability.} All datasets are public (OpenML; the PALM collection for real partial labels).
-Code, frozen protocols, raw per-cell results with code and data hashes, and the scripts that generate every number,
-table and figure of this paper are available in an anonymised repository and will be released.
+\paragraph{Data and code availability.} All datasets are public: OpenML (dataset identifiers in \cref{app:data,app:s3})
+and the PALM collection of real partial-label datasets. Code, frozen protocols, raw per-cell results with code and data
+hashes, and the scripts that generate every number, table and figure of this paper are available in an anonymised
+repository and will be released.
+
+\paragraph{Licences.} TabICL: BSD-3-Clause; TabDPT and the \texttt{tabpfn} package: Apache-2.0 (as declared in their
+package metadata). The TabPFN~v2 and TabPFN-3 weights are distributed by their publisher under its own terms, which the
+user accepts before download for TabPFN-3; we used all checkpoints for research only and redistribute none of them.
+OpenML datasets are used under the licence listed on each dataset's page; the PALM datasets as distributed by their
+authors; we redistribute no dataset. Baseline code without a licence is loaded at run time and not redistributed.
 
 \paragraph{Compute.} All runs used free Kaggle sessions with two NVIDIA T4 GPUs (TFM-based methods) or CPUs (baselines).
 Study~1 used about 42 hours of two-GPU sessions and 26 hours of four-process CPU sessions; Study~2 about 4 GPU-hours
-and 80 CPU process-hours (two sessions of about ten hours with four processes each); the exploratory lots of Studies~1 and~2 about 13 hours
-of two-GPU sessions; Study~3 three two-GPU sessions of 8 to 11 hours; the development runs of \cref{app:dev} six further
-sessions of at most 11 hours. Development and pilot runs before each freeze are not included.
-
-\paragraph{Broader impacts.} Learning from weak labels lowers the cost of annotation and makes coarse or ambiguous labels
-usable. Learning from label proportions also recovers individual-level predictions from data released only in
-aggregate; when aggregation was chosen to protect individuals, such models can weaken that protection, and releases of
-aggregated data should be assessed with this in mind. We have not measured how much individual-level information the
-sampler recovers from bag counts.
+and 80 CPU process-hours; the exploratory lots of Studies~1 and~2 about 13 hours of two-GPU sessions; Study~3 three
+two-GPU sessions of 8 to 11 hours; the development runs of \cref{app:dev} six further sessions of at most 11 hours; the
+supplementary analysis two two-GPU sessions (11 and 4.5 hours) and one CPU session of about one hour. Development and
+pilot runs before each freeze are not included.
 
 \paragraph{Use of large language models.} An AI assistant was used for writing code, drafting proofs that the authors
 checked, running analyses through the pre-written scripts, and drafting text. The authors designed the studies, approved
 every pre-registration and decision, ran all experiments and are responsible for all content.
-\FloatBarrier

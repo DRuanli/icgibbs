@@ -23,8 +23,9 @@ on \val{s2-n-total} new datasets from five curated suites \citep[e.g.][]{grinszt
 nothing else (H2$'$--H4$'$).
 
 \paragraph{Study 3: several starts and several TFMs.} \emph{Study~3} used \val{s3-n-total} further datasets
-(\val{s3-n-binary} binary with LLP, \val{s3-n-multi} multiclass with PLL at $q=0.6$) from the same suites, OpenML-CC18
-and TabArena \citep{tabarena}, excluding every dataset used earlier and TabDPT's pretraining sets. It ran TabICL~v2,
+(\val{s3-n-binary} binary with LLP, \val{s3-n-multi} multiclass with PLL at $q=0.6$) from the OpenML suites of Study~2,
+among them TabArena \citep{tabarena}, and OpenML-CC18, excluding every dataset used earlier and TabDPT's pretraining
+sets. It ran TabICL~v2,
 TabPFN-3 \citep{tabpfn3} and TabDPT \citep{tabdpt} on all datasets and TabPFN~v2 on the \val{s3-n-pfn2} within its
 published limits. Per dataset, $\delta_1$ is the mean over TFMs of (multi-start $-$ single chain), and $\delta_2$ is the
 multi-TFM score minus the mean over TFMs of the multi-start score, the expected score of a TFM picked at random.
@@ -32,8 +33,9 @@ H1$''$: $\delta_1>0$; H2$''$: $\delta_2>0$ (one-sided Wilcoxon signed-rank, Holm
 registered without a test. H3$''$: a diagnostic computed without labels identifies the cells in which the single chain
 fails, i.e.\ is more than 0.02 below the better of the multi-start average and $L$ (AUC $\ge0.80$). C4$''$: the multi-start sampler is more than 0.02 below the better of the single chain and the
 tuned learner $L$ in at most 10\% of (TFM, dataset) pairs. C5$''$: the multi-TFM average is on average within 0.01 of
-the best TFM of each dataset and more than 0.02 behind it on at most 3. The only baseline of Study~3 is $L$ (tuned
-DLLP-MLP and tuned CC, the strongest LLP baseline and the primary PLL comparator of Study~2). All protocols were
+the best TFM of each dataset and more than 0.02 behind it on at most 3. The only baseline registered in Study~3 is $L$
+(tuned DLLP-MLP and tuned CC, the strongest LLP baseline and the primary PLL comparator of Study~2); \cref{sec:s3b}
+adds non-neural baselines. All protocols were
 committed before the evaluation data were downloaded; development between studies was exploratory
 (\cref{app:prereg,app:dev}).
 
@@ -102,23 +104,34 @@ when every block is redrawn given an assignment with a fraction $r$ of correct l
 \subsection{Several starts and several TFMs}\label{sec:s3}
 \begin{table}[t]
 \centering
-\caption{Study 3 (\val{s3-n-total} new datasets, four TFMs, 3 seeds). Left: registered hypotheses and criteria
-(\cref{sec:design}); mean over datasets [bootstrap 95\% interval], W/T/L, one-sided Wilcoxon signed-rank $p$,
-Holm-adjusted. Right: mean test score of the single chain and the multi-start average. $^\dagger$TabPFN~v2 ran only on
-\val{s3-pfn2-nllp} LLP and \val{s3-pfn2-npll} PLL datasets; its row is not comparable with the others.}
+\caption{Study 3 (\val{s3-n-total} new datasets, four TFMs, 3 seeds): registered hypotheses and criteria
+(\cref{sec:design}). Differences pool AUC (LLP datasets) and accuracy (PLL datasets): mean over datasets [bootstrap
+95\% interval], W/T/L, one-sided Wilcoxon signed-rank $p$, Holm-adjusted.}
 \label{tab:s3}
-\setlength{\tabcolsep}{3pt}
-\resizebox{\textwidth}{!}{\begin{tabular}{@{}c@{\hspace{1.2em}}c@{}}\input{tables/s3_tests} & \input{tables/s3_means}\end{tabular}}
+\small
+\input{tables/s3_tests}
 \end{table}
 
-\paragraph{Confirmed.} Both hypotheses of Study~3 passed (\cref{tab:s3}; per dataset in \cref{fig:s3}). Averaging three starts
+\begin{table}[t]
+\centering
+\caption{Study 3, mean test score over datasets (AUC for LLP, accuracy for PLL; number of datasets in brackets) of
+the single chain and the multi-start average of each TFM, of the multi-TFM average, and of the tuned learner $L$
+used in the learner start. $^\dagger$TabPFN~v2 ran only on \val{s3-pfn2-nllp} LLP and \val{s3-pfn2-npll} PLL datasets;
+its row is not comparable with the others.}
+\label{tab:s3means}
+\small
+\input{tables/s3_means}
+\end{table}
+
+\paragraph{Confirmed.} Both hypotheses of Study~3 passed (\cref{tab:s3,tab:s3means}; per dataset in \cref{fig:s3}).
+Differences pool AUC on LLP datasets and accuracy on PLL datasets. Averaging three starts
 improved on the single chain by \val{s3-h1-mean} on average (\val{s3-h1-wtl} datasets) \claim{14}. The gain is
 concentrated: \val{s3-h1-pll} on PLL against \val{s3-h1-llp} on LLP, a median of \val{s3-h1-median} over all datasets,
 and largest where single chains stall (TabPFN-3 on PLL: \val{s3-v1-tabpfn_v3-pll} to \val{s3-A1-tabpfn_v3-pll}). The
 multi-TFM average improved on a TFM picked at random by \val{s3-h2-mean} (\val{s3-h2-wtl}) and was level with the best
 TFM of each dataset (mean gap \val{s3-c5-gap}), more than 0.02 behind it once (\val{s3-c5-worst-name}:
-\val{s3-c5-worst-X} against \val{s3-c5-worst-best}) \claim{15}. Both tests also pass without the five flagged datasets
-($p_{\mathrm{Holm}}=\val{s3-s1-h1-p}$ and \val{s3-s1-h2-p}).
+\val{s3-c5-worst-X} against \val{s3-c5-worst-best}) \claim{15}. Both tests also pass without the \val{s3-flag-n} datasets flagged before the study for group or sequence structure
+(registered sensitivity analysis; $p_{\mathrm{Holm}}=\val{s3-s1-h1-p}$ and \val{s3-s1-h2-p}).
 
 \paragraph{Not confirmed.} The diagnostic of H3$''$, the mean total-variation distance between the label marginals of
 the warm-start and learner-start chains, reached an AUC of \val{s3-h3-auc} (\val{s3-h3-npos} failing cells of
@@ -138,10 +151,74 @@ average of single chains over TFMs, which does not use $L$, was above $L$ on all
 the chain started from $L$ alone matches the three-start average (\val{s3x-base-A1}), the cold start adds little, and
 averaging the single chain with $L$'s own prediction, with no further chain, does as well (\val{s3x-warmL-A1},
 $p=\val{s3x-warmL-A1-p}$). (iii) The three chains ended within 0.03 of each other in label accuracy in
-\val{s3x-basin-same} of cells; the PLL gain of the multi-start average is \val{s3x-basin-G-pll-diff} in the other cells
+\val{s3x-basin-same} of cells (\val{s3x-basin-same-llp} on LLP, \val{s3x-basin-same-pll} on PLL); the PLL gain of the multi-start average is \val{s3x-basin-G-pll-diff} in the other cells
 and \val{s3x-basin-G-pll-same} where chains agree. (iv) TabICL~v2 carries much of the multi-TFM result: the average is
 not significantly better than TabICL~v2's own multi-start average (\val{s3x-X-A1-tabicl_v2},
 $p=\val{s3x-X-A1-tabicl_v2-p}$); averaging over TFMs buys not having to know this in advance.
+
+\subsection{Supplementary analysis registered after Study 3}\label{sec:s3b}
+Reviewers of an earlier draft asked for non-neural baselines, for the naive TFM, hard-EM and an oracle in Study~3, and
+for longer chains. We registered these analyses after Study~3 had been scored, together with a scoring script and one
+prediction, and ran them on the stored splits and weak labels of Study~3; every run was checked against the hashes of
+the Study~3 splits (\cref{app:s3b}). They cannot change the conclusions of Study~3 and are reported as a supplement.
+
+\begin{table}[t]
+\centering
+\caption{Supplementary analysis on the \val{s3-n-total} datasets of Study~3: mean test score over datasets
+(\val{s3-n-binary} LLP datasets, AUC; \val{s3-n-multi} PLL datasets, accuracy). TFM-based rows average over the TFMs
+of each dataset. The two non-neural baselines were run in a fixed default configuration without tuning.}
+\label{tab:s3b}
+\small
+\input{tables/s3b_main}
+\end{table}
+
+\paragraph{Non-neural baselines.} We added self-training with gradient-boosted trees (pseudo-labels restricted to the
+candidate sets for PLL, to each bag's count for LLP) and, for PLL, a $k$-nearest-neighbour vote over candidate sets
+(PL-$k$NN, $k=10$), both untuned (\cref{tab:s3b}). The multi-TFM average beat the tree-based learner by
+\val{s3b-x-gbdt-mean} \val{s3b-x-gbdt-ci} (median \val{s3b-x-gbdt-median}, \val{s3b-x-gbdt-wtl},
+$p_{\mathrm{Holm}}$\val{s3b-x-gbdt-p}) and PL-$k$NN by \val{s3b-x-plknn-mean} (\val{s3b-x-plknn-wtl},
+$p_{\mathrm{Holm}}$\val{s3b-x-plknn-p}). The single chain did not clearly beat the tree-based learner
+(\val{s3b-v1-gbdt-mean} \val{s3b-v1-gbdt-ci}, median \val{s3b-v1-gbdt-median}, \val{s3b-v1-gbdt-wtl}; descriptive): on
+LLP the two were level (\val{s3b-llp-v1} against \val{s3b-llp-gbdt}), and on PLL the single chain's mean was below
+PL-$k$NN (\val{s3b-pll-v1} against \val{s3b-pll-plknn}) because of the stalled chains on datasets with many classes.
+The tuned learner $L$ was not better than the better untuned non-neural baseline (\val{s3b-l-cpu-mean}, median
+\val{s3b-l-cpu-median}, \val{s3b-l-cpu-wtl}, $p_{\mathrm{Holm}}$\val{s3b-l-cpu-p}), so on these datasets it is a
+reference, not the strongest baseline.
+
+\paragraph{Naive TFM, hard-EM and oracle.} With each of the four TFMs (\cref{tab:s3b-tfm} in \cref{app:s3b}), the
+single chain improved on the naive TFM by \val{s3b-v1-minus-naive-mean} (\val{s3b-v1-minus-naive-wtl}). Against hard-EM it
+had lower log loss on \val{s3b-ll-wtl} datasets (two-sided $p$\val{s3b-ll-p}), as in Studies~1 and~2, but a similar
+score: \val{s3b-v1-minus-hardem-mean} overall and \val{s3b-v1-minus-hardem-llp} on LLP. The multi-TFM average stayed
+\val{s3b-x-best-oracle-abs} below the best oracle of each dataset (\val{s3b-x-best-oracle-llp-abs} on LLP,
+\val{s3b-x-best-oracle-pll-abs} on PLL). With TabPFN-3 on PLL the single chain (\val{s3b-pfn3-pll-v1}) and hard-EM
+(\val{s3b-pfn3-pll-hardem}) stayed near the naive TFM (\val{s3b-pfn3-pll-naive}); only the learner start moved it
+(\val{s3b-pfn3-pll-A1}).
+
+\paragraph{Longer chains.} We reran the warm-start chain for 100 sweeps on all \val{s3b-b3-n} PLL cells of TabICL~v2,
+TabPFN-3 and TabDPT and registered one prediction (P22): fewer than a quarter of the \val{s3b-b3-stuck} cells in which
+the 30-sweep chain was more than 0.02 behind the multi-start average or $L$ would come within 0.02 of it, \emph{and} the
+mean gain would be below 0.03. The first part held (\val{s3b-b3-rep} repaired, \val{s3b-b3-rep-pct}); the second did not
+(mean gain \val{s3b-b3-gain}), so P22 was false. The gain came mostly from TabPFN-3 (\val{s3b-b3-tabpfn_v3-gain}), whose
+label accuracy rose from \val{s3b-b3-tabpfn_v3-r30} to \val{s3b-b3-tabpfn_v3-r100} and was still rising in many cells
+(\cref{tab:s3b-long}).
+
+\subsection{What to run}\label{sec:recommend}
+\Cref{tab:recommend} collects, on the datasets of Study~3, the score, the cost and the strength of evidence of each
+configuration. The multi-TFM average had the highest mean score in both settings, but it costs \val{s3x-cost-nchains} chains and a
+tuned learner, and its advantage over $L$ is exploratory. For label proportions a single chain, hard-EM with the same
+TFM and untuned tree-based self-training are level (\val{s3b-llp-v1}, \val{s3b-hardem-llp} and \val{s3b-llp-gbdt} AUC);
+the gain over them comes from averaging over TFMs. For partial labels with many classes a single
+chain should not be used alone: start chains from a trained learner and average over TFMs.
+
+\begin{table}[t]
+\centering
+\caption{Score, cost and evidence of each configuration on the datasets of Study~3 (means over datasets; TFM-based rows
+averaged over TFMs). A pass is one forward pass of the TFM; a chain costs 310 passes, a median of
+\val{s3x-cost-sec-tabicl_v2}\,s to \val{s3x-cost-sec-tabpfn_v2}\,s on one T4 GPU in Study~3.}
+\label{tab:recommend}
+\small
+\resizebox{\textwidth}{!}{\input{tables/s3b_recommend}}
+\end{table}
 
 \subsection{Real weak labels, exactness and cost}\label{sec:real}\label{sec:ablation}
 On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; single chain with TabICL~v2,

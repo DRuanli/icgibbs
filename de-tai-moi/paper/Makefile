@@ -6,6 +6,7 @@ data:
 	python3 scripts/make_appendix.py
 	python3 scripts/make_figures.py
 	python3 scripts/make_v2.py
+	python3 scripts/make_s3b.py
 pdf:
 	latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 clean:

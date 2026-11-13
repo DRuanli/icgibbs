@@ -23,7 +23,7 @@ large gains over the naive use of the TFM but missed its criteria: under heavy a
 uninformative labelling. Study~2 changed only the TFM, to TabICL~v2, on \val{s2-n-total} new datasets
 (\cref{tab:main}): a single chain outperformed the specialised baselines for label proportions, by
 \val{s2-llp-cmp-diff} AUC over the registered comparator and \val{s2-llp-strongest-diff} over the strongest one, and for
-partial labels, by about one accuracy point over tuned CC. To study when a chain stalls we use a \emph{response map}:
+partial labels, by \val{s2-pll3-cmp-diff} and \val{s2-pll6-cmp-diff} accuracy over tuned CC. To study when a chain stalls we use a \emph{response map}:
 the accuracy of the TFM's relabelling as a function of the accuracy of the labels in its context. Under the assumption
 that this map describes the TFM, it bounds where the sampler as run can go (\cref{thm:basins}); with two attractors
 the start matters. We therefore average chains from several starts, one of them a tuned specialised learner, and then
@@ -31,11 +31,16 @@ average over TFMs. Study~3 tested both steps on \val{s3-n-total} further dataset
 hypotheses were confirmed, and the multi-TFM average matched the best TFM of each dataset without knowing which it is.
 Two registered criteria failed: a label-free signal did not identify failing chains across TFMs, and with one TFM the
 multi-start average was more than 0.02 behind the better of its single chain and the tuned learner in
-\val{s3-c4-rate} of cases, against a registered limit of 10\%.
+\val{s3-c4-rate} of cases, against a registered limit of 10\%. A supplementary analysis, registered after Study~3 was
+scored and run on the same splits (\cref{sec:s3b}), added what reviewers of an earlier draft asked for: non-neural
+baselines, the naive TFM, hard-EM and an oracle for all four TFMs, and chains run for 100 sweeps. The multi-TFM average
+beat both non-neural baselines, the single chain did not clearly beat an untuned tree-based learner, and longer chains
+rarely repaired a stalled one; \cref{sec:recommend} turns these results into a recommendation.
 
 \paragraph{Contributions.} (1) \ours{}, a sampler over latent labels built from a frozen TFM, for instance-level and
 group-level weak labels \claim{2}, with averages over starts and over TFMs \claim{14}\claim{15}. (2) Theory: exactness
 with an exact TFM \claim{3}, stability with an approximate one \claim{4}, and, for the default sampler under a
 homogeneity assumption, invariant floors and ceilings of the label accuracy \claim{16}. (3) Three pre-registered
-studies on \val{all-n-datasets} datasets \claim{6}\claim{8}\claim{14}\claim{15} and three real partial-label datasets
-\claim{9}, with the failures \claim{13}\claim{18} reported as prominently as the confirmations.
+studies on \val{all-n-datasets} datasets \claim{6}\claim{8}\claim{14}\claim{15}, three real partial-label datasets
+\claim{9} and a registered supplementary analysis, with the failures \claim{13}\claim{18} and the wrong predictions
+reported as prominently as the confirmations.

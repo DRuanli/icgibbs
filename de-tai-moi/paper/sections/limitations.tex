@@ -1,15 +1,19 @@
 \section{Limitations}\label{sec:limitations}
-% Each item traces to the "scope" column of G3/CLAIM_EVIDENCE_MATRIX.md.
 \textbf{What each study supports.} The comparison with specialised baselines is confirmatory only for the single chain
 (Studies~1 and~2), and on PLL its margin is small. Study~3 has \val{s3-n-total} datasets (\val{s3-n-multi} multiclass)
-and one baseline, the tuned learner $L$; its comparison with $L$ is exploratory. The typical gain of several starts is
-small (median \val{s3-h1-median}) and came from the learner start, which needs a trained learner.
-\textbf{Failed criteria.} We have no label-free diagnostic of stalling that transfers across TFMs, and with one TFM the
-multi-start sampler was more than 0.02 behind the tuned learner in \val{s3-c4-vs-L} of \val{s3-n-pairs} pairs.
-\textbf{Theory versus practice.} The exactness results do not cover the uncorrected blocks used by default. \Cref{thm:basins} covers the default sampler but not LLP or
-subsampled contexts, rests on an assumption we could test only through its consequences along chains, with maps that
-need true labels, and is not quantitative at our sample sizes.
-\textbf{Scope and cost.} Weak labels are synthetic except for three PLL datasets, the baselines are neural learners,
-and TFM developers may have used some of our datasets (we excluded only TabDPT's pretraining sets). The claims
-cover LLP with bags of 8 and PLL with uniform distractors; the sampler did not improve on the naive TFM for PU, label
-noise or semi-supervised learning (\cref{app:secondary}). The multi-TFM average costs up to twelve chains.
+and registered one baseline, the tuned learner $L$; its comparison with $L$ is exploratory. The non-neural baselines of
+\cref{sec:s3b} were registered after Study~3 was scored and run untuned; tuned tree-based learners might close part of
+the gap. The typical gain of several starts is small (median \val{s3-h1-median}) and came from the learner start, which
+needs a trained learner.
+\textbf{Failed criteria and predictions.} We have no label-free diagnostic of stalling that transfers across TFMs; with
+one TFM the multi-start sampler was more than 0.02 behind the tuned learner in \val{s3-c4-vs-L} of \val{s3-n-pairs}
+pairs; and our prediction that longer chains would barely improve (P22) was false.
+\textbf{Theory versus practice.} The exactness results do not cover the uncorrected blocks used by default.
+\Cref{thm:basins} covers the default sampler but not LLP or subsampled contexts, rests on an assumption we could test
+only through its consequences along chains, with maps that need true labels, is not quantitative at our sample sizes,
+and does not describe slow mixing, which longer chains showed to be part of what stalls a chain.
+\textbf{Scope and cost.} Weak labels are synthetic except for three PLL datasets, and TFM developers may have used some
+of our datasets (we excluded only TabDPT's pretraining sets). The claims cover LLP with random bags of 8 and PLL with
+uniform distractors at $q\le0.6$; the sampler did not improve on the naive TFM for PU, label noise or semi-supervised
+learning (\cref{app:secondary}). A single chain is not clearly better than untuned tree-based self-training, and the
+configuration that is costs up to twelve chains and a tuned learner.

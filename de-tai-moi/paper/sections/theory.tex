@@ -89,8 +89,12 @@ $\delta$, $\lambda$ and the variation of $\Phi$ over $\nu$), the chain climbs (c
 is below minus that margin, it does not climb (b). If $g$ is negative on an interval and positive above it, the model
 has two basins: a chain that starts sufficiently far above the crossing stays up, one that starts sufficiently far
 below stays down, and the expected time to leave is at least $1/p$ sweeps, which for a fixed fraction of unknown labels
-and fixed margins grows exponentially with $n_F$ \claim{16}. More sweeps then do not repair a start in the wrong basin,
-which motivates the multi-start sampler. The constants are loose: the theorem describes a mechanism and its scaling,
+and fixed margins grows exponentially with $n_F$ \claim{16}. In this model more sweeps do not repair a start in the wrong
+basin, which motivates the multi-start sampler. Real chains also mix slowly: run for 100 instead of 30 sweeps
+(\cref{sec:s3b}), \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains reached the multi-start average or the tuned learner,
+while chains kept improving on average (\val{s3b-b3-gain}), most with TabPFN-3, whose label accuracy was still rising
+after 100 sweeps. A stalled chain is therefore a mixture of a wrong basin and slow mixing, and the theorem speaks only
+to the first. The constants are loose: the theorem describes a mechanism and its scaling,
 and at the sizes of our datasets it certifies nothing (\cref{sec:tfm}, \cref{app:dynamics}).
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
