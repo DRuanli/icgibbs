@@ -31,6 +31,7 @@
   2. hai kho `icgibbs` và `neur-v3` đang công khai: nên chuyển sang riêng tư khi nộp bản ẩn danh;
   3. có chạy một lượt Kaggle CPU (ghi trước) cho GBDT-PLL có tune, ensemble của L, IPAL/InvCal không (F7, F8);
   4. có lập kho ẩn danh (anonymous.4open.science) cho người phản biện không (F10).
+- **Thầy quyết định 14/11/2026:** rút gọn phần hạn chế và bỏ các đoạn liệt kê kết quả bất lợi lặp lại. Đã làm: Limitations còn một đoạn ngắn (phạm vi xác nhận, phạm vi Định lý 3, nhãn yếu tổng hợp, chưa có chẩn đoán kẹt không cần nhãn); abstract, intro, conclusion không còn câu về tiêu chí không đạt; bỏ các câu tự rào trong phụ lục ghi trước. Mỗi kết quả đã đăng ký vẫn được báo **một lần** ở mục kết quả (§6.4 đoạn "Not confirmed", Bảng 2; P22 ở §6.5) và ở phụ lục. PDF nay 41 trang, tài liệu tham khảo bắt đầu ở trang 12.
 - **Trước khi nộp:** nêu tên tác giả chỉ ở bản camera-ready; chạy lại `make submission` với `--forbid` tên tác giả và đơn vị.
 
 ## 0k. S3B / S3BC đã chấm (13/11/2026)

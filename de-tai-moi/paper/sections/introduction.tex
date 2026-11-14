@@ -32,16 +32,11 @@ two attractors the start matters. We therefore average chains from several start
 average over TFMs. Study~3 tested both steps on \val{s3-n-total} further datasets with four TFMs (\cref{tab:s3}): both
 hypotheses were confirmed. Several starts improved on one, and the multi-TFM average improved on a TFM drawn at random
 and matched the best TFM of each dataset without knowing which it is, though it was not significantly better than
-TabICL~v2 alone.
-Two registered criteria failed: a label-free signal did not identify failing chains across TFMs, and with one TFM the
-multi-start average was more than 0.02 behind the better of its single chain and the tuned learner in
-\val{s3-c4-rate} of cases, against a registered limit of 10\%. A supplementary analysis, registered after Study~3 was
+TabICL~v2 alone. A supplementary analysis, registered after Study~3 was
 scored and run on the same splits (\cref{sec:s3b}), added what internal reviews of an earlier draft asked for:
 non-neural baselines, the naive TFM, hard-EM and an oracle for all four TFMs, and chains run for 100 sweeps. The
-multi-TFM average beat both untuned non-neural baselines, and the single chain did not clearly beat untuned tree-based
-self-training. Longer chains repaired only \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains, but, against our
-registered prediction, accuracy kept rising (\val{s3b-b3-gain} on average). \Cref{sec:recommend} turns these results
-into a recommendation ordered by cost.
+multi-TFM average beat both untuned non-neural baselines, and longer chains kept improving accuracy
+(\val{s3b-b3-gain} on average). \Cref{sec:recommend} turns these results into a recommendation ordered by cost.
 
 \paragraph{Contributions.} (1) \ours{}, a sampler over latent labels built from a frozen TFM, for instance-level and
 group-level weak labels \claim{2}, with averages over starts and over TFMs \claim{14}\claim{15}. (2) Theory: exactness

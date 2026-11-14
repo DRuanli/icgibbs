@@ -5,9 +5,7 @@ Study~2 a single chain with TabICL~v2 outperformed the specialised neural and li
 datasets of Study~3 a single chain, averaged over TFMs, was level with untuned tree-based self-training on label
 proportions. Averaging over starts
 improved on single chains, and averaging over TFMs improved on a TFM drawn at random; in a registered supplement the
-multi-TFM average also beat untuned non-neural baselines, while the single chain alone did not clearly do so. Whether a
-chain stalls depends on the TFM and on where the chain starts; we could neither detect stalling without labels nor
-reliably cure it with longer chains, and our data cannot separate a wrong basin from slow mixing. Open problems: a
-label-free diagnostic of stalling, a cheaper way to escape a wrong start than averaging over many chains (starting
+multi-TFM average also beat untuned non-neural baselines. Whether a chain stalls depends on the TFM and on where the
+chain starts. Open problems: a label-free diagnostic of stalling, a cheaper way to escape a wrong start than averaging over many chains (starting
 chains from a trained learner was enough in our exploratory analysis), response-map bounds with usable constants, and
 feature-dependent weak labels.

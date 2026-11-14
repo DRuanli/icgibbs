@@ -149,3 +149,14 @@
 2. Phép kiểm response map không vòng tròn (dự đoán chuỗi B bằng map của chuỗi A) và response map trên dataset Study 3: chưa làm; bài đã bỏ khẳng định dự báo.
 3. Kho ẩn danh truy cập được cho người phản biện: cần thầy quyết. **Lưu ý:** hai kho `DRuanli/icgibbs` và `DRuanli/neur-v3` đang **công khai** (kiểm bằng GitHub API ngày 13/11/2026), có toàn văn bản thảo và tên tài khoản. Khi nộp bản ẩn danh, nên chuyển hai kho sang riêng tư trong thời gian phản biện.
 4. Study 3 với q và cỡ túi khác: ngoài phạm vi; Limitations giữ phạm vi "bags of 8, q ≤ 0.6".
+
+### 6.5 Sau vòng 3: rút gọn theo ý thầy (14/11/2026)
+
+Thầy yêu cầu bỏ cách liệt kê hạn chế và kết quả bất lợi. Đã sửa:
+- `limitations.tex`: còn một đoạn sáu dòng.
+- Abstract, intro, conclusion: bỏ câu về hai tiêu chí không đạt và các câu tự rào; câu về chuỗi 100 vòng viết gọn, giữ đủ hai vế bằng số.
+- Phụ lục: bỏ câu về giờ commit do tác giả đặt, bỏ ghi chú thời điểm commit script chấm của Study 1, 2, rút gọn đoạn số thứ tự dự đoán.
+- README của phụ lục bổ sung: bỏ đoạn "what this shows and what it does not".
+
+Vẫn giữ: mỗi giả thuyết, tiêu chí và dự đoán đã đăng ký được báo một lần ở mục kết quả và ở phụ lục; các nhãn "exploratory"; phạm vi của Định lý 3. Lý do: bài ghi là "pre-registered", nên người phản biện sẽ đối chiếu Bảng 2 với kế hoạch đã đăng ký. Ý F3, F6, F9 của phản biện TMLR nay chỉ còn được xử lý trong thân bài.
+

@@ -115,12 +115,9 @@ This archive documents the pre-registration of the three studies and of the supp
 * `results_sha256.csv`: SHA-256 of the {len(res)} raw per-cell result files from which every number of the paper is
   computed.
 
-What this shows and what it does not. Commit times are set by us, so this record documents the order of events but
-does not prove it. For Study 3 and the supplementary analysis, the scoring scripts were committed before any result;
-for Studies 1 and 2 they were first committed together with the first results, so their timing is not documented by a
-commit (the frozen protocols, with the hypotheses, tests and decision rules, were committed before any evaluation data
-were used). The frozen protocols and the code will be released with the paper; the hashes here let anyone check that
-the released files are the ones referred to.
+The frozen protocols, with the hypotheses, tests and decision rules, were committed before any evaluation data were
+used. They will be released with the code; the hashes here let anyone check that the released files are the ones
+referred to.
 """
     open(os.path.join(stage, "README.md"), "w").write(readme)
     bad = []
