@@ -21,6 +21,23 @@
 | Kế hoạch Study 2 (đóng băng ở commit `aaee9fd`, 01/11 15:19 UTC) | [S2/S2_PLAN.md](S2/S2_PLAN.md) |
 | Khai báo dùng AI | [docs/AI_USAGE.md](docs/AI_USAGE.md) |
 
+## 0m. Bài v2 chuyển sang IEEE TPAMI (14/11/2026)
+
+- **Thầy quyết định 14/11/2026:** nộp IEEE Transactions on Pattern Analysis and Machine Intelligence thay cho TMLR. Bản TMLR cuối là commit `0b425e2`.
+- **Quy định đã kiểm** (trang Author Resources của IEEE Computer Society, chính sách MOPC, chính sách AI của IEEE):
+  - phản biện single-anonymous mặc định (có thể xin double-anonymous, tổng biên tập quyết);
+  - 12 trang đã dàn trang, tính cả abstract, tài liệu tham khảo và tiểu sử; trang vượt tính phí 220 USD/trang, tối đa 18 trang;
+  - abstract 100–200 từ, không có biểu thức toán và trích dẫn;
+  - mọi phụ lục là tài liệu bổ sung, nộp thành tệp riêng;
+  - dùng nội dung do AI tạo thì phải khai ở mục Acknowledgments, nêu hệ thống AI và các phần đã dùng;
+  - tiểu sử tác giả không bắt buộc.
+- **Đã làm:** `main.tex` theo mẫu IEEEtran compsoc, **9 trang** (dưới giới hạn 12); `supplement.tex` 23 trang; abstract 199 từ, không còn giá trị p; Index Terms; mục Acknowledgments khai việc dùng AI; bỏ Broader Impact Statement; script dựng và đóng gói mới (`scripts/build_pdf.sh`, `make_submission_source.py`, `make_prereg_archive.py`).
+- **Thầy cần điền trước khi nộp** (PDF hiện in chữ đỏ `[TODO: …]`, và `make submission` dừng nếu còn):
+  1. tên tác giả;
+  2. đơn vị và e-mail;
+  3. xác nhận đoạn khai AI và thêm tài trợ (nếu có).
+  - Khi nộp trên ScholarOne cần ORCID của tác giả nộp bài và thư gửi kèm (cover letter).
+
 ## 0l. Bài v2 bản TMLR sau vòng phản biện 3 (13/11/2026)
 
 - **Trạng thái:** bản nộp được cho TMLR (đích mặc định; chờ thầy xác nhận tạp chí). `paper/main.pdf` 42 trang; chính văn và Broader Impact Statement trong 12 trang. `make data && make pdf && make submission` sinh lại mọi số, PDF, gói nguồn ẩn danh `_submission/source.zip` và phụ lục bổ sung `_submission/supplement.zip` (không vào git).

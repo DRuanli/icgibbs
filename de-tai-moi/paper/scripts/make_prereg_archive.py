@@ -1,7 +1,8 @@
 """
-make_supplement.py — build the anonymous supplementary archive for TMLR (review round 3, finding F10).
+make_prereg_archive.py — build the pre-registration record, a second supplementary file (review round 3, F10).
+Written for the anonymous TMLR version; kept for TPAMI, whose reviews are single-anonymous by default.
 
-What it contains (paper/_submission/supplement.zip):
+What it contains (paper/_submission/prereg_record.zip):
   README.md            what is inside, how to check it, and what it cannot show
   freeze_log.csv       every freeze event (UTC time from the commit) with the SHA-256 of each frozen file as it was in
                        that commit; commit identifiers are withheld because the project repository is public
@@ -11,7 +12,7 @@ What it contains (paper/_submission/supplement.zip):
 
 The frozen protocols themselves (written in Vietnamese, with internal notes) are not included; their hashes are, so
 that the files released with the paper can be checked against them.
-Run (from paper/): python3 scripts/make_supplement.py
+Run (from paper/): python3 scripts/make_prereg_archive.py
 """
 import csv
 import glob
@@ -73,7 +74,7 @@ def main():
     if git("rev-parse", "--is-shallow-repository").strip() == b"true":
         print("the clone is shallow: run `git fetch --unshallow` first")
         return 1
-    stage = os.path.join(OUT, "supplement")
+    stage = os.path.join(OUT, "prereg_record")
     shutil.rmtree(stage, ignore_errors=True)
     os.makedirs(os.path.join(stage, "scoring"))
     rows = []
@@ -129,7 +130,7 @@ referred to.
     if bad:
         print("Anonymity check FAILED:\n  " + "\n  ".join(sorted(set(bad))))
         return 2
-    zp = os.path.join(OUT, "supplement.zip")
+    zp = os.path.join(OUT, "prereg_record.zip")
     with zipfile.ZipFile(zp, "w", zipfile.ZIP_DEFLATED) as z:
         for r, _, fs in os.walk(stage):
             for f in fs:

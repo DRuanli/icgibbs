@@ -1,0 +1,5 @@
+IEEEtran.cls (V1.8b, 2015/08/26) and IEEEtranN.bst (natbib-compatible IEEEtran BibTeX style), unmodified copies from
+TeX Live 2023 (Debian/Ubuntu package texlive-publishers 2023.20240207-1), installed 14/11/2026.
+Licence: LaTeX Project Public License 1.3 (see the header of IEEEtran.cls). Copies are kept next to main.tex so that the
+paper builds without the package. IEEE Computer Society journals (TPAMI) use the class options [10pt,journal,compsoc].
+The TMLR version of the paper is the commit 0b425e2 of this repository (style files in style_tmlr/).

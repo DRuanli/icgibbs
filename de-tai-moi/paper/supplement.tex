@@ -1,0 +1,65 @@
+% Supplementary material of the TPAMI submission (all appendices; IEEE CS guidelines: appendices are supplemental
+% material and are submitted as a separate file). Built together with main.tex by `make`.
+% Numbers of tables, figures, equations and theorem-like statements carry the prefix S; section letters A, B, ...
+\documentclass[10pt,journal,compsoc,onecolumn]{IEEEtran}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,multirow,threeparttable,array}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{microtype}
+\usepackage{nicefrac}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{xr-hyper}
+\usepackage[colorlinks=true,linkcolor=MidnightBlue,citecolor=MidnightBlue,urlcolor=MidnightBlue]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+\externaldocument[][nocite]{main}[]
+\crefname{appendix}{Appendix}{Appendices}
+
+\setlength{\emergencystretch}{1.5em}
+\setcounter{secnumdepth}{3}  % IEEEtran numbers \paragraph otherwise
+\input{numbers}
+\input{numbers_appendix}
+\input{numbers_v2}
+\input{numbers_s3b}
+\input{macros}
+
+\newcommand{\claim}[1]{\unskip}
+\newcommand{\todo}[1]{\textcolor{BrickRed}{\sffamily\small[TODO: #1]}}
+\newcommand{\pending}[1]{\textbf{\textcolor{BrickRed}{[Pending: #1]}}}
+
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetheorem}{S\arabic{theorem}}
+\renewcommand{\theproposition}{S\arabic{proposition}}
+\renewcommand{\thelemma}{S\arabic{lemma}}
+\renewcommand{\thecorollary}{S\arabic{corollary}}
+\renewcommand{\theassumption}{S\arabic{assumption}}
+\renewcommand{\thedefinition}{S\arabic{definition}}
+\renewcommand{\theremark}{S\arabic{remark}}
+\renewcommand{\thealgorithm}{S\arabic{algorithm}}
+
+\begin{document}
+
+\title{In-Context Gibbs: Learning from Weak Labels with Frozen Tabular Foundation Models\\
+\large Supplementary Material}
+\author{\todo{author names}}
+\markboth{Supplementary material}{In-Context Gibbs}
+\maketitle
+
+\noindent This document contains all appendices of the paper. References of the form ``Section~6.5'', ``Theorem~3''
+or ``Table~2'' point to the main paper; tables, figures, equations and statements numbered with the prefix S, and
+appendices A, B, \dots, are in this document.
+
+\appendices
+\crefalias{section}{appendix}
+\input{sections/appendix}
+
+\bibliographystyle{IEEEtranN}
+\bibliography{refs}
+
+\end{document}

@@ -1,4 +1,4 @@
-# Build the draft. `make data` regenerates every number, table and figure from the analysis outputs first.
+# Build the TPAMI version (main.pdf + supplement.pdf). `make data` regenerates every number, table and figure from the analysis outputs first.
 .PHONY: all data pdf submission clean
 all: data pdf
 data:
@@ -8,9 +8,9 @@ data:
 	python3 scripts/make_v2.py
 	python3 scripts/make_s3b.py
 pdf:
-	latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+	sh scripts/build_pdf.sh
 submission:
 	python3 scripts/make_submission_source.py
-	python3 scripts/make_supplement.py
+	python3 scripts/make_prereg_archive.py
 clean:
-	latexmk -C main.tex
+	rm -f main.{aux,bbl,blg,log,out,pdf} supplement.{aux,bbl,blg,log,out,pdf}

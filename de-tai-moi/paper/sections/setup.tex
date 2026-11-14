@@ -13,8 +13,10 @@ $\lik(y)=\prod_g\mathbb 1[\mathrm{counts}(y_{B_g})=w_g]$. PU data, label noise a
 instance-level cases, $\lik(y)=\prod_i\lik_i(y_i)$ (\cref{app:secondary}). The targets are the posterior
 over latent labels and the predictive,
 \begin{equation}\label{eq:target}
-  \pi(y)=p(y\mid X,\W)\propto p(y\mid X)\,\lik(y),\qquad
-  p(y_*\mid x_*,X,\W)=\textstyle\sum_y \pi'(y)\,p(y_*\mid x_*,(X,y)),
+\begin{aligned}
+  \pi(y)&=p(y\mid X,\W)\propto p(y\mid X)\,\lik(y),\\
+  p(y_*\mid x_*,X,\W)&=\textstyle\sum_y \pi'(y)\,p(y_*\mid x_*,(X,y)),
+\end{aligned}
 \end{equation}
 with $\pi'(y)=p(y\mid x_*,X,\W)$. The analysis assumes (A1) an exact TFM, $\tfm=\ppd$, on every queried context;
 (A2) a positive PPD; and (A3) $\sum_y p(y\mid X)\lik(y)>0$. \Cref{thm:stability} removes (A1).

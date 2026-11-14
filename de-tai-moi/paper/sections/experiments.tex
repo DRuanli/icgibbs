@@ -43,7 +43,7 @@ linear); \cref{sec:s3b} adds non-neural baselines. All protocols were
 committed before the evaluation data were downloaded; development between studies was exploratory
 (\cref{app:prereg,app:dev}).
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{Studies 1 and 2, pre-registered tests of the single chain. $\Delta$: mean over datasets of (\ours{} $-$
 comparator), 3 seeds each; W/T/L: datasets won/tied/lost; $p_{\mathrm{Holm}}$: two-sided Wilcoxon signed-rank,
@@ -52,7 +52,7 @@ only after rounding (\cref{app:s2-s1}).}
 \label{tab:main}
 \setlength{\tabcolsep}{3.2pt}
 \resizebox{\textwidth}{!}{\input{tables/main_results}}
-\end{table}
+\end{table*}
 
 \subsection{Study 2: one chain with TabICL v2 outperformed specialised neural and linear learners}\label{sec:s2}
 In Study~2 all pre-registered tests passed (\cref{tab:main}, right). On LLP the single chain improved
@@ -77,17 +77,17 @@ passed every test (\cref{app:s1-tabicl}); Study~2 then tested TabICL~v2 prospect
 assignment with a fraction $r$ of correct labels and uniformly placed errors, is positive throughout with TabICL~v2 and
 negative for intermediate $r$ with TabPFN~v2 (\cref{app:dev} relates these maps to the chains).
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/mechanism_map}
 \caption{Response maps for PLL at $q=0.6$ on the four Study~1 datasets with at least eight classes: gain $\Phi(r)-r$
 when every block is redrawn given an assignment with a fraction $r$ of correct labels and uniformly placed errors
 (needs true labels); mean over 3 seeds, with the range over seeds shaded. On optdigits the context is subsampled, outside the scope of \cref{thm:basins}.}
 \label{fig:mechanism}
-\end{figure}
+\end{figure*}
 
 \subsection{Several starts and several TFMs}\label{sec:s3}
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{Study 3 (\val{s3-n-total} new datasets, four TFMs, 3 seeds): registered hypotheses and criteria
 (\cref{sec:design}). Differences pool AUC (LLP datasets) and accuracy (PLL datasets): mean over datasets [bootstrap
@@ -95,7 +95,7 @@ when every block is redrawn given an assignment with a fraction $r$ of correct l
 \label{tab:s3}
 \small
 \input{tables/s3_tests}
-\end{table}
+\end{table*}
 
 
 \paragraph{Confirmed.} Both hypotheses of Study~3 passed (\cref{tab:s3}; means by TFM in \cref{tab:s3means}, per
@@ -154,7 +154,7 @@ cost, and within one TFM a single chain averaged with the learner's prediction d
 (\val{s3x-warmL-A1}); both are exploratory. The registered multi-TFM average, which has the strongest evidence, costs
 \val{s3x-cost-nchains} chains and a tuned learner.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{Score, cost and evidence of each configuration on the \val{s3-n-total} datasets of Study~3 (means over
 datasets; single-TFM rows averaged over the TFMs of each dataset), ordered by cost. A chain costs
@@ -166,7 +166,7 @@ TFM itself; ``tuned $L$'' adds 20 tuning runs. ``Exploratory'': computed after s
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \input{tables/s3b_recommend}
-\end{table}
+\end{table*}
 
 \subsection{Real weak labels and cost}\label{sec:real}\label{sec:ablation}
 On three real partial-label datasets (BirdSong, Lost, MSRCv2; 10 random 90/10 splits; single chain with TabICL~v2,

@@ -1,14 +1,16 @@
 """
-make_submission_source.py — build the anonymous LaTeX source package for TMLR from the paper sources.
+make_submission_source.py — build the LaTeX source package for the TPAMI submission from the paper sources.
 
 What it does (on a copy; the working sources are not changed):
-  * copies main.tex, sections/, tables/, figures/, numbers*.tex, macros.tex, refs.bib, tmlr.sty, tmlr.bst, fancyhdr.sty;
+  * copies main.tex, supplement.tex, sections/, tables/, figures/, numbers*.tex, macros.tex, refs.bib, IEEEtran.cls,
+    IEEEtranN.bst and scripts/build_pdf.sh;
   * removes every LaTeX comment (text after an unescaped %), which in the working sources point to internal documents;
-  * keeps only bibliography entries that are cited;
-  * checks the result for strings that could break anonymity (repository names, local paths, author or institution
-    names given with --forbid) and stops if one is found;
-  * compiles the copy and writes paper/_submission/source.zip and paper/_submission/main.pdf.
-Run (from paper/): python3 scripts/make_submission_source.py [--forbid NAME ...]
+  * keeps only bibliography entries cited by the paper or the supplement;
+  * compiles the copy and writes paper/_submission/source.zip, main.pdf and supplement.pdf;
+  * with --anonymous (only if double-anonymous review is requested), checks the result for strings that could break
+    anonymity (repository names, local paths, names given with --forbid) and stops if one is found.
+  It always stops if a TODO marker is left in the PDFs and --allow-todo is not given.
+Run (from paper/): python3 scripts/make_submission_source.py [--allow-todo] [--anonymous --forbid NAME ...]
 """
 import argparse
 import os
@@ -21,11 +23,12 @@ import zipfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAPER = os.path.dirname(HERE)
 OUT = os.path.join(PAPER, "_submission")
-COPY = ["main.tex", "macros.tex", "numbers.tex", "numbers_appendix.tex", "numbers_v2.tex", "numbers_s3b.tex",
-        "refs.bib", "tmlr.sty", "tmlr.bst", "fancyhdr.sty"]
+COPY = ["main.tex", "supplement.tex", "macros.tex", "numbers.tex", "numbers_appendix.tex", "numbers_v2.tex",
+        "numbers_s3b.tex", "refs.bib", "IEEEtran.cls", "IEEEtranN.bst"]
 DIRS = ["sections", "tables", "figures"]
 ALWAYS_FORBID = ["icgibbs", "de-tai-moi", "DRuanli", "/home/", "neur-v3", "G4/", "G9/", "V2/", "S3/raw", "HANDOFF",
                  "Kaggle notebook", "github.com/DRuanli"]
+DOCS = ("main", "supplement")
 
 
 def strip_comments(text):
@@ -44,68 +47,75 @@ def strip_comments(text):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--forbid", nargs="*", default=[], help="further strings that must not appear (author names, …)")
+    ap.add_argument("--anonymous", action="store_true", help="check anonymity (double-anonymous review only)")
+    ap.add_argument("--forbid", nargs="*", default=[], help="further strings that must not appear (with --anonymous)")
+    ap.add_argument("--allow-todo", action="store_true", help="package a draft that still has TODO markers")
     a = ap.parse_args(argv)
     shutil.rmtree(OUT, ignore_errors=True)
     src = os.path.join(OUT, "src")
-    os.makedirs(src)
+    os.makedirs(os.path.join(src, "scripts"))
     for f in COPY:
         shutil.copy(os.path.join(PAPER, f), src)
+    shutil.copy(os.path.join(HERE, "build_pdf.sh"), os.path.join(src, "scripts"))
     for d in DIRS:
         shutil.copytree(os.path.join(PAPER, d), os.path.join(src, d))
     for root, _, files in os.walk(src):
         for f in files:
-            if f.endswith((".tex", ".sty")) and f not in ("tmlr.sty", "fancyhdr.sty"):
+            if f.endswith(".tex"):
                 p = os.path.join(root, f)
                 text = open(p).read()          # read before opening for writing (which truncates)
                 open(p, "w").write(strip_comments(text))
-    # compile once to find the cited keys, then prune the bibliography
-    run = lambda: subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
-                                 cwd=src, capture_output=True, text=True)
-    r = run()
+    build = lambda: subprocess.run(["sh", "scripts/build_pdf.sh"], cwd=src, capture_output=True, text=True)
+    r = build()
     if r.returncode:
-        print(r.stdout[-3000:])
+        print(r.stdout[-3000:], r.stderr[-2000:])
         return 1
     cited = set()
-    for line in open(os.path.join(src, "main.aux")):
-        for m in re.finditer(r"\\(?:citation|abx@aux@cite)\{([^}]*)\}", line):
-            cited |= set(k.strip() for k in m.group(1).split(","))
+    for doc in DOCS:
+        for line in open(os.path.join(src, doc + ".aux")):
+            for m in re.finditer(r"\\citation\{([^}]*)\}", line):
+                cited |= set(k.strip() for k in m.group(1).split(","))
     bib = "\n".join(l for l in open(os.path.join(src, "refs.bib")).read().splitlines() if not l.lstrip().startswith("%"))
     entries = re.split(r"(?=^@)", bib, flags=re.M)
     keep = [e for e in entries if (m := re.match(r"@\w+\{([^,]+),", e)) and m.group(1).strip() in cited]
     open(os.path.join(src, "refs.bib"), "w").write("\n".join(e.strip() for e in keep) + "\n")
-    for ext in (".aux", ".bbl", ".blg", ".fdb_latexmk", ".fls", ".log", ".out", ".pdf"):
-        p = os.path.join(src, "main" + ext)
-        if os.path.exists(p):
-            os.remove(p)
-    r = run()
+    for doc in DOCS:
+        for ext in (".aux", ".bbl", ".blg", ".log", ".out", ".pdf"):
+            p = os.path.join(src, doc + ext)
+            if os.path.exists(p):
+                os.remove(p)
+    r = build()
     if r.returncode:
-        print(r.stdout[-3000:])
+        print(r.stdout[-3000:], r.stderr[-2000:])
         return 1
+    print(r.stdout.strip())
     bad = []
-    for root, _, files in os.walk(src):
-        for f in files:
-            if f.endswith((".tex", ".bib", ".bbl")):
-                t = open(os.path.join(root, f), errors="replace").read()
-                for s in ALWAYS_FORBID + a.forbid:
-                    if s in t:
-                        bad.append(f"{os.path.relpath(os.path.join(root, f), src)}: '{s}'")
-    pdftext = subprocess.run(["pdftotext", os.path.join(src, "main.pdf"), "-"], capture_output=True, text=True).stdout
-    for s in ALWAYS_FORBID + a.forbid:
-        if s in pdftext:
-            bad.append(f"main.pdf: '{s}'")
+    texts = {doc: subprocess.run(["pdftotext", os.path.join(src, doc + ".pdf"), "-"], capture_output=True,
+                                 text=True).stdout for doc in DOCS}
+    if not a.allow_todo:
+        bad += [f"{doc}.pdf: TODO marker left" for doc, t in texts.items() if "[TODO:" in t]
+    if a.anonymous:
+        for root, _, files in os.walk(src):
+            for f in files:
+                if f.endswith((".tex", ".bib", ".bbl")):
+                    t = open(os.path.join(root, f), errors="replace").read()
+                    bad += [f"{os.path.relpath(os.path.join(root, f), src)}: '{s}'" for s in ALWAYS_FORBID + a.forbid
+                            if s in t]
+        for doc, t in texts.items():
+            bad += [f"{doc}.pdf: '{s}'" for s in ALWAYS_FORBID + a.forbid if s in t]
     if bad:
-        print("Anonymity check FAILED:\n  " + "\n  ".join(bad))
+        print("Check FAILED:\n  " + "\n  ".join(bad))
         return 2
-    shutil.copy(os.path.join(src, "main.pdf"), os.path.join(OUT, "main.pdf"))
+    for doc in DOCS:
+        shutil.copy(os.path.join(src, doc + ".pdf"), os.path.join(OUT, doc + ".pdf"))
     with zipfile.ZipFile(os.path.join(OUT, "source.zip"), "w", zipfile.ZIP_DEFLATED) as z:
         for root, _, files in os.walk(src):
             for f in files:
-                if f.endswith((".aux", ".blg", ".fdb_latexmk", ".fls", ".log", ".out", ".pdf")) and f.startswith("main"):
+                if f.endswith((".aux", ".blg", ".log", ".out", ".pdf")) and f.split(".")[0] in DOCS:
                     continue
                 p = os.path.join(root, f)
                 z.write(p, os.path.relpath(p, src))
-    print(f"ok: {OUT}/source.zip, {OUT}/main.pdf; {len(keep)} cited references kept of {len(entries) - 1}")
+    print(f"ok: {OUT}/source.zip, main.pdf, supplement.pdf; {len(keep)} cited references kept of {len(entries) - 1}")
     return 0
 
 
