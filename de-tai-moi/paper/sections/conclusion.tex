@@ -1,9 +1,8 @@
 \section{Conclusion}\label{sec:conclusion}
 Under exchangeability, the predictive of an exact TFM is the full conditional of a Gibbs sampler over unknown labels,
 and a real TFM approximates it. \ours{} turns this into one procedure for candidate sets and label proportions. In
-Study~2 a single chain with TabICL~v2 outperformed the specialised neural and linear learners we ran on new datasets; on the
-datasets of Study~3 a single chain, averaged over TFMs, was level with untuned tree-based self-training on label
-proportions. Averaging over starts
+Study~2 a single chain with TabICL~v2 outperformed the specialised neural and linear learners we ran on new datasets.
+Averaging over starts
 improved on single chains, and averaging over TFMs improved on a TFM drawn at random; in a registered supplement the
 multi-TFM average also beat untuned non-neural baselines. Whether a chain stalls depends on the TFM and on where the
 chain starts. Open problems: a label-free diagnostic of stalling, a cheaper way to escape a wrong start than averaging over many chains (starting

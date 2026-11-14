@@ -32,6 +32,7 @@
   3. có chạy một lượt Kaggle CPU (ghi trước) cho GBDT-PLL có tune, ensemble của L, IPAL/InvCal không (F7, F8);
   4. có lập kho ẩn danh (anonymous.4open.science) cho người phản biện không (F10).
 - **Thầy quyết định 14/11/2026:** rút gọn phần hạn chế và bỏ các đoạn liệt kê kết quả bất lợi lặp lại. Đã làm: Limitations còn một đoạn ngắn (phạm vi xác nhận, phạm vi Định lý 3, nhãn yếu tổng hợp, chưa có chẩn đoán kẹt không cần nhãn); abstract, intro, conclusion không còn câu về tiêu chí không đạt; bỏ các câu tự rào trong phụ lục ghi trước. Mỗi kết quả đã đăng ký vẫn được báo **một lần** ở mục kết quả (§6.4 đoạn "Not confirmed", Bảng 2; P22 ở §6.5) và ở phụ lục. PDF nay 41 trang, tài liệu tham khảo bắt đầu ở trang 12.
+- **Thầy quyết định 14/11/2026 (lần 2):** loại kết quả bất lợi khỏi phần thân bài. Đã làm: thân bài (abstract tới conclusion) chỉ giữ kết quả thuận và các nhãn exploratory; mọi kết quả bất lợi chuyển nguyên văn sang phụ lục (Study 1 chi tiết → `app:s1-tabicl`; giới hạn của response map và cận dưới δ → `app:dev`; H3″, C4″ → `app:s3`; phần B1/B2/P22 không thuận → `app:s3b`; MH, chuỗi thứ hai → `app:s2-s1`, `app:ablations`). Bảng 1 (Study 1, 2) và Bảng 2 (Study 3) trong thân bài vẫn ghi đủ mọi giả thuyết đã đăng ký. PDF 40 trang; thân bài khoảng 10 trang.
 - **Trước khi nộp:** nêu tên tác giả chỉ ở bản camera-ready; chạy lại `make submission` với `--forbid` tên tác giả và đơn vị.
 
 ## 0k. S3B / S3BC đã chấm (13/11/2026)

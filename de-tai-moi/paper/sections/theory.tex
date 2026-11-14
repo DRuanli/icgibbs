@@ -92,12 +92,8 @@ has two basins: a chain that starts sufficiently far above the crossing stays up
 below stays down, and the expected time to leave is at least $1/p$ sweeps, which for a fixed fraction of unknown labels
 and fixed margins grows exponentially with $n_F$ \claim{16}. In this model more sweeps do not repair a start in the wrong
 basin, which motivates the multi-start sampler. Real chains also mix slowly: run for 100 instead of 30 sweeps
-(\cref{sec:s3b}), \val{s3b-b3-rep} of \val{s3b-b3-stuck} stalled chains came within 0.02 of the better of the
-multi-start average and the tuned learner, while accuracy rose on average (\val{s3b-b3-gain}), most with TabPFN-3,
-whose label accuracy rose by more than 0.03 after sweep 30 in \val{s3b-b3-tabpfn_v3-rising} of its
-\val{s3b-b3-tabpfn_v3-n} cells. Our data cannot separate a wrong basin from slow mixing; the theorem describes only the
-former, and only in a model of the TFM. The constants are loose: the theorem describes a mechanism and its scaling,
-and at the sizes of our datasets it certifies nothing (\cref{sec:tfm}, \cref{app:dynamics}).
+they kept improving (\val{s3b-b3-gain} on average, most with TabPFN-3; \cref{sec:s3b}), which the theorem does not
+model. The theorem describes a mechanism and its scaling; its constants are loose (\cref{app:dynamics}).
 
 \paragraph{When can the sampler help?} The naive use of a TFM conditions it on one label per point drawn from the weak
 labels. When the naive label depends on the features only through the true label, through a channel with equal

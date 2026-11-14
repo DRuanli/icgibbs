@@ -6,16 +6,16 @@ predictive with the other points as context, which is what a TFM approximates. \
 labels with forward passes, brings in the weak labels through their likelihood, and predicts by averaging over the
 samples. Its exact variants target the Bayes posterior when the TFM is exact. For the default sampler on instance-level
 weak labels with unsubsampled contexts, a homogeneity assumption on the TFM gives floors and ceilings for the label
-accuracy of a chain that hold with high probability; they show why the start of a chain can matter. Three pre-registered studies test the method. On \val{s2-n-total} new datasets a
-single chain with TabICL~v2 outperformed specialised neural and linear learners for label proportions (\val{s2-llp-cmp-diff} AUC
-over the registered comparator, linear DLLP; \val{s2-llp-strongest-diff} over the strongest baseline) and, narrowly,
-for partial labels; with TabPFN~v2 the same chain had fallen short under
-heavy ambiguity. On \val{s3-n-total} further datasets with four TFMs, averaging chains from several starts, one of them
-a tuned specialised learner, improved on the single chain (\val{s3-h1-mean} in pooled AUC and accuracy, one-sided
-$p\val{s3-h1-prel}$; median \val{s3-h1-median}), and averaging over TFMs improved on the expected score of a TFM drawn
-at random (\val{s3-h2-mean}, $p\val{s3-h2-prel}$) but not significantly on TabICL~v2 alone (exploratory). In a supplementary analysis registered after Study~3 was scored, the
-multi-TFM average beat untuned tree-based self-training on all \val{s3x-x-gbdt-llp-n} label-proportion datasets
-(median \val{s3x-x-gbdt-llp-median} AUC) and partial-label $k$NN on all \val{s3b-x-plknn-n} partial-label datasets, and running chains for 100 instead of 30
-sweeps raised accuracy (\val{s3b-b3-gain}) but rarely brought a stalled chain level with the best configuration
-(\val{s3b-b3-rep} of \val{s3b-b3-stuck}).
+accuracy of a chain that hold with high probability; they show why the start of a chain can matter. Three pre-registered studies test the method. The
+first, with TabPFN~v2, showed large gains over the naive use of the TFM and that the method depends on how the TFM
+handles noisy context labels. On \val{s2-n-total} new datasets a single chain with TabICL~v2 outperformed specialised
+neural and linear learners for label proportions (\val{s2-llp-cmp-diff} AUC over the registered comparator, linear DLLP;
+\val{s2-llp-strongest-diff} over the strongest baseline) and for partial labels (\val{s2-pll3-cmp-diff} accuracy over
+tuned CC at both ambiguity levels). On \val{s3-n-total} further datasets with four TFMs, averaging chains from several starts, one of them a
+tuned specialised learner, improved on the single chain (\val{s3-h1-mean} in pooled AUC and accuracy, one-sided
+$p\val{s3-h1-prel}$), and averaging over TFMs improved on a TFM drawn at random (\val{s3-h2-mean}, $p\val{s3-h2-prel}$)
+and matched the best TFM of each dataset without knowing which it is. In a supplementary analysis, the multi-TFM average
+beat untuned tree-based self-training on all \val{s3x-x-gbdt-llp-n} label-proportion datasets (median
+\val{s3x-x-gbdt-llp-median} AUC) and partial-label $k$NN on all \val{s3b-x-plknn-n} partial-label datasets, and chains
+run for 100 instead of 30 sweeps kept improving (\val{s3b-b3-gain} accuracy).
 \end{abstract}

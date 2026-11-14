@@ -53,6 +53,12 @@ other available cells, then scored again on all cells after the second session (
 
 \FloatBarrier
 \section{Study 1 with TabICL v2 (registered TFM ablation)}\label{app:s1-tabicl}
+\paragraph{Study 1 in detail.} With TabPFN~v2, \ours{} led the primary comparators on LLP and on PLL at $q=0.3$, short
+of significance, and H2 and H4 were not met. On the four datasets with at least eight classes chains ended far from the
+truth (overall \val{s1-pll6-cmp-diff} against tuned CC at $q=0.6$): the label accuracy stayed at its starting value on
+mfeat-factors (\val{s1-fin-pfn-mfeat}), reached only \val{s1-fin-pfn-semeion} on semeion and \val{s1-fin-pfn-mice}
+on MiceProtein, and on optdigits one seed of three stayed low (\val{s1-fin-pfn-opt}; \cref{tab:s1chains}).
+
 \Cref{tab:s1tabicl} applies the H2 and H4 tests of Study~1 to the registered TFM ablation, in which every TFM-based method
 uses TabICL~v2. With clean labels the two TFMs are about equally accurate (oracle within \val{s1-tabicl-oracle-maxdiff}); the difference appears only
 with weak labels. Because TabICL~v2 was promoted after these results were seen, they are exploratory; Study~2 is the
@@ -91,6 +97,13 @@ accuracy rose by more than 0.03 between sweeps 16--20 and 26--30, i.e.\ were sti
 
 \FloatBarrier
 \section{Study 2: sensitivity analysis, all baselines and per-dataset results}\label{app:s2-s1}
+\paragraph{Further results.} In accuracy the single chain was ahead of hard-EM at $q=0.6$ (\val{s2-mean-gibbs-pll6}
+against \val{s2-mean-hardem-pll6}) and level at $q=0.3$ (\val{s2-mean-gibbs-pll3} against \val{s2-mean-hardem-pll3}).
+Averaging over samples adds little to predicting from the last sample alone (``stochastic EM'':
+\val{s2-mean-sem-pll6}; \cref{tab:s2means}). The gain over the naive TFM is absent where naive labels carry all the
+information (\cref{app:secondary}). In an exploratory rerun of Study~2 with a second chain, H4$'$ at $q=0.6$ does not
+pass ($p_{\mathrm{Holm}}=\val{r4-b-pll6-p}$), while with the two chains averaged every test passes (\cref{tab:r4}).
+
 \paragraph{Sensitivity.} Five datasets were flagged before any data were downloaded (repeated measurements of the same
 units, or temporal drift): SpeedDating and eye\_movements (binary); JapaneseVowels, cjs and gas-drift (multiclass).
 Without them, every conclusion is unchanged (\cref{tab:s2s1}). With seven multiclass datasets, Holm-adjusted Wilcoxon
@@ -233,6 +246,17 @@ single chain and $L$ (criterion C4$''$), ordered by the size of the regression.}
 \input{tables/app_s3_regress}
 \end{table}
 
+\paragraph{Registered criteria not met.} The diagnostic of H3$''$, the mean total-variation distance between the label marginals of
+the warm-start and learner-start chains, reached an AUC of \val{s3-h3-auc} (\val{s3-h3-npos} failing cells of
+\val{s3-n-cells}), below the registered 0.80. It separated
+failures for TabPFN-3 (\val{s3-h3-auc-tabpfn_v3}) and TabICL~v2 (\val{s3-h3-auc-tabicl_v2}) but not for TabDPT
+(\val{s3-h3-auc-tabdpt}) or TabPFN~v2 (\val{s3-h3-auc-tabpfn_v2}): we have no label-free diagnostic that transfers
+across TFMs. C4$''$ also failed: with one TFM, the multi-start sampler was more than 0.02 behind the better of its
+single chain and $L$ in \val{s3-c4-n} of \val{s3-n-pairs} pairs (\val{s3-c4-rate}): \val{s3-c4-vs-v1} behind the
+single chain, \val{s3-c4-vs-L} behind $L$, \val{s3-c4-both} behind both (\cref{tab:s3-regress}). The registered descriptive
+comparison of one TFM's multi-start average with $L$ was not significant (\val{s3-a1L-mean}, two-sided
+$p=\val{s3-a1L-p}$).
+
 \paragraph{Regressions.} In \val{s3-reg-Lbetter-n} of the \val{s3-c4-n} pairs of \cref{tab:s3-regress} $L$ is better
 than the multi-start average, by a wide margin where the single chain stalled deeply (cnae-9, micro-mass); in the
 remaining pair (TabPFN-3, seismic-bumps) the multi-start average is behind its own single chain only. The single chain
@@ -331,6 +355,33 @@ labelled positive. PL-$k$NN \citep{hullermeier2006plknn} predicts by a vote over
 nearest training points. Neither was tuned. Across the three seeds, the median over datasets of the standard deviation
 of every method's score was between \val{s3x-seed-sd-lo} and \val{s3x-seed-sd-hi} (Study~3 and B1).
 
+\paragraph{Further results.} The multi-TFM average beat the tree-based learner by \val{s3b-x-gbdt-mean}
+\val{s3b-x-gbdt-ci} over both settings (median \val{s3b-x-gbdt-median}, \val{s3b-x-gbdt-wtl},
+$p_{\mathrm{Holm}}$\val{s3b-x-gbdt-p}); on PLL the difference (\val{s3x-x-gbdt-pll-mean}) mostly reflects the
+weakness of the tree-based learner, which on \val{s3x-gbdt-near-major-n} of the \val{s3x-pll-n} datasets was within
+0.02 of the rate of the majority class or below it (on \val{s3x-gbdt-near-major-xtoo-n} of them so was the multi-TFM
+average; \cref{tab:s3b-cpu}). The single chain was not clearly better than the tree-based learner
+(\val{s3b-v1-gbdt-mean} \val{s3b-v1-gbdt-ci}, median \val{s3b-v1-gbdt-median}, \val{s3b-v1-gbdt-wtl}; not tested):
+level on LLP (\val{s3b-llp-v1} against \val{s3b-llp-gbdt}), and on PLL below PL-$k$NN on average (\val{s3b-pll-v1}
+against \val{s3b-pll-plknn}) because of three datasets on which it stalled (median difference
+\val{s3x-v1-plknn-pll-median}, \val{s3x-v1-plknn-pll-wtl}). The tuned learner $L$ was not better than the better untuned
+baseline of each dataset (\val{s3b-l-cpu-mean}, median \val{s3b-l-cpu-median}, \val{s3b-l-cpu-wtl},
+$p_{\mathrm{Holm}}$\val{s3b-l-cpu-p}); on LLP it was below tree-based self-training on \val{s3x-l-gbdt-llp-loss} of
+\val{s3x-l-gbdt-llp-n} datasets (\val{s3x-l-gbdt-llp-mean}), on PLL above PL-$k$NN on \val{s3x-l-plknn-pll-win} of
+\val{s3x-l-plknn-pll-n} (\val{s3x-l-plknn-pll-mean}). In accuracy the single chain was level with hard-EM on LLP
+(\val{s3b-v1-minus-hardem-llp}) and ahead on PLL (\val{s3b-v1-minus-hardem-pll}, \val{s3b-v1-minus-hardem-pll-wtl}),
+with TabDPT on LLP an exception (hard-EM \val{s3b-dpt-llp-hardem} against \val{s3b-dpt-llp-v1}). The multi-TFM average
+stayed \val{s3b-x-best-oracle-abs} below the best oracle of each dataset on average (\val{s3b-x-best-oracle-llp-abs} on
+LLP, \val{s3b-x-best-oracle-pll-abs} on PLL; more than 0.02 below on \val{s3b-x-minus-best-oracle-nworse} of
+\val{s3-n-total}). With TabPFN-3 on PLL the single chain (\val{s3b-pfn3-pll-v1}) and hard-EM
+(\val{s3b-pfn3-pll-hardem}) stayed near the naive TFM (\val{s3b-pfn3-pll-naive}); the multi-start average reached
+\val{s3b-pfn3-pll-A1}, the chain from $L$ \val{s3x-pfn3-pll-base} and $L$ itself \val{s3x-pfn3-pll-L}. Prediction
+P22 (fewer than a quarter of the \val{s3b-b3-stuck} stalled cells come within 0.02 of the better of the multi-start
+average and $L$, and a mean gain below 0.03) was false: \val{s3b-b3-rep} cells were repaired (\val{s3b-b3-rep-pct}), but
+the mean gain was \val{s3b-b3-gain}. Label accuracy rose by more than 0.03 after sweep 30 in \val{s3b-b3-rising} of
+\val{s3b-b3-n} cells. With TabDPT, runs are not bit-reproducible (\val{s3b-b3-dpt-differ} of its \val{s3b-b3-tabdpt-n}
+chains differ from the Study~3 chain within the first 30 sweeps).
+
 \begin{table}[h]
 \centering
 \caption{B2: mean test score over datasets by TFM (AUC for LLP, accuracy for PLL; number of datasets in brackets).}
@@ -403,6 +454,22 @@ with probability proportional to one minus the marginal of the true label), and 
 rule fixed in advance: start at the chain's initial accuracy and follow the sign of the interpolated gain to the next
 crossing. \Cref{tab:chainmap} and \cref{fig:chainmap} give the errors. The 90th percentile of the error with
 chain-seeded maps is \val{v2-p8-p90}.
+The uniform-error map is not a faithful model of the chains: with TabPFN~v2, chains on semeion, within the scope of
+\cref{thm:basins}, climbed from \val{s1-start-tabpfnv2-semeion} after one sweep to \val{s1-fin-pfn-semeion}, inside
+the region of negative gain, and chains on optdigits (subsampled context; \val{s1-fin-pfn-opt-high} of 3 seeds) climbed
+through it. On \val{v2-p8-n} cells of development runs, chains ended above the fixed point of the uniform-error map in
+\val{v2-uni-above-all} of cells (median error \val{v2-p9-uniform}), and in \val{v2-uni-above-pll} of the
+\val{v2-uni-pll-n} PLL cells, to which \cref{ass:H} applies: a chain's own errors sit on points the TFM finds ambiguous
+and harm the context less than uniform ones, so for the uniform map only the lower half of \cref{ass:H} is plausible.
+With errors placed according to the chain's own marginals the fixed point is within a median of \val{v2-p8-med} of the
+final accuracy (\cref{fig:chainmap}); those marginals come from the chain whose end is predicted, so this shows that the
+placement of errors matters, not that the map forecasts anything. Comparing the two maps at equal $r$ bounds the
+tolerance of \cref{ass:H} from below: in the \val{th-dlb-n} PLL cells within the theorem's scope,
+$\delta\ge\val{th-dlb-med}$ in the median cell and up to \val{th-dlb-max} (\cref{app:dynamics}). Of three predictions
+about starts written in advance, two held (started from tuned CC, TabPFN~v2 chains ended at label accuracies
+\val{v2-p1-rmin}--\val{v2-p1-rmax} on three of the datasets); one was wrong. On the \val{th-scope-n} datasets within the
+theorem's scope ($n_F$ from \val{th-scope-nF}) a floor over 30 sweeps needs a gain margin of \val{th-scope-margin} even
+with $\delta=0$, and the measured gains are at most \val{th-scope-gain}.
 
 \begin{table}[h]
 \centering
@@ -489,6 +556,11 @@ chains, the bound $\tau(P)\bar\varepsilon$, and their ratio (looseness).}
 
 \FloatBarrier
 \section{Ablations}\label{app:ablations}
+\paragraph{Exact sampler.} The MH-corrected block sampler, exact when the TFM is and the context is not subsampled, was not consistently better than the default at the same 30 sweeps (MH minus default with
+TabICL~v2: \val{s2e-mh-llp} AUC on LLP, \val{s2e-mh-pll6} accuracy on PLL at $q=0.6$; \cref{tab:s2e}) and was a median
+\val{s2e-mh-cost-median} times slower; the comparison confounds bias with slower mixing. Chains do not
+mix at the level of individual labels (\cref{tab:r4}).
+
 \begin{table}[!htbp]
 \centering
 \caption{Mixing and the exact sampler, by TFM. TabPFN: Study~1 (registered ablations); TabICL: exploratory lot on the

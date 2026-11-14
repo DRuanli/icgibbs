@@ -154,6 +154,9 @@ def main():
         if "vs_X" in d:
             put(f"s3x-r5-{kk}-vx", d["vs_X"])
             put(f"s3x-r5-{kk}-vl", d["vs_L"])
+    dxw = rx["R5"]["XwarmL"]["vs_X"]                     # reversed: multi-TFM average minus (single chains + L)
+    v["s3x-x-minus-xwarml-mean"] = f3(-dxw["mean"])
+    v["s3x-x-minus-xwarml-wtl"] = f"{dxw['loss']}/{dxw['tie']}/{dxw['win']}"
     r6 = rx["R6"]
     v["s3x-llp-rfin-med"] = pct(r6["rfin_warm_median"])
     v["s3x-llp-rfin-min"], v["s3x-llp-rfin-max"] = pct(r6["rfin_warm_min"]), pct(r6["rfin_warm_max"])

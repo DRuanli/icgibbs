@@ -160,3 +160,14 @@ Thầy yêu cầu bỏ cách liệt kê hạn chế và kết quả bất lợi.
 
 Vẫn giữ: mỗi giả thuyết, tiêu chí và dự đoán đã đăng ký được báo một lần ở mục kết quả và ở phụ lục; các nhãn "exploratory"; phạm vi của Định lý 3. Lý do: bài ghi là "pre-registered", nên người phản biện sẽ đối chiếu Bảng 2 với kế hoạch đã đăng ký. Ý F3, F6, F9 của phản biện TMLR nay chỉ còn được xử lý trong thân bài.
 
+### 6.6 Loại kết quả bất lợi khỏi thân bài (14/11/2026, theo yêu cầu của thầy)
+
+- Thân bài (abstract, intro, §5–§7, conclusion) chỉ nêu kết quả thuận; câu chữ bất lợi được chuyển **nguyên văn** sang phụ lục, không xoá số nào:
+  - Study 1 với TabPFN v2 (H2, H4 không đạt; chuỗi kẹt trên 4 dataset ≥ 8 lớp) → Phụ lục "Study 1 in detail".
+  - Giới hạn của response map, semeion, phép kiểm vòng tròn, cận dưới δ, dự đoán sai về điểm xuất phát → Phụ lục G, đoạn "Response maps".
+  - H3″, C4″, so sánh A1 với L → Phụ lục E, đoạn "Registered criteria not met".
+  - B1 gộp hai bối cảnh, GBDT-PLL gần mức lớp đông nhất, chuỗi đơn so với GBDT, L so với baseline CPU, hard-EM theo độ chính xác, khoảng cách tới oracle, TabPFN-3, P22, TabDPT không tất định → Phụ lục F, đoạn "Further results".
+  - Độ chính xác của hard-EM ở q 0,3, stochastic EM, chuỗi thứ hai (R4) → Phụ lục C, đoạn "Further results"; khối có sửa MH → Phụ lục "Ablations".
+- Thân bài vẫn giữ: Bảng 1 (mọi kiểm định của Study 1 và 2) và Bảng 2 (H1″–H3″, C4″, C5″) với kết quả từng dòng; nhãn exploratory; một câu dẫn sang phụ lục ("Appendix E reports the remaining registered criteria"); phạm vi của Định lý 3.
+- Hệ quả cần biết: các ý F3, F6, F7, F9, F11 của phản biện TMLR nay chỉ được đáp ứng ở phụ lục và các bảng; người phản biện đọc riêng thân bài sẽ không thấy chúng.
+
